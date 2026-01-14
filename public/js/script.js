@@ -387,14 +387,16 @@ function initPage0() {
     }
 }
 
-
 /* ==========================================
-   HALAMAN AYO MENCOBA (BILANGAN KUADRAT) - FIXED
+   HALAMAN 1: BILANGAN KUADRAT (UPDATED)
 ========================================== */
 function initPageKuadrat() {
-    console.log("Fungsi initPageKuadrat dijalankan!"); // Cek di Console Browser
+    console.log("Fungsi initPageKuadrat dijalankan!"); 
 
     const container = document.getElementById('kuadrat-container');
+    // Selektor untuk bagian materi penguatan yang tersembunyi
+    const penguatanMateri = document.getElementById('penguatan-materi'); 
+
     if (!container) {
         console.error("Elemen #kuadrat-container tidak ditemukan!");
         return; 
@@ -405,26 +407,30 @@ function initPageKuadrat() {
     const checkBtn = container.querySelector('#btnCekKuadrat');
     const allInputs = container.querySelectorAll('.input-kuadrat');
 
-    // Pastikan tombol ada sebelum diberi event
     if (!checkBtn) {
         console.error("Tombol #btnCekKuadrat tidak ditemukan!");
         return;
     }
 
-    // --- 1. FUNGSI RESET ---
+    // --- 1. FUNGSI RESET (TOMBOL ULANGI) ---
     function resetKuadrat() {
         attemptCount = 0;
         checkBtn.disabled = false;
-        checkBtn.innerHTML = "Periksa Jawaban"; // Reset teks tombol
+        checkBtn.innerHTML = "Periksa Jawaban"; 
 
         allInputs.forEach(input => {
             input.value = '';
             input.classList.remove('is-valid', 'is-invalid');
             input.disabled = false;
         });
+
+        // Sembunyikan kembali materi penguatan saat reset agar fokus mengerjakan ulang
+        if (penguatanMateri) {
+            penguatanMateri.classList.add('d-none');
+        }
     }
 
-    // --- 2. FUNGSI SHOW ANSWER ---
+    // --- 2. FUNGSI TAMPILKAN JAWABAN (SAAT MENYERAH) ---
     function showAnswersKuadrat() {
         allInputs.forEach(input => {
             input.value = input.getAttribute('data-answer');
@@ -433,17 +439,20 @@ function initPageKuadrat() {
             input.disabled = true;
         });
         checkBtn.disabled = true;
-        checkBtn.innerHTML = "Sudah Selesai";
+        checkBtn.innerHTML = "Selesai";
+
+        // Tampilkan materi penguatan agar siswa tetap bisa membaca kesimpulan
+        if (penguatanMateri) {
+            penguatanMateri.classList.remove('d-none');
+            setTimeout(() => {
+                penguatanMateri.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }, 300);
+        }
     }
 
-    // --- 3. LOGIKA CLICK TOMBOL ---
-    // Gunakan .onclick agar event tidak menumpuk (duplicate) saat ganti halaman
+    // --- 3. LOGIKA TOMBOL PERIKSA ---
     checkBtn.onclick = function() {
-        console.log("Tombol Periksa diklik!");
-
         let allCorrect = true;
-        let correctCount = 0;
-        let totalSoal = allInputs.length;
         let emptyCount = 0;
 
         // Cek Kolom Kosong
@@ -455,7 +464,7 @@ function initPageKuadrat() {
              Swal.fire({
                 icon: 'warning',
                 title: 'Belum Lengkap',
-                text: 'Silakan isi semua kolom jawaban terlebih dahulu.',
+                text: 'Silakan lengkapi semua kotak kosong bertanda (?) terlebih dahulu.',
                 confirmButtonColor: '#ffc107'
             });
             return;
@@ -463,14 +472,12 @@ function initPageKuadrat() {
 
         // Validasi Jawaban
         allInputs.forEach(input => {
-            // Ubah ke float agar perbandingan angka aman
             const userAnswer = parseFloat(input.value);
             const correctAnswer = parseFloat(input.getAttribute('data-answer'));
 
             if (userAnswer === correctAnswer) {
                 input.classList.remove('is-invalid');
                 input.classList.add('is-valid');
-                correctCount++;
             } else {
                 input.classList.remove('is-valid');
                 input.classList.add('is-invalid');
@@ -480,27 +487,36 @@ function initPageKuadrat() {
 
         attemptCount++;
 
-        // --- KONDISI HASIL ---
+        // --- KONDISI JIKA BENAR SEMUA ---
         if (allCorrect) {
             Swal.fire({
                 icon: 'success',
-                title: 'Hebat! 🎉',
-                text: `Semua jawaban benar pada percobaan ke-${attemptCount}!`,
-                confirmButtonText: 'Selesai',
+                title: 'Benar Semua!',
+                text: `Hebat! Kamu berhasil melengkapi pola bilangan kuadrat.`,
+                confirmButtonText: 'Lihat Pembahasan',
                 confirmButtonColor: '#198754'
             }).then(() => {
                 checkBtn.disabled = true;
                 checkBtn.innerHTML = "Selesai";
                 allInputs.forEach(el => el.disabled = true);
+
+                // MUNCULKAN MATERI PENGUATAN (Sesuai instruksi: Penguatan di akhir)
+                if (penguatanMateri) {
+                    penguatanMateri.classList.remove('d-none');
+                    // Scroll otomatis ke bagian penguatan
+                    setTimeout(() => {
+                        penguatanMateri.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    }, 500);
+                }
             });
         } 
+        // --- KONDISI JIKA MASIH SALAH ---
         else {
             if (attemptCount >= maxAttempts) {
-                // Kesempatan Habis
                 Swal.fire({
                     icon: 'error',
                     title: 'Kesempatan Habis',
-                    html: `Anda sudah mencoba ${maxAttempts} kali.<br>Ingin melihat kuncinya?`,
+                    html: `Kamu sudah mencoba ${maxAttempts} kali.<br>Ingin melihat jawaban dan kesimpulannya?`,
                     showCancelButton: true,
                     confirmButtonText: 'Lihat Jawaban',
                     confirmButtonColor: '#0d6efd',
@@ -515,11 +531,10 @@ function initPageKuadrat() {
                     }
                 });
             } else {
-                // Masih ada kesempatan
                 Swal.fire({
                     icon: 'warning',
-                    title: 'Masih Keliru',
-                    text: `Anda benar ${correctCount} dari ${totalSoal} soal. Sisa kesempatan: ${maxAttempts - attemptCount} kali.`,
+                    title: 'Masih Ada yang Keliru',
+                    text: `Cek kembali isianmu. Sisa kesempatan: ${maxAttempts - attemptCount} kali.`,
                     confirmButtonText: 'Coba Lagi',
                     confirmButtonColor: '#ffc107'
                 });
@@ -1895,7 +1910,7 @@ function checkAllAnswers() {
         // Semua jawaban benar
         Swal.fire({
             icon: 'success',
-            title: 'Selamat! 🎉',
+            title: 'Selamat!',
             html: `<div class="text-center">
                     <p><strong>Semua jawaban Anda benar!</strong></p>
                    </div>`,
