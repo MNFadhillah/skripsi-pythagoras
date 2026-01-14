@@ -212,452 +212,285 @@
                 </div>
 
                 <div class="card-body">
-
-                    <!-- ================= 1. BILANGAN KUADRAT ================= -->
                     <h5 class="fw-bold">1. Bilangan Kuadrat</h5>
                     <hr>
 
-                    <p class="text-justify">
-                        Salah satu bentuk perkalian yang sering muncul dalam matematika adalah
-                        <strong>perkalian suatu bilangan dengan dirinya sendiri</strong>.
-                        Perkalian jenis ini banyak digunakan dalam berbagai konsep,
-                        termasuk pada <strong>Teorema Pythagoras</strong>.
-                    </p>
-
-                    <p class="text-justify">
-                        Perkalian suatu bilangan dengan dirinya sendiri disebut
-                        <strong>bentuk kuadrat</strong>.
-                        Disebut kuadrat karena bilangan tersebut dipangkatkan dua.
-                        Bentuk kuadrat digunakan untuk menyederhanakan penulisan
-                        perkalian berulang.
-                    </p>
-
-                    <!-- TABEL CONTOH -->
-                    <div class="table-responsive mt-3">
-                        <table class="table table-bordered text-center align-middle">
-                            <thead class="table-success">
-                                <tr>
-                                    <th>Perkalian</th>
-                                    <th>Bentuk Kuadrat</th>
-                                    <th>Hasil</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>\(2 \times 2\)</td>
-                                    <td>\(2^2\)</td>
-                                    <td>\(4\)</td>
-                                </tr>
-                                <tr>
-                                    <td>\(4 \times 4\)</td>
-                                    <td>\(4^2\)</td>
-                                    <td>\(16\)</td>
-                                </tr>
-                                <tr>
-                                    <td>\(6 \times 6\)</td>
-                                    <td>\(6^2\)</td>
-                                    <td>\(36\)</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-
-                    <p class="text-justify mt-3">
-                        Dari tabel di atas terlihat bahwa bilangan
-                        \(4\), \(16\), dan \(36\) diperoleh dari hasil
-                        pengkuadratan suatu bilangan.
-                        Bilangan-bilangan tersebut disebut
-                        <strong>bilangan kuadrat</strong>.
-                    </p>
-
-                    <p class="text-justify">
-                        Secara umum, jika suatu bilangan dinyatakan dengan
-                        simbol <strong>\(a\)</strong>, maka bentuk kuadratnya
-                        dapat dituliskan sebagai:
-                    </p>
-
-                    <p class="text-center math-block">
-                    \[
-                    a^2 = a \times a
-                    \]
-                    </p>
-
-                    <div class="alert alert-light border-start border-success border-4 mt-3">
-                        <strong>Bilangan kuadrat</strong> adalah bilangan
-                        yang diperoleh dari hasil perkalian suatu bilangan
-                        dengan dirinya sendiri.
-                    </div>
-
-                    <p class="text-justify mt-3">
-                        Selain dalam operasi hitung, bilangan kuadrat juga
-                        memiliki makna dalam konteks geometri.
-                        Jika sebuah persegi memiliki panjang sisi
-                        <strong>\(a\)</strong>, maka luas persegi tersebut
-                        adalah <strong>\(a^2\)</strong>.
-                    </p>
-
-                    <p class="text-justify">
-                        Konsep luas persegi inilah yang menjadi dasar
-                        dalam <strong>Teorema Pythagoras</strong>,
-                        karena teorema tersebut membahas hubungan antara
-                        <strong>luas persegi pada sisi-sisi segitiga siku-siku</strong>.
-                    </p>
-
-                    <p class="fw-bold mt-4">Sifat-sifat Bilangan Berpangkat</p>
-                    <div class="table-responsive">
-                        <table class="table table-bordered align-middle text-center">
-                            <thead class="table-success">
-                                <tr>
-                                    <th style="width:10%">No</th>
-                                    <th style="width:30%">Jenis Sifat</th>
-                                    <th style="width:30%">Rumus Umum</th>
-                                    <th style="width:30%">Contoh</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <!-- Sifat Perkalian -->
-                                <tr>
-                                    <td>1</td>
-                                    <td>Perkalian Bilangan Berpangkat</td>
-                                    <td>\(a^m \times a^n = a^{m+n}\)</td>
-                                    <td>\(3^2 \times 3^3 = 3^{2+3} = 3^5\)</td>
-                                </tr>
-
-                                <!-- Sifat Pembagian -->
-                                <tr>
-                                    <td>2</td>
-                                    <td>Pembagian Bilangan Berpangkat</td>
-                                    <td>\(a^m : a^n = a^{m-n}\)</td>
-                                    <td>\(3^4 : 3^2 = 3^{4-2} = 3^2\)</td>
-                                </tr>
-
-                                <!-- Sifat Perpangkatan -->
-                                <tr>
-                                    <td>3</td>
-                                    <td>Perpangkatan Bilangan Berpangkat</td>
-                                    <td>\((a^m)^n = a^{m \times n}\)</td>
-                                    <td>\((3^2)^2 = 3^{2 \times 2} = 3^4\)</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-
-                    <div id="kuadrat-container" class="ayo-kuadrat mt-5">
-                        <div class="card shadow-sm border-0">
-                            <div class="card-header bg-success text-white text-center py-3">
-                                <h5 class="mb-0 fw-bold">Ayo Mencoba: Bilangan Berpangkat</h5>
-                            </div>
-                            
-                            <div class="card-body bg-light">
-                                <p class="text-muted text-center mb-4">
-                                    Lengkapi kotak kosong pada kolom <strong>Penyelesaian</strong> dan <strong>Hasil Akhir</strong>.
+                    <div class="alert alert-success shadow-sm border-0">
+                        <div class="d-flex align-items-center">
+                            <i class="bi bi-info-circle-fill fs-4 me-3"></i>
+                            <div>
+                                <h6 class="fw-bold mb-1">Petunjuk Pengerjaan:</h6>
+                                <p class="mb-0 small">
+                                Lengkapi kotak-kotak kosong yang memiliki tanda (?) dengan angka yang tepat sesuai pola tersebut.
                                 </p>
-                                
-                                <div class="table-responsive bg-white rounded shadow-sm p-3">
-                                    <table class="table table-bordered table-hover text-center align-middle mb-0">
-                                        <thead class="table-success text-dark">
-                                            <tr>
-                                                <th width="5%">No.</th>
-                                                <th width="20%">Soal</th>
-                                                <th width="50%">Penyelesaian</th>
-                                                <th width="25%">Hasil Akhir</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td class="fw-bold">a.</td>
-                                                <td class="fs-5">\(3^2\)</td>
-                                                <td class="text-start ps-5 fs-5">
-                                                    \(3 \times 3\)
-                                                </td>
-                                                <td>
-                                                    <input type="number" class="form-control d-inline-block text-center fw-bold input-kuadrat px-1" 
-                                                        style="width: 80px; font-size: 1.1rem;" 
-                                                        data-answer="9" placeholder="...">
-                                                </td>
-                                            </tr>
-
-                                            <tr>
-                                                <td class="fw-bold">b.</td>
-                                                <td class="fs-5">\(2^2 \times 2^3\)</td>
-                                                <td class="text-start ps-5 fs-5">
-                                                    \(2\)
-                                                    <sup class="d-inline-flex align-items-center">
-                                                        <input type="number" class="form-control px-1 text-center fw-bold input-kuadrat" 
-                                                            style="width: 45px; height: 30px; font-size: 0.9rem;" data-answer="2">
-                                                        <span class="mx-1 fs-6">+</span>
-                                                        <input type="number" class="form-control px-1 text-center fw-bold input-kuadrat" 
-                                                            style="width: 45px; height: 30px; font-size: 0.9rem;" data-answer="3">
-                                                    </sup>
-                                                </td>
-                                                <td class="fs-5">
-                                                    \(2\)
-                                                    <sup>
-                                                        <input type="number" class="form-control px-1 d-inline-block text-center fw-bold input-kuadrat" 
-                                                            style="width: 45px; height: 32px; font-size: 0.9rem;" data-answer="5">
-                                                    </sup>
-                                                </td>
-                                            </tr>
-
-                                            <tr>
-                                                <td class="fw-bold">c.</td>
-                                                <td class="fs-5">\((-5)^2 \times (-5)^2\)</td>
-                                                <td class="text-start ps-5 fs-5">
-                                                    \((-5)\)
-                                                    <sup class="d-inline-flex align-items-center">
-                                                        <input type="number" class="form-control px-1 text-center fw-bold input-kuadrat" 
-                                                            style="width: 45px; height: 30px; font-size: 0.9rem;" data-answer="2">
-                                                        <span class="mx-1 fs-6">+</span>
-                                                        <input type="number" class="form-control px-1 text-center fw-bold input-kuadrat" 
-                                                            style="width: 45px; height: 30px; font-size: 0.9rem;" data-answer="2">
-                                                    </sup>
-                                                </td>
-                                                <td>
-                                                    <input type="number" class="form-control d-inline-block text-center fw-bold input-kuadrat px-1" 
-                                                        style="width: 80px; font-size: 1.1rem;" 
-                                                        data-answer="625" placeholder="...">
-                                                </td>
-                                            </tr>
-
-                                            <tr>
-                                                <td class="fw-bold">d.</td>
-                                                <td class="fs-5">\(3^3 : 3^2\)</td>
-                                                <td class="text-start ps-5 fs-5">
-                                                    \(3\)
-                                                    <sup class="d-inline-flex align-items-center">
-                                                        <input type="number" class="form-control px-1 text-center fw-bold input-kuadrat" 
-                                                            style="width: 45px; height: 30px; font-size: 0.9rem;" data-answer="3">
-                                                        <span class="mx-1 fs-6">-</span>
-                                                        <input type="number" class="form-control px-1 text-center fw-bold input-kuadrat" 
-                                                            style="width: 45px; height: 30px; font-size: 0.9rem;" data-answer="2">
-                                                    </sup>
-                                                </td>
-                                                <td class="fs-5">
-                                                    \(3\)
-                                                    <sup>
-                                                        <input type="number" class="form-control px-1 d-inline-block text-center fw-bold input-kuadrat" 
-                                                            style="width: 45px; height: 32px; font-size: 0.9rem;" data-answer="1">
-                                                    </sup>
-                                                </td>
-                                            </tr>
-
-                                            <tr>
-                                                <td class="fw-bold">e.</td>
-                                                <td class="fs-5">\((5^2)^2\)</td>
-                                                <td class="text-start ps-5 fs-5">
-                                                    \(5\)
-                                                    <sup class="d-inline-flex align-items-center">
-                                                        <input type="number" class="form-control px-1 text-center fw-bold input-kuadrat" 
-                                                            style="width: 45px; height: 30px; font-size: 0.9rem;" data-answer="2">
-                                                        <span class="mx-1 fs-6">&times;</span>
-                                                        <input type="number" class="form-control px-1 text-center fw-bold input-kuadrat" 
-                                                            style="width: 45px; height: 30px; font-size: 0.9rem;" data-answer="2">
-                                                    </sup>
-                                                </td>
-                                                <td class="fs-5">
-                                                    \(5\)
-                                                    <sup>
-                                                        <input type="number" class="form-control px-1 d-inline-block text-center fw-bold input-kuadrat" 
-                                                            style="width: 45px; height: 32px; font-size: 0.9rem;" data-answer="4">
-                                                    </sup>
-                                                </td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-
-                                <div class="text-center mt-4 mb-3">
-                                    <button class="btn btn-success btn-lg px-5 shadow fw-bold" id="btnCekKuadrat">Periksa Jawaban</button>
-                                </div>
                             </div>
                         </div>
                     </div>
 
-                    <!-- ================================================= -->
-                    <!-- 2. AKAR KUADRAT -->
-                    <!-- ================================================= -->
-                    <h5 class="fw-bold mt-5">2. Akar Kuadrat</h5>
-                    <hr>
+                    <div id="kuadrat-container">
+                        <div class="table-responsive">
+                            <table class="table table-bordered text-center align-middle">
+                                <thead class="table-success">
+                                    <tr>
+                                        <th width="20%">Bilangan (a)</th>
+                                        <th width="30%">(a × a)</th>
+                                        <th width="30%">Bentuk Kuadrat</th>
+                                        <th width="20%">Nilai</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr class="table-secondary">
+                                        <td>\(a\)</td>
+                                        <td>\(a \times a\)</td>
+                                        <td>\(a^2\)</td>
+                                        <td>-</td>
+                                    </tr>
+                                    <tr>
+                                        <td>\(2\)</td>
+                                        <td>\(2 \times 2\)</td>
+                                        <td>\(2^2\)</td>
+                                        <td>\(4\)</td>
+                                    </tr>
+                                    
+                                    <tr>
+                                        <td>\(3\)</td>
+                                        <td>\(3 \times 3\)</td>
+                                        <td>\(3^2\)</td>
+                                        <td>
+                                            <input type="number" class="form-control d-inline-block text-center fw-bold input-kuadrat px-1" 
+                                                style="width: 80px;" data-answer="9" placeholder="?">
+                                        </td>
+                                    </tr>
 
-                    <p class="text-justify">
-                        Akar kuadrat merupakan kebalikan dari bilangan kuadrat.
-                        Akar kuadrat dari suatu bilangan positif adalah bilangan
-                        yang jika dikuadratkan menghasilkan bilangan tersebut.
-                    </p>
+                                    <tr>
+                                        <td>\(5\)</td>
+                                        <td>\(5 \times 5\)</td>
+                                        <td>
+                                            <div class="d-flex justify-content-center align-items-start">
+                                                <input type="number" class="form-control text-center fw-bold input-kuadrat px-1" 
+                                                    style="width: 50px; height: 35px;" data-answer="5" placeholder="?">
+                                                \(^2\)
+                                            </div>
+                                        </td>
+                                        <td>\(25\)</td>
+                                    </tr>
 
-                    <p class="text-center math-block">
-                        \[
-                        3^2 = 9 \Rightarrow \sqrt{9} = 3
-                        \]
-                    </p>
+                                    
+                                    <tr>
+                                        <td>\(8\)</td>
+                                        <td>
+                                            <div class="d-flex justify-content-center align-items-center gap-2">
+                                                <input type="number" class="form-control text-center fw-bold input-kuadrat px-1" 
+                                                    style="width: 50px;" data-answer="8" placeholder="?">
+                                                    <span>×</span>
+                                                <input type="number" class="form-control text-center fw-bold input-kuadrat px-1" 
+                                                style="width: 50px;" data-answer="8" placeholder="?">
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="d-flex justify-content-center align-items-start">
+                                                <input type="number" class="form-control text-center fw-bold input-kuadrat px-1" 
+                                                    style="width: 50px; height: 35px;" data-answer="8" placeholder="?">
+                                                \(^2\)
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <input type="number" class="form-control d-inline-block text-center fw-bold input-kuadrat px-1" 
+                                                style="width: 80px;" data-answer="64" placeholder="?">
+                                        </td>
+                                    </tr>
 
-                    <p class="text-justify">
-                        Secara umum, jika suatu bilangan positif dapat dituliskan sebagai
-                        \[
-                        k = a^2
-                        \]
-                        maka bilangan tersebut memiliki dua akar, yaitu akar positif dan
-                        akar negatif.
-                    </p>
+                                    <tr>
+                                        <td>\(9\)</td>
+                                        <td>\(9 \times 9\)</td>
+                                        <td>
+                                            <div class="d-flex justify-content-center align-items-start">
+                                                <input type="number" class="form-control text-center fw-bold input-kuadrat px-1" 
+                                                    style="width: 50px; height: 35px;" data-answer="9" placeholder="?">
+                                                    \(^2\)
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <input type="number" class="form-control d-inline-block text-center fw-bold input-kuadrat px-1" 
+                                                style="width: 80px;" data-answer="81" placeholder="?">
+                                            </td>
+                                        </tr>
+                                        
+                                        <tr>
+                                            <td>\(12\)</td>
+                                            <td>
+                                                <div class="d-flex justify-content-center align-items-center gap-2">
+                                                    <input type="number" class="form-control text-center fw-bold input-kuadrat px-1" 
+                                                        style="width: 60px;" data-answer="12" placeholder="?">
+                                                    <span>×</span>
+                                                    <input type="number" class="form-control text-center fw-bold input-kuadrat px-1" 
+                                                        style="width: 60px;" data-answer="12" placeholder="?">
+                                                </div>
+                                            </td>
+                                            <td>\(12^2\)</td> 
+                                            <td>\(144\)</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                        </div>
 
-                    <p class="text-center math-block">
-                        \[
-                        \sqrt{64} = 8 \quad \text{dan} \quad -\sqrt{64} = -8
-                        \]
-                    </p>
-
-                    <div class="alert alert-light border-start border-success border-4 mt-3">
-                        Dalam penerapan <strong>Teorema Pythagoras</strong>,
-                        yang digunakan hanya <strong>akar kuadrat positif</strong>
-                        karena berkaitan dengan panjang sisi.
+                        <div class="text-center mb-3">
+                            <button class="btn btn-success px-5 fw-bold shadow-sm" id="btnCekKuadrat">
+                                Periksa Jawaban
+                            </button>
+                        </div>
                     </div>
 
-                    <p class="fw-bold mt-4">Sifat-sifat Akar Kuadrat</p>
-
-                    <div class="table-responsive">
-                        <table class="table table-bordered align-middle text-center">
-                            <thead class="table-success">
-                                <tr>
-                                    <th style="width:10%">No</th>
-                                    <th style="width:30%">Bentuk</th>
-                                    <th style="width:30%">Sifat</th>
-                                    <th style="width:30%">Keterangan</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <!-- Perkalian Akar -->
-                                <tr>
-                                    <td>1</td>
-                                    <td>\(\sqrt{A \times B}\)</td>
-                                    <td>\(\sqrt{A} \times \sqrt{B}\)</td>
-                                    <td>\(A \ge 0,\ B \ge 0\)</td>
-                                </tr>
-
-                                <!-- Pembagian Akar -->
-                                <tr>
-                                    <td>2</td>
-                                    <td>\(\sqrt{\dfrac{A}{B}}\)</td>
-                                    <td>\(\dfrac{\sqrt{A}}{\sqrt{B}}\)</td>
-                                    <td>\(A \ge 0,\ B \ne 0\)</td>
-                                </tr>
-
-                                <!-- Akar dikuadratkan -->
-                                <tr>
-                                    <td>3</td>
-                                    <td>\(\sqrt{A} \times \sqrt{A}\)</td>
-                                    <td>\(A\)</td>
-                                    <td>\(A \ge 0\)</td>
-                                </tr>
-
-                                <!-- Akar bertingkat -->
-                                <tr>
-                                    <td>4</td>
-                                    <td>\(\sqrt{\sqrt{A}}\)</td>
-                                    <td>\(\sqrt[4]{A}\)</td>
-                                    <td>\(A \ge 0\)</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-
-                    <div id="akar-container" class="ayo-akar mt-5">
-                        <div class="card shadow-sm border-0">
-                            <div class="card-header bg-success text-white text-center py-3">
-                                <h5 class="mb-0 fw-bold">Ayo Mencoba: Akar Kuadrat</h5>
-                            </div>
-                            
-                            <div class="card-body bg-light">
-                                <p class="text-muted text-center mb-4">
-                                    Lengkapi titik-titik pada kolom <strong>Penyelesaian</strong> dan <strong>Hasil Akhir</strong> sesuai dengan pola contoh.
-                                </p>
-                                
-                                <div class="table-responsive bg-white rounded shadow-sm p-3">
-                                    <table class="table table-bordered table-hover text-center align-middle mb-0">
-                                        <thead class="table-success text-dark">
-                                            <tr>
-                                                <th width="5%">No.</th>
-                                                <th width="20%">Soal</th>
-                                                <th width="50%">Penyelesaian</th>
-                                                <th width="25%">Hasil Akhir</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td class="fw-bold">a.</td>
-                                                <td class="fs-5">\(\sqrt{25}\)</td>
-                                                <td class="text-start ps-4 fs-5">
-                                                    \(\sqrt{5 \times 5} = \sqrt{5} \times \sqrt{5}\)
-                                                </td>
-                                                <td class="fs-5 fw-bold">5</td>
-                                            </tr>
-
-                                            <tr>
-                                                <td class="fw-bold">b.</td>
-                                                <td class="fs-5">\(\sqrt{4 \times 9}\)</td>
-                                                <td class="text-start ps-4 fs-5">
-                                                    \(\sqrt{4} \times \sqrt{9} =\)
-                                                    <input type="number" class="form-control d-inline-block text-center fw-bold input-akar px-1" 
-                                                        style="width: 50px; font-size: 1rem;" data-answer="2">
-                                                    \(\times\)
-                                                    <input type="number" class="form-control d-inline-block text-center fw-bold input-akar px-1" 
-                                                        style="width: 50px; font-size: 1rem;" data-answer="3">
-                                                </td>
-                                                <td>
-                                                    <input type="number" class="form-control d-inline-block text-center fw-bold input-akar px-1" 
-                                                        style="width: 60px; font-size: 1.1rem;" 
-                                                        data-answer="6" placeholder="...">
-                                                </td>
-                                            </tr>
-
-                                            <tr>
-                                                <td class="fw-bold">c.</td>
-                                                <td class="fs-5">\(\sqrt{9 + 16}\)</td>
-                                                <td class="text-start ps-4 fs-5">
-                                                    \(\sqrt{9 + 16} = \sqrt{}\)
-                                                        <input type="number" class="form-control d-inline-block text-center fw-bold input-akar px-1" 
-                                                            style="width: 60px; font-size: 1rem;" data-answer="25">
-                                                </td>
-                                                <td class="fs-5 fw-bold">5</td>
-                                            </tr>
-
-                                            <tr>
-                                                <td class="fw-bold">d.</td>
-                                                <td class="fs-5">\(\sqrt{\sqrt{16}}\)</td>
-                                                <td class="text-start ps-4 fs-5">
-                                                    \(\sqrt{\sqrt{16}} = \sqrt{4}\)
-                                                </td>
-                                                <td>
-                                                    <input type="number" class="form-control d-inline-block text-center fw-bold input-akar px-1" 
-                                                        style="width: 60px; font-size: 1.1rem;" 
-                                                        data-answer="2" placeholder="...">
-                                                </td>
-                                            </tr>
-
-                                            <tr>
-                                                <td class="fw-bold">e.</td>
-                                                <td class="fs-5">\(\sqrt{\sqrt{81}}\)</td>
-                                                <td class="text-start ps-4 fs-5">
-                                                    \(\sqrt{\sqrt{81}} = \sqrt{}\)
-                                                        <input type="number" class="form-control d-inline-block text-center fw-bold input-akar px-1" 
-                                                            style="width: 60px; font-size: 1rem;" data-answer="9">
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <input type="number" class="form-control d-inline-block text-center fw-bold input-akar px-1" 
-                                                        style="width: 60px; font-size: 1.1rem;" 
-                                                        data-answer="3" placeholder="...">
-                                                </td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-
-                                <div class="text-center mt-4 mb-3">
-                                    <button class="btn btn-success btn-lg px-5 shadow fw-bold" id="btnCekAkar">Periksa Jawaban</button>
-                                </div>
+                    <div id="penguatan-materi" class="d-none mt-5 animate__animated animate__fadeInUp">
+                        <div class="card border-success border-4 shadow-sm bg-light">
+                            <div class="card-body p-4">
+                                <h5 class="fw-bold text-success mb-3"><i class="bi bi-lightbulb-fill me-2"></i>Pembahasan</h5>
+                                <ul class="mb-0 text-dark">
+                                    <li class="mb-2"><strong>Bilangan Kuadrat</strong> adalah bilangan yang dihasilkan dari perkalian dua bilangan yang sama (contoh: 4, 9, 16, 25, 36).</li>
+                                    <li class="mb-2">Proses mengalikan dua bilangan yang sama disebut <strong>pengkuadratan</strong>.</li>
+                                    <li>Misalkan \(2 \times 2 = 2^2 = 4\), dimana <strong>\(2^2\)</strong> adalah bentuk kuadrat, sedangkan <strong>4</strong> adalah bilangan kuadrat.</li>
+                                </ul>
                             </div>
                         </div>
                     </div>
+
+                    <h5 class="fw-bold">2. Akar Kuadrat</h5>
+                        <hr>
+
+                        <p class="text-justify">
+                            Akar kuadrat adalah <strong>kebalikan</strong> dari operasi kuadrat. 
+                            Operasi ini sangat penting dalam Teorema Pythagoras untuk menemukan panjang sisi segitiga 
+                            setelah kita mengetahui luas perseginya.
+                        </p>
+
+                        <div class="row justify-content-center">
+                            <div class="col-md-8">
+                                <div class="alert alert-success text-center border-0 shadow-sm py-2">
+                                    <p class="mb-0 ">
+                                        Jika <strong>\(a^2 = b\)</strong>, maka <strong>\(\sqrt{b} = a\)</strong>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row g-3 mb-4">
+                            <div class="col-md-4">
+                                <div class="card bg-white border h-100 text-center p-3 shadow-sm">
+                                    <h6 class="text-muted small text-uppercase fw-bold">Contoh 1</h6>
+                                    <div class="my-2">
+                                        <span class="badge bg-light text-dark border">\(5^2 = 25\)</span>
+                                        <i class="bi bi-arrow-right mx-2 text-muted"></i>
+                                        <span class="badge bg-success text-white">\(\sqrt{25} = 5\)</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="card bg-white border h-100 text-center p-3 shadow-sm">
+                                    <h6 class="text-muted small text-uppercase fw-bold">Contoh 2</h6>
+                                    <div class="my-2">
+                                        <span class="badge bg-light text-dark border">\(8^2 = 64\)</span>
+                                        <i class="bi bi-arrow-right mx-2 text-muted"></i>
+                                        <span class="badge bg-success text-white">\(\sqrt{64} = 8\)</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="card bg-white border h-100 text-center p-3 shadow-sm">
+                                    <h6 class="text-muted small text-uppercase fw-bold">Contoh 3</h6>
+                                    <div class="my-2">
+                                        <span class="badge bg-light text-dark border">\(10^2 = 100\)</span>
+                                        <i class="bi bi-arrow-right mx-2 text-muted"></i>
+                                        <span class="badge bg-success text-white">\(\sqrt{100} = 10\)</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="alert alert-success shadow-sm border-0 mb-4">
+                            <div class="d-flex align-items-center">
+                                <i class="bi bi-info-circle-fill fs-4 me-3"></i>
+                                <div>
+                                    <h6 class="fw-bold mb-1">Petunjuk Pengerjaan:</h6>
+                                    <p class="mb-0 small">
+                                    Isilah kotak kosong dengan nilai akar kuadrat yang tepat sesuai pola contoh di atas.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="akar-container">
+                            <div class="row g-3 justify-content-center">
+                                <div class="col-6 col-md-3">
+                                    <div class="card bg-white border text-center h-100 py-4 shadow-sm">
+                                        <div class="d-flex justify-content-center align-items-center gap-2">
+                                            <label class="form-label fw-bold mb-0 ">\(\sqrt{36}\)</label>
+                                            <span class="fw-bold ">=</span>
+                                            <input type="number" class="form-control text-center input-akar " 
+                                                style="width: 80px;" data-answer="6" placeholder="?">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-6 col-md-3">
+                                    <div class="card bg-white border text-center h-100 py-4 shadow-sm">
+                                        <div class="d-flex justify-content-center align-items-center gap-2">
+                                            <label class="form-label  mb-0 ">\(\sqrt{49}\)</label>
+                                            <span class=" ">=</span>
+                                            <input type="number" class="form-control text-center input-akar " 
+                                                style="width: 80px;" data-answer="7" placeholder="?">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-6 col-md-3">
+                                    <div class="card bg-white border text-center h-100 py-4 shadow-sm">
+                                        <div class="d-flex justify-content-center align-items-center gap-2">
+                                            <label class="form-label  mb-0 ">\(\sqrt{81}\)</label>
+                                            <span class=" ">=</span>
+                                            <input type="number" class="form-control text-center input-akar " 
+                                                style="width: 80px;" data-answer="9" placeholder="?">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-6 col-md-3">
+                                    <div class="card bg-white border text-center h-100 py-4 shadow-sm">
+                                        <div class="d-flex justify-content-center align-items-center gap-2">
+                                            <label class="form-label  mb-0 ">\(\sqrt{144}\)</label>
+                                            <span class=" ">=</span>
+                                            <input type="number" class="form-control text-center input-akar " 
+                                                style="width: 80px;" data-answer="12" placeholder="?">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="text-center mt-4">
+                                <button class="btn btn-success px-5  shadow-sm" id="btnCekAkar">
+                                    Periksa Jawaban
+                                </button>
+                            </div>
+                        </div>
+
+                        <div id="penguatan-akar" class="d-none mt-5 animate__animated animate__fadeInUp">
+                            <div class="card border-success border-2 shadow-sm bg-light">
+                                <div class="card-body p-4">
+                                    <h5 class=" text-success mb-3"><i class="bi bi-lightbulb-fill me-2"></i>Kesimpulan</h5>
+                                    
+                                    <p class="text-justify mb-2">
+                                        Selamat! Kamu telah berhasil memahami hubungan antara pangkat dua dan akar kuadrat.
+                                    </p>
+
+                                    <div class="alert alert-white border-start border-success border-4 mb-0">
+                                        <ul class="mb-0 text-dark">
+                                            <li class="mb-2">Akar kuadrat digunakan untuk mencari panjang sisi persegi jika diketahui luasnya.</li>
+                                            <li>Dalam segitiga siku-siku, kita akan menggunakan akar kuadrat di langkah terakhir untuk menemukan panjang sisi yang dicari.</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
 
                 </div>
             </div>
