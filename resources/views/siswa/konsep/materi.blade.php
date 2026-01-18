@@ -215,6 +215,10 @@
                     <h5 class="fw-bold">1. Bilangan Kuadrat</h5>
                     <hr>
 
+                    <p class="text-justify">
+                        Masih ingatkah kalian bagaimana menentukan kuadrat dari suatu bilangan? Untuk menentukan kuadrat dari suatu bilangan adalah dengan cara <strong>mengalikan bilangan tersebut dengan dirinya sendiri</strong>.
+                    </p>
+
                     <div class="alert alert-success shadow-sm border-0">
                         <div class="d-flex align-items-center">
                             <i class="bi bi-info-circle-fill fs-4 me-3"></i>
@@ -268,7 +272,7 @@
                                         <td>
                                             <div class="d-flex justify-content-center align-items-start">
                                                 <input type="number" class="form-control text-center fw-bold input-kuadrat px-1" 
-                                                    style="width: 50px; height: 35px;" data-answer="5" placeholder="?">
+                                                    style="width: 80px; height: 35px;" data-answer="5" placeholder="?">
                                                 \(^2\)
                                             </div>
                                         </td>
@@ -281,55 +285,40 @@
                                         <td>
                                             <div class="d-flex justify-content-center align-items-center gap-2">
                                                 <input type="number" class="form-control text-center fw-bold input-kuadrat px-1" 
-                                                    style="width: 50px;" data-answer="8" placeholder="?">
+                                                    style="width: 80px;" data-answer="8" placeholder="?">
                                                     <span>×</span>
                                                 <input type="number" class="form-control text-center fw-bold input-kuadrat px-1" 
-                                                style="width: 50px;" data-answer="8" placeholder="?">
+                                                style="width: 80px;" data-answer="8" placeholder="?">
                                             </div>
                                         </td>
-                                        <td>
-                                            <div class="d-flex justify-content-center align-items-start">
-                                                <input type="number" class="form-control text-center fw-bold input-kuadrat px-1" 
-                                                    style="width: 50px; height: 35px;" data-answer="8" placeholder="?">
-                                                \(^2\)
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <input type="number" class="form-control d-inline-block text-center fw-bold input-kuadrat px-1" 
-                                                style="width: 80px;" data-answer="64" placeholder="?">
-                                        </td>
+                                        <td>\(8^2\)</td>
+                                        <td>\(64\)</td>
                                     </tr>
 
                                     <tr>
                                         <td>\(9\)</td>
-                                        <td>\(9 \times 9\)</td>
+                                        <td>
+                                            <div class="d-flex justify-content-center align-items-center gap-2">
+                                                <input type="number" class="form-control text-center fw-bold input-kuadrat px-1" 
+                                                    style="width: 80px;" data-answer="9" placeholder="?">
+                                                    <span>×</span>
+                                                <input type="number" class="form-control text-center fw-bold input-kuadrat px-1" 
+                                                style="width: 80px;" data-answer="9" placeholder="?">
+                                            </div>
+                                        </td>
                                         <td>
                                             <div class="d-flex justify-content-center align-items-start">
                                                 <input type="number" class="form-control text-center fw-bold input-kuadrat px-1" 
-                                                    style="width: 50px; height: 35px;" data-answer="9" placeholder="?">
+                                                    style="width: 80px; height: 35px;" data-answer="9" placeholder="?">
                                                     \(^2\)
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <input type="number" class="form-control d-inline-block text-center fw-bold input-kuadrat px-1" 
-                                                style="width: 80px;" data-answer="81" placeholder="?">
-                                            </td>
-                                        </tr>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <input type="number" class="form-control d-inline-block text-center fw-bold input-kuadrat px-1" 
+                                            style="width: 80px;" data-answer="81" placeholder="?">
+                                        </td>
+                                    </tr>
                                         
-                                        <tr>
-                                            <td>\(12\)</td>
-                                            <td>
-                                                <div class="d-flex justify-content-center align-items-center gap-2">
-                                                    <input type="number" class="form-control text-center fw-bold input-kuadrat px-1" 
-                                                        style="width: 60px;" data-answer="12" placeholder="?">
-                                                    <span>×</span>
-                                                    <input type="number" class="form-control text-center fw-bold input-kuadrat px-1" 
-                                                        style="width: 60px;" data-answer="12" placeholder="?">
-                                                </div>
-                                            </td>
-                                            <td>\(12^2\)</td> 
-                                            <td>\(144\)</td>
-                                        </tr>
                                     </tbody>
                                 </table>
                         </div>
@@ -341,7 +330,7 @@
                         </div>
                     </div>
 
-                    <div id="penguatan-materi" class="d-none mt-5 animate__animated animate__fadeInUp">
+                    <div id="penguatan-materi" class="d-none mt-3 mb-3   animate__animated animate__fadeInUp">
                         <div class="card border-success border-4 shadow-sm bg-light">
                             <div class="card-body p-4">
                                 <h5 class="fw-bold text-success mb-3"><i class="bi bi-lightbulb-fill me-2"></i>Pembahasan</h5>
@@ -353,144 +342,179 @@
                             </div>
                         </div>
                     </div>
+                    <h5 class="fw-bold mt-5">2. Akar Kuadrat</h5>
+                    <hr>
 
-                    <h5 class="fw-bold">2. Akar Kuadrat</h5>
-                        <hr>
+                    <p class="text-justify">
+                        Akar kuadrat adalah <strong>kebalikan</strong> dari operasi kuadrat. 
+                        Operasi ini sangat penting dalam Teorema Pythagoras untuk menemukan panjang sisi segitiga 
+                        setelah kita mengetahui luas perseginya.
+                    </p>
 
-                        <p class="text-justify">
-                            Akar kuadrat adalah <strong>kebalikan</strong> dari operasi kuadrat. 
-                            Operasi ini sangat penting dalam Teorema Pythagoras untuk menemukan panjang sisi segitiga 
-                            setelah kita mengetahui luas perseginya.
-                        </p>
-
-                        <div class="row justify-content-center">
-                            <div class="col-md-8">
-                                <div class="alert alert-success text-center border-0 shadow-sm py-2">
-                                    <p class="mb-0 ">
-                                        Jika <strong>\(a^2 = b\)</strong>, maka <strong>\(\sqrt{b} = a\)</strong>
+                    <div class="row justify-content-center mb-4">
+                        <div class="col-md-8">
+                            <div class="card bg-white border shadow-sm">
+                                <div class="card-body text-center">
+                                    <p class="mb-3 fs-5">
+                                        Jika <strong>\(A^2 = B\)</strong>, maka <strong>\(\sqrt{B} = A\)</strong>
                                     </p>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="row g-3 mb-4">
-                            <div class="col-md-4">
-                                <div class="card bg-white border h-100 text-center p-3 shadow-sm">
-                                    <h6 class="text-muted small text-uppercase fw-bold">Contoh 1</h6>
-                                    <div class="my-2">
-                                        <span class="badge bg-light text-dark border">\(5^2 = 25\)</span>
-                                        <i class="bi bi-arrow-right mx-2 text-muted"></i>
-                                        <span class="badge bg-success text-white">\(\sqrt{25} = 5\)</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <div class="card bg-white border h-100 text-center p-3 shadow-sm">
-                                    <h6 class="text-muted small text-uppercase fw-bold">Contoh 2</h6>
-                                    <div class="my-2">
-                                        <span class="badge bg-light text-dark border">\(8^2 = 64\)</span>
-                                        <i class="bi bi-arrow-right mx-2 text-muted"></i>
-                                        <span class="badge bg-success text-white">\(\sqrt{64} = 8\)</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <div class="card bg-white border h-100 text-center p-3 shadow-sm">
-                                    <h6 class="text-muted small text-uppercase fw-bold">Contoh 3</h6>
-                                    <div class="my-2">
-                                        <span class="badge bg-light text-dark border">\(10^2 = 100\)</span>
-                                        <i class="bi bi-arrow-right mx-2 text-muted"></i>
-                                        <span class="badge bg-success text-white">\(\sqrt{100} = 10\)</span>
+                                    <div class="fs-5">
+                                        \[
+                                        3^2 = 9 \Rightarrow \sqrt{9} = 3
+                                        \]
                                     </div>
                                 </div>
                             </div>
                         </div>
+                    </div>
 
-                        <div class="alert alert-success shadow-sm border-0 mb-4">
-                            <div class="d-flex align-items-center">
-                                <i class="bi bi-info-circle-fill fs-4 me-3"></i>
-                                <div>
-                                    <h6 class="fw-bold mb-1">Petunjuk Pengerjaan:</h6>
-                                    <p class="mb-0 small">
-                                    Isilah kotak kosong dengan nilai akar kuadrat yang tepat sesuai pola contoh di atas.
-                                    </p>
+                    <div class="row g-3 mb-4">
+                        <div class="col-md-4">
+                            <div class="card bg-white border h-100 text-center p-3 shadow-sm">
+                                <h6 class="text-muted small text-uppercase fw-bold">Contoh 1</h6>
+                                <div class="my-2">
+                                    <span class="badge bg-light text-dark border">\(5^2 = 25\)</span>
+                                    <i class="bi bi-arrow-right mx-2 text-muted"></i>
+                                    <span class="badge bg-success text-white">\(\sqrt{25} = 5\)</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card bg-white border h-100 text-center p-3 shadow-sm">
+                                <h6 class="text-muted small text-uppercase fw-bold">Contoh 2</h6>
+                                <div class="my-2">
+                                    <span class="badge bg-light text-dark border">\(8^2 = 64\)</span>
+                                    <i class="bi bi-arrow-right mx-2 text-muted"></i>
+                                    <span class="badge bg-success text-white">\(\sqrt{64} = 8\)</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card bg-white border h-100 text-center p-3 shadow-sm">
+                                <h6 class="text-muted small text-uppercase fw-bold">Contoh 3</h6>
+                                <div class="my-2">
+                                    <span class="badge bg-light text-dark border">\(10^2 = 100\)</span>
+                                    <i class="bi bi-arrow-right mx-2 text-muted"></i>
+                                    <span class="badge bg-success text-white">\(\sqrt{100} = 10\)</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card border-0 shadow-sm bg-light mb-4">
+                        <div class="card-body">
+                            <h6 class="fw-bold mb-3 text-bold">Sifat-sifat Akar Kuadrat</h6>
+                            <div class="table-responsive">
+                                <table class="table table-bordered align-middle text-center bg-white mb-0">
+                                    <thead class="table-success small">
+                                        <tr>
+                                            <th style="width:10%">No</th>
+                                            <th style="width:50%">Sifat Operasi</th>
+                                            <th style="width:40%">Syarat</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="small">
+                                        <tr>
+                                            <td>i.</td>
+                                            <td class="text-start ps-4">\(\sqrt{A \times B} = \sqrt{A} \times \sqrt{B}\)</td>
+                                            <td>\(A \ge 0, B \ge 0\)</td>
+                                        </tr>
+                                        <tr>
+                                            <td>ii.</td>
+                                            <td class="text-start ps-4">\(\sqrt{\frac{A}{B}} = \frac{\sqrt{A}}{\sqrt{B}}\)</td>
+                                            <td>\(A \ge 0, B \ne 0\)</td>
+                                        </tr>
+                                        <tr>
+                                            <td>iii.</td>
+                                            <td class="text-start ps-4">\(A\sqrt{B} + A\sqrt{C} = A(\sqrt{B} + \sqrt{C})\)</td>
+                                            <td>\(B \ge 0, C \ge 0\)</td>
+                                        </tr>
+                                        <tr>
+                                            <td>iv.</td>
+                                            <td class="text-start ps-4">\(\sqrt{A} \times \sqrt{A} = A\)</td>
+                                            <td>\(A \ge 0\)</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="alert alert-success shadow-sm border-0 mb-4">
+                        <div class="d-flex align-items-center">
+                            <i class="bi bi-info-circle-fill fs-4 me-3"></i>
+                            <div>
+                                <h6 class="fw-bold mb-1">Petunjuk Pengerjaan:</h6>
+                                <p class="mb-0 small">
+                                Hitunglah nilai akar kuadrat berikut dengan tepat dan lengkapi kotak-kotak kosong yang memiliki tanda (?) dengan angka yang tepat.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="akar-container">
+                        <div class="row g-3 justify-content-center">
+                            <div class="col-6 col-md-4">
+                                <div class="card bg-white border text-center h-100 py-4 shadow-sm">
+                                    <div class="d-flex justify-content-center align-items-center gap-2">
+                                        <label class="form-label fw-bold mb-0 fs-5">\(\sqrt{36}\)</label>
+                                        <span class="fw-bold fs-5">=</span>
+                                        <input type="number" class="form-control text-center input-akar fw-bold" 
+                                            style="width: 80px;" data-answer="6" placeholder="?">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-6 col-md-4">
+                                <div class="card bg-white border text-center h-100 py-4 shadow-sm">
+                                    <div class="d-flex justify-content-center align-items-center gap-2">
+                                        <label class="form-label fw-bold mb-0 fs-5">\(\sqrt{49}\)</label>
+                                        <span class="fw-bold fs-5">=</span>
+                                        <input type="number" class="form-control text-center input-akar fw-bold" 
+                                            style="width: 80px;" data-answer="7" placeholder="?">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-6 col-md-4">
+                                <div class="card bg-white border text-center h-100 py-4 shadow-sm">
+                                    <div class="d-flex justify-content-center align-items-center gap-2">
+                                        <label class="form-label fw-bold mb-0 fs-5">\(\sqrt{81}\)</label>
+                                        <span class="fw-bold fs-5">=</span>
+                                        <input type="number" class="form-control text-center input-akar fw-bold" 
+                                            style="width: 80px;" data-answer="9" placeholder="?">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-6 col-md-4">
+                                <div class="card bg-white border text-center h-100 py-4 shadow-sm">
+                                    <div class="d-flex justify-content-center align-items-center gap-2">
+                                        <label class="form-label fw-bold mb-0 fs-6">\(\sqrt{4} \times \sqrt{9}\)</label>
+                                        <span class="fw-bold fs-5">=</span>
+                                        <input type="number" class="form-control text-center input-akar fw-bold" 
+                                            style="width: 80px;" data-answer="6" placeholder="?">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-6 col-md-4">
+                                <div class="card bg-white border text-center h-100 py-4 shadow-sm">
+                                    <div class="d-flex justify-content-center align-items-center gap-2">
+                                        <label class="form-label fw-bold mb-0 fs-6">\(\sqrt{4 \times 25}\)</label>
+                                        <span class="fw-bold fs-5">=</span>
+                                        <input type="number" class="form-control text-center input-akar fw-bold" 
+                                            style="width: 90px;" data-answer="10" placeholder="?">
+                                    </div>
                                 </div>
                             </div>
                         </div>
 
-                        <div id="akar-container">
-                            <div class="row g-3 justify-content-center">
-                                <div class="col-6 col-md-3">
-                                    <div class="card bg-white border text-center h-100 py-4 shadow-sm">
-                                        <div class="d-flex justify-content-center align-items-center gap-2">
-                                            <label class="form-label fw-bold mb-0 ">\(\sqrt{36}\)</label>
-                                            <span class="fw-bold ">=</span>
-                                            <input type="number" class="form-control text-center input-akar " 
-                                                style="width: 80px;" data-answer="6" placeholder="?">
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="col-6 col-md-3">
-                                    <div class="card bg-white border text-center h-100 py-4 shadow-sm">
-                                        <div class="d-flex justify-content-center align-items-center gap-2">
-                                            <label class="form-label  mb-0 ">\(\sqrt{49}\)</label>
-                                            <span class=" ">=</span>
-                                            <input type="number" class="form-control text-center input-akar " 
-                                                style="width: 80px;" data-answer="7" placeholder="?">
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="col-6 col-md-3">
-                                    <div class="card bg-white border text-center h-100 py-4 shadow-sm">
-                                        <div class="d-flex justify-content-center align-items-center gap-2">
-                                            <label class="form-label  mb-0 ">\(\sqrt{81}\)</label>
-                                            <span class=" ">=</span>
-                                            <input type="number" class="form-control text-center input-akar " 
-                                                style="width: 80px;" data-answer="9" placeholder="?">
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="col-6 col-md-3">
-                                    <div class="card bg-white border text-center h-100 py-4 shadow-sm">
-                                        <div class="d-flex justify-content-center align-items-center gap-2">
-                                            <label class="form-label  mb-0 ">\(\sqrt{144}\)</label>
-                                            <span class=" ">=</span>
-                                            <input type="number" class="form-control text-center input-akar " 
-                                                style="width: 80px;" data-answer="12" placeholder="?">
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="text-center mt-4">
-                                <button class="btn btn-success px-5  shadow-sm" id="btnCekAkar">
-                                    Periksa Jawaban
-                                </button>
-                            </div>
+                        <div class="text-center mt-4 mb-3">
+                            <button class="btn btn-success px-5 fw-bold shadow-sm" id="btnCekAkar">
+                                Periksa Jawaban
+                            </button>
                         </div>
-
-                        <div id="penguatan-akar" class="d-none mt-5 animate__animated animate__fadeInUp">
-                            <div class="card border-success border-2 shadow-sm bg-light">
-                                <div class="card-body p-4">
-                                    <h5 class=" text-success mb-3"><i class="bi bi-lightbulb-fill me-2"></i>Kesimpulan</h5>
-                                    
-                                    <p class="text-justify mb-2">
-                                        Selamat! Kamu telah berhasil memahami hubungan antara pangkat dua dan akar kuadrat.
-                                    </p>
-
-                                    <div class="alert alert-white border-start border-success border-4 mb-0">
-                                        <ul class="mb-0 text-dark">
-                                            <li class="mb-2">Akar kuadrat digunakan untuk mencari panjang sisi persegi jika diketahui luasnya.</li>
-                                            <li>Dalam segitiga siku-siku, kita akan menggunakan akar kuadrat di langkah terakhir untuk menemukan panjang sisi yang dicari.</li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
+                    </div>
 
                 </div>
             </div>
@@ -501,148 +525,248 @@
 <section class="materi-page d-none" data-page="2">
     <div class="row">
         
-        <!-- ================= KANVAS INTERAKTIF SEGITIGA ================= -->
         <div class="col-sm-12 mb-4">
             <div class="card">
                 <div class="card-header text-center">
-                    <h4>Ayo Menggambar</h4>
+                    <h4>Eksplorasi Segitiga: Sudut & Sisi</h4>
                 </div>
                 
                 <div class="card-body">
-                    <!-- ================= PETUNJUK PENGGUNAAN ================= -->
-                    <div class="col-sm-12">                
-                        <div class="alert alert-light border-start border-success border-4">
-                            <h6 class="fw-bold mb-2">Petunjuk Penggunaan</h6>
-                            <ol class="mb-0">
-                                <li>
-                                    Dibawah ini terdapat <strong>kanvas interaktif</strong> untuk menggambar segitiga
-                                    yang digunakan untuk mengenali jenis-jenis segitiga.
-                                </li>
-                                <li>
-                                    Anda dapat menggambar segitiga dengan dua cara:
-                                    <ul>
-                                        <li>
-                                            <strong>Mengklik tiga titik berbeda</strong> pada area kanvas,
-                                            dan sistem akan otomatis menghubungkan ketiga titik tersebut
-                                            menjadi sebuah segitiga.
-                                        </li>
-                                        <li>
-                                            <strong>Mengklik satu titik lalu menyeretnya dengan kursor</strong>
-                                            untuk membentuk sisi-sisi segitiga hingga terbentuk
-                                            bangun segitiga.
-                                        </li>
-                                    </ul>
-                                </li>
-                                <li>
-                                    Setiap garis yang dibuat akan secara visual membentuk
-                                    <strong>sisi-sisi segitiga</strong>.
-                                </li>
-                                <li>
-                                    Setelah segitiga terbentuk, sistem akan secara otomatis
-                                    <strong>menganalisis dan menentukan jenis segitiga</strong>.
-                                </li>
-                                <li>
-                                    Perhatikan hasilnya untuk mengetahui apakah segitiga tersebut
-                                    termasuk <strong>segitiga siku-siku, sama kaki, sama sisi,</strong>
-                                    atau <strong>segitiga sembarang</strong>.
-                                </li>
-                                <li>
-                                    Gunakan tombol <strong>Reset</strong> untuk menghapus gambar
-                                    dan mencoba membuat segitiga dengan bentuk yang berbeda.
-                                </li>
-                            </ol>
+                    <div class="row">
+                        <div class="col-lg-9 mb-3">
+                            <div id="canvasContainer" class="canvas-wrapper position-relative bg-white border rounded shadow-sm" style="width: 100%;">
+                                <canvas id="triangleCanvas" style="cursor: crosshair; display: block;"></canvas>
+                            </div>
 
+                            <div class="d-flex justify-content-between align-items-center mt-2 p-2 bg-light border rounded">
+                                <small class="text-muted fst-italic">
+                                    <i class="bi bi-arrows-move me-1"></i> Area gambar luas. Klik 3 titik untuk membentuk sudut.
+                                </small>
+                                <button class="btn btn-warning btn-sm shadow-sm fw-bold" onclick="resetCanvas()">
+                                    <i class="bi bi-arrow-counterclockwise me-1"></i> Reset
+                                </button>
+                            </div>
                         </div>
-                    </div>
 
-                    <div class="canvas-wrapper">
-                        <canvas id="triangleCanvas" width="520" height="420"></canvas>
-                    </div>
-
-                    <div class="canvas-toolbar controls text-center mt-3">
-                        <button class="btn btn-success btn-sm" onclick="resetCanvas()">Reset Canvas</button>
-                    </div>
-
-                    <div id="triangleInfo"
-                        class="alert alert-light border-start border-success border-4 mt-4">
-                        Jenis Segitiga:
-                    </div>
-
-                </div>
-            </div>
-            <div class="mt-5">
+                        <div class="col-lg-3">
     
-                <div class="alert alert-light border-start border-success border-4 mb-4">
-                    <h6 class="fw-bold mb-2 text-success">
-                        <i class="bi bi-lightbulb me-2"></i>Refleksi Pengamatan
-                    </h6>
-                    <p class="mb-0">
-                        Setelah mencoba fitur menggambar di atas, jawablah pertanyaan-pertanyaan berikut 
-                        sebagai <strong>refleksi untuk lebih mengenal</strong> karakteristik segitiga. 
-                        Tuliskan jawaban berdasarkan <strong>hasil pengamatanmu</strong> sendiri sebelum menyimpan jawaban.
-                    </p>
-                </div>
+    {{-- PETUNJUK (TETAP) --}}
+    <div class="card border-success mb-3 shadow-sm">
+    <div class="card-header bg-success text-white py-2">
+        <h6 class="mb-0 fw-bold small">
+            <i class="bi bi-compass-fill me-2"></i>
+            Petunjuk & Cara Pengerjaan
+        </h6>
+    </div>
 
-                <div class="mb-4">
-                    <label class="form-label fw-bold">
-                        1. Bagaimana proses yang kamu lakukan saat menggambar segitiga?
-                    </label>
-                    <textarea id="jawaban1" class="form-control" rows="2" placeholder="Ceritakan langkahmu..."></textarea>
-                </div>
+    <div class="card-body p-3 small bg-white">
+        
+        <!-- TUJUAN -->
+        <p class="mb-2 text-muted">
+            <strong>Tujuan:</strong><br>
+            Mengeksplorasi hubungan panjang sisi dan sudut pada segitiga.
+        </p>
 
-                <div class="mb-4">
-                    <label class="form-label fw-bold">
-                        2. Menurut pengamatanmu, kapan sebuah segitiga dapat disebut sebagai segitiga siku-siku?    
-                    </label>
-                    <div class="card card-body bg-light border-0 p-3">
-                        <div class="form-check mb-2">
-                            <input class="form-check-input" type="radio" name="refleksi2" id="opsi_a" value="salah">
-                            <label class="form-check-label" for="opsi_a">Jika ketiga sisinya sama panjang.</label>
-                        </div>
-                        <div class="form-check mb-2">
-                            <input class="form-check-input" type="radio" name="refleksi2" id="opsi_b" value="benar">
-                            <label class="form-check-label" for="opsi_b">Jika memiliki tepat satu sudut siku-siku (90°).</label>
-                        </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="radio" name="refleksi2" id="opsi_c" value="salah">
-                            <label class="form-check-label" for="opsi_c">Jika semua sudutnya kurang dari 90°.</label>
-                        </div>
+        <!-- LANGKAH -->
+        <p class="mb-1 fw-semibold">Langkah Pengerjaan:</p>
+        <ol class="ps-3 mb-3">
+            <li class="mb-1"><strong>Klik 3 titik</strong> pada grid untuk membentuk segitiga.</li>
+            <li class="mb-1">Amati <strong>panjang sisi</strong> dan <strong>sudut</strong> yang muncul.</li>
+            <li class="mb-1">Periksa apakah terdapat sudut <strong>90° (siku-siku)</strong>.</li>
+        </ol>
+
+        <!-- TANTANGAN -->
+        <div class="alert alert-warning border-0 p-2 rounded mb-0 d-flex align-items-start">
+            <i class="bi bi-star-fill text-warning me-2 mt-1"></i>
+            <div class="lh-sm" style="font-size: 0.85rem;">
+                <strong>Tantangan:</strong><br>
+                Buat segitiga <strong>miring</strong> yang tetap <strong>siku-siku</strong> dan memiliki
+                <strong>sisi bilangan bulat</strong>.
+            </div>
+        </div>
+
+    </div>
+</div>
+
+    {{-- HASIL ANALISIS --}}
+    <div id="triangleInfo" class="card border-0 shadow-sm bg-light">
+        <div class="card-body text-center d-flex flex-column justify-content-center text-muted py-4">
+            <i class="bi bi-pencil-square fs-1 mb-2 opacity-25"></i>
+            <p class="small mb-0">Hasil analisis akan muncul di sini...</p>
+        </div>
+    </div>
+
+</div>
+
                     </div>
-                </div>
-
-                <div class="mb-4">
-                    <label class="form-label fw-bold">
-                        3. Jika segitiga memiliki sudut siku-siku, sisi manakah yang paling panjang?
-                    </label>
-                    <select class="form-select" id="jawaban3">
-                        <option value="">-- Pilih Jawaban --</option>
-                        <option value="tegak">Sisi Tegak</option>
-                        <option value="datar">Sisi Datar</option>
-                        <option value="miring">Sisi Miring</option>
-                    </select>
-                </div>
-
-                <div class="mb-4">
-                    <label class="form-label fw-bold">
-                        4. Apa kesimpulanmu tentang segitiga siku-siku setelah mencoba fitur menggambar ini?
-                    </label>
-                    <textarea id="jawaban4" class="form-control" rows="3" placeholder="Tuliskan pendapatmu..."></textarea>
-                </div>
-
-                <hr class="my-4">
-                <div class="d-flex justify-content-center gap-2">
-                    <button type="button" onclick="resetInputs()" class="btn btn-outline-secondary">
-                        Reset Jawaban
-                    </button>
-                    <button type="button" id="btnSimpan" class="btn btn-success px-4 fw-bold">
-                        Simpan Jawaban 
-                    </button>
                 </div>
             </div>
         </div>
 
-    
+        <!-- ================================= -->
+        <!-- MENGENAL SISI SEGITIGA -->
+        <!-- ================================= -->
 
+            <div class="col-sm-12 mb-4">
+                <div class="card">
+                    
+                    <div class="card-header text-center">
+                        <h4>Penamaan Sisi Segitiga</h4>
+                    </div>
+
+                    <div class="card-body p-4">
+                        
+                        <p class="text-justify mb-4">
+                            Dalam matematika, penamaan sisi segitiga memiliki aturan tertentu. 
+                            Ruas garis yang menghubungkan titik \(A\) dan titik \(B\) dinotasikan sebagai \(\overline{AB}\). 
+                            Sedangkan untuk menyatakan <strong>panjang</strong> dari ruas garis tersebut, cukup ditulis sebagai \(AB\).
+                            <br><br>
+                            Selain menggunakan dua huruf kapital (misal: \(AB\)), kita juga bisa menamai sisi menggunakan 
+                            <strong>satu huruf kecil</strong>. Aturan ini yang akan sering digunakan dalam rumus Pythagoras.
+                        </p>
+                        <div class="row align-items-center g-4">
+                            
+                            <div class="col-md-6">
+                                <div class="p-3 bg-white rounded border border-success border-4 shadow-sm d-flex align-items-center justify-content-center h-100">
+                                    <img src="/images/mengenal_sisi_segitiga_sikusiku.png" 
+                                        alt="Mengenal Sisi Segitiga Siku-siku" 
+                                        class="img-fluid" 
+                                        style="max-height: 250px; object-fit: contain;">
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="alert alert-light border-start border-success border-4 shadow-sm mb-0 h-100 d-flex flex-column justify-content-center">
+                                    <h6 class="fw-bold mb-2">Aturan Penamaan:</h6>
+                                    <ul class="mb-0 small" style="line-height: 1.8;">
+                                        <li>
+                                            <strong>Titik Sudut</strong> menggunakan <strong>Huruf Kapital</strong>.
+                                            <br><span class="text-muted">Contoh: Titik \(A\), Titik \(B\), Titik \(C\).</span>
+                                        </li>
+                                        <li>
+                                            <strong>Sisi (Ruas Garis)</strong> menggunakan dua huruf kapital dengan garis diatasnya.
+                                            <br><span class="text-muted">Contoh: \(\overline{AB}\), \(\overline{BC}\), \(\overline{AC}\).</span>
+                                        </li>
+                                        <li>
+                                            <strong>Sisi (Huruf Kecil)</strong> dinamai berdasarkan <strong>sudut di depannya</strong>:
+                                            <ul class="mb-0 mt-1 fw-bold list-unstyled ms-2">
+                                                <li>Depan sudut \(A\) \(\rightarrow\) sisi \(a\)</li>
+                                                <li>Depan sudut \(B\) \(\rightarrow\) sisi \(b\)</li>
+                                                <li>Depan sudut \(C\) \(\rightarrow\) sisi \(c\)</li>
+                                            </ul>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="card border-0">
+                            <div class="card-body py-3 px-4">
+                                <p class="mb-3 fw-bold text-center border-bottom pb-2">Contoh Penerapan pada Gambar di Atas:</p>
+                                <div class="row text-center g-3">
+                                    <div class="col-md-4">
+                                        <div class="bg-white border rounded p-3 shadow-sm h-100 d-flex align-items-center justify-content-center">
+                                            <span class="fs-6">\(\overline{AB}\) = <strong class="fs-5 ms-1">sisi \(a\)</strong></span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="bg-white border rounded p-3 shadow-sm h-100 d-flex align-items-center justify-content-center">
+                                            <span class="fs-6">\(\overline{BC}\) = <strong class="fs-5 ms-1">sisi \(b\)</strong></span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="bg-white border rounded p-3 shadow-sm h-100 d-flex align-items-center justify-content-center">
+                                            <span class="fs-6">\(\overline{AC}\) = <strong class="fs-5 ms-1">sisi \(c\)</strong></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="text-center">
+                        <h5 class="fw-bold">Ayo Berlatih: Berikan nama pada sisi segitiga!</h5>
+                        <p class="text-muted small">
+                            Perhatikan posisi sudut pada setiap segitiga di bawah ini.<br>
+                            Tentukan nama sisi (menggunakan <strong>satu huruf kecil</strong>) yang berada di depan sudut yang ditanyakan.
+                            Isilah kotak di bawah gambar untuk menjawab.
+                        </p>
+                    </div>
+
+                    <div class="row g-4 justify-content-center">
+                        
+                        <div class="col-md-4">
+                            <div class="card bg-white border-0 h-100 p-3 text-center">
+                                <div class="mb-3 d-flex align-items-center justify-content-center bg-light rounded border" 
+                                    style="height: 220px; overflow: hidden;">
+                                    <img src="/images/mengenal_sisi_latihan1.png" 
+                                        alt="Latihan 1" 
+                                        class="img-fluid" 
+                                        style="max-height: 100%; object-fit: contain;">
+                                </div>
+                                
+                                <div class="text-start px-2 mt-auto">
+                                    <label class="form-label small fw-bold">Sisi yang berada di depan sudut A adalah sisi ...</label>
+                                    <div class="input-group input-group-sm mb-2">
+                                        <input type="text" class="form-control sisi-input text-center fw-bold" 
+                                            data-answer="a" placeholder="...">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+            
+                        <div class="col-md-4">
+                            <div class="card bg-white border-0 h-100 p-3 text-center">
+                                <div class="mb-3 d-flex align-items-center justify-content-center bg-light rounded border" 
+                                    style="height: 220px; overflow: hidden;">
+                                    <img src="/images/mengenal_sisi_latihan2.png" 
+                                        alt="Latihan 2" 
+                                        class="img-fluid" 
+                                        style="max-height: 100%; object-fit: contain;">
+                                </div>
+
+                                <div class="text-start px-2 mt-auto">
+                                    <label class="form-label small fw-bold">Sisi yang berada di depan sudut N adalah sisi ...</label>
+                                    <div class="input-group input-group-sm mb-2">
+                                        <input type="text" class="form-control sisi-input text-center fw-bold" 
+                                            data-answer="n" placeholder="...">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+            
+                        <div class="col-md-4">
+                            <div class="card bg-white border-0 h-100 p-3 text-center">
+                                <div class="mb-3 d-flex align-items-center justify-content-center bg-light rounded border" 
+                                    style="height: 220px; overflow: hidden;">
+                                    <img src="/images/mengenal_sisi_latihan3.png" 
+                                        alt="Latihan 3" 
+                                        class="img-fluid" 
+                                        style="max-height: 100%; object-fit: contain;">
+                                </div>
+
+                                <div class="text-start px-2 mt-auto">
+                                    <label class="form-label small fw-bold">Sisi yang berada di depan sudut P adalah sisi ...</label>
+                                    <div class="input-group input-group-sm mb-2">
+                                        <input type="text" class="form-control sisi-input text-center fw-bold" 
+                                            data-answer="p" placeholder="...">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+            
+                    </div>
+    
+                    <div class="text-center mb-3">
+                        <button class="btn btn-success px-5 fw-bold shadow-sm" id="btnCekSisi">
+                            Periksa Jawaban
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+        
         <!-- ================================= -->
         <!-- SEGITIGA SIKU-SIKU -->
         <!-- ================================= -->
@@ -705,14 +829,14 @@
                             <thead class="table-light">
                                 <tr>
                                     <th>Segitiga ACB</th>
-                                    <th>Segitiga ABC</th>
-                                    <th>Segitiga BAC</th>
+                                    <th>Segitiga MNO</th>
+                                    <th>Segitiga PQR</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr>
                                     <td>
-                                        <!-- Gambar Segitiga ACB -->
+                                        <!-- Gambar Segitiga ABC -->
                                         <div class="text-center">
                                             <img src="/images/segitiga_sikusiku_c.png" 
                                                 alt="Segitiga ACB siku-siku di C" 
@@ -721,19 +845,19 @@
                                         </div>
                                     </td>
                                     <td>
-                                        <!-- Gambar Segitiga ABC -->
+                                        <!-- Gambar Segitiga MNO -->
                                         <div class="text-center">
-                                            <img src="/images/segitiga_sikusiku_b.png" 
-                                                alt="Segitiga ABC siku-siku di B" 
+                                            <img src="/images/segitiga_sikusiku_n.png" 
+                                                alt="Segitiga MNO siku-siku di N" 
                                                 class="img-fluid rounded border mb-2"
                                                 style="max-height: 250px;">
                                         </div>
                                     </td>
                                     <td>
-                                        <!-- Gambar Segitiga BAC -->
+                                        <!-- Gambar Segitiga PQR -->
                                         <div class="text-center">
-                                            <img src="/images/segitiga_sikusiku_a.png" 
-                                                alt="Segitiga BAC siku-siku di A" 
+                                            <img src="/images/segitiga_sikusiku_q.png" 
+                                                alt="Segitiga PQR siku-siku di A" 
                                                 class="img-fluid rounded border mb-2"
                                                 style="max-height: 250px;">
                                         </div>

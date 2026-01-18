@@ -711,177 +711,442 @@ function initPage2() {
         btnQuestion.onclick = checkQuestionAnswers;
     }
 }
-
-/* ================= VISUAL INTERAKTIF SEGITIGA ================= */ 
+/* ================= VISUAL INTERAKTIF: SMART ASSISTANT (FINAL FIX) ================= */ 
 function initTriangleCanvas(canvasElement) {
     const ctx = canvasElement.getContext("2d");
+    const container = document.getElementById('canvasContainer'); 
     
+    // STATE
     let points = [];
-    let drawing = false;
-    let startPoint = null;
-    let previewPoint = null;
-    let snapEnabled = true;
+    let mousePos = { x: 0, y: 0 };
+    
+    // CONFIG: Grid Size
+    const gridSize = 32; 
+    
+    /* ================= HELPER: FORMAT ANGKA ================= */
+    function formatUnit(val) {
+        // Jika selisih dengan angka bulat sangat kecil (toleransi), anggap bulat
+        if (Math.abs(val - Math.round(val)) < 0.05) {
+            return Math.round(val); 
+        }
+        // Jika desimal, ambil 2 angka di belakang koma
+        return parseFloat(val.toFixed(2));
+    }
 
-    /* ================= GRID ================= */
+    /* ================= RESPONSIVE RESIZE ================= */
+    function resizeCanvas() {
+        if (!container) return;
+        // Set lebar canvas mengikuti container, tinggi tetap 480px
+        canvasElement.width = container.clientWidth;
+        canvasElement.height = 480; 
+        
+        drawGrid();
+        if (points.length > 0) render();
+    }
+
+    window.addEventListener('resize', resizeCanvas);
+    setTimeout(resizeCanvas, 100); 
+
+    /* ================= GRID SYSTEM ================= */
     function drawGrid() {
-        const step = 20;
-        ctx.strokeStyle = "#e0e0e0";
+        ctx.save();
+        ctx.beginPath();
+        ctx.strokeStyle = "#e9ecef"; 
         ctx.lineWidth = 1;
 
-        for (let x = 0; x <= canvasElement.width; x += step) {
-            ctx.beginPath();
+        // Garis Vertikal
+        for (let x = 0; x <= canvasElement.width; x += gridSize) {
             ctx.moveTo(x, 0);
             ctx.lineTo(x, canvasElement.height);
-            ctx.stroke();
         }
-
-        for (let y = 0; y <= canvasElement.height; y += step) {
-            ctx.beginPath();
+        // Garis Horizontal
+        for (let y = 0; y <= canvasElement.height; y += gridSize) {
             ctx.moveTo(0, y);
             ctx.lineTo(canvasElement.width, y);
-            ctx.stroke();
         }
+        ctx.stroke();
+        ctx.restore();
     }
 
-    /* ================= EVENT ================= */
-    canvasElement.addEventListener("mousedown", e => {
-        if (points.length >= 3) return;
-        drawing = true;
-        startPoint = getMouse(e);
-    });
+    // Fungsi agar titik menempel pada persimpangan grid
+    function snapToGrid(pos) {
+        return {
+            x: Math.round(pos.x / gridSize) * gridSize,
+            y: Math.round(pos.y / gridSize) * gridSize
+        };
+    }
+
+    /* ================= EVENT HANDLERS ================= */
+    function getMousePos(e) {
+        const rect = canvasElement.getBoundingClientRect();
+        return {
+            x: e.clientX - rect.left,
+            y: e.clientY - rect.top
+        };
+    }
 
     canvasElement.addEventListener("mousemove", e => {
-        if (!drawing) return;
-        let end = getMouse(e);
-        if (snapEnabled && points.length > 0) {
-            end = snapLine(points[points.length - 1], end);
-        }
-        previewPoint = end;
-        redraw();
+        const rawPos = getMousePos(e);
+        mousePos = snapToGrid(rawPos);
+        render(); // Render terus menerus untuk efek realtime
     });
 
-    canvasElement.addEventListener("mouseup", e => {
-        if (!drawing) return;
-        let end = getMouse(e);
-        if (snapEnabled && points.length > 0) {
-            end = snapLine(points[points.length - 1], end);
-        }
+    canvasElement.addEventListener("mousedown", e => {
+        if (points.length >= 3) return; 
 
-        points.push(end);
-        drawing = false;
-        previewPoint = null;
-        redraw();
+        // Cek duplikasi titik
+        const isDuplicate = points.some(p => p.x === mousePos.x && p.y === mousePos.y);
+        if (!isDuplicate) {
+            points.push(mousePos);
+            render();
+            if (points.length === 3) analyzeTriangle();
+        }
     });
 
-    /* ================= SNAP ================= */
-    function snapLine(p1, p2) {
-        const dx = p2.x - p1.x;
-        const dy = p2.y - p1.y;
-        const angle = Math.atan2(dy, dx);
-        const tol = Math.PI / 18;
-
-        if (Math.abs(angle) < tol || Math.abs(Math.abs(angle) - Math.PI) < tol)
-            return { x: p2.x, y: p1.y };
-
-        if (Math.abs(Math.abs(angle) - Math.PI / 2) < tol)
-            return { x: p1.x, y: p2.y };
-
-        if (Math.abs(Math.abs(angle) - Math.PI / 4) < tol ||
-            Math.abs(Math.abs(angle) - 3 * Math.PI / 4) < tol) {
-            const d = Math.min(Math.abs(dx), Math.abs(dy));
-            return {
-                x: p1.x + Math.sign(dx) * d,
-                y: p1.y + Math.sign(dy) * d
-            };
-        }
-        return p2;
-    }
-
-    /* ================= DRAW ================= */
-    function redraw() {
+    /* ================= RENDER LOOP ================= */
+    function render() {
         ctx.clearRect(0, 0, canvasElement.width, canvasElement.height);
         drawGrid();
 
-        ctx.strokeStyle = "#000";
-        ctx.lineWidth = 2;
+        // 1. Preview Garis (Saat menggambar)
+        if (points.length > 0 && points.length < 3) {
+            let start = points[points.length - 1];
+            let end = mousePos;
 
-        if (points.length > 0) {
+            ctx.save();
             ctx.beginPath();
-            ctx.moveTo(points[0].x, points[0].y);
-            points.slice(1).forEach(p => ctx.lineTo(p.x, p.y));
-            if (previewPoint) ctx.lineTo(previewPoint.x, previewPoint.y);
-            if (points.length === 3) ctx.closePath();
+            ctx.setLineDash([5, 5]);
+            ctx.strokeStyle = "#adb5bd";
+            ctx.moveTo(start.x, start.y);
+            ctx.lineTo(end.x, end.y);
             ctx.stroke();
+            
+            // Label Realtime (Membantu user mencari angka bulat)
+            drawSegmentLabel(start, end, true); 
+
+            // Bayangan garis penutup (jika sudah 2 titik)
+            if (points.length === 2) {
+                ctx.beginPath();
+                ctx.strokeStyle = "#dee2e6"; 
+                ctx.moveTo(end.x, end.y);
+                ctx.lineTo(points[0].x, points[0].y);
+                ctx.stroke();
+                drawSegmentLabel(end, points[0], true);
+            }
+            ctx.restore();
         }
 
-        points.forEach(p => {
+        // 2. Gambar Segitiga Permanen
+        if (points.length > 0) {
             ctx.beginPath();
-            ctx.arc(p.x, p.y, 4, 0, Math.PI * 2);
-            ctx.fillStyle = "#198754";
-            ctx.fill();
-        });
+            ctx.strokeStyle = "#198754";
+            ctx.lineWidth = 3;
+            ctx.lineJoin = "round";
+            ctx.setLineDash([]); // Reset garis putus-putus
+            
+            ctx.moveTo(points[0].x, points[0].y);
+            for (let i = 1; i < points.length; i++) {
+                ctx.lineTo(points[i].x, points[i].y);
+            }
+            if (points.length === 3) {
+                ctx.closePath();
+                ctx.fillStyle = "rgba(25, 135, 84, 0.1)";
+                ctx.fill();
+            }
+            ctx.stroke();
 
-        if (points.length === 3) analyzeTriangle();
+            // Titik Sudut
+            points.forEach((p, index) => {
+                ctx.fillStyle = "#fff";
+                ctx.strokeStyle = "#198754";
+                ctx.lineWidth = 2;
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, 5, 0, Math.PI*2);
+                ctx.fill();
+                ctx.stroke();
+                
+                // Label Huruf A, B, C
+                ctx.fillStyle = "#000";
+                ctx.font = "bold 14px Arial";
+                const labels = ['A', 'B', 'C'];
+                // Logika agar huruf tidak keluar canvas
+                let lx = Math.max(15, Math.min(canvasElement.width - 15, p.x));
+                let ly = Math.max(20, Math.min(canvasElement.height - 10, p.y - 12));
+                ctx.fillText(labels[index], lx, ly);
+            });
+
+            // Render Label Sisi Permanen
+            if (points.length >= 2) drawSegmentLabel(points[0], points[1]);
+            if (points.length === 3) {
+                drawSegmentLabel(points[1], points[2]);
+                drawSegmentLabel(points[2], points[0]);
+                drawAngles(); 
+            }
+        }
+    }
+
+    /* ================= HELPER: LABEL SISI (DENGAN "SATUAN") ================= */
+    function drawSegmentLabel(p1, p2, isPreview = false) {
+        const distPixel = Math.hypot(p2.x - p1.x, p2.y - p1.y);
+        
+        if (distPixel < 1) return;
+        // Sembunyikan label jika terlalu pendek (kecuali mode preview)
+        if (!isPreview && distPixel < 35) return; 
+
+        const val = distPixel / gridSize;
+        const unit = formatUnit(val);
+        
+        // TAMBAHKAN KATA "SATUAN"
+        const text = unit + " satuan"; 
+
+        // Cek apakah Bilangan Bulat (Integer)
+        const isInteger = Number.isInteger(unit);
+
+        ctx.save();
+        ctx.font = isInteger ? "bold 12px sans-serif" : "11px sans-serif";
+        const metrics = ctx.measureText(text);
+        const w = metrics.width;
+        const h = isInteger ? 16 : 14;
+
+        // Posisi tengah garis
+        const midX = (p1.x + p2.x) / 2;
+        const midY = (p1.y + p2.y) / 2;
+
+        // Hitung offset agar label agak menjauh dari garis
+        const dx = p2.x - p1.x;
+        const dy = p2.y - p1.y;
+        const len = Math.sqrt(dx*dx + dy*dy);
+        const offsetDist = 18;
+        
+        let textX = midX + (-dy / len * offsetDist);
+        let textY = midY + (dx / len * offsetDist);
+
+        // Clamp posisi agar tidak keluar layar
+        if (textX < w/2 + 5) textX = w/2 + 5;
+        if (textX > canvasElement.width - w/2 - 5) textX = canvasElement.width - w/2 - 5;
+        if (textY < h/2 + 5) textY = h/2 + 5;
+        if (textY > canvasElement.height - h/2 - 5) textY = canvasElement.height - h/2 - 5;
+
+        // LOGIKA WARNA BACKGROUND LABEL
+        if (isPreview && isInteger) {
+            // JIKA PREVIEW & BILANGAN BULAT -> WARNA HIJAU (Indikator Bantuan)
+            ctx.fillStyle = "#d1e7dd"; 
+            ctx.strokeStyle = "#198754";
+            ctx.lineWidth = 1;
+        } else {
+            ctx.fillStyle = "rgba(255,255,255,0.9)";
+            ctx.strokeStyle = "transparent";
+        }
+
+        ctx.beginPath();
+        ctx.roundRect(textX - w/2 - 4, textY - h/2 - 2, w + 8, h + 4, 4);
+        ctx.fill();
+        if (isPreview && isInteger) ctx.stroke();
+
+        // WARNA TEXT
+        if (isPreview) {
+            ctx.fillStyle = isInteger ? "#0f5132" : "#6c757d"; 
+        } else {
+            ctx.fillStyle = "#000";
+        }
+        
+        ctx.textAlign = "center";
+        ctx.textBaseline = "middle";
+        ctx.fillText(text, textX, textY);
+        ctx.restore();
+    }
+
+    /* ================= HELPER: SUDUT ================= */
+    function drawAngles() {
+        const [A, B, C] = points;
+        // Hitung jarak mentah (raw) untuk akurasi sudut
+        const a = Math.hypot(C.x - B.x, C.y - B.y);
+        const b = Math.hypot(C.x - A.x, C.y - A.y);
+        const c = Math.hypot(B.x - A.x, B.y - A.y);
+
+        // Aturan Cosinus
+        const angA = Math.acos((b*b + c*c - a*a) / (2*b*c));
+        const angB = Math.acos((a*a + c*c - b*b) / (2*a*c));
+        const angC = Math.acos((a*a + b*b - c*c) / (2*a*b));
+
+        drawVertexAngle(A, points[1], points[2], angA);
+        drawVertexAngle(B, points[0], points[2], angB);
+        drawVertexAngle(C, points[0], points[1], angC);
+    }
+
+    function drawVertexAngle(center, p1, p2, angleRad) {
+        const angleDeg = Math.round(angleRad * (180 / Math.PI));
+        const radius = 18;
+
+        ctx.save();
+        ctx.beginPath();
+        const startAngle = Math.atan2(p1.y - center.y, p1.x - center.x);
+        const endAngle = Math.atan2(p2.y - center.y, p2.x - center.x);
+
+        if (angleDeg === 90) {
+            // Gambar kotak siku-siku
+            const size = 12;
+            ctx.translate(center.x, center.y);
+            ctx.rotate(startAngle);
+            const diff = endAngle - startAngle;
+            const normDiff = Math.atan2(Math.sin(diff), Math.cos(diff));
+            
+            ctx.strokeStyle = "#dc3545"; 
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            if (normDiff > 0) {
+                ctx.moveTo(size, 0); ctx.lineTo(size, size); ctx.lineTo(0, size);
+            } else {
+                ctx.moveTo(size, 0); ctx.lineTo(size, -size); ctx.lineTo(0, -size);
+            }
+            ctx.stroke();
+        } else {
+            // Gambar busur biasa
+            ctx.strokeStyle = "#0d6efd";
+            ctx.lineWidth = 1.5;
+            ctx.arc(center.x, center.y, radius, startAngle, endAngle, 
+                Math.abs(endAngle - startAngle) > Math.PI);
+            ctx.stroke();
+        }
+        ctx.restore();
     }
 
     /* ================= ANALISIS SEGITIGA ================= */
     function analyzeTriangle() {
         const [A, B, C] = points;
+        
+        // 1. DATA MENTAH (Untuk hitung sudut presisi)
+        const raw_a = Math.hypot(C.x - B.x, C.y - B.y) / gridSize;
+        const raw_b = Math.hypot(C.x - A.x, C.y - A.y) / gridSize;
+        const raw_c = Math.hypot(B.x - A.x, B.y - A.y) / gridSize;
 
-        const ab = dist(A, B);
-        const bc = dist(B, C);
-        const ca = dist(C, A);
-        const sides = [ab, bc, ca].sort((a, b) => a - b);
+        // 2. DATA TAMPILAN (Smart Format + "satuan")
+        const disp_a = formatUnit(raw_a) + " satuan";
+        const disp_b = formatUnit(raw_b) + " satuan";
+        const disp_c = formatUnit(raw_c) + " satuan";
 
-        let type = "Segitiga Sembarang";
+        // 3. HITUNG SUDUT
+        const angA = Math.round(Math.acos((raw_b*raw_b + raw_c*raw_c - raw_a*raw_a) / (2*raw_b*raw_c)) * (180/Math.PI));
+        const angB = Math.round(Math.acos((raw_a*raw_a + raw_c*raw_c - raw_b*raw_b) / (2*raw_a*raw_c)) * (180/Math.PI));
+        const angC = Math.round(Math.acos((raw_a*raw_a + raw_b*raw_b - raw_c*raw_c) / (2*raw_a*raw_b)) * (180/Math.PI));
 
-        if (Math.abs(sides[0]**2 + sides[1]**2 - sides[2]**2) < 1000)
-            type = "Segitiga Siku-siku";
-        else if (Math.abs(ab - bc) < 10 && Math.abs(bc - ca) < 10)
-            type = "Segitiga Sama Sisi";
-        else if (
-            Math.abs(ab - bc) < 10 ||
-            Math.abs(bc - ca) < 10 ||
-            Math.abs(ab - ca) < 10
-        )
-            type = "Segitiga Sama Kaki";
+        const maxAngle = Math.max(angA, angB, angC);
+        
+        const infoBox = document.querySelector('#triangleInfo');
+        
+        // PERBAIKAN DI SINI: TIDAK ADA class h-100
+        infoBox.className = "card border-0 shadow-sm"; 
+        
+        let headerColor, statusText, icon;
 
-        const triangleInfo = document.querySelector('[data-page="2"] #triangleInfo');
-        if (triangleInfo) {
-            triangleInfo.innerHTML = `Jenis segitiga: <strong>${type}</strong>`;
+        if (maxAngle === 90) {
+            headerColor = "bg-success text-white";
+            statusText = "SIKU-SIKU";
+            icon = "bi-check-circle-fill";
+        } else if (maxAngle > 90) {
+            headerColor = "bg-warning text-dark";
+            statusText = "TUMPUL";
+            icon = "bi-exclamation-triangle-fill";
+        } else {
+            headerColor = "bg-info text-white";
+            statusText = "LANCIP";
+            icon = "bi-info-circle-fill";
         }
+
+        infoBox.innerHTML = `
+            <div class="card-header ${headerColor} text-center fw-bold small py-2">
+                <i class="bi ${icon} me-1"></i> ${statusText}
+            </div>
+            <div class="card-body p-3 small">
+                <h6 class="fw-bold text-muted mb-2 border-bottom pb-1">Panjang Sisi</h6>
+                <div class="d-flex justify-content-between mb-1"><span>a (BC):</span> <strong>${disp_a}</strong></div>
+                <div class="d-flex justify-content-between mb-1"><span>b (AC):</span> <strong>${disp_b}</strong></div>
+                <div class="d-flex justify-content-between mb-3"><span>c (AB):</span> <strong>${disp_c}</strong></div>
+                
+                <h6 class="fw-bold text-muted mb-2 border-bottom pb-1">Besar Sudut</h6>
+                <div class="d-flex justify-content-between mb-1"><span>∠A:</span> <strong>${angA}°</strong></div>
+                <div class="d-flex justify-content-between mb-1"><span>∠B:</span> <strong>${angB}°</strong></div>
+                <div class="d-flex justify-content-between"><span>∠C:</span> <strong>${angC}°</strong></div>
+            </div>
+        `;
     }
 
-    /* ================= UTIL ================= */
-    function dist(p1, p2) {
-        return Math.hypot(p2.x - p1.x, p2.y - p1.y);
-    }
-
-    function getMouse(e) {
-        const r = canvasElement.getBoundingClientRect();
-        return { x: e.clientX - r.left, y: e.clientY - r.top };
-    }
-
-    /* ================= CONTROL ================= */
-    function resetCanvas() {
+    /* ================= RESET CANVAS ================= */
+    window.resetCanvas = function() {
         points = [];
-        previewPoint = null;
-        redraw();
-        const triangleInfo = document.querySelector('[data-page="2"] #triangleInfo');
-        if (triangleInfo) {
-            triangleInfo.innerText = "Jenis segitiga: ";
-        }
-    }
+        const infoBox = document.querySelector('#triangleInfo');
+        
+        // PERBAIKAN DI SINI: TIDAK ADA class h-100
+        infoBox.className = "card border-0 shadow-sm bg-light";
+        
+        infoBox.innerHTML = `
+            <div class="card-body text-center d-flex flex-column justify-content-center text-muted py-4">
+                <i class="bi bi-pencil-square fs-1 mb-2 opacity-25"></i>
+                <p class="small mb-0">Menunggu gambar...</p>
+            </div>
+        `;
+        render();
+    };
 
-    // Tambahkan event listener untuk tombol reset
-    const resetBtn = document.querySelector('[data-page="2"] button[onclick*="resetCanvas"]');
-    if (resetBtn) {
-        resetBtn.onclick = resetCanvas;
-    }
-
-    // Inisialisasi grid
-    drawGrid();
+    resizeCanvas();
 }
+/* ===============================
+   HALAMAN 3 – FUNGSI (MENGENAL SISI SEGITIGA)
+================================ */
+
+document.addEventListener('DOMContentLoaded', function() {
+    const btnCekSisi = document.getElementById('btnCekSisi');
+    
+    if(btnCekSisi) {
+        btnCekSisi.addEventListener('click', function() {
+            const inputs = document.querySelectorAll('.sisi-input');
+            let allCorrect = true;
+            let filledCount = 0;
+
+            inputs.forEach(input => {
+                const val = input.value.trim(); 
+                const ans = input.dataset.answer;
+
+                if(val !== '') filledCount++;
+
+                input.classList.remove('is-valid', 'is-invalid');
+
+                // Validasi: Benar jika sama persis (huruf kecil)
+                if (val === ans) {
+                    input.classList.add('is-valid');
+                } else if (val !== '') {
+                    input.classList.add('is-invalid');
+                    allCorrect = false;
+                } else {
+                    allCorrect = false; 
+                }
+            });
+
+            if (filledCount < inputs.length) {
+                Swal.fire({
+                    icon: 'info',
+                    title: 'Belum Lengkap',
+                    text: 'Silakan isi semua kolom jawaban terlebih dahulu.',
+                    confirmButtonColor: '#0d6efd'
+                });
+            } else if (allCorrect) {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Mantap!',
+                    text: 'Kamu sudah paham cara menamai sisi segitiga.',
+                    confirmButtonColor: '#198754'
+                });
+            } else {
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Masih Belum Tepat',
+                    text: 'Coba ingat kembali, nama sisi menggunakan huruf kecil sesuai sudut di depannya.',
+                    confirmButtonColor: '#ffc107'
+                });
+            }
+        });
+    }
+});
 
 /* ===============================
    HALAMAN 4 – FUNGSI (PYTHAGORAS STEP PROOF)

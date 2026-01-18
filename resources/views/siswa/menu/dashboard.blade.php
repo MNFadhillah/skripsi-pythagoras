@@ -81,8 +81,6 @@
                     </div>
                     <div>
                         <h4 class="mb-1">Muhammad Nur Fadhillah</h4>
-                        <p class="text-muted mb-1">Siswa Berprestasi</p>
-                        <span class="badge bg-success">Aktif</span>
                     </div>
                 </div>
                 
@@ -114,8 +112,6 @@
                       </div>
                       <div>
                           <h4 class="mb-1">Ahmad, S.Pd.</h4>
-                          <p class="text-muted mb-1">Guru Matematika</p>
-                          <span class="badge bg-success">Online</span>
                       </div>
                   </div>
                   

@@ -573,6 +573,15 @@ body {
     justify-content: center;
 }
 
+.canvas-wrapper canvas {
+    border: 2px solid #ced4da; /* Border abu-abu halus */
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+    background-color: #ffffff;
+    max-width: 100%; /* Agar responsif di HP */
+    height: auto;
+}
+
 .grid-line {
     stroke: #e0e0e0;
     stroke-width: 1;
