@@ -4,10 +4,12 @@
 
 @section('content')
 <div class="container-fluid">
-    <div class="d-flex justify-content-between align-items-center mb-4">
-        <h4 class="mb-0 fw-bold">Rekap Nilai Siswa</h4>
+    <div class="card border-0 shadow-sm mb-4">
+        <div class="card-body d-flex justify-content-between align-items-center">
+            {{-- Judul Halaman --}}
+            <h4 class="fw-bold mb-0">Data Siswa</h4>
+        </div>
     </div>
-
     {{-- TABEL UTAMA --}}
     <div class="card shadow-sm border-0 rounded-4">
         <div class="card-body">
@@ -144,7 +146,7 @@
                                             <tr>
                                                 <th class="text-center" width="5%">No</th>
                                                 <th width="50%">Pertanyaan</th>
-                                                <th class="text-center" width="15%">Jwb Siswa</th>
+                                                <th class="text-center" width="15%">Jawaban Siswa</th>
                                                 <th class="text-center" width="15%">Kunci</th>
                                                 <th class="text-center" width="15%">Status</th>
                                             </tr>

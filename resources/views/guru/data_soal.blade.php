@@ -5,17 +5,13 @@
 @section('content')
 <div class="container-fluid">
 
-    <!-- Judul Halaman -->
-    <div class="d-flex justify-content-between align-items-center mb-4">
-        <div>
+    <div class="card border-0 shadow-sm mb-4">
+        <div class="card-body d-flex justify-content-between align-items-center">
             <h4 class="mb-0 fw-bold">Data Soal </h4>
-        </div>
-    </div>
-
-    <div class="d-flex justify-content-between align-items-center mb-4">
         <button class="btn btn-primary" id="btnTambahSoal">
             <i class="bi bi-plus me-1"></i> Tambah Soal
         </button>
+        </div>
     </div>
 
     {{-- FORM TAMBAH SOAL --}}

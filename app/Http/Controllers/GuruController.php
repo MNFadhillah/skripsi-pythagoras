@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+use App\Models\User;
 
 use Illuminate\Http\Request;
 
@@ -13,7 +14,11 @@ class GuruController extends Controller
     }
     public function data_siswa()
     {
-        return view('guru.data_siswa');
+        // Ambil data user (Siswa). 
+        // Jika nanti sudah ada kolom 'role', tambahkan ->where('role', 'siswa')
+        $dataSiswa = User::latest()->get(); 
+
+        return view('guru.data_siswa', compact('dataSiswa'));
     }
     public function data_nilai()
     {

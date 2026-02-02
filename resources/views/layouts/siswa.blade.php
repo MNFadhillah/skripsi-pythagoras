@@ -1,3 +1,7 @@
+@php
+    abort_unless(auth()->check() && auth()->user()->role === 'siswa', 403);
+@endphp
+
 <!doctype html>
 <html lang="id">
 <head>
@@ -10,6 +14,9 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
 
     <link rel="stylesheet" href="{{ asset('css/siswa.css') }}">
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
     @stack('head')
 </head>
 
@@ -22,11 +29,10 @@
             {{-- Kiri: Brand & Tombol Burger --}}
             <div class="col-auto d-flex align-items-center">
                 
-                {{-- 1. Brand Name --}}
-                <a href="{{ url('/') }}" class="fw-bold h2 text-decoration-none text-white m-0 me-3" style="line-height: 1;">
+                {{-- Kiri: Brand --}}
+                <a href="{{ url('/') }}" class="fw-bold h2 text-decoration-none ms-2">
                     PythaLearn
                 </a>
-
                 {{-- 2. Tombol Burger --}}
                 <button class="btn p-0 d-flex align-items-center justify-content-center position-relative" 
                         type="button" 
@@ -63,12 +69,29 @@
             {{-- Kanan: Info user --}}
             <div class="col-auto ms-auto d-flex align-items-center gap-2">
                 <div class="text-end d-none d-md-block">
-                    <div class="fw-semibold">@yield('user_name','Siswa')</div>
-                    <div class="text-muted small">@yield('user_email','')</div>
+                    <div class="fw-semibold">
+                        {{ auth()->user()->name }}
+                    </div>
+                    <div class="text-muted small">
+                        {{ auth()->user()->email }}
+                    </div>
                 </div>
-                <div class="rounded-circle bg-light d-flex align-items-center justify-content-center" style="width:40px; height:40px;">
-                    <i class="bi bi-person text-secondary fs-5"></i>
+                <div class="dropdown">
+                    <button class="btn btn-light btn-sm rounded-circle" data-bs-toggle="dropdown">
+                        <i class="bi bi-person text-secondary fs-5"></i>
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-end">
+                        <li>
+                            <form method="POST" action="{{ route('logout') }}">
+                                @csrf
+                                <button type="submit" class="dropdown-item text-danger">
+                                    <i class="bi bi-box-arrow-right me-1"></i> Logout
+                                </button>
+                            </form>
+                        </li>
+                    </ul>
                 </div>
+
             </div>
 
         </div>
@@ -105,8 +128,8 @@
             $isTripel      = request()->is('siswa/tripel/*');
             $isIstimewa    = request()->is('siswa/istimewa/*');
             $isPenerapan   = request()->is('siswa/penerapan/*');
-            
-            $currentAktivitasId = request()->route('aktivitas'); 
+            $currentAktivitasId = request()->route('id');
+ 
             $activeKategori = null;
             
             // Cek dulu apakah $aktivitas ada dan tidak kosong sebelum diproses
@@ -248,8 +271,8 @@
             </div>
             
             {{-- EVALUASI AKHIR --}}
-            <div class="heading mt-2 text-nowrap overflow-hidden">EVALUASI</div>
             <div class="list-group sidebar-evaluasi">
+                <div class="heading mt-2 text-nowrap overflow-hidden">EVALUASI</div>
                 @if(isset($aktivitas))
                     @php $evaluasi = $aktivitas->where('kategori', 'evaluasi'); @endphp
                     @if($evaluasi->count() > 0)

@@ -1,6 +1,6 @@
 @extends('layouts.siswa')
 
-@section('title', 'PythaLearn')
+@section('title', 'Leaderboard - PythaLearn')
 
 @section('content')
 <div class="container-fluid">
@@ -10,53 +10,67 @@
           <h3 class="mb-1">Leaderboard</h3>
       </div>
   </div>
-  {{-- TABEL LEADERBOARD LENGKAP (STATIC) --}}
-  <div class="card">
+
+  {{-- TABEL LEADERBOARD DINAMIS --}}
+  <div class="card shadow-sm border-0">
       <div class="card-body p-0">
           <div class="table-responsive">
               <table class="table table-hover mb-0 align-middle">
                   <thead class="table-light">
                       <tr>
-                          <th scope="col">Peringkat</th>
+                          <th scope="col" class="ps-4">Peringkat</th>
                           <th scope="col">Nama</th>
                           <th scope="col">Kelas</th>
                           <th scope="col">Total Poin</th>
                       </tr>
                   </thead>
                   <tbody>
-                      {{-- Contoh 1–10, statis --}}
-                      <tr>
-                          <th scope="row">1</th>
-                          <td>Ahmad Sappauni</td>
-                          <td>VIII A</td>
-                          <td>92</td>
-                      </tr>
-                      <tr>
-                          <th scope="row">2</th>
-                          <td>Muhammad Salman</td>
-                          <td>VIII B</td>
-                          <td>89</td>
-                      </tr>
-                      <tr>
-                          <th scope="row">3</th>
-                          <td>Muhammad Rifqi</td>
-                          <td>VIII C</td>
-                          <td>87</td>
-                      </tr>
-                      <tr>
-                          <th scope="row">4</th>
-                          <td>Habibi</td>
-                          <td>VIII A</td>
-                          <td>85</td>
-                      </tr>
+                      @forelse($leaderboardSorted as $index => $data)
+                          {{-- Cek apakah baris ini adalah user yang sedang login --}}
+                          @php
+                              $isCurrentUser = auth()->id() == $data['id'];
+                              $rowClass = $isCurrentUser ? 'table-success fw-bold' : '';
+                          @endphp
 
-                      {{-- Baris contoh untuk "kamu" (misal rank 7) --}}
-                      <tr class="table-success">
-                          <th scope="row">5</th>
-                          <td><i class="bi bi-person-fill me-1"></i>Nama Kamu</td>
-                          <td>VIII B</td>
-                          <td>80</td>
-                      </tr>
+                          <tr class="{{ $rowClass }}">
+                              {{-- Peringkat (Index + 1) --}}
+                              <th scope="row" class="ps-4">
+                                  @if($index + 1 == 1)1
+                                  @elseif($index + 1 == 2)2
+                                  @elseif($index + 1 == 3)3
+                                  @else
+                                      {{ $index + 1 }}
+                                  @endif
+                              </th>
+                              
+                              {{-- Nama Siswa --}}
+                              <td>
+                                  @if($isCurrentUser)
+                                      <i class="bi bi-person-fill me-1"></i> {{ $data['nama'] }} (Kamu)
+                                  @else
+                                      {{ $data['nama'] }}
+                                  @endif
+                              </td>
+
+                              {{-- Kelas --}}
+                              <td>
+                                  <span class="badge bg-light text-dark border">
+                                      {{ $data['kelas'] }}
+                                  </span>
+                              </td>
+
+                              {{-- Total Poin --}}
+                              <td class="fw-bold text-primary">
+                                  {{ $data['total_poin'] }}
+                              </td>
+                          </tr>
+                      @empty
+                          <tr>
+                              <td colspan="4" class="text-center py-5 text-muted">
+                                  Belum ada data peringkat tersedia.
+                              </td>
+                          </tr>
+                      @endforelse
                   </tbody>
               </table>
           </div>

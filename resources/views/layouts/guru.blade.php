@@ -6,16 +6,12 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>@yield('title','Dashboard Guru • PythaLearn')</title>
 
-    <!-- JQUERY HARUS DULUAN -->
     <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
 
-    <!-- SweetAlert2 CSS -->
     <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css" rel="stylesheet">
 
-    <!-- DataTables CSS -->
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css">
 
-    <!-- Font & Bootstrap -->
     <link href="https://fonts.googleapis.com/css2?family=PT+Sans:wght@400;700&family=Open+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
@@ -265,33 +261,61 @@
     .modal {
         z-index: 1050 !important;
     }
+
+    .topbar {
+        position: fixed;
+        z-index: 1100;
+    }
+
     </style>
 </head>
 
 <body>
 
-    <!-- TOPBAR (fixed) -->
     <header class="topbar">
         <div class="container-fluid">
-            <div class="row align-items-center position-relative" height="var(--topbar-h);">
+            <div class="row align-items-center" style="height: var(--topbar-h);">
 
                 {{-- Kiri: Brand --}}
                 <div class="col-auto d-flex align-items-center">
                     <a href="{{ url('/') }}"
-                    class="fw-bold h2 text-decoration-none ms-2"">
+                    class="fw-bold h2 text-decoration-none ms-2">
                         PythaLearn
                     </a>
                 </div>
+                
                 {{-- Kanan: Info user --}}
                 <div class="col-auto ms-auto d-flex align-items-center gap-2 me-3">
+
                     <div class="text-end d-none d-md-block">
-                        <div class="fw-semibold topbar-user-name">@yield('user_name','Guru')</div>
-                        <div class="small topbar-user-email">@yield('user_email','')</div>
+                        <div class="fw-semibold topbar-user-name">
+                            {{ auth()->user()->name }}
+                        </div>
+                        <div class="small topbar-user-email">
+                            {{ auth()->user()->email }}
+                        </div>
                     </div>
-                    <div class="rounded-circle bg-light d-flex align-items-center justify-content-center"
-                         style="width:40px; height:40px;">
-                        <i class="bi bi-person text-secondary fs-5"></i>
+
+                    <div class="dropdown">
+                        <button class="btn btn-light btn-sm rounded-circle"
+                                type="button" 
+                                data-bs-toggle="dropdown"
+                                aria-expanded="false">
+                            <i class="bi bi-person text-secondary fs-5"></i>
+                        </button>
+
+                        <ul class="dropdown-menu dropdown-menu-end shadow-sm">
+                            <li>
+                                <form method="POST" action="{{ route('logout') }}">
+                                    @csrf
+                                    <button type="submit" class="dropdown-item text-danger">
+                                        <i class="bi bi-box-arrow-right me-1"></i> Logout
+                                    </button>
+                                </form>
+                            </li>
+                        </ul>
                     </div>
+
                 </div>
 
             </div>
@@ -299,7 +323,6 @@
     </header>
 
     <div class="app-container">
-        <!-- SIDEBAR (desktop) -->
         <aside class="sidebar d-none d-lg-block" role="navigation" aria-label="Sidebar">
             <div class="mb-4">
                 <div class="heading">MENU UTAMA</div>
@@ -329,39 +352,30 @@
                         <i class="bi bi-journal-text me-2"></i> Data Soal
                     </a>
 
-                    <a href="{{ route('guru.aktivitas') }}" class="list-group-item list-group-item-action {{ request()->is('guru/aktivitas') ? 'active' : '' }}">
+                    <a href="{{ route('guru.aktivitas.index') }}"
+                    class="list-group-item list-group-item-action {{ request()->is('guru/aktivitas*') ? 'active' : '' }}">
                         <i class="bi bi-journal-text me-2"></i> Aktivitas Siswa
                     </a>
 
-                    <a href="/guru/data_evaluasi" class="list-group-item list-group-item-action {{ request()->is('guru/data_evaluasi') ? 'active' : '' }}">
-                        <i class="bi bi-calendar-check me-2"></i> Data Evaluasi
-                    </a>
                 </div>
             </div>
         </aside>
 
-        <!-- CONTENT AREA -->
         <div class="content-area" role="main">
             <main class="content-wrapper">
                 @yield('content')
             </main>
         </div>
 
-    </div> <!-- /.app-container -->
-
-    <footer class="py-3 text-center small text-muted">
+    </div> <footer class="py-3 text-center small text-muted">
         &copy; {{ date('Y') }} PythaLearn
     </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-        <!-- Bootstrap JS -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     
-    <!-- DataTables JS (setelah jQuery) -->
     <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
     
-    <!-- SweetAlert2 JS -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     @stack('scripts')

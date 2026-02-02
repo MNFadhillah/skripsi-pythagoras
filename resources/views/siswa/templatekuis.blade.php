@@ -243,7 +243,7 @@
     <h4>{{ $aktivitas->judul }}</h4>
     <p class="text-muted mb-0">
         <i class="bi bi-clock me-1"></i> Durasi: <span id="durasiLabel">...</span> Menit | 
-        <i class="bi bi-star me-1"></i> Poin: {{ $aktivitas->poin_didapat }} XP
+        <i class="bi bi-star me-1"></i> Nilai Maksimal: {{ $aktivitas->poin_didapat }}
     </p>
   </div>
 
@@ -256,13 +256,14 @@
             {{ $aktivitas->instruksi }}
         </div>
       @endif -->
-
-      <ol class="mb-4">
-        <li>Tekan <b>MULAI</b> untuk mengerjakan aktivitas.</li>
-        <li>Waktu pengerjaan akan dihitung mundur otomatis.</li>
-        <li>Pastikan koneksi internet stabil.</li>
-        <li>Jika waktu habis, jawaban akan tersimpan otomatis.</li>
-      </ol>
+<ol class="mb-4 text-muted" style="line-height: 1.8;">
+  <li>Tekan tombol <span class="fw-bold text-success">MULAI</span> di bawah untuk masuk ke halaman kuis.</li>
+  <li>Waktu pengerjaan akan <strong>dihitung mundur otomatis</strong> begitu Anda menekan tombol mulai.</li>
+  <li>Pastikan perangkat terhubung dengan <strong>koneksi internet yang stabil</strong>.</li>
+  <li>Kerjakan soal dengan teliti dan jujur.</li>
+  <li>Periksa kembali jawaban sebelum mengirimkan.</li>
+  <li>Jika waktu habis, jawaban yang sudah terisi akan <strong>tersimpan dan terkirim secara otomatis</strong>.</li>
+</ol>
       <div class="text-center">
         <button id="startBtn" class="btn btn-success btn-lg px-5 shadow" disabled title="Menunggu aktivitas dibuka oleh guru">
           <span class="spinner-border spinner-border-sm d-none" role="status" aria-hidden="true"></span>

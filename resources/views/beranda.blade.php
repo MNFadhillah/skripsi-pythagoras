@@ -31,7 +31,7 @@
     .hero {
         background: var(--bg-hero);
         color: white;
-        padding: 5rem 0;
+        padding: 1rem 0;
         position: relative;
         overflow: hidden;
     }
@@ -52,6 +52,13 @@
         font-weight:600;
         border-radius: 999px;
         padding: .35rem .75rem;
+    }
+    /* HERO IMAGE CONTROL */
+    .hero-image {
+        max-width: 100%;        /* KUNCI UTAMA: mengecilkan gambar */
+        max-height: 340px;     /* batasi tinggi agar tidak mendominasi */
+        height: auto;
+        object-fit: contain;
     }
 
     /* FEATURE CARDS */
@@ -100,20 +107,45 @@
     <!-- MENU -->
     <div class="collapse navbar-collapse" id="navmenu">
         <ul class="navbar-nav ms-auto align-items-lg-center">
-            
-            <li class="nav-item ms-2">
-                <a href="#" class="btn btn-outline-success btn-sm">
-                    Daftar
-                </a>
-            </li>
 
-            <li class="nav-item ms-2">
-                <a href="#" class="btn btn-success btn-sm text-white">
-                    Masuk
-                </a>
-            </li>
+    @guest
+        {{-- BELUM LOGIN --}}
+        <li class="nav-item ms-2">
+            <a href="{{ route('register') }}" class="btn btn-outline-success btn-sm">
+                Daftar
+            </a>
+        </li>
 
-        </ul>
+        <li class="nav-item ms-2">
+            <a href="{{ route('login') }}" class="btn btn-success btn-sm text-white">
+                Masuk
+            </a>
+        </li>
+    @endguest
+
+    @auth
+        {{-- SUDAH LOGIN --}}
+        <li class="nav-item ms-2">
+            <a href="{{ auth()->user()->role === 'guru'
+                ? route('guru.dashboard')
+                : route('siswa.menu.dashboard') }}"
+               class="btn btn-success btn-sm text-white">
+                Dashboard
+            </a>
+        </li>
+
+        <li class="nav-item ms-2">
+            <form method="POST" action="{{ route('logout') }}">
+                @csrf
+                <button class="btn btn-outline-danger btn-sm">
+                    Logout
+                </button>
+            </form>
+        </li>
+    @endauth
+
+</ul>
+
     </div>
 </div>
 
@@ -125,26 +157,46 @@
             <div class="col-sm-12">
                 <div class="glass">
                     <div class="row align-items-center">
-                        <!-- Teks -->
-                        <div class="col-lg-12">
-                            <h1 class="mt-lg-0">
+
+                        <!-- KOLOM KIRI : TEKS -->
+                        <div class="col-md-8">
+                            <h1>
                                 PythaLearn : Media Pembelajaran Interaktif Teorema Pythagoras
                             </h1>
-                            <p class="lead text-white">
-                                Media pembelajaran ini dirancang untuk membantu siswa membangun pemahaman mendalam tentang Teorema Pythagoras melalui latihan bertahap, yang diperkuat dengan fitur streak untuk mendorong siswa belajar secara konsisten dan merasakan tantangan harian yang menarik. 
+                            <p class="lead text-white text-justify">
+                                Media pembelajaran ini dirancang untuk membantu siswa membangun pemahaman mendalam tentang Teorema Pythagoras melalui latihan bertahap, yang diperkuat dengan fitur streak untuk mendorong siswa belajar secara konsisten dan merasakan tantangan harian yang menarik.
                             </p>
-                            <a href="{{ route('siswa.menu.dashboard') }}" class="btn btn-start py-2 px-4">
-                                <i class="bi bi-rocket-takeoff-fill me-2"></i>
-                                Ayo Mulai!
-                            </a>
 
+                            @auth
+                                <a href="{{ auth()->user()->role === 'guru'
+                                    ? route('guru.dashboard')
+                                    : route('siswa.menu.dashboard') }}"
+                                   class="btn btn-start py-2 px-4">
+                                    <i class="bi bi-rocket-takeoff-fill me-2"></i>
+                                    Ayo Mulai!
+                                </a>
+                            @else
+                                <a href="{{ route('login') }}" class="btn btn-start py-2 px-4">
+                                    Masuk untuk Mulai
+                                </a>
+                            @endauth
                         </div>
+
+                        <!-- KOLOM KANAN : GAMBAR -->
+                        <div class="col-md-4 text-center">
+                            <img 
+                                src="{{ asset('images/ornamen_landing.png') }}" 
+                                alt="Ilustrasi Teorema Pythagoras"
+                                class="img-fluid hero-image">
+                        </div>
+
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
+
 
 <!-- Fitur -->
 <section id="fitur" class="py-5">

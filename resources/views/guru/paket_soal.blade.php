@@ -5,11 +5,13 @@
 @section('content')
 <div class="container-fluid">
 
-    <div class="d-flex justify-content-between align-items-center mb-4">
+    <div class="card border-0 shadow-sm mb-4">
+        <div class="card-body d-flex justify-content-between align-items-center">
         <h4 class="mb-0 fw-bold text">Kelola Paket Soal</h4>
         <button class="btn btn-primary" id="btnTambahPaket">
             <i class="bi bi-plus-lg me-1"></i> Tambah Paket
         </button>
+        </div>
     </div>
 
     <div class="card shadow-sm border-0">

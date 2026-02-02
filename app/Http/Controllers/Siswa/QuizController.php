@@ -9,6 +9,7 @@ use App\Models\ButirSoal;
 use App\Models\JawabanSiswa;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
 
 class QuizController extends Controller
 {
@@ -100,6 +101,9 @@ class QuizController extends Controller
     /**
      * Submit Jawaban
      */
+    /**
+     * Submit Jawaban
+     */
     public function submit(Request $request)
     {
         $request->validate([
@@ -133,21 +137,24 @@ class QuizController extends Controller
             ], 403);
         }
 
-
-
         $skor = 0;
         $detailJawaban = [];
         $totalSoal = count($jawabanSiswa);
 
+        // === PERBAIKAN DI SINI ===
         // Buat record Hasil
         $hasil = HasilPengerjaan::create([
-            'aktivitas_belajar_id' => $aktivitasId, // Pastikan tabel hasil_pengerjaan punya kolom ini!
-            'paket_soal_id'        => $aktivitas->paket_soal_id, // Tetap simpan ID paket untuk arsip
-            'user_id'              => 1, // Dummy User
+            'aktivitas_belajar_id' => $aktivitasId,
+            'paket_soal_id'        => $aktivitas->paket_soal_id,
+            
+            // GANTI DARI auth()->id() MENJADI Auth::id()
+            'user_id'              => Auth::id(), // <--- PERBAIKAN DI SINI (Pastikan Import sudah ada)
+            
             'skor_akhir'           => 0,
-            'waktu_mulai'          => now()->subMinutes($aktivitas->durasi_menit), // Estimasi
+            'waktu_mulai'          => now()->subMinutes($aktivitas->durasi_menit), 
             'waktu_selesai'        => now(),
         ]);
+        // =========================
 
         // Koreksi Jawaban
         foreach ($jawabanSiswa as $item) {
@@ -181,19 +188,15 @@ class QuizController extends Controller
         }
 
         // Hitung Nilai Akhir (Skala 100)
-        // Rumus: (Benar / Total) * 100
         $nilaiAkhir = ($totalSoal > 0) ? round(($skor / $totalSoal) * 100) : 0;
 
         // Update Skor
         $hasil->update(['skor_akhir' => $nilaiAkhir]);
 
-        // Logika Gamifikasi: Jika nilai bagus, kasih Poin Aktivitas
-        // if ($nilaiAkhir >= 70) { User::tambahPoin($aktivitas->poin_didapat); }
-
         return response()->json([
             'status'        => 'ok',
             'hasil_id'      => $hasil->id,
-            'skor'          => $nilaiAkhir, // Nilai 0-100
+            'skor'          => $nilaiAkhir, 
             'jumlah_benar'  => $skor,
             'total_soal'    => $totalSoal,
             'detail'        => $detailJawaban

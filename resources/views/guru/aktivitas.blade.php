@@ -4,14 +4,13 @@
 
 @section('content')
 <div class="container-fluid">
-
-    <div class="d-flex justify-content-between align-items-center mb-4">
-        <div>
+    <div class="card border-0 shadow-sm mb-4">
+        <div class="card-body d-flex justify-content-between align-items-center">
             <h4 class="mb-0 fw-bold">Aktivitas Siswa</h4>
-        </div>
         <button class="btn btn-primary shadow-sm" id="btnTambah">
             <i class="bi bi-plus-lg me-1"></i>Tambah Aktivitas
         </button>
+        </div>
     </div>
 
     <div class="card shadow-sm border-0 rounded-4">

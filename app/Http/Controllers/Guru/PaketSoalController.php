@@ -124,5 +124,48 @@ class PaketSoalController extends Controller
 }
 
 
+public function json($id)
+{
+    try {
+        $paket = PaketSoal::with(['butir_soal' => function ($q) {
+            $q->orderBy('id', 'asc');
+        }])->findOrFail($id);
+
+        return response()->json([
+            'success' => true,
+            'data' => [
+                'id' => $paket->id,
+                'judul' => $paket->judul,
+                'butir_soal' => $paket->butir_soal->map(function ($s) {
+
+                    $text = '';
+                    $image = null;
+
+                    if (is_array($s->pertanyaan)) {
+                        $text  = $s->pertanyaan['text'] ?? '';
+                        $image = $s->pertanyaan['image'] ?? null;
+                    } else {
+                        $text = $s->pertanyaan;
+                    }
+
+                    return [
+                        'id'            => $s->id,
+                        'pertanyaan'    => $text,
+                        'gambar'        => $image,
+                        'opsi_jawaban'  => $s->opsi_jawaban,
+                        'kunci_jawaban' => $s->kunci_jawaban,
+                    ];
+                })
+            ]
+        ]);
+    } catch (\Exception $e) {
+        return response()->json([
+            'success' => false,
+            'message' => 'Paket tidak ditemukan'
+        ], 404);
+    }
+}
+
+
 
 }
