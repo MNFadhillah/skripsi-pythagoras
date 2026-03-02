@@ -18,14 +18,21 @@
         <div class="card-body">
             <div class="table-responsive">
                 <table class="table table-bordered text-center">
+                    @php
+                        $urutanPaket = ['Kuis 1', 'Kuis 2', 'Kuis 3', 'Kuis 4', 'Evaluasi'];
+
+                        // Ubah rekapNilai jadi collection agar mudah dicari
+                        $rekap = collect($rekapNilai)->keyBy('nama_paket');
+                    @endphp
                     <thead class="thead-light">
                         <tr>
-                            @foreach($rekapNilai as $item)
-                                <th>{{ $item['nama_paket'] }}</th>
+                            @foreach($urutanPaket as $nama)
+                                <th>{{ $nama }}</th>
                             @endforeach
                             <th class="bg-success text-white">Rata-rata</th>
                         </tr>
                     </thead>
+
                     <tbody>
                         <tr>
                             @foreach($rekapNilai as $item)

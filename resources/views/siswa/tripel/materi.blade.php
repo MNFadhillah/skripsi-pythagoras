@@ -4,18 +4,19 @@
 
 @section('content')
 <div class="container">
-    <div class="row align-items-center mb-2">
+    <div class="row align-items-center">
         <div class="col-lg-12">
             <h3 class="text-center">Tripel Pythagoras</h3>
         </div>
     </div>
 
          <!-- Pagination Navigasi -->
-    <nav>
-        <ul class="pagination justify-content-center" id="materiPagination">
+    <nav class="mt-4">
+        <ul class="pagination justify-content-center materi-pagination">
             <li class="page-item">
-                <button class="page-link" id="prevPage">‹</button>
+                <button class="page-link prev-btn">‹</button>
             </li>
+
             <li class="page-item active">
                 <button class="page-link page-btn" data-page="0">1</button>
             </li>
@@ -27,9 +28,9 @@
             </li>
             <li class="page-item">
                 <button class="page-link page-btn" data-page="3">4</button>
-            </li>
+            </li>            
             <li class="page-item">
-                <button class="page-link" id="nextPage">›</button>
+                <button class="page-link next-btn">›</button>
             </li>
         </ul>
     </nav>
@@ -59,9 +60,19 @@
                     <p class="text-justify">
                         Sebelum membahas lebih detail terkait tripel Pythagoras, kita perlu mengingat kembali terkait Teorema Pythagoras. Hal ini dikarenakan bahwa terdapat kebalikan dari Teorema Pythagoras yang juga sering digunakan dalam menyelesaikan permasalahan dalam kehidupan sehari-hari.
                     </p>
-
                     <div class="alert alert-light border-success">
                         <h5 class="fw-bold text-center">Kebalikan Teorema Pythagoras</h5>
+                        <hr>
+                        <div class="alert alert-lig border-success">
+                            <strong>Petunjuk Pengerjaan</strong><br>
+                            <ol>
+                                <li>Perhatikan tiga gambar segitiga yang masing-masing memiliki sudut A, B, dan C di bawah.</li>
+                                <li>Tentukan sisi miring dan dua sisi lainnya pada setiap segitiga.</li>
+                                <li>Pilih kombinasi sisi yang tepat untuk mengisi rumus Teorema Pythagoras yang terbentuk pada setiap segitiga.</li>
+                                <li>Pastikan semua pilihan sudah terisi sebelum menekan tombol <strong>Cek Jawaban</strong>.</li>
+                            </ol>
+                        </div>
+
                         <div class="row g-4">
 
     <!-- ================= KARTU A ================= -->
@@ -321,7 +332,7 @@
                     <div class="border-start border-warning border-3 ps-2 mb-3">
                         <strong class="text-warning">Ditanya:</strong>
                         <p class="mb-0 text-muted">
-                            Jenis segitiga berdasarkan sudutnya?
+                            Jenis segitiga berdasarkan panjang sisi-sisinya = ...?
                         </p>
                     </div>
                 </div>
@@ -368,10 +379,10 @@
                                      \[
                                         \begin{aligned}
                                         c^2 &= 1.444 \\
-                                        a^2 + b^2 &= 914
+                                        a^2 + b^2 &= 914 \\\\
+                                        c^2 &> a^2 + b^2
                                         \end{aligned}
                                     \]
-                                    Maka berlaku <strong>c² > a² + b²</strong>, sehingga segitiga tersebut adalah <strong>segitiga tumpul</strong>.
                                 </li>
                             </ol>
 
@@ -422,7 +433,7 @@
                     <div class="border-start border-warning border-3 ps-2 mb-3">
                         <strong class="text-warning">Ditanya:</strong>
                         <p class="mb-0">
-                            Jenis segitiga?
+                            Jenis segitiga berdasarkan panjang sisi-sisinya = ...?
                         </p>
                     </div>
                 </div>
@@ -477,24 +488,33 @@
 
             <li class="mb-3">
                 <strong>Bandingkan nilai c² dengan a² + b²:</strong><br>
-                <div class="d-flex align-items-center gap-2 mt-1">
-                    <input type="number" id="inp_compare_c" class="form-control form-control-sm text-center bg-white" style="width: 80px;" placeholder="...">
+                
+                <div class="d-flex align-items-end gap-2 mt-1">
                     
-                    <select id="inp_sign" class="form-select form-select-sm text-center bg-white" style="width: 120px;">
+                    <div class="d-flex flex-column align-items-center">
+                        <label class="mb-1">c²</label>
+                        <input type="number" id="inp_compare_c" class="form-control form-control-sm text-center bg-white" style="width: 80px;" placeholder="...">
+                    </div>
+
+                    <select id="inp_sign" class="form-select form-select-sm text-center bg-white mb-0" style="width: 120px;">
                         <option value="">pilih tanda</option>
                         <option value="<">&lt;</option>
                         <option value=">">&gt;</option>
                         <option value="=">=</option>
                     </select>
                     
-                    <input type="number" id="inp_compare_ab" class="form-control form-control-sm text-center bg-white" style="width: 80px;" placeholder="...">
+                    <div class="d-flex flex-column align-items-center">
+                        <label class="mb-1">a² + b²</label>
+                        <input type="number" id="inp_compare_ab" class="form-control form-control-sm text-center bg-white" style="width: 80px;" placeholder="...">
+                    </div>
+
                 </div>
             </li>
         </ol>
 
         <div class="alert alert-success mt-3">
             <div class="d-flex align-items-center gap-2 flex-wrap">
-                Berdasarkan hasil perhitungan, maka segitiga ini adalah segitiga:
+                Berdasarkan hasil perhitungan, maka segitiga ini adalah segitiga ....
                 <select id="inp_conclusion" class="form-select form-select-sm w-auto d-inline fw-bold text-success">
                     <option value="">-- Pilih Jawaban --</option>
                     <option value="siku">Siku-siku</option>
@@ -520,207 +540,498 @@
     </div>
     </section>
 
+<!-- ================= HALAMAN 3 ================= -->
 <section class="materi-page d-none" data-page="2">
-    <div class="row">
-        <div class="col-12">
-            
-            <div class="card mb-4 shadow-sm">
-                <div class="card-header bg-light">
-                    <h4 class="text-center mb-0">Menemukan Tripel Pythagoras dengan Aljabar</h4>
-                </div>
+        <div class="row">
+            <div class="col-12">
+                
+                <div class="card mb-4 shadow-sm">
+    <div class="card-header">
+        <h4 class="text-center mb-0">Pola Tripel Pythagoras</h4>
+    </div>
+    <div class="card-body">
+        <p class="text-justify">
+            Pada materi sebelumnya, kalian telah belajar cara menentukan jenis segitiga berdasarkan sudutnya yaitu segitiga lancip, tumpul, atau siku-siku. 
+            Kita tahu bahwa syarat segitiga siku-siku adalah <strong>\(c^2 = a^2 + b^2\)</strong>. 
+            Nah, jika ketiga sisi segitiga siku-siku tersebut merupakan <strong>bilangan asli</strong> (bilangan bulat positif), 
+            maka ketiga bilangan tersebut memiliki sebutan khusus, yaitu <strong>Tripel Pythagoras</strong>.
+        </p>
+        <hr>
+        <p class="text-justify">
+            Jika kita memiliki sebuah tripel Pythagoras dasar, misalnya <strong>3, 4, dan 5</strong>. Kemudian kita mengalikan ketiga bilangan tersebut dengan bilangan lain (kelipatan), 
+            maka tiga bilangan baru yang dihasilkan <strong>juga akan membentuk tripel Pythagoras</strong>.
+        </p>
 
-                <div class="card-body">
-                    <div class="row align-items-center">
-                        <div class="col-md-8">
-                            <p class="text-justify mb-3">
-                                Kita dapat menentukan himpunan bilangan Tripel Pythagoras menggunakan bentuk aljabar. 
-                                Jika <strong>\(p\)</strong> dan <strong>\(q\)</strong> adalah bilangan bulat positif dengan <strong>\(p > q\)</strong>, maka berlaku rumus:
+        <div class="alert alert-light border-success text-center">
+            <p class="mb-2">Perhatikan gambar segitiga dan langkah pembuktian di bawah ini:</p>
+            <img src="/images/segitiga_tripel1.png" class="img-fluid mb-3" alt="Contoh 1" style="max-height:150px">
+        </div>
+
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                <div class="card h-100 bg-success">
+                    <div class="card-header bg-light text-center fw-bold">
+                        Dikali dengan 2
+                    </div>
+                    <div class="card-body bg-light">
+                        <p>Sisi awal: 3, 4, 5. <br>Kalikan semua dengan 2:</p>
+                        <ul>
+                            <li>3 x 2 = <strong>6</strong></li>
+                            <li>4 x 2 = <strong>8</strong></li>
+                            <li>5 x 2 = <strong>10</strong></li>
+                        </ul>
+                        <hr>
+                        <p class="fw-bold mb-1">Pembuktian:</p>
+                        <div class="text-center">
+                            <p class="mb-1">
+                                \(c^2 = a^2 + b^2\)
                             </p>
-                            
-                            <div class="alert alert-light border-success border-start-4 shadow-sm">
-                                <ul class="mb-0 list-unstyled">
-                                    <li class="mb-1">📐 Sisi Miring (Hipotenusa) = <strong>\(p^2 + q^2\)</strong></li>
-                                    <li class="mb-1">🔹 Sisi Siku-siku 1 = <strong>\(p^2 - q^2\)</strong></li>
-                                    <li>🔹 Sisi Siku-siku 2 = <strong>\(2pq\)</strong></li>
-                                </ul>
-                            </div>
-
-                            <p class="text-muted small mt-2">
-                                <i class="bi bi-info-circle-fill text-success me-1"></i>
-                                <strong>Petunjuk:</strong> Perhatikan pola pada baris contoh (baris 1 & 2), lalu lengkapi tabel kosong di bawahnya.
+                            <p class="mb-1">
+                                \(10^2 = 6^2 + 8^2\)
                             </p>
-                        </div>
-
-                        <div class="col-md-4 text-center">
-                            <div class="bg-white rounded p-3 border border-success">
-                                <svg width="100%" height="140" viewBox="0 0 160 140">
-                                    <defs>
-                                        <marker id="arrow" markerWidth="10" markerHeight="10" refX="0" refY="3" orient="auto" markerUnits="strokeWidth">
-                                            <path d="M0,0 L0,6 L9,3 z" fill="#198754" />
-                                        </marker>
-                                    </defs>
-                                    <polygon points="30,110 140,110 140,30" fill="#e9f7ef" stroke="#198754" stroke-width="2"/>
-                                    <polyline points="130,110 130,100 140,100" fill="none" stroke="#198754" stroke-width="1.5"/>
-                                    <text x="85" y="125" font-size="12" text-anchor="middle" font-weight="bold" fill="#495057">p² - q²</text>
-                                    <text x="145" y="75" font-size="12" text-anchor="start" font-weight="bold" fill="#495057">2pq</text>
-                                    <text x="75" y="65" font-size="12" text-anchor="middle" font-weight="bold" fill="#198754">p² + q²</text>
-                                </svg>
-                                <div class="small text-muted mt-1 fst-italic">Model Segitiga</div>
-                            </div>
+                            <p class="mb-1">
+                                \( 100 = 36 + 64\)
+                            </p>
+                            <p class="mb-1">
+                                \( 100 = 100\)
+                            </p>
+                            <p class="mt-2">
+                                Sehingga, terbukti bahwa 6, 8, dan 10 merupakan <strong>Tripel Pythagoras</strong>
+                            </p>
                         </div>
                     </div>
-
-                    <hr class="my-4">
-
-                    <div class="table-responsive">
-<table class="table table-bordered text-center align-middle small" id="tabelTripel">
-
-<thead class="table-success">
-<tr>
-    <th>p</th>
-    <th>q</th>
-    <th>p² + q²</th>
-    <th>p² − q²</th>
-    <th>2pq</th>
-    <th>Hubungan</th>
-    <th>Tripel<br>Pythagoras</th>
-</tr>
-</thead>
-
-<tbody>
-
-<!-- ===== BARIS 1 (CONTOH PENUH) ===== -->
-<tr>
-    <td>2</td>
-    <td>1</td>
-    <td>2² + 1² = 5</td>
-    <td>2² − 1² = 3</td>
-    <td>2 × 2 × 1</td>
-    <td>5² = 3² + 4²</td>
-    <td>5, 3, 4</td>
-</tr>
-
-<!-- ===== BARIS 2 (CONTOH PENUH) ===== -->
-<tr>
-    <td>3</td>
-    <td>1</td>
-    <td>3² + 1² = 10</td>
-    <td>3² − 1² = 8</td>
-    <td>2 × 3 × 1</td>
-    <td>10² = 6² + 8²</td>
-    <td>10, 6, 8</td>
-</tr>
-
-<!-- ===== BARIS 3 (INTERAKTIF) ===== -->
-<tr>
-    <td>3</td>
-    <td>2</td>
-
-    <td>
-        3² + 2² = 
-        <input type="number" class="form-control d-inline w-50"
-               data-jawaban="13">
-    </td>
-
-    <td>
-        <input type="number" class="form-control d-inline w-25"
-               data-jawaban="3">² −
-        <input type="number" class="form-control d-inline w-25"
-               data-jawaban="2">² =
-        <input type="number" class="form-control d-inline w-25"
-               data-jawaban="5">
-    </td>
-
-    <td>
-        2 × 
-        <input type="number" class="form-control d-inline w-25"
-               data-jawaban="3"> ×
-        <input type="number" class="form-control d-inline w-25"
-               data-jawaban="2">
-    </td>
-
-    <td>
-        <input type="number" class="form-control d-inline w-25"
-               data-jawaban="13">² =
-        <input type="number" class="form-control d-inline w-25"
-               data-jawaban="5">² +
-        <input type="number" class="form-control d-inline w-25"
-               data-jawaban="12">²
-    </td>
-
-    <td>
-        <input type="text" class="form-control"
-               data-jawaban="13,5,12">
-    </td>
-</tr>
-
-<!-- ===== BARIS 4 (INTERAKTIF) ===== -->
-<tr>
-    <td>4</td>
-    <td>1</td>
-
-    <td>
-        <input type="number" class="form-control d-inline w-25"
-               data-jawaban="4">² +
-        <input type="number" class="form-control d-inline w-25"
-               data-jawaban="1">² =
-        <input type="number" class="form-control d-inline w-25"
-               data-jawaban="17">
-    </td>
-
-    <td>
-        <input type="number" class="form-control d-inline w-25"
-               data-jawaban="4">² −
-        <input type="number" class="form-control d-inline w-25"
-               data-jawaban="1">² =
-        <input type="number" class="form-control d-inline w-25"
-               data-jawaban="15">
-    </td>
-
-    <td>
-        2 × 
-        <input type="number" class="form-control d-inline w-25"
-               data-jawaban="4"> ×
-        <input type="number" class="form-control d-inline w-25"
-               data-jawaban="1">
-    </td>
-
-    <td>
-        <input type="number" class="form-control d-inline w-25"
-               data-jawaban="17">² =
-        <input type="number" class="form-control d-inline w-25"
-               data-jawaban="15">² +
-        <input type="number" class="form-control d-inline w-25"
-               data-jawaban="8">²
-    </td>
-
-    <td>
-        <input type="text" class="form-control"
-               data-jawaban="17,15,8">
-    </td>
-</tr>
-
-</tbody>
-</table>
-</div>
-
-<button class="btn btn-success mt-3" onclick="cekTabel()">Cek Jawaban</button>
-
                 </div>
             </div>
 
+            <div class="col-md-6 mb-3">
+                <div class="card h-100 border-success">
+                    <div class="card-header text-center fw-bold">
+                        Dikali dengan 3
+                    </div>
+                    <div class="card-body bg-light">
+                        <p>Sisi awal: 3, 4, 5. <br>Kalikan semua dengan 3:</p>
+                        <ul>
+                            <li>3 x 3 = <strong>9</strong></li>
+                            <li>4 x 3 = <strong>12</strong></li>
+                            <li>5 x 3 = <strong>15</strong></li>
+                        </ul>
+                        <hr>
+                        <p class="fw-bold mb-1">Pembuktian:</p>
+                        <div class="text-center">
+                            <p class="mb-1">
+                                \(c^2 = a^2 + b^2\)
+                            </p>
+                            <p class="mb-1">
+                                \(15^2 = 9^2 + 12^2\)
+                            </p>
+                            <p class="mb-1">
+                                \( 225 = 81 + 144\)
+                            </p>
+                            <p class="mb-1">
+                                \( 225 = 225\)
+                            </p>
+                            <p class="mt-2">
+                                Sehingga, terbukti bahwa 9, 12, dan 15 merupakan <strong>Tripel Pythagoras</strong>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
+
+    </div>
+</div>
+</div>
+
+<div class="col-md-12">
+                <div class="card mb-4 shadow-sm">
+    <div class="card-header bg-light">
+        <h4 class="text-center mb-0">Contoh Soal</h4>
+    </div>
+
+    <div class="card-body">
+        <div class="row">
+    <div class="col-md-6 mb-3">
+        <div class="card h-100 border-success shadow-sm">
+            <div class="card-header text-center fw-bold">
+                Contoh 1
+            </div>
+            <div class="card-body bg-light">
+                <p class="mb-2">Apakah 8, 16, dan 17 adalah Tripel Pythagoras?</p>
+                
+                <p class="fw-bold mb-1">Penyelesaian</p>
+                <p class="mb-3">Sisi terpanjang = 17</p>
+
+                <div class="p-3 bg-white rounded border border-danger text-center">
+                    <p class="mb-1">
+                        \(c^2 = a^2 + b^2\)
+                    </p>
+                    <p class="mb-1">
+                        \(17^2 = 16^2 + 8^2\)
+                    </p>
+                    <p class="mb-1">
+                        \(289 = 256 + 64\)
+                    </p>
+                    <p class="mb-0 fw-bold">
+                        \(289 \neq 320\)
+                    </p>
+                </div>
+
+                <div class="text-center mt-3">
+                    <strong>Jadi,</strong><br>
+                    8, 16 dan 17 tidak termasuk Tripel Pythagoras
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-6 mb-3">
+        <div class="card h-100 border-success shadow-sm">
+            <div class="card-header text-center fw-bold">
+                Contoh 2
+            </div>
+            <div class="card-body bg-light">
+                <p class="mb-2">Apakah 10, 24, dan 26 adalah Tripel Pythagoras?</p>
+                
+                <p class="fw-bold mb-1">Penyelesaian</p>
+                <p class="mb-3">Sisi terpanjang = 26</p>
+
+                <div class="p-3 bg-white rounded border border-success text-center">
+                    <p class="mb-1">
+                        \(c^2 = a^2 + b^2\)
+                    </p>
+                    <p class="mb-1">
+                        \(26^2 = 24^2 + 10^2\)
+                    </p>
+                    <p class="mb-1">
+                        \(676 = 576 + 100\)
+                    </p>
+                    <p class="mb-0 fw-bold ">
+                        \(676 = 676\)
+                    </p>
+                </div>
+
+                <div class="alert mt-3 text-center mb-0">
+                    <strong>Jadi,</strong><br>
+                    10, 24 dan 26 termasuk bilangan Tripel Pythagoras
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+    </div>
+            </div>
+        </div>
+
+        <div class="col-md-12">
+    <div class="card mb-5 shadow-sm">
+        <div class="card-header">
+            <h4 class="text-center mb-0">Ayo Berlatih</h4>
+        </div>
+        <div class="card-body">
+
+            <div class="alert border-success shadow-sm" role="alert">
+                <h6 class="fw-bold">Petunjuk Pengerjaan:</h6>
+            <ol class="mb-0 ps-3">
+                <li class="mb-2">
+                    <strong>Perhatikan</strong> setiap perintah soal dengan teliti sebelum menjawab.
+                </li>
+                <li class="mb-2">
+                    <strong>Kerjakan</strong> latihan berikut sesuai dengan jenis soalnya:
+                    <ul class="ps-3 mt-1" style="list-style-type: disc;">
+                        <li><strong>Soal 1:</strong> Menentukan apakah kelompok bilangan tersebut termasuk Tripel Pythagoras atau bukan (Pilih Ya/Tidak).</li>
+                        <li><strong>Soal 2:</strong> Memilih satu pasangan bilangan yang paling tepat membentuk Tripel Pythagoras.</li>
+                        <li><strong>Soal 3:</strong> Mengisi langkah-langkah pembuktian untuk menentukan jenis segitiga (Siku-siku, Lancip, atau Tumpul).</li>
+                    </ul>
+                </li>
+                <li class="mb-1">
+                    Jika sudah selesai, klik tombol <strong>"Cek Jawaban"</strong>.
+                </li>
+                <li>
+                    Jawaban <strong>Benar</strong> akan ditandai warna <span class="badge bg-success">Hijau</span>, sedangkan jawaban <strong>Salah</strong> akan berwarna <span class="badge bg-danger">Merah</span> (silakan perbaiki jawaban yang salah tersebut).
+                </li>
+            </ol>
+            </div>
+
+            <form id="formLatihan">
+
+                <div class="mb-4">
+                    <h5 class="fw-bold text-center">Periksalah apakah bilangan-bilangan di bawah ini merupakan Tripel Pythagoras!</h5>
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-hover align-middle">
+                            <thead class="table-light text-center">
+                                <tr>
+                                    <th style="width: 50%">Bilangan (Sisi)</th>
+                                    <th style="width: 25%">Ya</th>
+                                    <th style="width: 25%">Tidak</th>
+                                </tr>
+                            </thead>
+                            <tbody class="text-center">
+                                <tr>
+                                    <td class="fw-bold px-3">6, 8, 10</td>
+                                    <td class="text-center"><input class="form-check-input" type="radio" name="soal1a" value="ya"></td>
+                                    <td class="text-center"><input class="form-check-input" type="radio" name="soal1a" value="tidak"></td>
+                                </tr>
+                                <tr>
+                                    <td class="fw-bold px-3">7, 12, 14</td>
+                                    <td class="text-center"><input class="form-check-input" type="radio" name="soal1b" value="ya"></td>
+                                    <td class="text-center"><input class="form-check-input" type="radio" name="soal1b" value="tidak"></td>
+                                </tr>
+                                <tr>
+                                    <td class="fw-bold px-3">8, 15, 17</td>
+                                    <td class="text-center"><input class="form-check-input" type="radio" name="soal1c" value="ya"></td>
+                                    <td class="text-center"><input class="form-check-input" type="radio" name="soal1c" value="tidak"></td>
+                                </tr>
+                                <tr>
+                                    <td class="fw-bold px-3">9, 10, 13</td>
+                                    <td class="text-center"><input class="form-check-input" type="radio" name="soal1d" value="ya"></td>
+                                    <td class="text-center"><input class="form-check-input" type="radio" name="soal1d" value="tidak"></td>
+                                </tr>
+                                <tr>
+                                    <td class="fw-bold px-3">10, 24, 26</td>
+                                    <td class="text-center"><input class="form-check-input" type="radio" name="soal1e" value="ya"></td>
+                                    <td class="text-center"><input class="form-check-input" type="radio" name="soal1e" value="tidak"></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <hr>
+
+                <div class="mb-4">
+                    <h5 class="fw-bold text-center">Manakah dari pasangan angka berikut yang membentuk Tripel Pythagoras?</h5>
+
+                    <div class="row g-3 mt-1">
+                        <div class="col-md-3 col-12">
+                            <input type="radio" class="btn-check" name="soal2" id="soal2A" value="A" autocomplete="off">
+                            <label class="btn btn-outline-success w-100 h-100 py-3 fw-bold shadow-sm" for="soal2A">
+                                A. 7, 24, 25
+                            </label>
+                        </div>
+
+                        <div class="col-md-3 col-12">
+                            <input type="radio" class="btn-check" name="soal2" id="soal2B" value="B" autocomplete="off">
+                            <label class="btn btn-outline-success w-100 h-100 py-3 fw-bold shadow-sm" for="soal2B">
+                                B. 8, 20, 25
+                            </label>
+                        </div>
+
+                        <div class="col-md-3 col-12">
+                            <input type="radio" class="btn-check" name="soal2" id="soal2C" value="C" autocomplete="off">
+                            <label class="btn btn-outline-success w-100 h-100 py-3 fw-bold shadow-sm" for="soal2C">
+                                C. 10, 25, 27
+                            </label>
+                        </div>
+                        <div class="col-md-3 col-12">
+                            <input type="radio" class="btn-check" name="soal2" id="soal2D" value="D" autocomplete="off">
+                            <label class="btn btn-outline-success w-100 h-100 py-3 fw-bold shadow-sm" for="soal2D">
+                                D. 12, 20, 29
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <hr>
+
+                <div class="mb-4">
+                    <h5 class="fw-bold text-center">Apakah sisi segitiga 9, 12, 15 membentuk segitiga siku-siku, lancip, atau tumpul?</h5>
+
+                    <div class="card bg-light border-0 mt-3">
+                        <div class="card-body">
+                            <p class="fw-bold text-decoration-underline mb-3">Penyelesaian:</p>
+
+                            <div class="d-flex align-items-center mb-3">
+                                <label class="me-2">Sisi terpanjang (\(c\)) =</label>
+                                <input type="number" class="form-control form-control-sm text-center border-secondary input-soal3" style="width: 80px;" id="inputC">
+                            </div>
+
+                            <div class="ps-1">
+                                <div class="row align-items-center g-1 mb-2">
+                                    <div class="col-auto">\(c^2\) = </div>
+                                    <div class="col-auto">
+                                        <input type="number" class="form-control form-control-sm text-center px-1 input-soal3" style="width: 60px;">
+                                    </div>
+                                    <div class="col-auto">\(^2\) = </div>
+                                    <div class="col-auto">
+                                        <input type="number" class="form-control form-control-sm text-center px-1 fw-bold input-soal3" style="width: 75px;">
+                                    </div>
+                                </div>
+
+                                <div class="row align-items-center g-1 mb-2">
+                                    <div class="col-auto">\(a^2 + b^2\) =</div>
+                                    <div class="col-auto">
+                                        <input type="number" class="form-control form-control-sm text-center px-1 input-soal3" style="width: 50px;">
+                                    </div>
+                                    <div class="col-auto">\(^2\) + </div>
+                                    <div class="col-auto">
+                                        <input type="number" class="form-control form-control-sm text-center px-1 input-soal3" style="width: 50px;">
+                                    </div>
+                                    <div class="col-auto">\(^2\)</div>
+                                </div>
+
+                                <div class="row align-items-center g-1 mb-3 ps-5 ms-3">
+                                    <div class="col-auto">=</div>
+                                    <div class="col-auto">
+                                        <input type="number" class="form-control form-control-sm text-center px-1 input-soal3" style="width: 60px;">
+                                    </div>
+                                    <div class="col-auto">+</div>
+                                    <div class="col-auto">
+                                        <input type="number" class="form-control form-control-sm text-center px-1 input-soal3" style="width: 60px;">
+                                    </div>
+                                    <div class="col-auto">=</div>
+                                    <div class="col-auto">
+                                        <input type="number" class="form-control form-control-sm text-center px-1 fw-bold text-primary input-soal3" style="width: 75px;">
+                                    </div>
+                                </div>
+                                <div class="d-flex align-items-end gap-2 mt-1 mb-2">
+                                    
+                                    <div class="d-flex flex-column align-items-center">
+                                        <label class="mb-1">\(c^2\)</label>
+                                        <input type="number" id="inp_compare_c_soal3" class="form-control form-control-sm text-center bg-white" style="width: 80px;" placeholder="...">
+                                    </div>
+
+                                    <select id="inp_sign_soal3" class="form-select form-select-sm text-center bg-white mb-0" style="width: 120px;">
+                                        <option value="">pilih tanda</option>
+                                        <option value="<">&lt;</option>
+                                        <option value=">">&gt;</option>
+                                        <option value="=">=</option>
+                                    </select>
+                                    
+                                    <div class="d-flex flex-column align-items-center">
+                                        <label class="mb-1">\(a^2 + b^2\)</label>
+                                        <input type="number" id="inp_compare_ab_soal3" class="form-control form-control-sm text-center bg-white" style="width: 80px;" placeholder="...">
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <div class="d-flex align-items-center bg-white p-3 rounded border shadow-sm">
+                                <span class="me-2 fw-bold">Jadi, segitiga tersebut adalah:</span>
+                                <select class="form-select form-select-sm w-auto fw-bold text-success border-success" id="selectSoal3">
+                                    <option selected disabled value="">-- Pilih Jawaban --</option>
+                                    <option value="Siku-siku">Segitiga Siku-siku</option>
+                                    <option value="Lancip">Segitiga Lancip</option>
+                                    <option value="Tumpul">Segitiga Tumpul</option>
+                                </select>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="d-grid gap-2 col-md-4 mx-auto mt-4">
+                    <button type="button" class="btn btn-success fw-bold py-2" onclick="cekJawabanLatihan()">Cek Jawaban
+                    </button>
+                </div>
+
+            </form>
+        </div>
+    </div>
+</div>
+        </div>
+    </section>
+
+    <section class="materi-page d-none" data-page="3">
+    <div class="row justify-content-center">
+        
+        <div class="col-md-12 mb-4">
+            <div class="card shadow-sm">
+                <div class="card-header text-center">
+                    <h4>Rangkuman Tripel Pythagoras</h4>
+                </div>
+                
+                <div class="card-body p-4 bg-white">
+                    
+                    <div class="d-flex align-items-start mb-3">
+                        <div class="bg-success text-white rounded-circle d-flex align-items-center justify-content-center flex-shrink-0 mt-1" style="width: 30px; height: 30px;">1</div>
+                        <div class="ms-3">
+                            <p class="text-muted mb-0" style="line-height: 1.6;">
+                                <strong>Tripel Pythagoras</strong> adalah kelompok tiga bilangan asli (bilangan bulat positif) \(a, b, c\) yang memenuhi ketentuan <strong>\(c^2 = a^2 + b^2\)</strong>, di mana \(c\) adalah bilangan terbesar (sisi miring).
+                            </p>
+                        </div>
+                    </div>
+
+                    <hr class="border-secondary opacity-10 my-3">
+
+                    <div class="d-flex align-items-start mb-3">
+                        <div class="bg-success text-white rounded-circle d-flex align-items-center justify-content-center flex-shrink-0 mt-1" style="width: 30px; height: 30px;">2</div>
+                        <div class="ms-3">
+                            <p class="text-muted mb-0" style="line-height: 1.6;">
+                                <strong>Sifat Kelipatan:</strong> Jika kita memiliki salah satu tripel Pythagoras (misalnya 3, 4, 5), maka kelipatannya (dikali \(k\)) juga membentuk tripel Pythagoras. <br>
+                                <em>Contoh:</em> 6, 8, 10 (dikali 2) atau 9, 12, 15 (dikali 3).
+                            </p>
+                        </div>
+                    </div>
+
+                    <hr class="border-secondary opacity-10 my-3">
+
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-12 mb-4">
+            <div class="card shadow-sm">
+                <div class="card-header text-center ">
+                    <h4 class="mb-0">Refleksi</h4>
+                    <small class="text-muted">
+                        Jawablah berdasarkan pemahamanmu terkait aktivitas Tripel Pythagoras
+                    </small>
+                </div>
+
+                <div class="card-body p-4">
+
+                    <div class="mb-4">
+                        <label class="fw-semibold mb-2">
+                            1. Apakah bilangan kuadrat dan akar kuadrat suatu bilangan merupakan bilangan dasar yang menentukan terbentuknya Teorema Pythagoras? Jelaskan.
+                        </label>
+
+                        <div class="mb-2">
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="ref_tri_1" id="ref_tri_1_ya" value="ya">
+                                <label class="form-check-label" for="ref_tri_1_ya">Ya</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="ref_tri_1" id="ref_tri_1_tidak" value="tidak">
+                                <label class="form-check-label" for="ref_tri_1_tidak">Tidak</label>
+                            </div>
+                        </div>
+
+                        <textarea class="form-control" rows="3" id="ref_tri_1_text" placeholder="Berikan penjelasanmu..."></textarea>
+                    </div>
+
+                    <div class="mb-4">
+                        <label class="fw-semibold mb-2">
+                            2. Bagaimana bentuk hubungan dari setiap sisi pada segitiga siku-siku? Apakah dari hubungan tersebut dapat dikaitkan dengan Teorema Pythagoras? Jelaskan.
+                        </label>
+                        <textarea class="form-control" rows="3" id="ref_tri_2_text" placeholder="Tuliskan pemahamanmu..."></textarea>
+                    </div>
+
+                    <div class="text-center mt-4">
+                        <button class="btn btn-success fw-bold" onclick="cekRefleksiTripel()">Simpan Refleksi</button>
+                    </div>
+
+                <div class="text-center mt-4">
+                    <p>Setelah mempelajari materi tentang Menemukan Konsep Teorema Pythagoras. Silahkan kerjakan Kuis 2 - Tripel Pythagoras</p>
+                </div>
+
+                </div>
+            </div>
+        </div>
+
     </div>
 </section>
 
-    <!-- ================= HALAMAN 3–5 ================= -->
+    
     <!-- (lanjutan halaman 3, 4, dan 5 DITULIS UTUH SESUAI YANG ANDA KIRIM) -->
          <!-- Pagination Navigasi -->
-    <nav>
-        <ul class="pagination justify-content-center" id="materiPagination">
+    <nav class="mt-4">
+        <ul class="pagination justify-content-center materi-pagination">
             <li class="page-item">
-                <button class="page-link" id="prevPage">‹</button>
+                <button class="page-link prev-btn">‹</button>
             </li>
+
             <li class="page-item active">
                 <button class="page-link page-btn" data-page="0">1</button>
             </li>
@@ -733,8 +1044,9 @@
             <li class="page-item">
                 <button class="page-link page-btn" data-page="3">4</button>
             </li>
+            
             <li class="page-item">
-                <button class="page-link" id="nextPage">›</button>
+                <button class="page-link next-btn">›</button>
             </li>
         </ul>
     </nav>

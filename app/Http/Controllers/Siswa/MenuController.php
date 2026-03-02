@@ -48,47 +48,57 @@ public function dashboard()
         return view('siswa.menu.dashboard', compact('aktivitas', 'rataRata'));
     }
 
-
 public function leaderboard()
-    {
-        // 1. Ambil semua user dengan role 'siswa'
-        // Kita juga meload relasi 'kelas' agar tidak query berulang-ulang (Eager Loading)
-        $semuaSiswa = User::where('role', 'siswa')->with('kelas')->get();
-        $semuaPaket = PaketSoal::all();
-        
-        $leaderboardData = [];
+{
+    // 1. Ambil semua siswa + relasi kelas
+    $semuaSiswa = User::where('role', 'siswa')
+                        ->with('kelas')
+                        ->get();
 
-        foreach ($semuaSiswa as $siswa) {
-            $totalPoin = 0;
+    $semuaPaket = PaketSoal::all();
 
-            // 2. Hitung total skor untuk setiap siswa
-            foreach ($semuaPaket as $paket) {
-                // Cari nilai tertinggi siswa ini pada paket ini
-                $maxScore = HasilPengerjaan::where('user_id', $siswa->id)
-                                           ->where('paket_soal_id', $paket->id)
-                                           ->max('skor_akhir');
-                
-                // Jika ada nilai, tambahkan ke total
-                if ($maxScore) {
-                    $totalPoin += $maxScore;
-                }
+    $leaderboardData = [];
+
+    foreach ($semuaSiswa as $siswa) {
+
+        $totalNilai = 0;
+        $jumlahPaketDikerjakan = 0;
+
+        // 2. Ambil nilai terbaik per paket
+        foreach ($semuaPaket as $paket) {
+
+            $maxScore = HasilPengerjaan::where('user_id', $siswa->id)
+                                        ->where('paket_soal_id', $paket->id)
+                                        ->max('skor_akhir');
+
+            if ($maxScore !== null) {
+                $totalNilai += $maxScore;
+                $jumlahPaketDikerjakan++;
             }
-
-            // 3. Masukkan ke array data sementara
-            $leaderboardData[] = [
-                'id' => $siswa->id,
-                'nama' => $siswa->name,
-                'kelas' => $siswa->kelas ? $siswa->kelas->nama_kelas : 'Belum Masuk Kelas', // Handle jika belum masuk kelas
-                'total_poin' => $totalPoin
-            ];
         }
 
-        // 4. Urutkan data berdasarkan 'total_poin' dari Terbesar ke Terkecil (Descending)
-        // Kita gunakan collection helper Laravel untuk sorting
-        $leaderboardSorted = collect($leaderboardData)->sortByDesc('total_poin')->values();
+        // 3. Hitung rata-rata
+        $rataRata = $jumlahPaketDikerjakan > 0
+            ? $totalNilai / $jumlahPaketDikerjakan
+            : 0;
 
-        return view('siswa.menu.leaderboard', compact('leaderboardSorted'));
+        $leaderboardData[] = [
+            'id' => $siswa->id,
+            'nama' => $siswa->name,
+            'kelas' => $siswa->kelas ? $siswa->kelas->nama_kelas : 'Belum Masuk Kelas',
+            'total_nilai' => $totalNilai,
+            'jumlah_paket' => $jumlahPaketDikerjakan,
+            'rata_rata' => round($rataRata, 2),
+        ];
     }
+
+    // 4. Urutkan berdasarkan rata-rata tertinggi
+    $leaderboardSorted = collect($leaderboardData)
+                            ->sortByDesc('rata_rata')
+                            ->values();
+
+    return view('siswa.menu.leaderboard', compact('leaderboardSorted'));
+}
 
 public function nilai_siswa()
 {
@@ -102,7 +112,17 @@ public function nilai_siswa()
 
 
     // 2. Logika Rangkuman (Nilai Tertinggi per Paket)
-    $semuaPaket = PaketSoal::orderBy('id', 'asc')->get();
+    $semuaPaket = PaketSoal::all()->sortBy(function ($paket) {
+
+        if (str_contains(strtolower($paket->nama_paket ?? $paket->judul), 'kuis 1')) return 1;
+        if (str_contains(strtolower($paket->nama_paket ?? $paket->judul), 'kuis 2')) return 2;
+        if (str_contains(strtolower($paket->nama_paket ?? $paket->judul), 'kuis 3')) return 3;
+        if (str_contains(strtolower($paket->nama_paket ?? $paket->judul), 'kuis 4')) return 4;
+        if (str_contains(strtolower($paket->nama_paket ?? $paket->judul), 'evaluasi')) return 5;
+
+        return 99; // selain itu di paling bawah
+    });
+
     $rekapNilai = [];
     $totalSkor = 0;
     $jumlahPaketDiambil = 0;

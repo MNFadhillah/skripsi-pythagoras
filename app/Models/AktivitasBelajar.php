@@ -12,6 +12,7 @@ class AktivitasBelajar extends Model
     protected $table = 'aktivitas_belajar'; // Pastikan nama tabel benar
 
     protected $fillable = [
+        'kelas_id',
         'paket_soal_id',
         'judul',
         'kategori',
@@ -35,5 +36,10 @@ class AktivitasBelajar extends Model
     public function paket_soal()
     {
         return $this->belongsTo(PaketSoal::class, 'paket_soal_id');
+    }
+
+    public function kelas()
+    {
+        return $this->belongsTo(Kelas::class, 'kelas_id');
     }
 }

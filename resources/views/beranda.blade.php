@@ -232,10 +232,10 @@
                 <a href="#" class="info-box-link text-decoration-none">
                     <div class="card feature-card p-3 h-100 rounded-3 d-flex flex-row align-items-center gap-3">
                         <div class="rounded-3 p-3" style="min-width:64px;min-height:64px;display:flex;align-items:center;justify-content:center;">
-                            <i class="bi bi-fire fs-2" style="color:var(--accent)"></i>
+                            <i class="bi bi-list fs-2" style="color:var(--primary)"></i>
                         </div>
                         <div>
-                            <h5>PythaGame!</h5>
+                            <h5>Petunjuk Penggunaan</h5>
                         </div>
                     </div>
                 </a>

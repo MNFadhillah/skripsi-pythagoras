@@ -14,17 +14,17 @@
         </div>
     </div>
 
-    <div class="card shadow-sm border-0">
+    <div class="card shadow-sm border-1">
         <div class="card-body">
             <div class="table-responsive">
-                <table class="table table-hover align-middle" id="tabelPaket">
+                <table class="table table-bordered table-hover align-middle" id="tabelPaket">
                     <thead class="table-light">
                         <tr>
                             <th width="5%" class="text-center">No</th>
-                            <th>Judul Paket</th>
-                            <th>Tipe</th>
-                            <th>Jumlah Butir Soal</th>
-                            <th>Deskripsi</th>
+                            <th class="text-center">Judul Paket</th>
+                            <th class="text-center">Tipe</th>
+                            <th class="text-center">Jumlah Butir Soal</th>
+                            <th class="text-center">Deskripsi</th>
                             <th width="15%" class="text-center">Aksi</th>
                         </tr>
                     </thead>
@@ -33,7 +33,7 @@
                             <tr>
                                 <td class="text-center">{{ $loop->iteration }}</td>
                                 <td class="fw-semibold">{{ $item->judul }}</td>
-                                <td>
+                                <td class="text-center">
                                     @if($item->tipe == 'kuis')
                                         <span class="badge bg-info">Kuis</span>
                                     @elseif($item->tipe == 'evaluasi')
@@ -69,7 +69,8 @@
     </div>
 
     <div class="modal fade" id="modalPaket" tabindex="-1" aria-hidden="true" data-bs-backdrop="static">
-        <div class="modal-dialog modal-dialog-centered"> <div class="modal-content border-0 shadow-lg rounded-4"> <div class="modal-header bg-success text-white rounded-top-4 px-4 py-3">
+        <div class="modal-dialog modal-dialog-centered"> <div class="modal-content border-0 shadow-lg rounded-4"> 
+            <div class="modal-header bg-success text-white rounded-top-4 px-4 py-3">
                     <div class="d-flex align-items-center">
                         <i class="bi bi-box-seam me-2 fs-4"></i> <h5 class="modal-title fw-bold" id="modalTitle">Tambah Paket Soal</h5>
                     </div>
@@ -113,9 +114,6 @@
                     </div>
                     
                     <div class="modal-footer border-top-0 px-4 pb-4">
-                        <button type="button" class="btn btn-light btn-lg rounded-3 px-4" data-bs-dismiss="modal">
-                            Batal
-                        </button>
                         <button type="submit" class="btn btn-success btn-lg rounded-3 px-4 shadow-sm">
                             <i class="me-1"></i> Simpan Data
                         </button>
@@ -125,7 +123,7 @@
         </div>
     </div>
 
-    <div class="modal fade mt-5" id="modalLihatSoal" tabindex="-1" aria-hidden="true">
+    <div class="modal fade" id="modalLihatSoal" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-dialog-scrollable modal-xl">
             <div class="modal-content border-0 shadow-lg rounded-4 overflow-hidden">
                 
@@ -147,10 +145,6 @@
                             <p class="mt-2 text-muted fw-semibold">Sedang mengambil data soal...</p>
                         </div>
                     </div>
-                </div>
-
-                <div class="modal-footer bg-white px-4 py-3">
-                    <button type="button" class="btn btn-secondary px-4 rounded-3" data-bs-dismiss="modal">Tutup</button>
                 </div>
             </div>
         </div>

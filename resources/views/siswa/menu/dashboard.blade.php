@@ -36,7 +36,7 @@
                             <div class="col-md-6 border-end border-white border-opacity-25 mb-3 mb-md-0">
                                 <h3 class="fw-bold mb-1">Dashboard</h3>
                                 <p class="mb-0 opacity-90">
-                                    Selamat datang kembali, <strong>{{ auth()->user()->name }}</strong>!
+                                    Selamat datang, <strong>{{ auth()->user()->name }}</strong>!
                                 </p>
                             </div>
 
@@ -140,7 +140,7 @@
             <div class="card border-warning border-2 h-100">
                 <div class="card-body d-flex justify-content-between align-items-center">
                     <div>
-                        <h5 class="text-muted mb-1">Nilai Rata-rata</h5>
+                        <h5 class="text-muted mb-1">Nilai Kamu</h5>
                         
                         {{-- PANGGIL VARIABEL RATA-RATA DISINI --}}
                         <h2 class="mb-0">{{ $rataRata }}</h2>

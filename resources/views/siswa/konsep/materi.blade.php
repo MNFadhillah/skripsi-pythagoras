@@ -10,207 +10,301 @@
         </div>
     </div>
 
-    <nav>
-        <ul class="pagination justify-content-center" id="materiPagination">
+    <nav class="mt-4">
+        <ul class="pagination justify-content-center materi-pagination">
             <li class="page-item">
-            <button class="page-link" id="prevPage">‹</button>
+                <button class="page-link prev-btn">‹</button>
             </li>
 
             <li class="page-item active">
-            <button class="page-link page-btn" data-page="0">1</button>
+                <button class="page-link page-btn" data-page="0">1</button>
             </li>
             <li class="page-item">
-            <button class="page-link page-btn" data-page="1">2</button>
+                <button class="page-link page-btn" data-page="1">2</button>
             </li>
             <li class="page-item">
-            <button class="page-link page-btn" data-page="2">3</button>
+                <button class="page-link page-btn" data-page="2">3</button>
             </li>
             <li class="page-item">
-            <button class="page-link page-btn" data-page="3">4</button>
+                <button class="page-link page-btn" data-page="3">4</button>
             </li>
             <li class="page-item">
-            <button class="page-link page-btn" data-page="4">5</button>
+                <button class="page-link page-btn" data-page="4">5</button>
             </li>
+            
             <li class="page-item">
-            <button class="page-link" id="nextPage">›</button>
+                <button class="page-link next-btn">›</button>
             </li>
         </ul>
     </nav>
 
-    <!-- ================= HALAMAN 1 ================= -->
+    <!-- HALAMAN 1 -->
     <section class="materi-page" data-page="0">
 
-        <!-- Tujuan Pembelajaran -->
-        <section class="mb-4">
-            <div class="card">
-                <div class="card-header">
-                    <h4>Tujuan Pembelajaran</h4>
-                </div>
-                <div class="card-body">
-                    <ol>
-                        <li>Peserta didik mampu menganalisis beberapa informasi untuk membuktikan kebenaran teorema Pythagoras.</li>
-                        <li>Peserta didik mampu membuat pembuktian berupa skema atau prosedur terhadap rumus teorema Pythagoras.</li>
-                        <li>Peserta didik mampu menentukan panjang sisi segitiga siku-siku apabila dua sisi lainnya diketahui.</li>
-                    </ol>
-                </div>
-            </div>
-        </section>
+        <div class="container-fluid p-0">
 
-        <!-- Tahukah Kamu -->
-        <section class="mb-5">
-            <div class="card">
-                <div class="card-header text-center">
-                    <h4>Ayo Mengingat Kembali</h4>
-                </div>
-
-        <div class="card-body p-3">
-
-        <div class="row">
-
-    <!-- TOMBOL PETUNJUK -->
-    <div class="col-12 text-center mb-2">
-        <button class="btn btn-outline-success btn-sm fw-bold"
-                data-bs-toggle="modal"
-                data-bs-target="#modalPetunjuk">
-            Petunjuk Pengerjaan
-        </button>
-    </div>
-
-    <!-- CERITA INTERAKTIF (ASLI, TIDAK DIUBAH) -->
-    <div class="col-12 mb-2">
-        <div class="card border-success border-4 shadow-sm">
-            <div class="card-body">
-                <p class="text-justify" style="margin-bottom: 0px;">
-                    Suatu hari, Ahmad sedang dalam perjalanan menuju Taman Wisata Alam (TWA) Pulau Bakut menggunakan kelotok.
-                    Saat melintas di bawah Jembatan Barito, ia takjub melihat kemegahan konstruksinya.
-                    Pandangannya tertuju pada
-                    <span class="fw-bold text-danger clickable-text"
-                          onclick="showPart('text-tegak')">Tiang Penyangga</span>
-                    yang tegak lurus dengan
-                    <span class="fw-bold text-success clickable-text"
-                          onclick="showPart('text-datar')">Badan Jembatan</span>.
-                    Keduanya dihubungkan oleh
-                    <span class="fw-bold text-warning clickable-text"
-                          onclick="showPart('text-miring')">Kabel Baja</span>
-                    yang membentuk sisi miring.
-                </p>
-            </div>
-        </div>
-    </div>
-
-    <!-- GAMBAR JEMBATAN -->
-    <div class="col-lg-12">
-        <div class="row mb-2">
-
-            <div class="col-md-6">
-                <div class="overflow-hidden h-100">
-                    <div class="interactive-image-container">
-                        <img src="/images/jembatan-barito-new.jpg"
-                             class="img-fluid w-100"
-                             style="object-fit: cover; max-height: 350px;"
-                             alt="Jembatan Barito">
-                             
-                             <div class="text-overlay-container">
-                                 <!-- TIANG -->
-                            <div id="text-tegak" class="overlay-text text-tegak">
-                                <div class="text-label bg-danger text-white">
-                                    TIANG PENYANGGA<i class="bi bi-arrow-right"></i>
-                                </div>
-                            </div>
-        
-                            <!-- BADAN -->
-                            <div id="text-datar" class="overlay-text text-datar">
-                                <div class="text-label bg-success text-white">
-                                    BADAN JEMBATAN<i class="bi bi-arrow-up"></i>
-                                </div>
-                            </div>
-        
-                            <!-- KABEL -->
-                            <div id="text-miring" class="overlay-text text-miring">
-                                <div class="text-label bg-warning text-dark">
-                                    <i class="bi bi-arrow-down-left"></i>KABEL BAJA
-                                </div>
-                            </div>
+            <div class="row mb-4">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h4>Tujuan Pembelajaran</h4>
+                        </div>
+                        <div class="card-body">
+                            <ol class="mb-0">
+                                <li>Peserta didik mampu menentukan panjang sisi segitiga menggunakan teorema Pythagoras.</li>
+                                <li>Peserta didik mampu menganalisis beberapa informasi untuk membuktikan kebenaran teorema Pythagoras.</li>
+                                <li>Peserta didik mampu membuat pembuktian berupa skema atau prosedur terhadap rumus teorema Pythagoras.</li>
+                            </ol>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="col-md-6">
-                <div class="h-100 d-flex align-items-center justify-content-center">
-                    <img src="/images/segitiga_jembatan.png"
-                         class="img-fluid"
-                         style=" max-height: 300px;"
-                         alt="Segitiga Jembatan Barito">
+
+            <div class="row mb-4">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-header text-center">
+                            <h4>Ayo Mengingat Kembali</h4>
+                        </div>
+                        <div class="card-body p-3">
+
+                            <div class="text-center mb-3">
+                                <button class="btn btn-outline-success btn-sm fw-bold" 
+                                        data-bs-toggle="modal" 
+                                        data-bs-target="#modalPetunjuk">
+                                    Petunjuk Pengerjaan
+                                </button>
+                            </div>
+
+                            <div class="card border-success border-4 shadow-sm mb-4">
+                                <div class="card-body">
+                                    <p class="text-justify mb-0">
+                                        Suatu hari, Ahmad sedang dalam perjalanan menuju Taman Wisata Alam (TWA) Pulau Bakut menggunakan kelotok.
+                                        Saat melintas di bawah Jembatan Barito, ia takjub melihat kemegahan konstruksinya.
+                                        Pandangannya tertuju pada
+                                        <span class="fw-bold text-danger clickable-text" style="cursor: pointer;" onclick="showPart('text-tegak')">Tiang Penyangga</span>
+                                        yang tegak lurus dengan
+                                        <span class="fw-bold text-success clickable-text" style="cursor: pointer;" onclick="showPart('text-datar')">Badan Jembatan</span>.
+                                        Keduanya dihubungkan oleh
+                                        <span class="fw-bold text-warning clickable-text" style="cursor: pointer;" onclick="showPart('text-miring')">Kabel Baja</span>
+                                        yang membentuk sisi miring. Pernahkah terlintas di benak kamu, berapakah panjang kabel baja tersebut? dan bagaimana cara menghitungnya?
+                                    </p>
+                                </div>
+                            </div>
+
+                            <div class="row justify-content-center mb-4">
+                                <div class="col-lg-10">
+                                    <div class="overflow-hidden rounded border shadow-sm">
+                                        <div class="interactive-image-container position-relative">
+                                            <img src="/images/jembatan-barito-new.jpg" 
+                                                class="img-fluid w-100" 
+                                                style="object-fit: cover; max-height: 480px;" 
+                                                alt="Jembatan Barito">
+                                            
+                                            <div class="text-overlay-container">
+                                                <div id="text-tegak" class="overlay-text text-tegak">
+                                                    <div class="text-label bg-danger text-white px-2 py-1 rounded">
+                                                        TIANG PENYANGGA<i class="bi bi-arrow-right ms-1"></i>
+                                                    </div>
+                                                </div>
+                                                <div id="text-datar" class="overlay-text text-datar">
+                                                    <div class="text-label bg-success text-white px-2 py-1 rounded">
+                                                        BADAN JEMBATAN<i class="bi bi-arrow-up ms-1"></i>
+                                                    </div>
+                                                </div>
+                                                <div id="text-miring" class="overlay-text text-miring">
+                                                    <div class="text-label bg-warning text-dark px-2 py-1 rounded">
+                                                        <i class="bi bi-arrow-down-left me-1"></i>KABEL BAJA
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="text-end mt-2">
+                                        <button class="btn btn-outline-secondary btn-sm" onclick="resetHighlight()">
+                                            Reset Gambar
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row justify-content-center mb-4">
+                                <div class="col-lg-10 text-center">
+                                    <p class="fw-bold mb-3">
+                                        Dari bagian jembatan yang diamati tersebut, terbentuk sebuah segitiga seperti gambar di bawah:
+                                    </p>
+                                    <div class="d-inline-block border rounded bg-light p-3 shadow-sm">
+                                        <img src="/images/segitiga_jembatan.png" 
+                                            class="img-fluid" 
+                                            style="max-height: 250px;" 
+                                            alt="Segitiga Jembatan Barito">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="card shadow-sm border-0 bg-light">
+                                <div class="card-body p-4">
+                                    <p class="fw-semibold text-center mb-3">
+                                        Berdasarkan gambar di atas, <strong>tiang penyangga</strong>, <strong>badan jembatan</strong>,
+                                        dan <strong>kabel baja</strong> membentuk sebuah segitiga.
+                                        Menurut pengamatanmu berdasarkan sudutnya, segitiga apakah yang terbentuk? 
+                                    </p>
+
+                                    <div class="row justify-content-center">
+                                        <div class="col-md-8">
+                                            <div class="input-group mb-2">
+                                                <select class="form-select border-success" id="inputJawaban">
+                                                    <option value="" selected disabled>-- Pilih Jenis Segitiga --</option>
+                                                    <option value="siku-siku">Segitiga Siku-siku</option>
+                                                    <option value="lancip">Segitiga Lancip</option>
+                                                    <option value="tumpul">Segitiga Tumpul</option>
+                                                </select>
+                                                <button class="btn btn-success fw-bold px-4" onclick="cekJawabanSegitigaSikuSiku()">
+                                                    Cek Jawaban
+                                                </button>
+                                            </div>
+                                            <div id="feedbackPesan" class="fw-bold text-center mt-3"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row mb-4 d-none" id="penjelasan-pythagoras">
+                <div class="col-12">
+                    <div class="card border-success border-4 shadow-sm animate__animated animate__fadeIn">
+                        <div class="card-body p-4">
+                            <p class="mb-3 text-justify">
+                                Benar sekali! Tiang penyangga, badan jembatan dan kabel baja pada <strong>Jembatan Barito</strong> tersebut membentuk sebuah <strong>segitiga siku-siku</strong>. 
+                            </p>
+
+                            <p class="mb-3 text-justify">
+                                Tahukah kamu? Setiap kali kita bertemu dengan segitiga siku-siku, ada satu aturan matematika terkenal yang selalu mengikutinya, yaitu <strong>Teorema Pythagoras</strong>. Nah, dengan menggunakan Teorema Pythagoras, kita bisa menjawab rasa penasaran Ahmad tadi untuk mengetahui panjang kabel baja serta cara menghitungnya tanpa harus mengukur secara manual. Namun, sebelum mempelajarinya lebih jauh, kita harus mengetahui bagian-bagian penting dari segitiga siku-siku terlebih dahulu.
+                            </p>
+
+                            <p class="mb-0 mt-3 fw-bold text-primary text-center fs-5">
+                                Ayo amati dan cocokkan sisi-sisi di bawah ini!
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row mb-5">
+                <div class="col-12">
+                    <div class="card bg-white shadow-sm">
+                        <div class="card-header bg-light">
+                            <h4 class="text-center mb-0">Ayo Amati dan Cocokkan</h4>
+                        </div>
+                        <div class="card-body">
+
+                            <div class="card border-success border-2 mb-2">
+                                <div class="card-body">
+                                    <h5 class="fw-bold">Petunjuk Pengerjaan</h5>
+                                    <ol class="mb-0 ps-3 small">
+                                        <li>Perhatikan gambar bagian jembatan di bawah (Tiang, Badan Jembatan, atau Kabel).</li>
+                                        <li>Tentukan apakah bagian tersebut termasuk <strong>Sisi Siku-siku</strong> atau <strong>Sisi Miring</strong>.</li>
+                                        <li><strong>Klik & Tahan (Drag)</strong> tombol jawaban yang sesuai, lalu <strong>Lepaskan (Drop)</strong> ke dalam kotak kosong yang tersedia.</li>
+                                    </ol>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <div class="card h-100 border-0 shadow-sm bg-white">
+                                        <div class="card-body text-center">
+                                            <p class="small text-muted mb-2">
+                                                <strong>Tiang Penyangga</strong> dan <strong>Badan Jembatan</strong> saling bertemu membentuk sudut siku-siku. Kedua bagian ini disebut...
+                                            </p>
+                                            <div class="drop-zone drop-zone-box w-100" data-correct="siku"></div>
+                                            <div class="feedback-msg mt-2"></div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6 mb-3">
+                                    <div class="card h-100 border-0 shadow-sm bg-white">
+                                        <div class="card-body text-center">
+                                            <p class="small text-muted mb-2">
+                                                <strong>Kabel Baja</strong> membentang menghubungkan tiang dan lantai di depan sudut siku-siku. Bagiain ini disebut sebagai...
+                                            </p>
+                                            <div class="drop-zone drop-zone-box w-100" data-correct="miring"></div>
+                                            <div class="feedback-msg mt-2"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="d-flex flex-wrap gap-3 justify-content-center p-3 bg-white rounded border mb-4" id="drag-source">
+                                <div class="drag-item badge bg-success fs-6 p-3 shadow-sm" 
+                                    draggable="true" 
+                                    id="item-siku" 
+                                    data-value="siku" 
+                                    style="cursor: grab;">Sisi Siku-siku
+                                </div>
+
+                                <div class="drag-item badge bg-success fs-6 p-3 shadow-sm" 
+                                    draggable="true" 
+                                    id="item-miring" 
+                                    data-value="miring" 
+                                    style="cursor: grab;">Sisi Miring
+                                </div>
+                            </div>
+
+                            <div class="action-buttons mt-4 d-flex justify-content-between px-3">
+                                <button class="btn btn-outline-secondary" id="reset-matching">Ulangi</button>
+                                <button class="btn btn-success fw-bold" id="check-matching">Cek Jawaban
+                                </button>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row mb-5 d-none animate__animated animate__fadeInUp" id="penguatan-materi">
+                <div class="col-12">
+                    <div class="card border-success border-4 shadow-sm animate__animated animate__fadeIn">
+                        <div class="card-body p-4"> <h5 class="card-title fw-bold mb-3 text-success">Luar Biasa! Jawabanmu Tepat</h5>
+                            <p class="mb-3 text-justify">
+                                Kamu sudah berhasil mengenali bagian-bagian penyusun segitiga siku-siku. Tiang penyangga dan badan jembatan yang saling tegak lurus membentuk sudut 90&deg; disebut sebagai <strong>sisi siku-siku</strong>. 
+                            </p>
+                            <p class="mb-3 text-justify">
+                                Sementara itu, kabel baja yang posisinya berada tepat di depan sudut siku-siku disebut sebagai <strong>sisi miring</strong> atau dikenal dengan istilah <strong>hipotenusa</strong>.
+                            </p>
+                            <hr class="border-success">
+                            <p class="mb-0 text-justify fw-bold text-dark">
+                                Nah, untuk menjawab rasa penasaran Ahmad tentang panjang kabel baja tadi, kita akan menggunakan hubungan istimewa antara panjang kedua sisi siku-siku dan sisi miring (hipotenusa). Hubungan inilah yang menjadi inti utama dari <strong>Teorema Pythagoras</strong>. Selanjutnya, mari kita pelajari bagaimana cara merumuskan dan menghitungnya!
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="modal fade" id="modalPetunjuk" tabindex="-1">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content border-success border-3">
+                    <div class="modal-header">
+                        <h5 class="modal-title text-success fw-bold">Petunjuk Pengerjaan</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+                    <div class="modal-body">
+                        <ol class="small ps-3">
+                            <li>Perhatikan gambar jembatan barito dan cerita yang disajikan</li> 
+                            <li>Pada bagian cerita, terdapat kata-kata berwarna yang bisa diklik untuk melihat posisi bagian jembatan.</li> 
+                            <li>Isilah kolom jawaban berdasarkan pengamatanmu, lalu klik tombol cek jawaban.</li>
+                        </ol>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-    
-    <!-- ILUSTRASI SEGITIGA (TETAP) -->
-    
-    <!-- PERTANYAAN KONSEPTUAL (ASLI, TIDAK DIUBAH) -->
-    <div class="col-12 mb-2">
-        <div class="card shadow-sm">
-            <div class="card-body p-4">
-                <p class="fw-semibold text-justify mb-3">
-                    Berdasarkan gambar di atas, <strong>tiang penyangga</strong>, <strong>badan jembatan</strong>,
-                    dan <strong>kabel baja</strong> membentuk sebuah segitiga.
-                    Berdasarkan jenisnya, segitiga terbagi menjadi
-                    <em>segitiga sama sisi</em>, <em>sama kaki</em>,
-                    <em>siku-siku</em>, dan <em>sembarang</em>. Segitiga apakah yang terbentuk 
-                </p>
 
-                <div class="input-group mb-2">
-                    <input type="text"
-                           class="form-control border-success"
-                           id="inputJawaban"
-                           placeholder="Tuliskan jawabanmu di sini...">
-                    <button class="btn btn-success fw-bold"
-                            onclick="cekJawabanSegitigaSikuSiku()">
-                        Cek Jawaban
-                    </button>
-                </div>
-                <div class="text-end">
-                    <button class="btn btn-outline-secondary btn-sm"
-                            onclick="resetHighlight()">
-                        Reset Gambar
-                    </button>
-                </div>
-
-                <div id="feedbackPesan" class="fw-bold text-center mt-2"></div>
-
-
-            </div>
-        </div>
-    </div>
-
-    <div class="col-md-12">
-        <p class="mb-0 text-justify small" style="font-size: 0.9rem;"> Konstruksi kabel pada Jembatan Barito terlihat membentuk pola segitiga yang megah. Pernahkah terlintas di benak kalian, bagaimana cara insinyur menghitung panjang kabel baja yang membentang miring tersebut? Dalam dunia Teknik Sipil dan Konstruksi, perhitungan sisi miring sangatlah penting, terutama pada struktur jembatan gantung yang memiliki pola <strong>segitiga siku-siku</strong>. Lalu, bagaimana cara menentukan panjang kabel (sisi miring) tanpa harus mengukurnya secara manual di atas sungai? Jawabannya adalah dengan menggunakan <strong>Teorema Pythagoras</strong>. Mari belajar teorema pythagoras agar kita bisa menerapkan rumus tersebut dalam kehidupan kita sehari-hari." </p>
-    </div>
-
-</div>
-
-
-</div>
-</div>
-
-<div class="modal fade" id="modalPetunjuk" tabindex="-1">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content border-success border-3">
-            <div class="modal-header">
-                <h5 class="modal-title text-success fw-bold">Petunjuk Pengerjaan</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-            </div>
-            <div class="modal-body">
-                <ol class="small ps-3">
-                    <li>Perhatikan gambar jembatan barito dan cerita yang disajikan</li> 
-                    <li>Pada bagian cerita, terdapat kata-kata berwarna yang bisa diklik untuk melihat posisi bagian jembatan.</li> 
-                    <li>Isilah kolom jawaban berdasarkan pengamatanmu, lalu klik tombol cek jawaban.</li>
-                </ol>
-            </div>
-        </div>
-    </div>
-        </section>
     </section>
 
     <!-- ================= HALAMAN 2 ================= -->
@@ -219,7 +313,7 @@
         <section class="mb-4">
             <div class="card">
                 <div class="card-header text-center">
-                    <h4 class="mb-0">Ayo Mengingat Kembali</h4>
+                    <h4>Ayo Mengingat Kembali</h4>
                 </div>
 
                 <div class="card-body">
@@ -227,17 +321,19 @@
                     <hr>
 
                     <p class="text-justify">
-                        Masih ingatkah kalian bagaimana menentukan kuadrat dari suatu bilangan? Untuk menentukan kuadrat dari suatu bilangan adalah dengan cara <strong>mengalikan bilangan tersebut dengan dirinya sendiri</strong>.
+                        Sebelum mempelajari tentang Teorema Pythagoras kita akan mengingat kembali bilangan kuadrat. Masih ingatkah kamu menemukan bilangan kuadrat? Ayo lengkapi tabel di bawah ini!
                     </p>
 
-                    <div class="alert alert-success shadow-sm border-0">
-                        <div class="d-flex align-items-center">
-                            <div>
-                                <h6 class="fw-bold mb-1">Petunjuk Pengerjaan:</h6>
-                                <p class="mb-0 small">
-                                Lengkapi kotak-kotak kosong yang memiliki tanda (?) dengan angka yang tepat sesuai pola tersebut.
-                                </p>
-                            </div>
+                    <div class="card border-success shadow-sm border-2 mb-2">
+                        <div class="card-body">
+                            <h6 class="fw-bold mb-1">Petunjuk Pengerjaan:</h6>
+                                <ol class="mb-0 small">
+                                    <li>Perhatikan tabel bentuk kuadrat di bawah ini.</li>
+                                    <li>Lengkapi setiap kolom sesuai hubungan antara bentuk perkalian, bentuk kuadrat, dan nilainya.</li>
+                                    <li>Isilah semua bagian titik-titik yang masih kosong dengan jawaban yang tepat.</li>
+                                    <li>Periksa kembali jawabanmu agar sesuai dengan pola yang telah dicontohkan.</li>
+                                    <li>Klik <strong>Cek Jawaban</strong> untuk memeriksa jawaban kamu.</li>
+                                </ol>
                         </div>
                     </div>
 
@@ -272,7 +368,7 @@
                                         <td>\(3^2\)</td>
                                         <td>
                                             <input type="number" class="form-control d-inline-block text-center fw-bold input-kuadrat px-1" 
-                                                style="width: 80px;" data-answer="9" placeholder="?">
+                                                style="width: 80px;" data-answer="9" placeholder="...">
                                         </td>
                                     </tr>
 
@@ -282,7 +378,7 @@
                                         <td>
                                             <div class="d-flex justify-content-center align-items-start">
                                                 <input type="number" class="form-control text-center fw-bold input-kuadrat px-1" 
-                                                    style="width: 80px; height: 35px;" data-answer="5" placeholder="?">
+                                                    style="width: 80px; height: 35px;" data-answer="5" placeholder="...">
                                                 \(^2\)
                                             </div>
                                         </td>
@@ -295,10 +391,10 @@
                                         <td>
                                             <div class="d-flex justify-content-center align-items-center gap-2">
                                                 <input type="number" class="form-control text-center fw-bold input-kuadrat px-1" 
-                                                    style="width: 80px;" data-answer="8" placeholder="?">
+                                                    style="width: 80px;" data-answer="8" placeholder="...">
                                                     <span>×</span>
                                                 <input type="number" class="form-control text-center fw-bold input-kuadrat px-1" 
-                                                style="width: 80px;" data-answer="8" placeholder="?">
+                                                style="width: 80px;" data-answer="8" placeholder="...">
                                             </div>
                                         </td>
                                         <td>\(8^2\)</td>
@@ -310,22 +406,22 @@
                                         <td>
                                             <div class="d-flex justify-content-center align-items-center gap-2">
                                                 <input type="number" class="form-control text-center fw-bold input-kuadrat px-1" 
-                                                    style="width: 80px;" data-answer="9" placeholder="?">
+                                                    style="width: 80px;" data-answer="9" placeholder="...">
                                                     <span>×</span>
                                                 <input type="number" class="form-control text-center fw-bold input-kuadrat px-1" 
-                                                style="width: 80px;" data-answer="9" placeholder="?">
+                                                style="width: 80px;" data-answer="9" placeholder="...">
                                             </div>
                                         </td>
                                         <td>
                                             <div class="d-flex justify-content-center align-items-start">
                                                 <input type="number" class="form-control text-center fw-bold input-kuadrat px-1" 
-                                                    style="width: 80px; height: 35px;" data-answer="9" placeholder="?">
+                                                    style="width: 80px; height: 35px;" data-answer="9" placeholder="...">
                                                     \(^2\)
                                             </div>
                                         </td>
                                         <td>
                                             <input type="number" class="form-control d-inline-block text-center fw-bold input-kuadrat px-1" 
-                                            style="width: 80px;" data-answer="81" placeholder="?">
+                                            style="width: 80px;" data-answer="81" placeholder="...">
                                         </td>
                                     </tr>
                                         
@@ -335,7 +431,7 @@
 
                         <div class="text-center mb-3">
                             <button class="btn btn-success px-5 fw-bold shadow-sm" id="btnCekKuadrat">
-                                Periksa Jawaban
+                                Cek Jawaban
                             </button>
                         </div>
                     </div>
@@ -356,7 +452,7 @@
                     <hr>
 
                     <p class="text-justify">
-                        <strong>Akar kuadrat</strong> adalah kebalikan dari operasi kuadrat, yaitu bilangan tak negatif yang jika dikuadratkan akan menghasilkan bilangan yang sama dengan bilangan semula.
+                        Selain bilangan kuadrat, kita akan mengingat kembali tentang <strong>Akar kuadrat</strong>. Perhatikan contoh di bawah ini dan lengkapi kolom yang kosong dengan jawaban yang tepat!
                     </p>
 
                     <div class="row justify-content-center mb-4">
@@ -417,29 +513,34 @@
                                     <thead class="table-success small">
                                         <tr>
                                             <th style="width:10%">No</th>
-                                            <th style="width:50%">Sifat Operasi</th>
-                                            <th style="width:40%">Syarat</th>
+                                            <th style="width:35%">Bentuk</th>
+                                            <th style="width:35%">Sifat</th>
+                                            <th style="width:20%">Syarat</th>
                                         </tr>
                                     </thead>
                                     <tbody class="small">
                                         <tr>
                                             <td>i.</td>
-                                            <td class="text-start ps-4">\(\sqrt{A \times B} = \sqrt{A} \times \sqrt{B}\)</td>
+                                            <td class="text-start ps-4">\(\sqrt{A \times B}\)</td>
+                                            <td class="text-start ps-4">\(\sqrt{A} \times \sqrt{B}\)</td>
                                             <td>\(A \ge 0, B \ge 0\)</td>
                                         </tr>
                                         <tr>
                                             <td>ii.</td>
-                                            <td class="text-start ps-4">\(\sqrt{\frac{A}{B}} = \frac{\sqrt{A}}{\sqrt{B}}\)</td>
+                                            <td class="text-start ps-4">\(\sqrt{\frac{A}{B}}\)</td>
+                                            <td class="text-start ps-4">\(\frac{\sqrt{A}}{\sqrt{B}}\)</td>
                                             <td>\(A \ge 0, B \ne 0\)</td>
                                         </tr>
                                         <tr>
                                             <td>iii.</td>
-                                            <td class="text-start ps-4">\(A\sqrt{B} + A\sqrt{C} = A(\sqrt{B} + \sqrt{C})\)</td>
+                                            <td class="text-start ps-4">\(A\sqrt{B} + A\sqrt{C}\)</td>
+                                            <td class="text-start ps-4">\(A(\sqrt{B} + \sqrt{C})\)</td>
                                             <td>\(B \ge 0, C \ge 0\)</td>
                                         </tr>
                                         <tr>
                                             <td>iv.</td>
-                                            <td class="text-start ps-4">\(\sqrt{A} \times \sqrt{A} = A\)</td>
+                                            <td class="text-start ps-4">\(\sqrt{A} \times \sqrt{A}\)</td>
+                                            <td class="text-start ps-4">\(A\)</td>
                                             <td>\(A \ge 0\)</td>
                                         </tr>
                                     </tbody>
@@ -448,14 +549,15 @@
                         </div>
                     </div>
 
-                    <div class="alert alert-success shadow-sm border-0 mb-4">
-                        <div class="d-flex align-items-center">
-                            <div>
-                                <h6 class="fw-bold mb-1">Petunjuk Pengerjaan:</h6>
-                                <p class="mb-0 small">
-                                Hitunglah nilai akar kuadrat berikut dengan tepat dan lengkapi kotak-kotak kosong yang memiliki tanda (?) dengan angka yang tepat.
-                                </p>
-                            </div>
+                    <div class="card border-success shadow-sm border-2 mb-2">
+                        <div class="card-body">
+                            <h6 class="fw-bold mb-1">Petunjuk Pengerjaan:</h6>
+                                <ol class="mb-0 small">
+                                    <li>Perhatikan soal-soal akar kuadrat di bawah ini.</li>
+                                    <li>Lengkapi setiap soal sesuai hasil akar kuadrat, sifat-sifat kuadrat.</li>
+                                    <li>Isilah semua bagian yang masih kosong dengan jawaban yang tepat.</li>
+                                    <li>Periksa kembali jawabanmu dan klik <strong>Cek Jawaban</strong> untuk memeriksa jawaban kamu.</li>
+                                </ol>
                         </div>
                     </div>
 
@@ -467,7 +569,7 @@
                                         <label class="form-label fw-bold mb-0 fs-5">\(\sqrt{36}\)</label>
                                         <span class="fw-bold fs-5">=</span>
                                         <input type="number" class="form-control text-center input-akar fw-bold" 
-                                            style="width: 80px;" data-answer="6" placeholder="?">
+                                            style="width: 80px;" data-answer="6" placeholder="...">
                                     </div>
                                 </div>
                             </div>
@@ -478,7 +580,7 @@
                                         <label class="form-label fw-bold mb-0 fs-5">\(\sqrt{49}\)</label>
                                         <span class="fw-bold fs-5">=</span>
                                         <input type="number" class="form-control text-center input-akar fw-bold" 
-                                            style="width: 80px;" data-answer="7" placeholder="?">
+                                            style="width: 80px;" data-answer="7" placeholder="...">
                                     </div>
                                 </div>
                             </div>
@@ -489,7 +591,7 @@
                                         <label class="form-label fw-bold mb-0 fs-5">\(\sqrt{81}\)</label>
                                         <span class="fw-bold fs-5">=</span>
                                         <input type="number" class="form-control text-center input-akar fw-bold" 
-                                            style="width: 80px;" data-answer="9" placeholder="?">
+                                            style="width: 80px;" data-answer="9" placeholder="...">
                                     </div>
                                 </div>
                             </div>
@@ -499,7 +601,7 @@
                                         <label class="form-label fw-bold mb-0 fs-6">\(\sqrt{4} \times \sqrt{9}\)</label>
                                         <span class="fw-bold fs-5">=</span>
                                         <input type="number" class="form-control text-center input-akar fw-bold" 
-                                            style="width: 80px;" data-answer="6" placeholder="?">
+                                            style="width: 80px;" data-answer="6" placeholder="...">
                                     </div>
                                 </div>
                             </div>
@@ -510,7 +612,7 @@
                                         <label class="form-label fw-bold mb-0 fs-6">\(\sqrt{4 \times 25}\)</label>
                                         <span class="fw-bold fs-5">=</span>
                                         <input type="number" class="form-control text-center input-akar fw-bold" 
-                                            style="width: 90px;" data-answer="10" placeholder="?">
+                                            style="width: 90px;" data-answer="10" placeholder="...">
                                     </div>
                                 </div>
                             </div>
@@ -518,7 +620,7 @@
 
                         <div class="text-center mt-4 mb-3">
                             <button class="btn btn-success px-5 fw-bold shadow-sm" id="btnCekAkar">
-                                Periksa Jawaban
+                                Cek Jawaban
                             </button>
                         </div>
                     </div>
@@ -590,7 +692,7 @@
                                             <div class="alert alert-success d-flex align-items-center py-2 mb-0" role="alert">
                                                 <i class="bi bi-check-circle-fill me-2"></i>
                                                 <div>
-                                                    <strong>Tepat Sekali.</strong> Sudut yang besarnya 90° disebut sudut siku-siku. Oleh karena itu, segitiga tersebut termasuk jenis <strong>segitiga siku-siku</strong>.
+                                                    <strong>Tepat Sekali.</strong> Sudut B memiliki ukuran 90° dan disebut juga sudut siku-siku. Oleh karena itu, segitiga tersebut termasuk jenis <strong>segitiga siku-siku</strong>.
                                                 </div>
                                             </div>
                                         </div>
@@ -732,7 +834,7 @@
                                     <div id="quizLockOverlay" class="position-absolute top-0 start-0 w-100 h-100 bg-white bg-opacity-90 d-flex align-items-center justify-content-center rounded" style="z-index: 10;">
                                         <div class="text-center">
                                             <i class="bi bi-lock-fill text-secondary fs-2"></i>
-                                            <p class="small fw-bold text-muted mt-1 mb-0">Selesaikan gambar di atas untuk membuka soal.</p>
+                                            <p class="small fw-bold text-muted mt-1 mb-0">Selesaikan instruksi di atas untuk membuka soal dan jawab dengan tepat!.</p>
                                         </div>
                                     </div>
 
@@ -787,7 +889,7 @@
                                             </div>
 
                                             <div class="mt-4 text-end">
-                                                <button type="submit" id="btnPeriksaQuiz" class="btn btn-success fw-bold shadow-sm px-4" disabled>Periksa Jawaban</button>
+                                                <button type="submit" id="btnPeriksaQuiz" class="btn btn-success fw-bold shadow-sm px-4" disabled>Cek Jawaban</button>
                                             </div>
                                             
                                             <div id="quizFeedback" class="mt-3 text-center" style="display: none;"></div>
@@ -860,7 +962,7 @@
                         <div class="card border-0 mt-4">
                             <div class="card-body py-3 px-4">
                                 <p class="mb-3 fw-bold text-center border-bottom pb-2">Contoh:</p>
-                                <div class="row text-center g-3">
+                                <div class="row text-center g-3 mb-2">
                                     <div class="col-md-4">
                                         <div class="bg-white border rounded p-3 shadow-sm h-100 d-flex align-items-center justify-content-center">
                                             <span class="fs-6">\(\overline{BC}\) = <strong class="fs-5 ms-1">sisi \(a\)</strong></span>
@@ -874,6 +976,23 @@
                                     <div class="col-md-4">
                                         <div class="bg-white border rounded p-3 shadow-sm h-100 d-flex align-items-center justify-content-center">
                                             <span class="fs-6">\(\overline{AB}\) = <strong class="fs-5 ms-1">sisi \(c\)</strong></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row text-center g-3">
+                                    <div class="col-md-4">
+                                        <div class="bg-white border rounded p-3 shadow-sm h-100 d-flex align-items-center justify-content-center">
+                                            <span class="fs-6">Depan sudut \(A\) \(\rightarrow\) sisi \(a\)</span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="bg-white border rounded p-3 shadow-sm h-100 d-flex align-items-center justify-content-center">
+                                            <span class="fs-6">Depan sudut \(B\) \(\rightarrow\) sisi \(b\)</span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="bg-white border rounded p-3 shadow-sm h-100 d-flex align-items-center justify-content-center">
+                                            <span class="fs-6">Depan sudut \(C\) \(\rightarrow\) sisi \(c\)</span>
                                         </div>
                                     </div>
                                 </div>
@@ -979,7 +1098,7 @@
                                             <tr>
                                                 <th width="20%">Nama Sisi</th>
                                                 <th width="40%">Titik Sudut di depan sisi</th>
-                                                <th width="40%">Garis yang terbentuk</th>
+                                                <th width="40%">Ruas Garis yang terbentuk</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -1040,7 +1159,7 @@
                                             <tr>
                                                 <th width="20%">Nama Sisi</th>
                                                 <th width="40%">Titik Sudut di depan sisi</th>
-                                                <th width="40%">Garis yang terbentuk</th>
+                                                <th width="40%">Ruas Garis yang terbentuk</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -1086,7 +1205,7 @@
                         {{-- TOMBOL & FEEDBACK --}}
                         <div class="text-center mb-3 mt-4">
                             <button class="btn btn-success px-5 fw-bold shadow-sm" onclick="checkAllAnswers()">
-                                Periksa Jawaban
+                                Cek Jawaban
                             </button>
                             <div id="final-feedback" class="mt-3 fw-bold fs-5"></div>
                         </div>
@@ -1106,40 +1225,18 @@
 
                     <!-- BODY -->
                     <div class="card-body">
+                        <p class="mb-0 text-justify">
+                            Masih ingatkah kamu dengan pertanyaan tentang bagian jembatan sebelumnya, yaitu bagaimana cara menghitung Kabel Baja jembatan yang membentuk <strong>sisi miring (hipotenusa)</strong> pada segitiga siku-siku?. Untuk mengetahuinya, kita bisa menempelkan sebuah persegi pada setiap sisi segitiga siku-siku tersebut. Mari amati hubungan luas ketiga persegi ini melalui Geogebra di bawah!
+                        </p>
                     
-                        <div class="row">
-                            
-                            <div class="col-md-4">
-                                <div class="alert alert-light border border-success border-2 shadow-sm">
-                                    <h6 class="fw-bold text-success">Petunjuk Aktivitas:</h6>
-                                    <ol class="ps-3 small text-muted" style="text-align: justify;">
-                                        <li>
-                                            Perhatikan segitiga siku-siku yang ditampilkan pada bidang koordinat.
-                                        </li>
-                                        <li>
-                                            Klik tombol Tampilkan Persegi A dan Tampilkan Persegi B untuk menampilkan persegi pada kedua sisi siku-siku.
-                                        </li>
-                                        <li>
-                                            Amati panjang sisi dan luas masing-masing persegi yang terbentuk.
-                                        </li>
-                                        <li>
-                                            Klik tombol Tampilkan Persegi C untuk menampilkan persegi pada sisi miring segitiga.
-                                        </li>
-                                        <li>
-                                            Selanjutnya, klik tombol Mulai Animasi Hubungan. Amati bagaimana kotak-kotak kecil dari Persegi A dan Persegi B bergerak dan mengisi Persegi C.
-                                        </li>
-                                        <li>
-                                            Jika ingin mengulangi proses, klik Hentikan Animasi, kemudian tekan Mulai Animasi Hubungan kembali.
-                                        </li>
-                                        <li>
-                                            Gunakan hasil pengamatanmu untuk mengisi tabel yang tersedia di bawah.
-                                        </li>
-                                    </ol>
-                                </div>
-                            </div>
+                        <div class="d-flex justify-content-center mb-2">
+                            <button type="button" class="btn btn-outline-success shadow-sm fw-bold" data-bs-toggle="modal" data-bs-target="#modalPetunjukAktivitas"> Petunjuk Pengerjaan
+                            </button>
+                        </div>
 
-                            <div class="col-md-8">
-                                <div class="geogebra-container border rounded shadow-sm" style="overflow: hidden;">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="geogebra-container border rounded shadow-sm" style="overflow: hidden; min-height: 500px;">
                                     <iframe 
                                         scrolling="no"
                                         title="Hubungan Sisi-Sisi Segitiga Siku-Siku"
@@ -1150,18 +1247,75 @@
                                 </div>
                             </div>
                         </div>
+
+                        <div class="modal fade" id="modalPetunjukAktivitas" tabindex="-1" aria-labelledby="modalPetunjukLabel" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-xl">
+                                <div class="modal-content border-success border-2">
+                                    <div class="modal-header bg-light">
+                                        <h5 class="modal-title fw-bold text-success" id="modalPetunjukLabel">Petunjuk Pengerjaan</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <ol class="ps-3 small text-muted mb-0" style="text-align: justify;">
+                                            <li class="mb-2">Perhatikan segitiga siku-siku yang ditampilkan pada bidang koordinat.</li>
+                                            <li class="mb-2">Klik tombol <strong>Tampilkan Persegi A</strong> dan <strong>Tampilkan Persegi B</strong> untuk menampilkan persegi pada kedua sisi siku-siku.</li>
+                                            <li class="mb-2">Amati panjang sisi dan luas masing-masing persegi yang terbentuk.</li>
+                                            <li class="mb-2">Klik tombol <strong>Tampilkan Persegi C</strong> untuk menampilkan persegi pada sisi miring segitiga.</li>
+                                            <li class="mb-2">Selanjutnya, klik tombol <strong>Mulai Animasi Hubungan</strong>. Amati bagaimana kotak-kotak kecil dari Persegi A dan Persegi B bergerak dan mengisi Persegi C.</li>
+                                            <li class="mb-2">Jika ingin mengulangi proses, klik <strong>Hentikan Animasi</strong>, kemudian tekan Mulai Animasi Hubungan kembali.</li>
+                                            <li>Gunakan hasil pengamatanmu untuk mengisi tabel yang tersedia di bawah.</li>
+                                        </ol>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-success fw-bold" data-bs-dismiss="modal">Saya Mengerti</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
                         <hr class="my-4">
 
                         <div class="row">
                             <div class="col-12">
                                 <div class="card mb-4 shadow-sm">
                                     <div class="card-body">
-                                        <p class="mb-3">
-                                            Berdasarkan aktivitas di atas, jawablah pertanyaan berikut:
+                                        <p class="mb-4">
+                                            Berdasarkan aktivitas di atas, isilah tabel dan jawab pertanyaan di bawah ini:
                                         </p>
 
+                                        <div class="mb-5 p-4 border rounded bg-light border-success">
+                                            <label class="form-label fw-bold mb-3">Petunjuk: Hitung panjang sisi dan luas (jumlah kotak keseluruhan) dari masing-masing persegi pada GeoGebra, lalu lengkapi tabel di bawah ini.</label>
+                                            <div class="table-responsive">
+                                                <table class="table table-bordered text-center align-middle bg-white mb-3">
+                                                    <thead class="table-success">
+                                                        <tr>
+                                                            <th class="align-middle">Panjang dan Luas Persegi</th>
+                                                            <th>Persegi A</th>
+                                                            <th>Persegi B</th>
+                                                            <th>Persegi C</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr>
+                                                            <td class="fw-bold text-start">Panjang Sisi (satuan)</td>
+                                                            <td><input type="number" id="sisi_a" class="form-control text-center mx-auto" style="width: 80px;"></td>
+                                                            <td><input type="number" id="sisi_b" class="form-control text-center mx-auto" style="width: 80px;"></td>
+                                                            <td><input type="number" id="sisi_c" class="form-control text-center mx-auto" style="width: 80px;"></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="fw-bold text-start">Luas Persegi (satuan persegi)</td>
+                                                            <td><input type="number" id="luas_a" class="form-control text-center mx-auto" style="width: 80px;"></td>
+                                                            <td><input type="number" id="luas_b" class="form-control text-center mx-auto" style="width: 80px;"></td>
+                                                            <td><input type="number" id="luas_c" class="form-control text-center mx-auto" style="width: 80px;"></td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                            <button class="btn btn-success fw-bold" onclick="cekTabelGeoGebra()">Cek Jawaban</button>
+                                            <div id="feedbackTabelGeoGebra" class="mt-2 fw-semibold"></div>
+                                        </div>
                                         <div class="mb-4">
-                                            <label for="jawab1" class="form-label fw-bold">1. Berdasarkan pengamatan visualmu, persegi manakah yang memiliki luas paling besar?</label>
+                                            <label for="jawab1" class="form-label fw-bold">1. Berdasarkan pengamatanmu, persegi manakah yang memiliki luas paling besar?</label>
                                             <div class="d-flex gap-2">
                                                 <select id="jawab1" class="form-select w-50">
                                                     <option value="" selected disabled>Pilih jawaban...</option>
@@ -1174,7 +1328,7 @@
                                             <div id="feedback1" class="mt-2 fw-semibold"></div>
                                         </div>
 
-                                        <div class="mb-3">
+                                        <div class="mb-5">
                                             <label for="jawab2" class="form-label fw-bold">2. Apakah luas persegi yang terbesar sama dengan jumlah dua luas persegi yang lebih kecil?</label>
                                             <div class="d-flex gap-2">
                                                 <select id="jawab2" class="form-select w-50">
@@ -1186,90 +1340,91 @@
                                             </div>
                                             <div id="feedback2" class="mt-2 fw-semibold"></div>
                                         </div>
-                                    </div>
-                                </div>
 
-                                <div class="card shadow-sm">
-                                    <div class="card-body">
-                                        <p class="mb-3">
-                                            3. Pada Geogebra di atas terbentuk 3 persegi seperti gambar di bawah.
-                                        </p>
-                                        
-                                        <div class="text-center mb-3">
-                                            <img src="/images/pembuktian_pythagoras.png" alt="Segitiga Siku-Siku" class="img-fluid rounded border" style="width: 30%;">
-                                            <p class="text-muted small fst-italic mt-1">Gambar segitiga ABC dari sisi 3 persegi</p>
-                                        </div>
-
-                                        <p class="text-justify">
-                                            Tiga buah persegi dengan panjang sisi setiap persegi adalah a = 3 satuan (3 Kotak), b = 4 satuan (4 Kotak), dan c = 5 satuan (5 Kotak).<br>
-                                            Jika BC, AC, dan AB adalah panjang sisi pada gambar &Delta;ABC dari masing-masing sisi 3 persegi. 
-                                            Lengkapi tabel berikut berdasarkan sisi persegi yang telah diketahui.
-                                        </p>
-
-                                        <div class="table-responsive mb-3">
-                                            <table class="table table-bordered text-center align-middle">
-                                                <thead class="table-success">
-                                                    <tr>
-                                                        <th>BC</th>
-                                                        <th>AC</th>
-                                                        <th>BC²</th>
-                                                        <th>AC²</th>
-                                                        <th>AB²</th>
-                                                        <th>AB</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    <tr>
-                                                        <td class="bg-light">5</td>
-                                                        <td class="bg-light">12</td>
-                                                        <td><input type="number" id="bc_sq_1" class="form-control text-center form-control-sm"></td>
-                                                        <td><input type="number" id="ac_sq_1" class="form-control text-center form-control-sm"></td>
-                                                        <td><input type="number" id="ab_sq_1" class="form-control text-center form-control-sm"></td>
-                                                        <td><input type="number" id="ab_1" class="form-control text-center form-control-sm"></td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td class="bg-light">8</td>
-                                                        <td class="bg-light">15</td>
-                                                        <td><input type="number" id="bc_sq_2" class="form-control text-center form-control-sm"></td>
-                                                        <td><input type="number" id="ac_sq_2" class="form-control text-center form-control-sm"></td>
-                                                        <td><input type="number" id="ab_sq_2" class="form-control text-center form-control-sm"></td>
-                                                        <td><input type="number" id="ab_2" class="form-control text-center form-control-sm"></td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td class="bg-light">9</td>
-                                                        <td class="bg-light">12</td>
-                                                        <td><input type="number" id="bc_sq_3" class="form-control text-center form-control-sm"></td>
-                                                        <td><input type="number" id="ac_sq_3" class="form-control text-center form-control-sm"></td>
-                                                        <td><input type="number" id="ab_sq_3" class="form-control text-center form-control-sm"></td>
-                                                        <td><input type="number" id="ab_3" class="form-control text-center form-control-sm"></td>
-                                                    </tr>
-                                                </tbody>
-                                            </table>
-                                        </div>
-
-                                        <button class="btn btn-success" onclick="cekTabel()">Cek Jawaban</button>
-                                        <div id="feedbackTabel" class="mb-4 fw-semibold"></div>
-
-                                        <div class="mb-3">
-                                            <label for="pilihanRumus" class="fw-bold mb-2">Pernyataan yang benar berdasarkan tabel di atas adalah . . .</label>
-                                            
-                                            <div class="d-flex gap-2">
-                                                <select id="pilihanRumus" class="form-select w-50">
-                                                    <option value="" selected disabled>Pilih rumus...</option>
-                                                    <option value="salah1">AC² - AB² = BC²</option>
-                                                    <option value="benar">BC² + AC² = AB²</option>
-                                                    <option value="salah2">AB² + BC² = AC²</option>
-                                                </select>
+                                        <div class="card shadow-sm border-0 bg-light">
+                                            <div class="card-body">
+                                                <p class="mb-3">
+                                                    3. Pada Geogebra di atas terbentuk 3 persegi seperti gambar di bawah.
+                                                </p>
                                                 
-                                                <button class="btn btn-success" onclick="cekKesimpulan()">Cek Jawaban</button>
+                                                <div class="text-center mb-3">
+                                                    <img src="/images/pembuktian_pythagoras.png" alt="Segitiga Siku-Siku" class="img-fluid rounded border" style="width: 30%;">
+                                                    <p class="text-muted small fst-italic mt-1">Gambar segitiga ABC dari sisi 3 persegi</p>
+                                                </div>
+
+                                                <p class="text-justify">
+                                                    Tiga buah persegi dengan panjang sisi setiap persegi adalah a = 3 satuan (3 Kotak), b = 4 satuan (4 Kotak), dan c = 5 satuan (5 Kotak).<br>
+                                                    Jika BC, AC, dan AB adalah panjang sisi pada gambar &Delta;ABC dari masing-masing sisi 3 persegi. 
+                                                    Lengkapi tabel berikut berdasarkan sisi persegi yang telah diketahui.
+                                                </p>
+
+                                                <div class="table-responsive mb-3">
+                                                    <table class="table table-bordered text-center align-middle bg-white">
+                                                        <thead class="table-success">
+                                                            <tr>
+                                                                <th>BC</th>
+                                                                <th>AC</th>
+                                                                <th>BC²</th>
+                                                                <th>AC²</th>
+                                                                <th>AB²</th>
+                                                                <th>AB</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <tr>
+                                                                <td class="bg-light">5</td>
+                                                                <td class="bg-light">12</td>
+                                                                <td><input type="number" id="bc_sq_1" class="form-control text-center form-control-sm mx-auto" style="width: 60px;"></td>
+                                                                <td><input type="number" id="ac_sq_1" class="form-control text-center form-control-sm mx-auto" style="width: 60px;"></td>
+                                                                <td><input type="number" id="ab_sq_1" class="form-control text-center form-control-sm mx-auto" style="width: 60px;"></td>
+                                                                <td><input type="number" id="ab_1" class="form-control text-center form-control-sm mx-auto" style="width: 60px;"></td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td class="bg-light">8</td>
+                                                                <td class="bg-light">15</td>
+                                                                <td><input type="number" id="bc_sq_2" class="form-control text-center form-control-sm mx-auto" style="width: 60px;"></td>
+                                                                <td><input type="number" id="ac_sq_2" class="form-control text-center form-control-sm mx-auto" style="width: 60px;"></td>
+                                                                <td><input type="number" id="ab_sq_2" class="form-control text-center form-control-sm mx-auto" style="width: 60px;"></td>
+                                                                <td><input type="number" id="ab_2" class="form-control text-center form-control-sm mx-auto" style="width: 60px;"></td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td class="bg-light">9</td>
+                                                                <td class="bg-light">12</td>
+                                                                <td><input type="number" id="bc_sq_3" class="form-control text-center form-control-sm mx-auto" style="width: 60px;"></td>
+                                                                <td><input type="number" id="ac_sq_3" class="form-control text-center form-control-sm mx-auto" style="width: 60px;"></td>
+                                                                <td><input type="number" id="ab_sq_3" class="form-control text-center form-control-sm mx-auto" style="width: 60px;"></td>
+                                                                <td><input type="number" id="ab_3" class="form-control text-center form-control-sm mx-auto" style="width: 60px;"></td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+
+                                                <button class="btn btn-success mb-2" onclick="cekTabel()">Cek Jawaban Tabel</button>
+                                                <div id="feedbackTabel" class="mb-4 fw-semibold"></div>
+
+                                                <div class="mb-3">
+                                                    <label for="pilihanRumus" class="fw-bold mb-2">Pernyataan yang benar berdasarkan tabel di atas adalah . . .</label>
+                                                    
+                                                    <div class="d-flex gap-2">
+                                                        <select id="pilihanRumus" class="form-select w-50">
+                                                            <option value="" selected disabled>Pilih rumus...</option>
+                                                            <option value="salah1">AC² - AB² = BC²</option>
+                                                            <option value="benar">BC² + AC² = AB²</option>
+                                                            <option value="salah2">AB² + BC² = AC²</option>
+                                                        </select>
+                                                        
+                                                        <button class="btn btn-success" onclick="cekKesimpulan()">Cek Kesimpulan</button>
+                                                    </div>
+
+                                                    <div id="feedbackKesimpulan" class="mt-2 fw-semibold"></div>
+                                                </div>
+
+                                                <div id="boxKesimpulan" class="alert alert-light border border-success border-2 shadow-sm d-none mt-3">
+                                                    <strong>Kesimpulan:</strong> Berdasarkan tabel di atas kita dapat menyimpulkan bahwa &Delta;ABC memiliki sisi siku-siku pada sisi BC dan AC, dan sisi miring atau hipotenusa di sisi AB.
+                                                </div>
                                             </div>
-
-                                            <div id="feedbackKesimpulan" class="mt-2 fw-semibold"></div>
                                         </div>
 
-                                        <div id="boxKesimpulan" class="alert alert-light border border-success border-2 shadow-sm d-none">
-                                            <strong>Kesimpulan:</strong> Berdasarkan tabel di atas kita dapat menyimpulkan bahwa &Delta;ABC memiliki sisi siku-siku pada sisi BC dan AC, dan sisi miring atau hipotenusa di sisi AB.
-                                        </div>
                                     </div>
                                 </div>
 
@@ -1533,21 +1688,21 @@
                                 <div class="bg-white rounded-3 shadow-sm border mb-3 py-2 d-flex justify-content-center overflow-hidden">
                                     <img src="/images/contoh_soal_1.png" class="img-fluid w-75" alt="Contoh 1">
                                 </div>
-                                <div class="text-start mb-2">
+                                <div class="text-justify mb-2">
                                     <p class="text-muted small mb-2">
-                                        Terdapat sebuah tangga menuju laboratorium sekolah dengan ujung tangga berjarak 4 meter dari dinding dan mencapai ketinggian 3 meter. Tentukan panjang tangga tersebut!
+                                        Sebuah tangga menuju laboratorium sekolah memiliki jarak 4 meter daripada dinding dan ketinggian tangga tersebut 3 meter dari lantai. Jika Ahmad ingin menuju laboratorium dan menaiki tangga, berapakah jarak yang harus ditempuh oleh Ahmad hingga sampai ke atas?
                                     </p>
                                 </div>
                                 <div class="border-start border-success border-3 ps-2 mb-2">
                                     <strong class="text-success small">Diketahui:</strong>
                                     <ul class="mb-0 mt-0 text-muted small ps-3">
-                                        <li>Jarak kaki tangga ke dinding = 4 meter.</li>
-                                        <li>Tinggi tangga di dinding = 3 meter.</li>
+                                        <li>Jarak tangga ke dinding = 4 meter.</li>
+                                        <li>Tinggi tangga dari lantai = 3 meter.</li>
                                     </ul>
                                 </div>
                                 <div class="border-start border-warning border-3 ps-2 mb-3">
                                     <strong class="text-warning small">Ditanya:</strong>
-                                    <p class="mb-0 text-muted small">Panjang tangga = ...? </p>
+                                    <p class="mb-0 text-muted small">Jarak yang harus ditempuh Ahmad untuk naik ke atas = ...? </p>
                                 </div>
                             </div>
                             <div class="col-lg-7">
@@ -1561,11 +1716,11 @@
                                                 <ul class="mb-0 ps-3">
                                                     <li>Sisi siku-siku (a) = 3 meter (tinggi tangga di dinding)</li>
                                                     <li>Sisi siku-siku (b) = 4 meter (jarak kaki tangga ke dinding)</li>
-                                                    <li>Sisi miring (c) = panjang tangga yang dicari</li>
+                                                    <li>Sisi miring (c) = Jarak ujung kaki tangga hingga ujung tangga di atas</li>
                                                 </ul>
                                             </li>  
                                             <li>
-                                                <strong>Gunakan Teorema Pythagoras untuk mencari panjang tangga (c):</strong><br>
+                                                <strong>Gunakan Teorema Pythagoras untuk mencari jarak yang ditempuh Ahmad (c):</strong><br>
                                                 Menurut Teorema Pythagoras, kita punya:
                                                 <div>
                                                     \[
@@ -1582,7 +1737,7 @@
                                         </ol>
                                         <div class="alert alert-success d-flex align-items-center small">
                                             <div>
-                                                <strong>Jadi,</strong> panjang tangga tersebut adalah <strong>\(5 \text{ meter}\)</strong>.
+                                                <strong>Jadi,</strong> jarak yang harus ditempuh Ahmad untuk menaiki tangga tersebut adalah <strong>\(5 \text{ meter}\)</strong>.
                                             </div> 
                                         </div>
                                     </div>
@@ -1620,8 +1775,8 @@
                                 <div class="border-start border-success border-3 ps-2 mb-2">
                                     <strong class="text-success small">Diketahui:</strong>
                                     <ul class="mb-0 mt-0 text-muted small ps-3">
-                                        <li>\( \Delta ABC \): Sisi miring \( AB=13 \), alas \( AC=12 \).</li>
-                                        <li>\( \Delta BCD \): Siku-siku di \( D \), sisi \( CD=3 \).</li>
+                                        <li>\( \Delta ABC \): Sisi miring \( AB=13 \text{ cm}\), alas \( AC=12 \text{ cm}\).</li>
+                                        <li>\( \Delta BCD \): Siku-siku di \( D \), sisi \( CD=3 \text{ cm} \).</li>
                                     </ul>
                                 </div>
 
@@ -1686,117 +1841,105 @@
                 </div>
             </div>
 
-            <!-- ================================= -->
-            <!-- LATIHAN DRAG & DROP: AYO BERLATIH -->
-            <!-- ================================= -->
-            <div class="container-fluid mb-5">
-                <div class="card shadow-sm border-0">
-                    <div class="card-header bg-success text-white text-center py-3">
-                        <h4 class="mb-0 fw-bold"> Ayo Berlatih: Teorema Pythagoras</h4>
-                    </div>
-
-                    <div class="card-body bg-light">
-                        <div class="alert alert-white shadow-sm border-start border-success border-4 mb-4">Petunjuk Pengerjaan:</h6>
-                            <ol class="mb-0 small text-muted">
-                                <li><strong>Geser (Drag)</strong> kartu angka di sebelah kanan ke dalam kotak bertanda "<strong>?</strong>" pada soal.</li>
-                                <li>Jawaban akan tersimpan sementara (berwarna biru).</li>
-                                <li>Jika ingin mengganti, cukup timpa dengan jawaban baru.</li>
-                                <li>Klik tombol <strong>Periksa Jawaban</strong> di panel kanan untuk melihat hasil akhir.</li>
-                            </ol>
+            <div class="col-sm-12 mb-4">
+                    <div class="card shadow-sm">
+                        <div class="card-header text-center border-bottom py-3">
+                            <h4 class="mb-0 fw-bold">Ayo Berlatih</h4>
                         </div>
+                        
+                        <div class="card-body">
+                            <div class="alert alert-white shadow-sm border-start border-success border-4">
+                                <h6 class="fw-bold">Petunjuk Pengerjaan:</h6>
+                                <ul class="mb-0 small text-muted">
+                                    <li>Perhatikan gambar dan angka yang diketahui di sebelah kiri.</li>
+                                    <li>Isi kotak-kotak kosong pada langkah penyelesaian di sebelah kanan.</li>
+                                    <li>Klik tombol <strong>Cek Jawaban</strong> di setiap nomor untuk memeriksa hasilmu.</li>
+                                </ul>
+                            </div>
 
-                        <div class="row g-4" id="pyth-latihan-container">
-                            <div class="col-lg-8">
-                                <div class="row">
-                                    <div class="col-md-6 mb-4">
-                                        <div class="card h-100 border-0 shadow-sm pyth-card">
-                                            <div class="card-body d-flex flex-column text-center">
-                                                <span class="badge bg-success align-self-start mb-2">Soal 1</span>
-                                                <p class="fw-bold text-dark mb-2">Hitung sisi tegak:</p>
-                                                
-                                                <div class="pyth-img-box mb-3">
-                                                    <img src="/images/segitiga_latihan1_nomor1.png" class="img-fluid rounded" alt="Soal 1">
-                                                </div>
+                            <div class="card border-0 shadow mb-4">
+                                <div class="card-header bg-success text-white">
+                                    <h5 class="mb-0 fw-bold">Soal 1</h5>
+                                </div>
+                                <div class="card-body">
+                                    <div class="row">
 
-                                                <div class="mt-auto">
-                                                    <div class="pyth-drop-zone mx-auto" data-soal="1">
-                                                        <span class="placeholder-text">?</span>
-                                                    </div>
-                                                </div>
+                                        <div class="col-lg-5 mb-3">
+                                            <p class="text-muted fw-bold mb-2 small">Perhatikan gambar di bawah ini:</p>
+                                            <div class="bg-white rounded-3 border mb-3 d-flex justify-content-center">
+                                                <img src="/images/segitiga_latihan1_nomor1.png" class="img-fluid p-2" style="max-height: 300px;" alt="Soal 1">
+                                            </div>
+                                            <p>Tentukan sisi siku-siku yang belum diketahui pada gambar!</p>
+                                            
+                                            <div class="border-start border-success border-3 ps-3 mb-3">
+                                                <strong class="text-success small d-block mb-1">Diketahui:</strong>
+                                                <ul class="mb-0 mt-0 text-muted small ps-3">
+                                                    <li>Sisi Miring AB = <strong>10 cm</strong></li>
+                                                    <li>Sisi Siku-Siku BC = <strong>6 cm</strong></li>
+                                                </ul>
+                                            </div>
+
+                                            <div class="border-start border-warning border-3 ps-3">
+                                                <strong class="text-warning small d-block mb-1">Ditanya:</strong>
+                                                <p class="mb-0 text-muted small">Panjang sisi siku-siku AC = ... ?</p>
                                             </div>
                                         </div>
-                                    </div>
 
-                                    <div class="col-md-6 mb-4">
-                                        <div class="card h-100 border-0 shadow-sm pyth-card">
-                                            <div class="card-body d-flex flex-column text-center">
-                                                <span class="badge bg-success align-self-start mb-2">Soal 2</span>
-                                                <p class="fw-bold text-dark mb-2">Hitung sisi miring:</p>
-                                                
-                                                <div class="pyth-img-box mb-3">
-                                                    <img src="/images/segitiga_latihan1_nomor2.png" class="img-fluid rounded" alt="Soal 2">
-                                                </div>
+                                        <div class="col-lg-7">
+                                            <div class="card bg-light border-0 rounded-3 h-100">
+                                                <div class="card-body">
+                                                    <h6 class="fw-bold mb-3 text-dark">Langkah Penyelesaian:</h6>
+                                                    
+                                                    <ol class="ps-3 mb-0 text-muted list-group-numbered-custom">
+                                                        
+                                                        <li class="mb-4">
+                                                            <strong>Mencari sisi siku-siku (AC):</strong>
+                                                            <p class="text-muted mb-2">
+                                                                Karena sisi miring (AB) sudah diketahui, maka untuk mencari sisi siku-siku lainnya kita gunakan pengurangan.
+                                                            </p>
+                                                            
+                                                            <div class="p-3 bg-white border rounded shadow-sm">
+                                                                <small class="fst-italic text-secondary d-block mb-2">Rumus: \( AC^2 = AB^2 - BC^2 \)</small>
 
-                                                <div class="mt-auto">
-                                                    <div class="pyth-drop-zone mx-auto" data-soal="2">
-                                                        <span class="placeholder-text">?</span>
+                                                                <div class="d-flex align-items-center gap-2 mb-2">
+                                                                    <span class="fw-bold text-dark">\( AC^2 = \)</span>
+                                                                    <div class="input-group input-group-sm" style="width: 80px;">
+                                                                        <input type="number" id="s1_inp_ab" class="form-control text-center bg-white" placeholder="...">
+                                                                        <span class="input-group-text bg-light text-secondary">²</span>
+                                                                    </div>
+                                                                    <span class="fw-bold">-</span>
+                                                                    <div class="input-group input-group-sm" style="width: 80px;">
+                                                                        <input type="number" id="s1_inp_bc" class="form-control text-center bg-white" placeholder="...">
+                                                                        <span class="input-group-text bg-light text-secondary">²</span>
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="d-flex align-items-center gap-2 mb-2">
+                                                                    <span class="text-dark">\( AC^2 = \)</span>
+                                                                    <input type="number" id="s1_res_ab_sq" class="form-control form-control-sm text-center bg-white" style="width:70px;" placeholder="...">
+                                                                    <span>-</span>
+                                                                    <input type="number" id="s1_res_bc_sq" class="form-control form-control-sm text-center bg-white" style="width:70px;" placeholder="...">
+                                                                </div>
+
+                                                                <div class="d-flex align-items-center gap-2">
+                                                                    <span class="text-dark">\( AC = \sqrt{} \)</span>
+                                                                    <input type="number" id="s1_res_sub" class="form-control form-control-sm text-center bg-white fw-bold" style="width:80px;" placeholder="...">
+                                                                    =
+                                                                    <input type="number" id="s1_final" class="form-control form-control-sm text-center bg-white fw-bold text-success border-success" style="width:90px;" placeholder="...">
+                                                                    <span class="fw-bold text-dark">cm</span>
+                                                                </div>
+                                                            </div>
+                                                        </li>
+
+                                                    </ol>
+
+                                                    <div class="mt-3 pt-3 border-top d-flex justify-content-between align-items-center">
+                                                        <div id="s1_feedback" class="small fw-bold text-success"></div>
+                                                        <button class="btn btn-success btn-sm px-4 fw-bold shadow-sm" onclick="cekSoal1()">
+                                                            Cek Jawaban
+                                                        </button>
                                                     </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
 
-                                    <div class="col-md-6 mb-4">
-                                        <div class="card h-100 border-0 shadow-sm pyth-card">
-                                            <div class="card-body d-flex flex-column text-center">
-                                                <span class="badge bg-success align-self-start mb-2">Soal 3</span>
-                                                <p class="fw-bold text-dark mb-2">Hitung sisi alas:</p>
-                                                
-                                                <div class="pyth-img-box mb-3">
-                                                    <img src="/images/segitiga_latihan1_nomor3.png" class="img-fluid rounded" alt="Soal 3">
-                                                </div>
-
-                                                <div class="mt-auto">
-                                                    <div class="pyth-drop-zone mx-auto" data-soal="3">
-                                                        <span class="placeholder-text">?</span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="col-md-6 mb-4">
-                                        <div class="card h-100 border-0 shadow-sm pyth-card">
-                                            <div class="card-body d-flex flex-column text-center">
-                                                <span class="badge bg-success align-self-start mb-2">Soal 4</span>
-                                                <p class="fw-bold text-dark mb-2">Hitung sisi miring:</p>
-                                                
-                                                <div class="pyth-img-box mb-3">
-                                                    <img src="/images/segitiga_latihan1_nomor4.png" class="img-fluid rounded" alt="Soal 4">
-                                                </div>
-
-                                                <div class="mt-auto">
-                                                    <div class="pyth-drop-zone mx-auto" data-soal="4">
-                                                        <span class="placeholder-text">?</span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6 mb-4">
-                                        <div class="card h-100 border-0 shadow-sm pyth-card">
-                                            <div class="card-body d-flex flex-column text-center">
-                                                <span class="badge bg-success align-self-start mb-2">Soal 5</span>
-                                                <p class="fw-bold text-dark mb-2">Hitung Tinggi Segitiga:</p>
-                                                
-                                                <div class="pyth-img-box mb-3">
-                                                    <img src="/images/segitiga_latihan1_nomor5.png" class="img-fluid rounded" alt="Soal 5">
-                                                </div>
-
-                                                <div class="mt-auto">
-                                                    <div class="pyth-drop-zone mx-auto" data-soal="5">
-                                                        <span class="placeholder-text">?</span>
-                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -1804,53 +1947,149 @@
                                 </div>
                             </div>
 
-                            <div class="col-lg-4">
-                                <div class="pyth-sidebar card border-0 shadow-sm">
-                                    <div class="card-header bg-white border-bottom-0 pt-4 pb-0">
-                                        <h5 class="fw-bold text-success"><i class="bi bi-grid-fill"></i> Pilihan Jawaban</h5>
-                                        <p class="text-muted small">Seret angka ke kotak soal.</p>
-                                    </div>
-                                    <div class="card-body">
-                                        <div class="row g-2 justify-content-center">
-                                            <div class="col-6">
-                                                <div class="pyth-drag-item shadow-sm" draggable="true" data-value="8">
-                                                    <span class="num">8</span> <small>cm</small>
-                                                </div>
+                            <div class="card border-0 shadow mb-4">
+                                <div class="card-header bg-success text-white">
+                                    <h5 class="mb-0 fw-bold">Soal 2</h5>
+                                </div>
+
+                                <div class="card-body">
+                                    <div class="row">
+
+                                        <!-- KOLOM GAMBAR -->
+                                        <div class="col-lg-5 mb-3">
+                                            <p class="text-muted fw-bold mb-2 small">Perhatikan gambar di bawah ini:</p>
+                                            <div class="bg-white rounded-3 border mb-3 d-flex justify-content-center">
+                                                <img src="/images/segitiga_latihan1_nomor2.png"
+                                                    class="img-fluid p-2"
+                                                    style="max-height:300px;"
+                                                    alt="Soal 2">
                                             </div>
-                                            <div class="col-6">
-                                                <div class="pyth-drag-item shadow-sm" draggable="true" data-value="13">
-                                                    <span class="num">13</span> <small>cm</small>
-                                                </div>
+                                            <p>Berdasarkan gambar diatas tentukan panjang CD!</p>
+
+                                            <div class="border-start border-success border-3 ps-3 mb-3">
+                                                <strong class="text-success small d-block mb-1">Diketahui:</strong>
+                                                <ul class="mb-0 text-muted small ps-3">
+                                                    <li>Panjang AB = <strong>4 cm</strong></li>
+                                                    <li>Panjang BC = <strong>3 cm</strong></li>
+                                                    <li>Panjang AD = <strong>12 cm</strong></li>
+                                                    <li class="fst-italic">(Siku-siku di B dan di A)</li>
+                                                </ul>
                                             </div>
-                                            <div class="col-6">
-                                                <div class="pyth-drag-item shadow-sm" draggable="true" data-value="25">
-                                                    <span class="num">25</span> <small>cm</small>
-                                                </div>
+                                            <div class="border-start border-warning border-3 ps-3">
+                                                <strong class="text-warning small d-block mb-1">Ditanya:</strong>
+                                                <p class="mb-0 text-muted small">Panjang sisi miring CD = ... ?</p>
                                             </div>
-                                            <div class="col-6">
-                                                <div class="pyth-drag-item shadow-sm" draggable="true" data-value="29">
-                                                    <span class="num">29</span> <small>cm</small>
-                                                </div>
-                                            </div>
-                                            <div class="col-6">
-                                                <div class="pyth-drag-item shadow-sm" draggable="true" data-value="24">
-                                                    <span class="num">24</span> <small>cm</small>
+                                        </div>
+
+                                        <!-- KOLOM PENYELESAIAN -->
+                                        <div class="col-lg-7">
+                                            <div class="card bg-light border-0 rounded-3 h-100">
+                                                <div class="card-body">
+
+                                                    <h6 class="fw-bold mb-3 text-dark">Langkah Penyelesaian:</h6>
+
+                                                    <ol class="ps-3 mb-0 text-muted list-group-numbered-custom">
+
+                                                        <li class="mb-4">
+                                                            <strong>Mencari sisi miring yaitu AC pada segitiga kecil:</strong>
+                                                            <p class="text-muted mb-2">
+                                                                Perhatikan segitiga <strong>ABC</strong>. Karena siku-siku di B, maka AC adalah sisi miringnya.
+                                                            </p>
+                                                            
+                                                            <div class="p-3 bg-white border rounded shadow-sm">
+                                                                <small class="fst-italic text-secondary d-block mb-2">Rumus: \( AC^2 = AB^2 + BC^2 \)</small>
+
+                                                                <div class="d-flex align-items-center gap-2 mb-2">
+                                                                    <span class="fw-bold text-dark">\( AC^2 = \)</span>
+                                                                    <div class="input-group input-group-sm" style="width: 80px;">
+                                                                        <input type="number" id="s2_ac_ab" class="form-control text-center bg-white" placeholder="...">
+                                                                        <span class="input-group-text bg-light text-secondary">²</span>
+                                                                    </div>
+                                                                    <span>+</span>
+                                                                    <div class="input-group input-group-sm" style="width: 80px;">
+                                                                        <input type="number" id="s2_ac_bc" class="form-control text-center bg-white" placeholder="...">
+                                                                        <span class="input-group-text bg-light text-secondary">²</span>
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="d-flex align-items-center gap-2 mb-2">
+                                                                    <span class="text-dark">\( AC^2 = \)</span>
+                                                                    <input type="number" id="s2_ac_sq1" class="form-control form-control-sm text-center bg-white" style="width:70px;" placeholder="...">
+                                                                    <span>+</span>
+                                                                    <input type="number" id="s2_ac_sq2" class="form-control form-control-sm text-center bg-white" style="width:70px;" placeholder="...">
+                                                                </div>
+
+                                                                <div class="d-flex align-items-center gap-2">
+                                                                    <span class="text-dark">\( AC = \sqrt{} \)</span>
+                                                                    <input type="number" id="s2_ac_sum" class="form-control form-control-sm text-center bg-white fw-bold" style="width:80px;" placeholder="...">
+                                                                    =
+                                                                    <input type="number" id="s2_ac_final" class="form-control form-control-sm text-center bg-white fw-bold" style="width:90px;" placeholder="...">
+                                                                    <span class="fw-bold text-dark">cm</span>
+                                                                </div>
+                                                            </div>
+                                                        </li>
+
+                                                        <div class="alert small border-success shadow-sm border-2 rounded-3 text-dark">
+                                                            Nah, sekarang kita tahu panjang <strong>AC</strong> Gunakan nilai ini sebagai sisi segitiga ACD yang belum diketahui!
+                                                        </div>
+
+                                                        <li class="mb-3">
+                                                            <strong>Mencari sisi miring yaitu CD pada segitiga besar:</strong>
+                                                            <p class="text-muted mb-2">
+                                                                Sekarang perhatikan segitiga <strong>ACD</strong> yang siku-siku di A. Sisi miringnya adalah CD.
+                                                            </p>
+
+                                                            <div class="p-3 bg-white border rounded shadow-sm">
+                                                                <small class="fst-italic text-secondary d-block mb-2">Rumus: \( CD^2 = AC^2 + AD^2 \)</small>
+
+                                                                <div class="d-flex align-items-center gap-2 mb-2">
+                                                                    <span class="fw-bold text-dark">\( CD^2 = \)</span>
+                                                                    <div class="input-group input-group-sm" style="width: 80px;">
+                                                                        <input type="number" id="s2_cd_ac" class="form-control text-center bg-white" placeholder="...">
+                                                                        <span class="input-group-text bg-light text-secondary">²</span>
+                                                                    </div>
+                                                                    <span>+</span>
+                                                                    <div class="input-group input-group-sm" style="width: 80px;">
+                                                                        <input type="number" id="s2_cd_ad" class="form-control text-center bg-white" placeholder="...">
+                                                                        <span class="input-group-text bg-light text-secondary">²</span>
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="d-flex align-items-center gap-2 mb-2">
+                                                                    <span class="text-dark">\( CD^2 = \)</span>
+                                                                    <input type="number" id="s2_cd_sq1" class="form-control form-control-sm text-center bg-white" style="width:70px;" placeholder="...">
+                                                                    <span>+</span>
+                                                                    <input type="number" id="s2_cd_sq2" class="form-control form-control-sm text-center bg-white" style="width:70px;" placeholder="...">
+                                                                </div>
+
+                                                                <div class="d-flex align-items-center gap-2">
+                                                                    <span class="text-dark">\( CD = \sqrt{} \)</span>
+                                                                    <input type="number" id="s2_cd_sum" class="form-control form-control-sm text-center bg-white fw-bold" style="width:80px;" placeholder="...">
+                                                                    =
+                                                                    <input type="number" id="s2_cd_final" class="form-control form-control-sm text-center bg-white fw-bold text-success border-success" style="width:90px;" placeholder="...">
+                                                                    <span class="fw-bold text-dark">cm</span>
+                                                                </div>
+                                                            </div>
+                                                        </li>
+
+                                                    </ol>
+                                                    <div class="mt-3 pt-3 border-top d-flex justify-content-between align-items-center">
+                                                        <div id="s2_feedback" class="small fw-bold text-success"></div>
+                                                        <button class="btn btn-success btn-sm px-4 fw-bold shadow-sm">
+                                                            Cek Jawaban
+                                                        </button>
+                                                    </div>
+
                                                 </div>
                                             </div>
                                         </div>
 
-                                        <hr class="my-4">
-
-                                        <button id="btn-pyth-check" class="btn btn-success w-100 py-2 fw-bold shadow-sm">Periksa Jawaban</button>
-                                        
-                                        <button id="btn-pyth-reset" class="btn btn-outline-secondary w-100 mt-2 py-1 small btn-sm">Ulangi</button>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
         </div>
     </section>
 
@@ -1978,7 +2217,7 @@
             <!-- TOMBOL -->
             <div class="text-center mt-4">
                 <button class="btn btn-success px-4" onclick="cekRefleksi()">
-                    Cek Jawaban
+                    Simpan Refleksi
                 </button>
             </div>
 
@@ -2020,7 +2259,7 @@
             <button class="page-link page-btn" data-page="4">5</button>
             </li>
             <li class="page-item">
-            <button class="page-link" id="nextPage">›</button>
+            <button class="page-link next-Btn">›</button>
             </li>
         </ul>
     </nav>

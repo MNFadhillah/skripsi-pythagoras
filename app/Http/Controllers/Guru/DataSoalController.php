@@ -6,36 +6,51 @@ use App\Http\Controllers\Controller;
 use App\Models\ButirSoal;
 use App\Models\PaketSoal;
 use Illuminate\Http\Request;
-use Illuminate\Support\Str;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\File;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Imports\SoalImport;
+use Maatwebsite\Excel\Concerns\FromArray;
+use Maatwebsite\Excel\Concerns\WithHeadings;
+use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
+use Maatwebsite\Excel\Concerns\WithStyles;
+use Maatwebsite\Excel\Excel as ExcelExcel;
+
 
 class DataSoalController extends Controller
 {
-    public function data_soal()
+    /**
+     * Menampilkan halaman data soal
+     */
+    public function data_soal(Request $request)
     {
-        $soal = ButirSoal::with('paketSoal')
-            ->orderBy('created_at', 'desc')
-            ->get();
+        $query = ButirSoal::with('paketSoal')
+            ->orderBy('created_at', 'desc');
 
+        if ($request->filled('paket_soal_id')) {
+            $query->where('paket_soal_id', $request->paket_soal_id);
+        }
+
+        $soal = $query->get();
         $paketSoal = PaketSoal::orderBy('judul')->get();
 
         return view('guru.data_soal', compact('soal', 'paketSoal'));
     }
 
+    /**
+     * JSON Detail Soal
+     */
     public function data_soal_json($id)
     {
         try {
             $soal = ButirSoal::with('paketSoal')->findOrFail($id);
-            
+
             return response()->json([
-                'success' => true,
-                'pertanyaan' => $soal->pertanyaan,
-                'opsi_jawaban' => $soal->opsi_jawaban,
-                'kunci_jawaban' => $soal->kunci_jawaban,
-                'paket_soal' => $soal->paketSoal->judul ?? 'Tidak ada paket',
-                'created_at' => $soal->created_at->format('d-m-Y H:i'),
-                'updated_at' => $soal->updated_at->format('d-m-Y H:i')
+                'success'        => true,
+                'pertanyaan'     => $soal->pertanyaan,
+                'opsi_jawaban'   => $soal->opsi_jawaban,
+                'kunci_jawaban'  => $soal->kunci_jawaban,
+                'paket_soal'     => $soal->paketSoal->judul ?? '-',
+                'created_at'     => $soal->created_at->format('d-m-Y H:i'),
             ]);
         } catch (\Exception $e) {
             return response()->json([
@@ -45,97 +60,274 @@ class DataSoalController extends Controller
         }
     }
 
+    /**
+     * JSON Edit Modal
+     */
+    public function editJson($id)
+    {
+        try {
+            $soal = ButirSoal::findOrFail($id);
+
+            $text = $soal->pertanyaan['text'] ?? '';
+            $gambar = $soal->pertanyaan['image'] ?? null;
+
+            return response()->json([
+                'success'        => true,
+                'id'             => $soal->id,
+                'paket_soal_id'  => $soal->paket_soal_id,
+                'pertanyaan'     => $text,
+                'gambar'         => $gambar,
+                'opsi'           => $soal->opsi_jawaban,
+                'kunci_jawaban'  => $soal->kunci_jawaban,
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Gagal memuat data'
+            ], 500);
+        }
+    }
+
+    /**
+     * Simpan Soal Baru (Manual)
+     */
     public function store(Request $request)
     {
-        $request->validate([
-            'paket_soal_id' => 'required',
-            'pertanyaan'    => 'required',
-            'opsi'          => 'required|array',
-            'kunci_jawaban' => 'required',
-            'gambar'        => 'nullable|image|max:2048',
-        ]);
+        // 1. Tentukan apakah ini soal Isian atau Pilihan Ganda
+        $isIsian = $request->input('tipe_soal', 'pg') === 'isian';
 
-        $pertanyaanData = [
-            'text' => trim($request->pertanyaan),
-            'image' => null 
+        // 2. Validasi Dasar
+        $rules = [
+            'paket_soal_id' => 'required|exists:paket_soal,id',
+            'pertanyaan'    => 'required',
+            'gambar'        => 'nullable|image|max:2048',
         ];
 
-        // LOGIKA UPLOAD LANGSUNG KE PUBLIC
+        // 3. Validasi Kondisional
+        if ($isIsian) {
+            // Jika Isian: Wajib isi kunci_jawaban_isian (Text)
+            $rules['kunci_jawaban_isian'] = 'required';
+        } else {
+            // Jika PG: Wajib isi kunci_jawaban_pg (A-D) dan Opsi
+            $rules['kunci_jawaban_pg'] = 'required|in:A,B,C,D';
+            $rules['opsi'] = 'required|array';
+        }
+
+        $request->validate($rules);
+
+        // 4. Proses Simpan Gambar
+        $pertanyaanData = [
+            'text'  => trim($request->pertanyaan),
+            'image' => null,
+        ];
+
         if ($request->hasFile('gambar')) {
-            $file = $request->file('gambar');
-            $namaFile = 'soal_' . time() . '.' . $file->getClientOriginalExtension();
-            
-            // Tentukan tujuan langsung ke folder public
-            $tujuanUpload = public_path('storage/soal');
-            
-            // Buat folder jika belum ada
-            if (!File::exists($tujuanUpload)) {
-                File::makeDirectory($tujuanUpload, 0755, true);
+            $path = public_path('storage/soal');
+            if (!File::exists($path)) {
+                File::makeDirectory($path, 0755, true);
             }
 
-            // Pindahkan file ke sana
-            $file->move($tujuanUpload, $namaFile);
-            
-            // Simpan path database
+            $file = $request->file('gambar');
+            $namaFile = 'soal_' . time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
+            $file->move($path, $namaFile);
+
             $pertanyaanData['image'] = '/storage/soal/' . $namaFile;
         }
 
-        // Format Opsi
-        $opsiFormatted = [];
-        foreach ($request->opsi as $key => $val) {
-            $opsiFormatted[$key] = [
-                'text'  => $val['text'] ?? '',
-                'image' => null 
-            ];
+        // 5. Proses Opsi dan Kunci Jawaban
+            if ($isIsian) {
+                // Kita simpan array kosong.
+                // Karena di Model ada casts 'array', Laravel otomatis ubah jadi JSON "[]"
+                $opsiFormatted = []; 
+                $kunciFinal = $request->kunci_jawaban_isian;
+            } else {
+            // Logic PG: Format opsi jadi array JSON, Kunci diambil dari dropdown
+            $opsiFormatted = [];
+            foreach ($request->opsi as $key => $val) {
+                $opsiFormatted[$key] = [
+                    'text'  => $val['text'] ?? '',
+                    'image' => null,
+                ];
+            }
+            $kunciFinal = $request->kunci_jawaban_pg;
         }
 
+        // 6. Simpan ke Database
         ButirSoal::create([
             'paket_soal_id' => $request->paket_soal_id,
             'pertanyaan'    => $pertanyaanData,
             'opsi_jawaban'  => $opsiFormatted,
-            'kunci_jawaban' => $request->kunci_jawaban,
+            'kunci_jawaban' => $kunciFinal,
         ]);
 
-        return response()->json(['success' => true, 'message' => 'Soal berhasil ditambahkan']);
+        return response()->json([
+            'success' => true,
+            'message' => 'Soal berhasil ditambahkan'
+        ]);
     }
 
+    /**
+     * Update Soal
+     */
+    public function update(Request $request, $id)
+    {
+        $soal = ButirSoal::findOrFail($id);
+
+        // 1. Cek tipe soal dari input edit
+        $isIsian = $request->tipe_soal === 'isian';
+
+        // 2. Validasi Dasar
+        $rules = [
+            'paket_soal_id'   => 'required|exists:paket_soal,id',
+            'pertanyaan_text' => 'required',
+            'gambar'          => 'nullable|image|max:2048',
+        ];
+
+        // 3. Validasi Kondisional
+        if ($isIsian) {
+            $rules['kunci_jawaban_isian'] = 'required';
+        } else {
+            $rules['kunci_jawaban_pg'] = 'required|in:A,B,C,D';
+            $rules['opsi'] = 'required|array';
+        }
+
+        $request->validate($rules);
+
+        // 4. Proses Gambar (Pertahankan lama jika tidak ada upload baru)
+        $pathGambarLama = $soal->pertanyaan['image'] ?? null;
+        $pertanyaanData = [
+            'text'  => trim($request->pertanyaan_text),
+            'image' => $pathGambarLama,
+        ];
+
+        if ($request->hasFile('gambar')) {
+            // Hapus file lama fisik
+            if ($pathGambarLama) {
+                $this->hapusFileFisik($pathGambarLama);
+            }
+
+            $path = public_path('storage/soal');
+            if (!File::exists($path)) {
+                File::makeDirectory($path, 0755, true);
+            }
+
+            $file = $request->file('gambar');
+            $namaFile = 'soal_' . time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
+            $file->move($path, $namaFile);
+
+            $pertanyaanData['image'] = '/storage/soal/' . $namaFile;
+        }
+
+        // 5. Proses Opsi dan Kunci Jawaban
+        if ($isIsian) {
+            $opsiFormatted = [];
+            $kunciFinal = $request->kunci_jawaban_isian;
+        } else {
+            $opsiFormatted = [];
+            foreach ($request->opsi as $key => $val) {
+                $opsiFormatted[$key] = [
+                    'text'  => $val['text'] ?? '',
+                    'image' => null,
+                ];
+            }
+            $kunciFinal = $request->kunci_jawaban_pg;
+        }
+
+        // 6. Update Database
+        $soal->update([
+            'paket_soal_id' => $request->paket_soal_id,
+            'pertanyaan'    => $pertanyaanData,
+            'opsi_jawaban'  => $opsiFormatted,
+            'kunci_jawaban' => $kunciFinal,
+        ]);
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Soal berhasil diperbarui'
+        ]);
+    }
+
+    /**
+     * Hapus Soal
+     */
     public function destroy($id)
     {
         try {
             $soal = ButirSoal::findOrFail($id);
 
-            // Jika pertanyaan STRING → cari & hapus gambar
-            $pertanyaan = $soal->pertanyaan;
-            
-            // Convert to string if it's an array
-            if (is_array($pertanyaan)) {
-                $pertanyaan = json_encode($pertanyaan);
-            }
-            
-            if (is_string($pertanyaan)) {
-                preg_match_all(
-                    '/\/storage\/([^\s"]+\.(jpg|jpeg|png|gif|webp))/i',
-                    $pertanyaan,
-                    $matches
-                );
+            $gambar = $soal->pertanyaan['image'] ?? null;
 
-                if (!empty($matches[1])) {
-                    foreach ($matches[1] as $path) {
-                        if (Storage::disk('public')->exists($path)) {
-                            Storage::disk('public')->delete($path);
-                        }
-                    }
-                }
+            if ($gambar) {
+                $this->hapusFileFisik($gambar);
             }
 
-            // HAPUS DATA
             $soal->delete();
 
             return response()->json([
                 'success' => true,
                 'message' => 'Soal berhasil dihapus'
             ]);
+
         } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Gagal menghapus soal'
+            ], 500);
+        }
+    }
+
+    /**
+     * Helper hapus file fisik
+     */
+    private function hapusFileFisik($relativePath)
+    {
+        $cleanPath = ltrim($relativePath, '/');
+        $fullPath = public_path($cleanPath);
+
+        if (File::exists($fullPath)) {
+            File::delete($fullPath);
+        }
+    }
+
+
+    /**
+     * Import Soal dari Excel
+     */
+    public function importExcel(Request $request)
+    {
+        $request->validate([
+            'file_excel' => 'required|mimes:xlsx,xls,csv',
+            'paket_soal_id_import' => 'required|exists:paket_soal,id',
+        ]);
+
+        try {
+
+            Excel::import(
+                new SoalImport($request->paket_soal_id_import),
+                $request->file('file_excel'),
+                null,
+                ExcelExcel::XLSX
+            );
+
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Import berhasil! Data soal telah ditambahkan.'
+            ]);
+
+        } catch (\Maatwebsite\Excel\Validators\ValidationException $e) {
+
+            $failures = $e->failures();
+            // Ambil error pertama saja
+            $pesan = 'Baris ' . $failures[0]->row() . ': ' . $failures[0]->errors()[0];
+
+            return response()->json([
+                'success' => false,
+                'message' => 'Validasi Excel Gagal: ' . $pesan
+            ], 422);
+
+        } catch (\Exception $e) {
+
             return response()->json([
                 'success' => false,
                 'message' => $e->getMessage()
@@ -143,131 +335,89 @@ class DataSoalController extends Controller
         }
     }
 
-
-    public function editJson($id)
+    /**
+     * Download Template Import Soal
+     */
+    public function downloadTemplate()
     {
-        try {
-            $soal = ButirSoal::findOrFail($id);
-            
-            // Normalisasi data pertanyaan (Array/Object/String)
-            $rawPertanyaan = $soal->pertanyaan;
-            $text = '';
-            $gambar = null;
+        return Excel::download(new class implements FromArray, WithHeadings, WithStyles {
 
-            if (is_array($rawPertanyaan) || is_object($rawPertanyaan)) {
-                $data = (array) $rawPertanyaan;
-                $text = $data['text'] ?? '';
-                // Ambil path gambar
-                $gambar = $data['image'] ?? $data['gambar'] ?? null;
-            } 
-            elseif (is_string($rawPertanyaan)) {
-                $text = $rawPertanyaan;
-                // Regex ambil gambar dari string legacy
-                if (preg_match('/\/storage\/soal\/[^\s"]+\.(jpg|jpeg|png|gif|webp)/i', $text, $m)) {
-                    $gambar = $m[0]; 
-                    $text = str_replace($m[0], '', $text);
-                }
+            public function headings(): array {
+                return [
+                    'tipe_soal',
+                    'pertanyaan',
+                    'opsi_a',
+                    'opsi_b',
+                    'opsi_c',
+                    'opsi_d',
+                    'kunci_jawaban',
+                    'gambar'
+                ];
             }
 
-            return response()->json([
-                'success' => true,
-                'id' => $soal->id,
-                'paket_soal_id' => $soal->paket_soal_id,
-                'pertanyaan' => trim($text), // Teks pertanyaan bersih
-                'gambar' => $gambar,         // Path gambar (misal: /storage/soal/abc.jpg)
-                'opsi' => $soal->opsi_jawaban,
-                'kunci_jawaban' => $soal->kunci_jawaban,
-            ]);
+            public function array(): array {
+                return [
 
-        } catch (\Exception $e) {
-            return response()->json(['success' => false, 'message' => 'Gagal memuat data'], 500);
-        }
+                    // =============================
+                    // CONTOH SOAL PILIHAN GANDA
+                    // =============================
+                    [
+                        'pg',
+                        '2 + 2 = ?',
+                        '3',
+                        '4',
+                        '5',
+                        '6',
+                        'B',
+                        '' // Tempel gambar di kolom ini (H2)
+                    ],
+
+                    // =============================
+                    // CONTOH SOAL ISIAN
+                    // =============================
+                    [
+                        'isian',
+                        'Sebutkan ibu kota Indonesia',
+                        '',
+                        '',
+                        '',
+                        '',
+                        'Jakarta',
+                        '' // Tempel gambar jika ada (H3)
+                    ],
+
+                ];
+            }
+
+            public function styles(Worksheet $sheet)
+            {
+                // Bold header
+                $sheet->getStyle('A1:H1')->getFont()->setBold(true);
+
+                // Lebar kolom
+                $sheet->getColumnDimension('A')->setWidth(15);
+                $sheet->getColumnDimension('B')->setWidth(40);
+                $sheet->getColumnDimension('C')->setWidth(20);
+                $sheet->getColumnDimension('D')->setWidth(20);
+                $sheet->getColumnDimension('E')->setWidth(20);
+                $sheet->getColumnDimension('F')->setWidth(20);
+                $sheet->getColumnDimension('G')->setWidth(18);
+                $sheet->getColumnDimension('H')->setWidth(50);
+
+                // Tinggi baris agar muat gambar
+                $sheet->getRowDimension(2)->setRowHeight(120);
+                $sheet->getRowDimension(3)->setRowHeight(120);
+
+                // Border pada area contoh
+                $sheet->getStyle('A1:H3')
+                    ->getBorders()
+                    ->getAllBorders()
+                    ->setBorderStyle(\PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN);
+
+                return [];
+            }
+
+        }, 'template_import_soal.xlsx');
     }
-
-    public function update(Request $request, $id)
-    {
-        $soal = ButirSoal::findOrFail($id);
-
-        $request->validate([
-            'paket_soal_id'   => 'required',
-            'pertanyaan_text' => 'required',
-            'opsi'            => 'required|array',
-            'kunci_jawaban'   => 'required|in:A,B,C,D',
-            'gambar'          => 'nullable|image|max:2048'
-        ]);
-
-        // 1. Siapkan Struktur Data Baru
-        $pertanyaanData = [
-            'text' => trim($request->pertanyaan_text),
-            'image' => null
-        ];
-
-        // 2. Cari Gambar Lama (untuk dihapus nanti jika perlu)
-        $oldImage = null;
-        if (is_array($soal->pertanyaan)) {
-            $oldImage = $soal->pertanyaan['image'] ?? $soal->pertanyaan['gambar'] ?? null;
-        } elseif (is_string($soal->pertanyaan)) {
-             if (preg_match('/\/storage\/soal\/[^\s"]+/', $soal->pertanyaan, $m)) $oldImage = $m[0];
-        }
-
-        // 3. LOGIKA UPDATE GAMBAR (SINKRON DENGAN PUBLIC FOLDER)
-        
-        // KASUS A: User mencentang Hapus Gambar
-        if ($request->has('hapus_gambar') && $request->hapus_gambar == '1') {
-            if ($oldImage) {
-                // Hapus file fisik lama
-                $path = public_path(ltrim($oldImage, '/')); 
-                if (File::exists($path)) File::delete($path);
-            }
-            $pertanyaanData['image'] = null;
-        } 
-        // KASUS B: User Upload Gambar Baru
-        elseif ($request->hasFile('gambar')) {
-            // Hapus file fisik lama dulu (biar tidak nyampah)
-            if ($oldImage) {
-                $path = public_path(ltrim($oldImage, '/'));
-                if (File::exists($path)) File::delete($path);
-            }
-
-            // Simpan file baru
-            $file = $request->file('gambar');
-            $namaFile = 'soal_' . time() . '.' . $file->getClientOriginalExtension();
-            $tujuan = public_path('storage/soal');
-            
-            // Pastikan folder ada
-            if (!File::exists($tujuan)) File::makeDirectory($tujuan, 0755, true);
-
-            $file->move($tujuan, $namaFile);
-            
-            $pertanyaanData['image'] = '/storage/soal/' . $namaFile;
-        } 
-        // KASUS C: Tidak diapa-apain (Keep Gambar Lama)
-        else {
-            $pertanyaanData['image'] = $oldImage;
-        }
-
-        // 4. Format Opsi
-        $opsiFormatted = [];
-        foreach ($request->opsi as $k => $v) {
-            $opsiFormatted[$k] = [
-                'text' => $v['text'] ?? '',
-                'image' => null // (Future proofing)
-            ];
-        }
-
-        // 5. Simpan ke Database
-        $soal->update([
-            'paket_soal_id' => $request->paket_soal_id,
-            'pertanyaan'    => $pertanyaanData,
-            'opsi_jawaban'  => $opsiFormatted,
-            'kunci_jawaban' => $request->kunci_jawaban
-        ]);
-
-        return response()->json([
-            'success' => true, 
-            'message' => 'Soal berhasil diperbarui'
-        ]);
-    }
-
 
 }

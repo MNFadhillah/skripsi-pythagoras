@@ -20,19 +20,25 @@ class AuthController extends Controller
     /* =====================
        PROSES LOGIN
     ====================== */
+    /* =====================
+       PROSES LOGIN
+    ====================== */
     public function login(Request $request)
     {
         $request->validate([
             'email'    => 'required|email',
             'password' => 'required',
+            'role'     => 'required|in:siswa,guru', // Tambahkan validasi role
         ]);
 
-        $credentials = $request->only('email', 'password');
+        // Ambil email, password, DAN role dari input form
+        $credentials = $request->only('email', 'password', 'role');
 
+        // Auth::attempt akan mengecek kecocokan ketiga data tersebut di database
         if (Auth::attempt($credentials, $request->remember)) {
             $request->session()->regenerate();
 
-            // Redirect berdasarkan role
+            // Redirect tetap berdasarkan role untuk keamanan ganda
             if (Auth::user()->role === 'guru') {
                 return redirect()->route('guru.dashboard');
             }
@@ -41,7 +47,8 @@ class AuthController extends Controller
         }
 
         return back()->withErrors([
-            'email' => 'Email atau password salah',
+            // Pesan error kita update sedikit agar lebih jelas
+            'email' => 'Email, password, atau peran salah.',
         ]);
     }
 

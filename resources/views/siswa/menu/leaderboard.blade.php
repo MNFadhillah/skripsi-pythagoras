@@ -21,7 +21,7 @@
                           <th scope="col" class="ps-4">Peringkat</th>
                           <th scope="col">Nama</th>
                           <th scope="col">Kelas</th>
-                          <th scope="col">Total Poin</th>
+                          <th scope="col">Rata-rata</th>
                       </tr>
                   </thead>
                   <tbody>
@@ -61,7 +61,7 @@
 
                               {{-- Total Poin --}}
                               <td class="fw-bold text-primary">
-                                  {{ $data['total_poin'] }}
+                                  {{ $data['rata_rata'] }}
                               </td>
                           </tr>
                       @empty

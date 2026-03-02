@@ -150,9 +150,14 @@
                 </div>
             </div>
 
-            {{-- ROLE --}}
-            <input type="hidden" name="role" value="siswa">
-
+            <div class="form-floating mb-3">
+                <select name="role" class="form-select" required>
+                    <option value="siswa" selected>Siswa</option>
+                    <option value="guru">Guru</option>
+                </select>
+                <label>Daftar Sebagai</label>
+            </div>
+            {{-- AKHIR TAMBAHAN --}}
             <div class="d-grid mb-3">
                 <button type="submit" class="btn btn-success py-2">
                     Daftar
@@ -169,7 +174,7 @@
         <div class="text-center small mt-4">
             Sudah punya akun?
             <a href="{{ route('login') }}" class="fw-semibold">
-                Login di sini
+                Masuk di sini
             </a>
         </div>
     </div>

@@ -21,84 +21,78 @@
 </head>
 
 <body>
-
 <header class="topbar">
     <div class="container-fluid">
-        <div class="row align-items-center position-relative" style="height:64px;">
+        {{-- PERBAIKAN: Hapus style="height:64px;" pada class row di bawah ini --}}
+        <div class="row align-items-center position-relative w-100 m-0">
 
             {{-- Kiri: Brand & Tombol Burger --}}
-            <div class="col-auto d-flex align-items-center">
+            <div class="col-auto d-flex align-items-center px-0">
                 
-                {{-- Kiri: Brand --}}
-                <a href="{{ url('/') }}" class="fw-bold h2 text-decoration-none ms-2">
+                {{-- 1. Brand --}}
+                <a href="{{ url('/') }}" class="fw-bold h3 mb-0 text-decoration-none ms-2">
                     PythaLearn
                 </a>
+                
                 {{-- 2. Tombol Burger --}}
-                <button class="btn p-0 d-flex align-items-center justify-content-center position-relative" 
+                <button class="btn p-0 d-flex align-items-center justify-content-center position-relative ms-3" 
                         type="button" 
                         id="sidebarToggle"
-                        style="width: 48px; height: 48px; border: none; background: transparent; z-index: 1050;">
-                    
-                    {{-- Ikon diberi pointer-events: none agar klik selalu kena tombolnya, bukan ikonnya --}}
+                        style="width: 40px; height: 40px; border: none; background: transparent;">
                     <i class="bi bi-list text-white" style="font-size: 2rem; line-height: 1; pointer-events: none;"></i>
-                
                 </button>
 
             </div>
 
             {{-- Tengah: Menu (HANYA DESKTOP) --}}
-            <div class="position-absolute top-50 start-50 translate-middle d-none d-md-block">
+            <div class="col d-none d-md-flex justify-content-center">
                 <nav>
-                    <ul class="nav justify-content-center">
+                    <ul class="nav">
                         <li class="nav-item">
-                            <a href="{{ route('siswa.menu.dashboard') }}" class="nav-link px-2 {{ request()->is('siswa/menu/dashboard') ? 'fw-semibold text-dark' : 'text-muted' }}">Dashboard</a>
+                            <a href="{{ route('siswa.menu.dashboard') }}" class="nav-link px-3 {{ request()->is('siswa/menu/dashboard') ? 'fw-bold text-white' : 'text-white-50' }}">Dashboard</a>
                         </li>
                         <li class="nav-item">
-                            <a href="{{ route('siswa.menu.leaderboard') }}" class="nav-link px-2 {{ request()->is('siswa/menu/leaderboard') ? 'fw-semibold text-dark' : 'text-muted' }}">Leaderboard</a>
+                            <a href="{{ route('siswa.menu.leaderboard') }}" class="nav-link px-3 {{ request()->is('siswa/menu/leaderboard') ? 'fw-bold text-white' : 'text-white-50' }}">Leaderboard</a>
                         </li>
                         <li class="nav-item">
-                            <a href="{{ route('siswa.menu.nilai_siswa') }}" class="nav-link px-2 {{ request()->is('siswa/menu/nilai_siswa') ? 'fw-semibold text-dark' : 'text-muted' }}">Nilai Saya</a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="{{ route('siswa.menu.petunjuk') }}" class="nav-link px-2 {{ request()->is('siswa/menu/petunjuk') ? 'fw-semibold text-dark' : 'text-muted' }}">Petunjuk</a>
+                            <a href="{{ route('siswa.menu.nilai_siswa') }}" class="nav-link px-3 {{ request()->is('siswa/menu/nilai_siswa') ? 'fw-bold text-white' : 'text-white-50' }}">Nilai Saya</a>
                         </li>
                     </ul>
                 </nav>
             </div>
 
             {{-- Kanan: Info user --}}
-            <div class="col-auto ms-auto d-flex align-items-center gap-2">
+            <div class="col-auto d-flex align-items-center px-0 gap-2">
                 <div class="text-end d-none d-md-block">
-                    <div class="fw-semibold">
+                    <div class="fw-semibold text-white" style="font-size: 0.9rem;">
                         {{ auth()->user()->name }}
                     </div>
-                    <div class="text-muted small">
+                    <div class="text-white-50 small" style="font-size: 0.75rem;">
                         {{ auth()->user()->email }}
                     </div>
                 </div>
                 <div class="dropdown">
-                    <button class="btn btn-light btn-sm rounded-circle" data-bs-toggle="dropdown">
-                        <i class="bi bi-person text-secondary fs-5"></i>
+                    <button class="btn btn-light btn-sm rounded-circle d-flex align-items-center justify-content-center" style="width: 36px; height: 36px;" data-bs-toggle="dropdown">
+                        <i class="bi bi-person text-success fs-5"></i>
                     </button>
-                    <ul class="dropdown-menu dropdown-menu-end">
+                    <ul class="dropdown-menu dropdown-menu-end shadow border-0 mt-2">
                         <li>
                             <form method="POST" action="{{ route('logout') }}">
                                 @csrf
-                                <button type="submit" class="dropdown-item text-danger">
-                                    <i class="bi bi-box-arrow-right me-1"></i> Logout
+                                <button type="submit" style="--bs-dropdown-link-active-bg: #f8f9fa" class="dropdown-item text-danger fw-semibold btn-logout">
+                                    <i class="bi bi-box-arrow-right me-2"></i> Logout
                                 </button>
                             </form>
                         </li>
                     </ul>
                 </div>
-
             </div>
 
         </div>
     </div>
 </header>
 
-    <div class="app-container">
+<div class="app-container">
     <div class="sidebar-overlay" id="sidebarOverlay"></div>
     <aside class="sidebar d-lg-block" id="mainSidebar" role="navigation" aria-label="Sidebar">
 
@@ -114,9 +108,6 @@
                 </a>
                 <a href="{{ route('siswa.menu.nilai_siswa') }}" class="list-group-item list-group-item-action">
                     <span class="menu-text">Nilai Saya</span>
-                </a>
-                <a href="{{ route('siswa.menu.petunjuk') }}" class="list-group-item list-group-item-action">
-                    <span class="menu-text">Petunjuk</span>
                 </a>
             </div>
         </div>

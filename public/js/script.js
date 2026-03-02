@@ -1,10 +1,13 @@
+console.log("Pagination Loaded");
 /* =====================================================
-   NAVIGASI HALAMAN
+   NAVIGASI HALAMAN (VERSI PERBAIKAN)
 ===================================================== */
 document.addEventListener('DOMContentLoaded', function () {
     const pages = document.querySelectorAll('.materi-page');
-    const prevBtn = document.getElementById('prevPage');
-    const nextBtn = document.getElementById('nextPage');
+    
+    // PERUBAHAN: Gunakan querySelectorAll dan class (.prev-btn / .next-btn)
+    const prevBtns = document.querySelectorAll('.prev-btn');
+    const nextBtns = document.querySelectorAll('.next-btn');
     const pageBtns = document.querySelectorAll('.page-btn');
     const savedPage = localStorage.getItem('materiPage');
 
@@ -14,12 +17,14 @@ document.addEventListener('DOMContentLoaded', function () {
     function showPage(index) {
         if (index < 0 || index >= totalPages) return;
 
+        // 1. Sembunyikan semua halaman, lalu tampilkan yang aktif
         pages.forEach(p => p.classList.add('d-none'));
         pages[index].classList.remove('d-none');
 
         currentPage = index;
         localStorage.setItem('materiPage', index);
 
+        // 2. Update tombol angka (Sinkron atas & bawah)
         pageBtns.forEach(btn => {
             btn.parentElement.classList.remove('active');
             if (parseInt(btn.dataset.page) === index) {
@@ -27,68 +32,59 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         });
 
-        prevBtn.disabled = (index === 0);
-        nextBtn.disabled = (index === totalPages - 1);
+        // 3. Update status Disable pada tombol Prev & Next
+        prevBtns.forEach(btn => {
+            btn.disabled = (index === 0);
+            btn.parentElement.classList.toggle('disabled', index === 0);
+        });
+
+        nextBtns.forEach(btn => {
+            btn.disabled = (index === totalPages - 1);
+            btn.parentElement.classList.toggle('disabled', index === totalPages - 1);
+        });
 
         window.scrollTo({ top: 0, behavior: 'smooth' });
         
-        // Inisialisasi kode spesifik halaman
+        // 4. Inisialisasi kode spesifik halaman (Fitur Interaktif)
         initPageSpecificCode(index);
     }
 
     function initPageSpecificCode(pageIndex) {
-            // Hentikan semua event listener sebelumnya jika perlu
-            removeAllEventListeners();
-            
-            console.log("Membuka halaman index:", pageIndex); // Debugging
+        console.log("Membuka halaman index:", pageIndex); // Debugging
 
-            switch(pageIndex) {
-                case 0:
-                    // Halaman 1: Struktur (Drag & Drop)
-                    if (typeof initPage0 === 'function') initPage0();
-                    break;
-                case 1:
-                    // Halaman 2: Bilangan Berpangkat & Akar
-                    // GANTI initPage1() MENJADI DUA FUNGSI INI:
-                    if (typeof initPageKuadrat === 'function') initPageKuadrat();
-                    if (typeof initPageAkar === 'function') initPageAkar();
-                    break;
-                case 2:
-                    // Halaman 3: Visual Segitiga
-                    if (typeof initPage2 === 'function') initPage2();
-                    break;
-                case 3:
-                    // Halaman 4: Pembuktian Pythagoras
-                    if (typeof initPage3 === 'function') initPage3();
-                    break;
-                case 4:
-                    // Jika ada halaman 5
-                    if (typeof initPage4 === 'function') initPage4();
-                    break;
-            }
+        switch(pageIndex) {
+            case 0:
+                if (typeof initDragAndDropPage1 === 'function') initDragAndDropPage1();
+                break;
+            case 1:
+                if (typeof initPageKuadrat === 'function') initPageKuadrat();
+                if (typeof initPageAkar === 'function') initPageAkar();
+                break;
+            case 2:
+                if (typeof initPage2 === 'function') initPage2();
+                break;
+            case 3:
+                if (typeof initPage3 === 'function') initPage3();
+                break;
         }
-
-    // Fungsi untuk menghapus event listeners lama
-    function removeAllEventListeners() {
-        // Anda mungkin perlu menyimpan referensi event listener 
-        // untuk bisa menghapusnya nanti
     }
 
+    // Event Listeners (Terapkan ke semua tombol atas & bawah)
     pageBtns.forEach(btn => {
         btn.addEventListener('click', () => {
             showPage(parseInt(btn.dataset.page));
         });
     });
 
-    // Cek dulu apakah tombolnya ada
-    if (prevBtn) {
-        prevBtn.onclick = () => showPage(currentPage - 1);
-    }
-    
-    if (nextBtn) {
-        nextBtn.onclick = () => showPage(currentPage + 1);
-    }
+    prevBtns.forEach(btn => {
+        btn.addEventListener('click', () => showPage(currentPage - 1));
+    });
 
+    nextBtns.forEach(btn => {
+        btn.addEventListener('click', () => showPage(currentPage + 1));
+    });
+
+    // Jalankan pertama kali
     showPage(savedPage ? parseInt(savedPage) : 0);
 });
 
@@ -123,269 +119,261 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 });
-
-/* ===============================
-   HALAMAN 1 – DRAG & DROP (PERBAIKAN LOGIKA)
-================================ */
-function initPage0() {
-    let draggedElement = null;
+/* ==========================================
+   LOGIKA DRAG & DROP: PINDAH FISIK (MOVE)
+   ========================================== */
+function initDragAndDropPage1() {
+    
+    // --- 1. VARIABEL & SELEKTOR ---
     let attemptCount = 0;
     const maxAttempts = 3;
+    let isGameLocked = false;
 
-    // Selector elemen penting
-    const dragContainer = document.querySelector('[data-page="0"] #dragContainer');
-    const resultSection = document.querySelector('[data-page="0"] #hasilStruktur');
-    const checkBtn = document.querySelector('[data-page="0"] #checkAnswer');
+    const dragSource = document.getElementById('drag-source');
+    const checkBtn = document.getElementById('check-matching');
+    const resetBtn = document.getElementById('reset-matching');
+    
+    // Kita ambil dragItems dan dropZones
+    const dragItems = document.querySelectorAll('.drag-item');
+    const dropZones = document.querySelectorAll('.drop-zone');
 
-    // 1. FUNGSI ACAK POSISI
-    function shuffleDragItems() {
-        if (dragContainer) {
-            const items = Array.from(dragContainer.children);
-            // Acak urutan
-            for (let i = items.length - 1; i > 0; i--) {
-                const j = Math.floor(Math.random() * (i + 1));
-                dragContainer.appendChild(items[j]);
+    // --- 2. SETUP DRAG ITEMS ---
+    dragItems.forEach(item => {
+        item.setAttribute('draggable', 'true');
+        item.style.cursor = 'grab';
+
+        // Event saat mulai ditarik
+        item.addEventListener('dragstart', (e) => {
+            if (isGameLocked) {
+                e.preventDefault();
+                return;
             }
-        }
-    }
-
-    // Panggil acak saat pertama kali load
-    shuffleDragItems();
-
-    // 2. FUNGSI RESET GAME (UNTUK TOMBOL 'ULANG')
-    function resetGame() {
-        attemptCount = 0;
-        
-        // Reset Drop Zones
-        document.querySelectorAll('[data-page="0"] .drop-h1').forEach(zone => {
-            zone.textContent = '...';
-            zone.removeAttribute('data-user');
-            zone.classList.remove('filled', 'correct', 'wrong');
-        });
-
-        // Reset Drag Items
-        document.querySelectorAll('[data-page="0"] .drag-item').forEach(item => {
-            item.style.display = 'block';
-            item.setAttribute('draggable', 'true');
-            item.style.opacity = '1';
-            item.style.cursor = 'grab';
-            item.style.backgroundColor = ''; // Hapus warna hijau/merah
-            item.style.borderColor = '';
-        });
-
-        // Sembunyikan Hasil
-        if (resultSection) {
-            resultSection.classList.add('d-none');
-        }
-
-        // Aktifkan Tombol Cek
-        if (checkBtn) {
-            checkBtn.disabled = false;
-            checkBtn.classList.remove('disabled');
-        }
-
-        // Acak ulang posisi
-        shuffleDragItems();
-    }
-
-    // 3. EVENT LISTENER DRAG & DROP
-    document.querySelectorAll('[data-page="0"] .drag-item').forEach(item => {
-        item.addEventListener('dragstart', function(e) {
-            draggedElement = this;
-            this.classList.add('dragging');
-            e.dataTransfer.setData('text/plain', this.dataset.value);
+            // Simpan ID elemen yang sedang ditarik
+            e.dataTransfer.setData('text/plain', e.target.id);
             e.dataTransfer.effectAllowed = 'move';
+            
+            // Efek visual sedikit transparan saat melayang
+            setTimeout(() => {
+                e.target.classList.add('hide-while-dragging');
+            }, 0);
         });
 
-        item.addEventListener('dragend', function() {
-            this.classList.remove('dragging');
-            draggedElement = null;
+        // Event saat selesai ditarik (baik sukses drop maupun batal)
+        item.addEventListener('dragend', (e) => {
+            e.target.classList.remove('hide-while-dragging');
+            e.target.style.cursor = 'grab';
         });
     });
 
-    document.querySelectorAll('[data-page="0"] .drop-h1').forEach(zone => {
-        zone.addEventListener('dragover', function(e) {
-            e.preventDefault();
-            this.classList.add('drag-over');
-        });
-
-        zone.addEventListener('dragleave', function() {
-            this.classList.remove('drag-over');
-        });
-
-        zone.addEventListener('drop', function(e) {
-            e.preventDefault();
-            this.classList.remove('drag-over');
-            
-            if (!draggedElement) return;
-
-            const draggedValue = e.dataTransfer.getData('text/plain');
-            
-            // Cek apakah item ini sudah ada di drop zone lain, jika ya kosongkan yang lama
-            const existingDrop = document.querySelector(`[data-page="0"] .drop-h1[data-user="${draggedValue}"]`);
-            if (existingDrop && existingDrop !== this) {
-                existingDrop.textContent = '...';
-                existingDrop.removeAttribute('data-user');
-                existingDrop.classList.remove('filled');
-            }
-            
-            // Isi drop zone baru
-            this.textContent = draggedElement.textContent;
-            this.dataset.user = draggedValue;
-            this.classList.add('filled');
-            
-            // Sembunyikan item sumber agar terlihat seperti "pindah"
-            draggedElement.classList.remove('dragging');
-            draggedElement = null;
-        });
-
-        // Klik untuk menghapus jawaban
-        zone.addEventListener('click', function(e) {
-            if (this.dataset.user && !e.target.classList.contains('badge')) {
-                this.textContent = '...';
-                this.removeAttribute('data-user');
-                this.classList.remove('filled', 'correct', 'wrong');
-            }
-        });
-    });
-
-    // 4. FUNGSI VALIDASI
-    function validateAnswers() {
-        document.querySelectorAll('[data-page="0"] .drop-h1').forEach(zone => {
-            zone.classList.remove('correct', 'wrong');
-        });
-
-        let allFilled = true;
-        let correctCount = 0;
-        let total = 0;
-
-        document.querySelectorAll('[data-page="0"] .drop-h1').forEach(zone => {
-            if (zone.dataset.user) {
-                total++;
-                if (zone.dataset.user === zone.dataset.answer) {
-                    zone.classList.add('correct');
-                    correctCount++;
-                } else {
-                    zone.classList.add('wrong');
-                }
-            } else {
-                allFilled = false;
-            }
-        });
-
-        if (!allFilled) {
-            Swal.fire({
-                icon: 'warning',
-                title: 'Belum Lengkap',
-                text: 'Isi semua kotak jawaban terlebih dahulu!',
-                confirmButtonColor: '#ffc107'
-            });
-            return false;
-        }
-
-        return { correctCount, total };
-    }
-
-    // 5. TAMPILKAN KUNCI JAWABAN (Saat Lanjutkan / Menyerah)
-    function showCorrectAnswers() {
-        document.querySelectorAll('[data-page="0"] .drop-h1').forEach(zone => {
-            const correctAnswer = zone.dataset.answer;
-            
-            // Isi drop zone dengan jawaban benar
-            zone.textContent = correctAnswer; // Opsional: Sesuaikan teks jika ingin huruf kapital
-            zone.dataset.user = correctAnswer;
-            zone.classList.remove('wrong', 'filled');
-            zone.classList.add('correct');
-        });
+    // --- 3. SETUP DROP ZONES ---
+    dropZones.forEach(zone => {
         
-        // Matikan interaksi
-        document.querySelectorAll('[data-page="0"] .drag-item').forEach(item => {
-            item.setAttribute('draggable', 'false');
-            item.style.cursor = 'default';
-            item.style.opacity = '0.5';
+        // a. Drag Over (Izinkan drop)
+        zone.addEventListener('dragover', (e) => {
+            e.preventDefault(); 
+            if (!isGameLocked) {
+                zone.classList.add('bg-light-success'); 
+                zone.style.borderStyle = 'solid';
+            }
+        });
+
+        // b. Drag Leave (Batal drop)
+        zone.addEventListener('dragleave', (e) => {
+            if (!isGameLocked) {
+                zone.classList.remove('bg-light-success');
+                if(!zone.classList.contains('correct-answer')) {
+                     zone.style.borderStyle = 'dashed';
+                }
+            }
+        });
+
+        // c. DROP (INTI PERBAIKAN: PINDAH FISIK)
+        zone.addEventListener('drop', (e) => {
+            e.preventDefault();
+            zone.classList.remove('bg-light-success');
+            
+            if (isGameLocked) return;
+
+            const id = e.dataTransfer.getData('text/plain');
+            const draggedElement = document.getElementById(id);
+
+            if (draggedElement) {
+                // 1. CEK: Apakah zona ini sudah ada isinya?
+                // Jika ya, kita harus "TENDANG" isi lama kembali ke SUMBER (Atas)
+                if (zone.children.length > 0) {
+                    // Cari elemen .drag-item yang sudah ada di situ
+                    const existingItem = zone.querySelector('.drag-item');
+                    if (existingItem) {
+                        // Pindahkan item lama ke wadah asal (dragSource)
+                        dragSource.appendChild(existingItem);
+                    }
+                }
+                
+                // 2. PINDAH: Masukkan item baru ke zona ini
+                // appendChild otomatis menghapus elemen dari tempat lama (sumber) 
+                // dan menaruhnya di tempat baru. Jadi otomatis "hilang dari atas".
+                zone.appendChild(draggedElement);
+                
+                // Styling agar rapi
+                zone.style.borderStyle = 'solid';
+                zone.style.backgroundColor = '#f8f9fa';
+                
+                // Hapus pesan feedback lama jika ada
+                const feedbackDiv = zone.parentNode.querySelector('.feedback-msg');
+                if(feedbackDiv) feedbackDiv.innerHTML = '';
+            }
+        });
+
+        // d. KLIK ZONA UNTUK BATAL (Kembalikan ke atas)
+        zone.addEventListener('click', (e) => {
+            // Pastikan yang diklik adalah area zona, bukan tombol cek
+            if (!isGameLocked && zone.children.length > 0) {
+                const item = zone.querySelector('.drag-item');
+                if (item) {
+                    // Pindahkan item kembali ke sumber (Atas)
+                    dragSource.appendChild(item); 
+                    
+                    // Reset styling zona
+                    zone.style.borderStyle = 'dashed';
+                    zone.style.borderColor = '#198754';
+                    zone.style.backgroundColor = '#f8f9fa';
+                    zone.classList.remove('correct-answer');
+                    
+                    const feedbackDiv = zone.parentNode.querySelector('.feedback-msg');
+                    if(feedbackDiv) feedbackDiv.innerHTML = '';
+                }
+            }
+        });
+    });
+
+    // --- 5. LOGIKA RESET / ULANGI (PENYEMPURNAAN FINAL) ---
+    if (resetBtn) {
+        resetBtn.addEventListener('click', () => {
+            
+            // A. Ambil semua item drag yang ada (baik di atas maupun di drop zone)
+            // Kita gunakan Array.from agar bisa disortir (opsional)
+            const allItems = Array.from(document.querySelectorAll('.drag-item'));
+            
+            // B. KOSONGKAN WADAH SUMBER (Solusi agar tidak bergeser)
+            // Ini akan menghapus spasi kosong atau elemen hantu yang bikin layout rusak
+            dragSource.innerHTML = ''; 
+
+            // C. Masukkan kembali item ke wadah sumber
+            // Kita pakai Set untuk mencegah duplikat (jika ada bug sebelumnya)
+            const processedValues = new Set();
+            
+            allItems.forEach(item => {
+                const val = item.getAttribute('data-value');
+                
+                // Cek duplikat: Jika value ini belum diproses, masukkan.
+                // (Hapus logika 'if' ini jika Anda memang ingin membolehkan item kembar)
+                // Tapi untuk layout ini, sepertinya Anda punya 4 item unik/spesifik.
+                
+                // Reset kondisi item
+                item.style.opacity = '1';
+                item.classList.remove('hide-while-dragging');
+                
+                // Masukkan kembali ke dragSource
+                dragSource.appendChild(item);
+            });
+
+            // D. Bersihkan Zona Drop (Visual)
+            dropZones.forEach(zone => {
+                // Karena itemnya sudah dipindah di langkah C, zona otomatis kosong.
+                // Kita tinggal reset stylenya saja.
+                zone.style.borderStyle = 'dashed';
+                zone.style.borderColor = '#198754';
+                zone.style.backgroundColor = '#f8f9fa';
+                zone.classList.remove('correct-answer');
+                zone.classList.remove('bg-light-success');
+                
+                // Hapus pesan feedback
+                const feedbackDiv = zone.parentNode.querySelector('.feedback-msg');
+                if(feedbackDiv) feedbackDiv.innerHTML = '';
+            });
+
+            // E. Reset status game
+            isGameLocked = false;
+            attemptCount = 0;
+            checkBtn.disabled = false;
         });
     }
 
-    // 6. LOGIKA TOMBOL PERIKSA
+    // --- 5. TOMBOL CEK (Sama seperti sebelumnya) ---
     if (checkBtn) {
         checkBtn.addEventListener('click', () => {
-            const result = validateAnswers();
-            if (!result) return;
-            
-            const { correctCount, total } = result;
-            attemptCount++;
-            
-            // KONDISI 1 & 3: JIKA BENAR (Di percobaan 1, 2, atau 3)
-            if (correctCount === total) {
-                Swal.fire({
-                    icon: 'success',
-                    title: 'Luar Biasa!',
-                    text: `Jawaban Anda benar pada percobaan ke-${attemptCount}.`,
-                    confirmButtonText: 'Lanjutkan',
-                    confirmButtonColor: '#198754'
-                }).then(() => {
-                    // Munculkan Gambar 3 (Hasil Struktur)
-                    if (resultSection) {
-                        resultSection.classList.remove('d-none');
-                        resultSection.scrollIntoView({ behavior: 'smooth' });
+            if (isGameLocked) return;
+
+            let correctCount = 0;
+            let filledCount = 0;
+            const totalQuestions = dropZones.length;
+
+            dropZones.forEach(zone => {
+                const item = zone.querySelector('.drag-item');
+                if (item) {
+                    filledCount++;
+                    if (item.getAttribute('data-value') === zone.getAttribute('data-correct')) {
+                        correctCount++;
+                        zone.style.borderColor = '#198754';
+                        zone.style.backgroundColor = '#d1e7dd';
+                        zone.classList.add('correct-answer');
+                        zone.parentNode.querySelector('.feedback-msg').innerHTML = '<span class="text-success small fw-bold"><i class="bi bi-check-circle"></i> Benar!</span>';
+                    } else {
+                        zone.style.borderColor = '#dc3545';
+                        zone.style.backgroundColor = '#f8d7da';
+                        zone.parentNode.querySelector('.feedback-msg').innerHTML = '<span class="text-danger small fw-bold"><i class="bi bi-x-circle"></i> Kurang Tepat</span>';
                     }
-                    // Matikan tombol
-                    checkBtn.disabled = true;
-                });
-            } 
-            // JIKA SALAH
-            else {
-                // KONDISI 2: JIKA SUDAH 3 KALI SALAH
-                if (attemptCount >= maxAttempts) {
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Kesempatan Habis',
-                        html: `
-                            <p>Anda telah mencoba ${maxAttempts} kali dan masih ada yang kurang tepat.</p>
-                            <p class="small text-muted">Pilih <b>Ulang</b> untuk mencoba dari awal, atau <b>Lanjutkan</b> untuk melihat jawaban dan materi selanjutnya.</p>
-                        `,
-                        showCancelButton: true, // Munculkan tombol kedua
-                        confirmButtonText: 'Lanjutkan', // Tombol kanan (Confirm)
-                        confirmButtonColor: '#0d6efd',
-                        cancelButtonText: 'Ulang', // Tombol kiri (Cancel)
-                        cancelButtonColor: '#dc3545',
-                        reverseButtons: true
-                    }).then((result) => {
-                        if (result.isConfirmed) {
-                            // PILIHAN: LANJUTKAN
-                            // 1. Tampilkan jawaban benar di kotak
-                            showCorrectAnswers();
-                            // 2. Munculkan Gambar 3 (Hasil Struktur)
-                            if (resultSection) {
-                                resultSection.classList.remove('d-none');
-                                resultSection.scrollIntoView({ behavior: 'smooth' });
-                            }
-                            // 3. Matikan tombol periksa
-                            checkBtn.disabled = true;
-                        } else if (result.dismiss === Swal.DismissReason.cancel) {
-                            // PILIHAN: ULANG
-                            resetGame();
-                        }
-                    });
-                } 
-                // MASIH ADA KESEMPATAN (Percobaan 1 atau 2 tapi salah)
-                else {
-                    const remaining = maxAttempts - attemptCount;
-                    Swal.fire({
-                        icon: 'warning',
-                        title: 'Masih Kurang Tepat',
-                        html: `
-                            <p>Periksa kembali jawaban kamu.</p>
-                            <p class="small text-muted">Sisa kesempatan: <b>${remaining}</b> kali lagi.</p>
-                        `,
-                        confirmButtonText: 'Coba Lagi',
-                        confirmButtonColor: '#ffc107'
-                    });
+                } else {
+                    zone.parentNode.querySelector('.feedback-msg').innerHTML = '<span class="text-warning small fw-bold">Belum diisi</span>';
                 }
+            });
+
+            if (filledCount < totalQuestions) {
+                Swal.fire({ icon: 'warning', title: 'Belum Lengkap', text: 'Silakan isi semua kotak jawaban!', confirmButtonColor: '#ffc107'});
+                return;
+            }
+
+            attemptCount++;
+            if (correctCount === totalQuestions) {
+                isGameLocked = true;
+                checkBtn.disabled = true;
+                Swal.fire({ icon: 'success', title: 'Luar Biasa!', text: 'Jawaban kamu benar!', confirmButtonColor: '#198754'});
+                const penguatan = document.getElementById('penguatan-materi');
+                if(penguatan) {
+                    penguatan.classList.remove('d-none');
+                    // Opsional: Scroll agar siswa langsung melihat teks penguatan
+                    setTimeout(() => penguatan.scrollIntoView({ behavior: 'smooth', block: 'center' }), 500);
+                }
+            } else if (attemptCount >= maxAttempts) {
+                // Tampilkan Jawaban (Auto Solve)
+                isGameLocked = true;
+                checkBtn.disabled = true;
+                dropZones.forEach(zone => {
+                    const itemInZone = zone.querySelector('.drag-item');
+                    if(itemInZone) dragSource.appendChild(itemInZone); // Kosongkan dulu
+                });
+                dropZones.forEach(zone => {
+                    const correctVal = zone.getAttribute('data-correct');
+                    const correctItem = dragSource.querySelector(`.drag-item[data-value="${correctVal}"]`);
+                    if(correctItem) {
+                        zone.appendChild(correctItem);
+                        zone.style.borderColor = '#198754';
+                        zone.style.backgroundColor = '#d1e7dd';
+                        zone.classList.add('correct-answer');
+                    }
+                });
+                Swal.fire({ icon: 'info', title: 'Kesempatan Habis', text: 'Jawaban benar telah ditampilkan.', confirmButtonColor: '#0d6efd'});
+                const penguatan = document.getElementById('penguatan-materi');
+                if(penguatan) penguatan.classList.remove('d-none');
+            } else {
+                Swal.fire({ icon: 'error', title: 'Masih Salah', text: `Sisa kesempatan: ${maxAttempts - attemptCount}`, confirmButtonColor: '#dc3545'});
             }
         });
     }
 }
+
+// Panggil fungsi ini saat halaman dimuat
+document.addEventListener('DOMContentLoaded', initDragAndDropPage1);
 
 /* ==========================================
    HALAMAN 1: BILANGAN KUADRAT (UPDATED)
@@ -952,7 +940,7 @@ function cekJawabanSikusiku() {
     if (jawabanBersih === 'b' || jawabanBersih === 'titikb') {
         feedbackBenar.classList.remove('d-none');
         feedbackBenar.querySelector('.alert div').innerHTML =
-            '<strong>Tepat Sekali</strong>. Sudut yang besarnya 90° disebut sudut siku-siku. Oleh karena itu, segitiga tersebut merupakan <strong>segitiga siku-siku</strong>, karena memiliki salah satu sudut yang ukurannya tepat 90°.';
+            '<strong>Tepat Sekali</strong>. Sudut B memiliki ukuran tepat 90° dan disebut sudut siku-siku. Oleh karena itu, segitiga tersebut merupakan <strong>segitiga siku-siku</strong>, karena memiliki salah satu sudut yang ukurannya tepat 90°.';
         return;
     }
 
@@ -2532,158 +2520,6 @@ function hideAllText() {
     });
 }
 
-// ========== FUNGSI UNTUK DRAG AND DROP ==========
-
-let draggedItem = null;
-
-// Setup event listeners untuk drag items
-document.querySelectorAll('.drag-item').forEach(item => {
-    item.addEventListener('dragstart', function(e) {
-        draggedItem = this;
-        this.classList.add('dragging');
-        e.dataTransfer.setData('text/plain', this.getAttribute('data-value'));
-        e.dataTransfer.effectAllowed = 'move';
-    });
-    
-    item.addEventListener('dragend', function() {
-        this.classList.remove('dragging');
-        draggedItem = null;
-    });
-});
-
-// Setup event listeners untuk drop zones
-document.querySelectorAll('.drop-zone').forEach(zone => {
-    zone.addEventListener('dragover', function(e) {
-        e.preventDefault();
-        this.classList.add('drag-over');
-        e.dataTransfer.dropEffect = 'move';
-    });
-    
-    zone.addEventListener('dragleave', function() {
-        this.classList.remove('drag-over');
-    });
-    
-    zone.addEventListener('drop', function(e) {
-        e.preventDefault();
-        this.classList.remove('drag-over');
-        
-        if (draggedItem && !this.querySelector('.dropped-item')) {
-            const clonedItem = draggedItem.cloneNode(true);
-            clonedItem.classList.add('dropped-item');
-            clonedItem.setAttribute('draggable', 'false');
-            clonedItem.style.cursor = 'default';
-            clonedItem.style.boxShadow = 'none';
-            
-            // Remove grip icon
-            const gripIcon = clonedItem.querySelector('.fa-grip-vertical');
-            if (gripIcon) {
-                gripIcon.remove();
-            }
-            
-            // Clear placeholder and add cloned item
-            this.innerHTML = '';
-            this.appendChild(clonedItem);
-            this.classList.add('filled');
-            
-            // Store the answer
-            this.setAttribute('data-filled', draggedItem.getAttribute('data-value'));
-        }
-    });
-});
-
-// Fungsi untuk memeriksa jawaban
-document.getElementById('checkAnswer').addEventListener('click', function() {
-    let allCorrect = true;
-    const dropZones = document.querySelectorAll('.drop-zone');
-    
-    dropZones.forEach(zone => {
-        const filledAnswer = zone.getAttribute('data-filled');
-        const correctAnswer = zone.getAttribute('data-answer');
-        
-        if (filledAnswer === correctAnswer) {
-            zone.classList.remove('incorrect');
-            zone.classList.add('filled');
-        } else {
-            zone.classList.add('incorrect');
-            zone.classList.add('shake');
-            allCorrect = false;
-            
-            // Remove shake animation after it completes
-            setTimeout(() => {
-                zone.classList.remove('shake');
-            }, 500);
-        }
-    });
-    
-    // Tampilkan hasil jika semua benar
-    if (allCorrect) {
-        document.getElementById('hasilStruktur').style.display = 'block';
-        
-        // Scroll ke hasil
-        document.getElementById('hasilStruktur').scrollIntoView({
-            behavior: 'smooth',
-            block: 'start'
-        });
-        
-        // Tampilkan notifikasi sukses
-        this.innerHTML = '<i class="fas fa-check-circle me-2"></i>Jawaban Benar!';
-        this.classList.remove('btn-success');
-        this.classList.add('btn-outline-success');
-    } else {
-        // Tampilkan notifikasi error
-        const originalText = this.innerHTML;
-        this.innerHTML = '<i class="fas fa-exclamation-circle me-2"></i>Perbaiki Jawaban';
-        this.classList.remove('btn-success');
-        this.classList.add('btn-danger');
-        
-        setTimeout(() => {
-            this.innerHTML = originalText;
-            this.classList.remove('btn-danger');
-            this.classList.add('btn-success');
-        }, 2000);
-    }
-});
-
-// Fungsi untuk reset drag and drop
-document.getElementById('resetDragDrop').addEventListener('click', function() {
-    document.querySelectorAll('.drop-zone').forEach(zone => {
-        zone.innerHTML = '<span class="placeholder-text">...</span>';
-        zone.classList.remove('filled', 'incorrect', 'drag-over');
-        zone.removeAttribute('data-filled');
-    });
-    
-    // Reset tombol check answer
-    const checkBtn = document.getElementById('checkAnswer');
-    checkBtn.innerHTML = '<i class="fas fa-check-circle me-2"></i>Periksa Jawaban';
-    checkBtn.classList.remove('btn-outline-success', 'btn-danger');
-    checkBtn.classList.add('btn-success');
-    
-    // Sembunyikan hasil
-    document.getElementById('hasilStruktur').style.display = 'none';
-});
-
-document.addEventListener('DOMContentLoaded', function () {
-
-    const shown = new Set();
-
-    window.showText = function (id) {
-        if (shown.has(id)) return; // sudah muncul, jangan ulangi
-
-        const el = document.getElementById(id);
-        if (!el) return;
-
-        el.classList.add('active');
-        shown.add(id);
-    };
-
-    window.hideAllText = function () {
-        document.querySelectorAll('.overlay-text').forEach(el => {
-            el.classList.remove('active');
-        });
-        shown.clear();
-    };
-
-});
 // ============================================================
 // GANTI BAGIAN PALING BAWAH (LOGIKA CEK JAWABAN JEMBATAN)
 // ============================================================
@@ -2707,17 +2543,39 @@ function resetHighlight() {
 function cekJawabanSegitigaSikuSiku() {
     const input = document.getElementById('inputJawaban');
     const feedback = document.getElementById('feedbackPesan');
-    const jawaban = input.value.toLowerCase().trim();
+    const jawaban = input.value;
+    
+    // Ambil elemen kotak penjelasan
+    const penjelasanBox = document.getElementById('penjelasan-pythagoras'); 
+
+    // Reset feedback
+    feedback.className = 'fw-bold text-center mt-3';
 
     if (jawaban === '') {
-        feedback.className = 'text-warning fw-bold';
-        feedback.innerHTML = '⚠️ Silakan isi jawaban terlebih dahulu.';
-    } else if (jawaban.includes('siku')) {
-        feedback.className = 'text-success fw-bold';
-        feedback.innerHTML = '✅ Tepat! Segitiga yang terbentuk adalah segitiga siku-siku.';
+        feedback.classList.add('text-warning');
+        feedback.innerHTML = 'Silakan pilih jenis segitiga terlebih dahulu.';
+        
+        // Pastikan penjelasan tetap sembunyi
+        penjelasanBox.classList.add('d-none'); 
+        
+    } else if (jawaban === 'siku-siku') {
+        feedback.classList.add('text-success');
+        feedback.innerHTML = 'Tepat Sekali! Segitiga yang terbentuk adalah segitiga siku-siku.';
+        
+        // MUNCULKAN bagian penjelasan pythagoras!
+        penjelasanBox.classList.remove('d-none');
+        
+        // (Opsional) Scroll layar sedikit ke bawah agar siswa langsung melihat penjelasan baru
+        setTimeout(() => {
+            penjelasanBox.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }, 300);
+
     } else {
-        feedback.className = 'text-danger fw-bold';
-        feedback.innerHTML = '❌ Coba perhatikan sudut pertemuan antara tiang dan badan jembatan.';
+        feedback.classList.add('text-danger');
+        feedback.innerHTML = 'Kurang tepat. Coba perhatikan kembali setiap sudut yang ada pada segitiga.';
+        
+        // Pastikan penjelasan tetap sembunyi jika salah
+        penjelasanBox.classList.add('d-none'); 
     }
 }
 
@@ -2765,25 +2623,6 @@ const jawaban = {
     latihan5: 'D'  // 7,14,17 membentuk segitiga tumpul (17² > 7² + 14²)
 };
 
-// Fungsi untuk navigasi halaman
-function navigateToPage(pageNumber) {
-    // Sembunyikan semua halaman
-    document.querySelectorAll('.materi-page').forEach(page => {
-        page.classList.add('d-none');
-    });
-    
-    // Tampilkan halaman yang dipilih
-    document.querySelector(`.materi-page[data-page="${pageNumber}"]`).classList.remove('d-none');
-    
-    // Update pagination
-    document.querySelectorAll('.page-item').forEach(item => {
-        item.classList.remove('active');
-    });
-    
-    document.querySelectorAll(`.page-btn[data-page="${pageNumber}"], .page-btn-bottom[data-page="${pageNumber}"]`).forEach(btn => {
-        btn.parentElement.classList.add('active');
-    });
-}
 
 // Fungsi untuk cek baris tabel
 function cekBaris(p, q) {
@@ -3047,11 +2886,7 @@ document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('soal3_b2_val').value = 144;
 });
 
-function cekSemuaRumus() {
-    cekRumus('A', 'a', ['b','c']);
-    cekRumus('B', 'b', ['a','c']);
-    cekRumus('C', 'c', ['a','b']);
-}
+
 function cekSemuaRumus() {
     const konfigurasi = {
         A: { utama: 'a', lain: ['b','c'] },
@@ -3177,6 +3012,183 @@ function cekTabel() {
             icon: 'error',
             title: 'Masih Salah',
             text: 'Periksa kembali isian yang berwarna merah.'
+        });
+    }
+}
+function cekJawabanLatihan() {
+    // --- KUNCI JAWABAN ---
+    const kunciSoal1 = {
+        'soal1a': 'ya',
+        'soal1b': 'tidak',
+        'soal1c': 'ya',
+        'soal1d': 'tidak',
+        'soal1e': 'ya'
+    };
+    const kunciSoal2 = 'A'; // 7, 24, 25
+
+    // Soal 3: 9, 12, 15
+    const kunciSoal3 = [
+        15, // Index 0: Sisi C
+        15, // Index 1: Sisi C (di rumus)
+        225, // Index 2: C kuadrat
+        9, // Index 3: Sisi A
+        12, // Index 4: Sisi B
+        81, // Index 5: A kuadrat
+        144, // Index 6: B kuadrat
+        225 // Index 7: Hasil jumlah
+    ];
+    const kunciSelect3 = "Siku-siku";
+
+    // --- CEK KELENGKAPAN ---
+    let belumLengkap = false;
+
+    // Cek Soal 1 & 2
+    for (let key in kunciSoal1) {
+        if (!document.querySelector(`input[name="${key}"]:checked`)) belumLengkap = true;
+    }
+    if (!document.querySelector('input[name="soal2"]:checked')) belumLengkap = true;
+
+    // Cek Soal 3 Inputs
+    const inputsSoal3 = document.querySelectorAll('.input-soal3');
+    inputsSoal3.forEach(input => {
+        if (input.value.trim() === "") belumLengkap = true;
+    });
+
+    // Cek Soal 3 Select
+    const selectSoal3 = document.getElementById('selectSoal3');
+    if (selectSoal3.value === "") belumLengkap = true;
+
+
+    // --- [PERUBAHAN DISINI] Mengambil ID yang baru (_soal3) ---
+    const inpCompareC = document.getElementById('inp_compare_c_soal3');
+    const inpSign = document.getElementById('inp_sign_soal3');
+    const inpCompareAB = document.getElementById('inp_compare_ab_soal3');
+
+    // Cek apakah kosong (Bagian Perbandingan)
+    if (inpCompareC.value.trim() === "" || inpSign.value === "" || inpCompareAB.value.trim() === "") {
+        belumLengkap = true;
+    }
+
+    // SweetAlert jika belum lengkap
+    if (belumLengkap) {
+        Swal.fire({
+            icon: 'warning',
+            title: 'Belum Lengkap!',
+            text: 'Silakan lengkapi semua jawaban kamu terlebih dahulu.',
+            confirmButtonColor: '#ffc107',
+            confirmButtonText: 'Oke, Saya Lengkapi'
+        });
+        return; 
+    }
+
+    // --- VALIDASI JAWABAN ---
+    let benarSemua = true; 
+
+    // 1. Validasi Soal 1
+    for (let key in kunciSoal1) {
+        const pilihan = document.querySelector(`input[name="${key}"]:checked`);
+        const semuaRadio = document.querySelectorAll(`input[name="${key}"]`);
+        semuaRadio.forEach(r => r.classList.remove('is-valid', 'is-invalid'));
+        if (pilihan.value === kunciSoal1[key]) {
+            pilihan.classList.add('is-valid');
+        } else {
+            pilihan.classList.add('is-invalid');
+            benarSemua = false; 
+        }
+    }
+
+    // 2. Validasi Soal 2
+    const pilihanSoal2 = document.querySelector('input[name="soal2"]:checked');
+    const labelsSoal2 = document.querySelectorAll('input[name="soal2"] + label');
+    labelsSoal2.forEach(lbl => {
+        lbl.classList.remove('btn-success', 'btn-danger');
+        lbl.classList.add('btn-outline-success');
+    });
+    const labelTerpilih = document.querySelector(`label[for="${pilihanSoal2.id}"]`);
+    if (pilihanSoal2.value === kunciSoal2) {
+        labelTerpilih.classList.remove('btn-outline-success');
+        labelTerpilih.classList.add('btn-success');
+    } else {
+        labelTerpilih.classList.remove('btn-outline-success');
+        labelTerpilih.classList.add('btn-danger');
+        benarSemua = false; 
+    }
+
+    // 3. Validasi Soal 3 (Input)
+    inputsSoal3.forEach((input, index) => {
+        input.classList.remove('is-valid', 'is-invalid');
+        let val = parseFloat(input.value);
+        let benar = false;
+        // Logika tukar tempat 9 dan 12
+        if (index === 3 || index === 4) {
+            if (val === 9 || val === 12) benar = true;
+        } else if (index === 5 || index === 6) {
+            if (val === 81 || val === 144) benar = true;
+        } else {
+            if (val === kunciSoal3[index]) benar = true;
+        }
+
+        if (benar) input.classList.add('is-valid');
+        else {
+            input.classList.add('is-invalid');
+            benarSemua = false;
+        }
+    });
+
+    // 4. Validasi Soal 3 (Select Kesimpulan)
+    selectSoal3.classList.remove('is-valid', 'is-invalid');
+    if (selectSoal3.value === kunciSelect3) {
+        selectSoal3.classList.add('is-valid');
+    } else {
+        selectSoal3.classList.add('is-invalid');
+        benarSemua = false;
+    }
+
+    // --- [VALIDASI BAGIAN PERBANDINGAN] ---
+    
+    // Cek Nilai c^2 (Harus 225)
+    inpCompareC.classList.remove('is-valid', 'is-invalid');
+    if (parseFloat(inpCompareC.value) === 225) { 
+        inpCompareC.classList.add('is-valid');
+    } else {
+        inpCompareC.classList.add('is-invalid');
+        benarSemua = false;
+    }
+
+    // Cek Tanda (Harus "=")
+    inpSign.classList.remove('is-valid', 'is-invalid');
+    if (inpSign.value === "=") {
+        inpSign.classList.add('is-valid');
+    } else {
+        inpSign.classList.add('is-invalid');
+        benarSemua = false;
+    }
+
+    // Cek Nilai a^2 + b^2 (Harus 225)
+    inpCompareAB.classList.remove('is-valid', 'is-invalid');
+    if (parseFloat(inpCompareAB.value) === 225) {
+        inpCompareAB.classList.add('is-valid');
+    } else {
+        inpCompareAB.classList.add('is-invalid');
+        benarSemua = false;
+    }
+
+    // --- HASIL AKHIR ---
+    if (benarSemua) {
+        Swal.fire({
+            icon: 'success',
+            title: 'Luar Biasa!',
+            text: 'Selamat, semua jawaban kamu BENAR!',
+            confirmButtonColor: '#198754',
+            confirmButtonText: 'Mantap!'
+        });
+    } else {
+        Swal.fire({
+            icon: 'error',
+            title: 'Masih Ada yang Salah',
+            text: 'Coba periksa kembali jawaban yang berwarna merah.',
+            confirmButtonColor: '#dc3545',
+            confirmButtonText: 'Coba Lagi'
         });
     }
 }

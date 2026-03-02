@@ -122,14 +122,14 @@
     }
 
     .num-btn.answered {
-      background:#0f593f;
+      border: 1px solid #0f593f;
       color:white;
     }
 
     .num-btn.flagged {
-      background:#fff3cd;
-      border-color:#ffecb5;
-      color:#664d03;
+      background:#fff3cd !important; /* Tambahkan !important */
+      border-color:#ffecb5 !important; /* Tambahkan !important */
+      color:#664d03 !important; /* Tambahkan !important */
     }
 
     .num-btn.current {
@@ -233,6 +233,7 @@
   data-waktu-selesai="{{ $statusAktivitas['waktu_selesai'] }}"
   data-next-materi-url="{{ $nextMateriUrl }}"
   data-back-materi-url="{{ $backMateriUrl }}"
+  data-is-evaluasi="{{ $isEvaluasi ? 'true' : 'false' }}" 
   class="py-4">
 
 
@@ -243,6 +244,7 @@
     <h4>{{ $aktivitas->judul }}</h4>
     <p class="text-muted mb-0">
         <i class="bi bi-clock me-1"></i> Durasi: <span id="durasiLabel">...</span> Menit | 
+        <i class="bi bi-list-ol me-1"></i> Jumlah Soal: <span id="jumlahSoalLabelTitle">...</span> Butir |
         <i class="bi bi-star me-1"></i> Nilai Maksimal: {{ $aktivitas->poin_didapat }}
     </p>
   </div>
@@ -257,12 +259,18 @@
         </div>
       @endif -->
 <ol class="mb-4 text-muted" style="line-height: 1.8;">
+  <li>Aktivitas ini terdiri dari <strong class="text-dark"><span id="jumlahSoalLabelList">...</span> butir soal</strong>.</li>
   <li>Tekan tombol <span class="fw-bold text-success">MULAI</span> di bawah untuk masuk ke halaman kuis.</li>
   <li>Waktu pengerjaan akan <strong>dihitung mundur otomatis</strong> begitu Anda menekan tombol mulai.</li>
   <li>Pastikan perangkat terhubung dengan <strong>koneksi internet yang stabil</strong>.</li>
   <li>Kerjakan soal dengan teliti dan jujur.</li>
   <li>Periksa kembali jawaban sebelum mengirimkan.</li>
   <li>Jika waktu habis, jawaban yang sudah terisi akan <strong>tersimpan dan terkirim secara otomatis</strong>.</li>
+  @if($isEvaluasi)
+  <div class="alert alert-warning">
+    <i class="bi bi-exclamation-triangle"></i> Evaluasi hanya dapat dikerjakan <strong>satu kali</strong>. Pastikan Anda siap sebelum memulai.
+  </div>
+@endif
 </ol>
       <div class="text-center">
         <button id="startBtn" class="btn btn-success btn-lg px-5 shadow" disabled title="Menunggu aktivitas dibuka oleh guru">
@@ -324,6 +332,20 @@
       <div class="col-lg-4 col-12">
         <div class="panel-sidebar bg-white p-3">
           <h6 class="text-center mb-3">Nomor Soal</h6>
+          <div class="d-flex flex-wrap gap-2 justify-content-center mb-3 small" style="font-size: 0.8rem;">
+            <div class="d-flex align-items-center">
+              <span class="d-inline-block rounded border border-dark" style="width: 12px; height: 12px; background-color: #fff; margin-right: 4px;"></span> Belum Terjawab
+            </div>
+            <div class="d-flex align-items-center">
+              <span class="d-inline-block rounded border border-dark" style="width: 12px; height: 12px; background-color: #0f593f; margin-right: 4px;"></span> Terjawab
+            </div>
+            <div class="d-flex align-items-center">
+              <span class="d-inline-block rounded border border-dark" style="width: 12px; height: 12px; background-color: #fff3cd; margin-right: 4px;"></span> Ragu
+            </div>
+            <div class="d-flex align-items-center" id="legendaReview" style="display: none !important;">
+                <span class="d-inline-block rounded border border-dark" style="width: 12px; height: 12px; background-color: #dc3545; margin-right: 4px;"></span> Salah
+            </div>
+          </div>
           <div id="palette" class="palette-grid mb-3"></div>
           <div class="mt-auto">
             <button id="finishBtn" class="btn btn-success w-100">
@@ -383,7 +405,9 @@
         </div>
       </div>
       <div class="modal-footer">
-        <button id="reviewBtn" class="btn btn-outline-success">Review Jawaban</button>
+        @if(!$isEvaluasi)
+          <button id="reviewBtn" class="btn btn-outline-success">Review Jawaban</button>
+        @endif
         <button onclick="window.location.href='{{ $nextMateriUrl }}'" class="btn btn-success">Selesai & Lanjut</button>
       </div>
     </div>
@@ -402,6 +426,8 @@ const AKTIVITAS_ID = document.body.dataset.aktivitasId;
 const MATERI_SEKARANG = document.body.dataset.materiSekarang;
 const NEXT_MATERI_URL = document.body.dataset.nextMateriUrl || '/siswa/dashboard';
 const BACK_MATERI_URL = document.body.dataset.backMateriUrl || '/siswa/dashboard';
+const IS_EVALUASI = document.body.dataset.isEvaluasi === 'true';
+
 
 let questions = [];
 let answers = [];
@@ -412,6 +438,7 @@ let timerInterval = null;
 let quizStarted = false;
 let isReviewMode = false;
 let quizResult = null;
+
 
 // ELEMENT REFERENCES
 const instructionPage = document.getElementById('instructionPage');
@@ -444,18 +471,19 @@ fetch(`/siswa/api/aktivitas/${AKTIVITAS_ID}/soal`)
       const data = await res.json();
 
       startBtn.disabled = true;
-      startBtn.innerHTML = 'Kuis Belum Tersedia';
+      // Gunakan istilah yang sesuai
+      const jenis = IS_EVALUASI ? 'Evaluasi' : 'Kuis';
+      startBtn.innerHTML = jenis + ' Belum Tersedia';
       startBtn.classList.remove('btn-success');
       startBtn.classList.add('btn-secondary');
 
       Swal.fire({
         icon: 'info',
-        title: 'Kuis Belum Tersedia',
-        text: data.error || 'Kuis ini belum dibuka oleh guru.',
+        title: jenis + ' Belum Tersedia',
+        text: data.error || (IS_EVALUASI ? 'Evaluasi ini belum dibuka oleh guru.' : 'Kuis ini belum dibuka oleh guru.'),
         confirmButtonText: 'Mengerti'
       });
 
-      // STOP eksekusi
       return null;
     }
 
@@ -481,6 +509,12 @@ fetch(`/siswa/api/aktivitas/${AKTIVITAS_ID}/soal`)
     questions = data.soal;
     answers = Array(questions.length).fill(null);
     flagged = Array(questions.length).fill(false);
+
+    const totalSoalTitle = document.getElementById('jumlahSoalLabelTitle');
+    const totalSoalList = document.getElementById('jumlahSoalLabelList');
+    
+    if (totalSoalTitle) totalSoalTitle.textContent = questions.length;
+    if (totalSoalList) totalSoalList.textContent = questions.length;
 
     // SETUP DURASI
     if (data.durasi_menit) {
@@ -584,8 +618,9 @@ function masukModeReview() {
 }
 
 document.getElementById('resultModal').addEventListener('hidden.bs.modal', function () {
-  if (!isReviewMode) masukModeReview();
+  if (!isReviewMode && !IS_EVALUASI) masukModeReview();
 });
+
 
 /* =============================
    MULAI KUIS
@@ -613,6 +648,10 @@ const ulangiBtn = document.getElementById('ulangiBtn');
 if(ulangiBtn) ulangiBtn.onclick = ulangiKuis;
 
 if(reviewBtn) reviewBtn.onclick = masukModeReview;
+
+if (IS_EVALUASI && flagBtn) {
+    flagBtn.style.display = 'none';
+}
 
 /* =============================
    RENDER SOAL
@@ -680,65 +719,60 @@ function renderQuestion(i) {
 ============================= */
 function renderOptionsHTML(q) {
   let optionsHTML = '';
-  
-  // Tampilkan kotak info benar/salah saat review
-  if (isReviewMode && quizResult) {
-    // Cari detail hasil untuk soal index ini (idx)
-    // Perhatikan: urutan array 'questions' harus sama dengan urutan 'quizResult.detail'
-    // Sebaiknya mapping by ID, tapi asumsi urutan sama:
-    const soalResult = quizResult.detail[idx]; 
-    
-    // Fallback jika tidak ditemukan (safety)
-    const isCorrect = soalResult ? soalResult.benar : false;
-    // Ambil teks jawaban benar dari options
-    const correctAnswerKey = q.kunci_jawaban; 
-    const correctAnswerText = q.options[correctAnswerKey] ? q.options[correctAnswerKey].text : '-';
-    
+
+  const isIsian = !q.options || Object.keys(q.options).length === 0;
+
+  // ======================
+  // MODE ISIAN
+  // ======================
+  if (isIsian) {
+    const userAnswer = answers[idx] || '';
+
     optionsHTML += `
-      <div class="alert ${isCorrect ? 'alert-success' : 'alert-danger'} mb-3">
-        <div class="d-flex align-items-center">
-          <i class="bi ${isCorrect ? 'bi-check-circle-fill' : 'bi-x-circle-fill'} me-2 fs-4"></i>
-          <div>
-            <strong>${isCorrect ? 'Jawaban Anda Benar' : 'Jawaban Anda Salah'}</strong>
-            ${!isCorrect ? `<div class="small mt-1">Kunci Jawaban: <strong>${correctAnswerKey}. ${correctAnswerText}</strong></div>` : ''}
-          </div>
-        </div>
+      <div class="mb-3">
+        <label class="form-label fw-bold">Jawaban Anda:</label>
+        <input type="text"
+               class="form-control"
+               value="${userAnswer}"
+               ${isReviewMode ? 'disabled' : ''}
+               oninput="answers[idx] = this.value">
       </div>
     `;
+
+    // MODE REVIEW
+    if (isReviewMode && quizResult) {
+      const res = quizResult.detail[idx];
+      optionsHTML += `
+        <div class="alert ${res.benar ? 'alert-success' : 'alert-danger'}">
+          ${res.benar ? 'Jawaban Anda Benar' : `Jawaban Salah. Kunci: <strong>${q.kunci_jawaban}</strong>`}
+        </div>
+      `;
+    }
+
+    return optionsHTML;
   }
 
-  // Render Pilihan A,B,C,D
+  // ======================
+  // MODE PILIHAN GANDA (Kode lama)
+  // ======================
   Object.entries(q.options).forEach(([key, opt]) => {
     let className = 'option-item p-3 mb-2';
-    
-    // Highlight jawaban yang dipilih user
+
     if (answers[idx] === key) className += ' selected';
-    
-    // Warna warni saat Review
+
     if (isReviewMode) {
-      if (key === q.kunci_jawaban) {
-        className += ' correct'; // Hijau untuk kunci
-      } else if (answers[idx] === key && answers[idx] !== q.kunci_jawaban) {
-        className += ' incorrect'; // Merah untuk jawaban salah user
-      }
+      if (key === q.kunci_jawaban) className += ' correct';
+      else if (answers[idx] === key && answers[idx] !== q.kunci_jawaban)
+        className += ' incorrect';
     }
-    
-    const isChecked = answers[idx] === key;
-    
+
     optionsHTML += `
       <div class="${className}" data-key="${key}">
-        <div class="form-check mb-0 pointer-events-none">
-          <input class="form-check-input" type="radio" 
-                 ${isChecked ? 'checked' : ''} 
-                 ${isReviewMode ? 'disabled' : ''}>
-          <label class="form-check-label w-100 cursor-pointer">
-            <strong>${key}.</strong> ${opt.text}
-          </label>
-        </div>
+        <strong>${key}.</strong> ${opt.text}
       </div>
     `;
   });
-  
+
   return optionsHTML;
 }
 
@@ -832,7 +866,11 @@ function startTimer() {
 }
 
 finishBtn.onclick = async () => {
-  const belum = answers.filter(a => a === null).length;
+  // Cek soal belum dijawab
+  const belum = answers.filter(a => a === null || a === '').length;
+  // Cek soal ditandai
+  const ditandai = flagged.filter(f => f === true).length; 
+
   let config = {
     title: 'Selesaikan Aktivitas?',
     text: 'Apakah Anda yakin ingin mengumpulkan jawaban?',
@@ -845,6 +883,11 @@ finishBtn.onclick = async () => {
   if (belum > 0) {
     config.title = 'Masih ada soal kosong!';
     config.text = `Anda belum menjawab ${belum} soal. Yakin ingin mengumpulkan?`;
+    config.icon = 'warning';
+  } else if (ditandai > 0) {
+    // Tambahan logika jika ada yang ditandai
+    config.title = 'Ada soal yang ditandai!';
+    config.text = `Anda menandai ragu-ragu pada ${ditandai} soal. Yakin ingin mengumpulkan?`;
     config.icon = 'warning';
   }
 
@@ -920,7 +963,9 @@ function showResult(result) {
   // Render Detail di Modal (Scrollable Area)
   const detailsContainer = document.getElementById('resultDetails');
   detailsContainer.innerHTML = '';
-  
+    if (IS_EVALUASI) {
+    document.getElementById('resultDetails').innerHTML = '<p class="text-center text-muted">Detail jawaban tidak ditampilkan untuk evaluasi.</p>';
+  } else {
   result.detail.forEach((item, index) => {
     const detailDiv = document.createElement('div');
     // Styling baris per soal
@@ -939,6 +984,7 @@ function showResult(result) {
     
     detailsContainer.appendChild(detailDiv);
   });
+}
   
   // Tampilkan Modal
   resultModal.show();

@@ -44,7 +44,7 @@ body {
     padding: 0 .85rem;
     background: var(--primary);
     border-bottom: 2px solid var(--dark);
-    z-index: 1100;
+    z-index: 1050; /* Turunkan sedikit dari 1100 agar modal sweetalert (1060) tidak tertutup */
 }
 
 .topbar a {
@@ -831,6 +831,48 @@ body {
     transition: all 0.2s ease;
 }
 
+/* =========================================
+   INTERACTIVE TEXT OVERLAY (CLICK ONLY)
+========================================= */
+    .materi-page {
+        transition: opacity 0.2s;
+    }
+    .border-success {
+        border: 2px solid #198754 !important;
+    }
+    .border-danger {
+        border: 2px solid #dc3545 !important;
+    }
+
+    /* Styling Pagination */
+    .materi-pagination .page-link {
+        color: #198754;
+        background-color: #fff;
+        border-color: #dee2e6;
+        cursor: pointer;
+    }
+    .materi-pagination .page-link:hover {
+        background-color: #e9ecef;
+        color: #146c43;
+    }
+    .materi-pagination .page-item.active .page-link {
+        background-color: #198754 !important;
+        border-color: #198754 !important;
+        color: white !important;
+    }
+    .materi-pagination .page-item.disabled .page-link {
+        color: #6c757d;
+        pointer-events: none;
+        background-color: #fff;
+        border-color: #dee2e6;
+    }
+
+    /* Sembunyikan spinner pada input number */
+    input[type=number]::-webkit-inner-spin-button, 
+    input[type=number]::-webkit-outer-spin-button { 
+        -webkit-appearance: none; 
+        margin: 0; 
+    }
 
 /* =========================================
    INTERACTIVE TEXT OVERLAY (CLICK ONLY)
@@ -1061,3 +1103,63 @@ body {
 /* =========================================
    END OF STYLESHEET MATERI 2
 ========================================= */
+/* =========================================
+   PERBAIKAN KHUSUS DRAG & DROP
+   (Tambahkan ini di file CSS Anda agar rapi)
+========================================= */
+
+/* 1. Ini agar tombol sumber (atas) rapi di tengah dan tidak berantakan saat Reset */
+#drag-source {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center; 
+    gap: 10px;
+    min-height: 60px;
+    padding: 15px;
+    margin-bottom: 20px;
+    border: 1px solid #dee2e6;
+    border-radius: 8px;
+    background-color: #fff;
+}
+
+/* 2. Ini agar kotak jawaban (bawah) punya teks panduan & rapi */
+.drop-zone-box {
+    min-height: 80px;
+    background-color: #f8f9fa;
+    border: 3px dashed #198754;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 10px;
+    position: relative;
+    transition: all 0.3s ease;
+}
+
+/* Teks "Letakkan Jawaban Disini" */
+.drop-zone-box::before {
+    content: "Letakkan jawaban di sini";
+    color: #adb5bd;
+    font-size: 0.8rem;
+    position: absolute;
+    pointer-events: none;
+}
+
+/* Hilangkan teks jika sudah ada isinya */
+.drop-zone-box:not(:empty)::before {
+    display: none;
+}
+
+/* 3. Ini agar tombol terlihat bagus saat masuk ke dalam kotak jawaban */
+.drop-zone-box .drag-item {
+    margin: 0;
+    width: 90%; 
+    text-align: center;
+    background-color: #fff;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+/* Efek saat item sedang ditarik (agar tidak dobel visualnya) */
+.hide-while-dragging {
+    opacity: 0.001;
+}

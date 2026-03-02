@@ -15,6 +15,7 @@ class DataKelasController extends Controller
         // Ambil kelas milik guru yang login
         $kelas = Kelas::where('guru_id', Auth::id())
                       ->withCount('siswa') // Hitung jumlah siswa
+                      ->with(['siswa', 'aktivitas']) // <--- TAMBAHAN: Load data siswa & aktivitas
                       ->latest()
                       ->get();
 
@@ -63,4 +64,6 @@ class DataKelasController extends Controller
 
         return redirect()->back()->with('success', 'Kelas dihapus.');
     }
+
+    
 }

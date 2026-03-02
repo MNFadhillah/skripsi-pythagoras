@@ -4,68 +4,103 @@
 
 @section('content')
 <div class="container-fluid">
+    {{-- HEADER --}}
     <div class="card border-0 shadow-sm mb-4">
-        <div class="card-body d-flex justify-content-between align-items-center">
-            {{-- Judul Halaman --}}
-            <h4 class="fw-bold mb-0">Data Siswa</h4>
+        <div class="card-body">
+            <div class="row align-items-center">
+                {{-- Judul --}}
+                <div class="col-md-6">
+                    <h4 class="fw-bold mb-0">Rekap Data Nilai Siswa</h4>
+                </div>
+                
+                {{-- Filter & Action --}}
+                <div class="col-md-6 d-flex justify-content-md-end gap-2 mt-3 mt-md-0">
+                    
+                    {{-- 1. Filter Kelas --}}
+                    <form action="{{ route('guru.data_nilai') }}" method="GET" class="d-flex gap-2">
+                        <select name="kelas_id" class="form-select shadow-sm border-secondary-subtle" style="width: 200px;" onchange="this.form.submit()">
+                            <option value="">-- Semua Kelas --</option>
+                            @foreach($listKelas as $kls)
+                                <option value="{{ $kls->id }}" {{ $kelasId == $kls->id ? 'selected' : '' }}>
+                                    {{ $kls->nama_kelas }}
+                                </option>
+                            @endforeach
+                        </select>
+                    </form>
+
+                    {{-- 2. Logika Teks Tombol Export --}}
+                    @php
+                        $teksExport = "Export Semua"; // Default
+                        
+                        // Cek jika ada filter kelas yang aktif
+                        if(isset($kelasId) && $kelasId != '') {
+                            // Cari nama kelas dari list yang sudah ada (tanpa query ulang)
+                            $kelasTerpilih = $listKelas->firstWhere('id', $kelasId);
+                            if($kelasTerpilih) {
+                                $teksExport = "Export " . $kelasTerpilih->nama_kelas;
+                            }
+                        }
+                    @endphp
+
+                    {{-- 3. Tombol Export Dinamis --}}
+                    {{-- request()->all() memastikan filter tetap terbawa saat export --}}
+                    <a href="{{ route('guru.data_nilai.export', request()->all()) }}" class="btn btn-success text-white shadow-sm text-nowrap">
+                        <i class="bi bi-file-earmark-excel me-1"></i> {{ $teksExport }}
+                    </a>
+                    
+                </div>
+            </div>
         </div>
     </div>
+    
     {{-- TABEL UTAMA --}}
-    <div class="card shadow-sm border-0 rounded-4">
+    <div class="card shadow-sm border-1 rounded">
         <div class="card-body">
             <div class="table-responsive">
-                <table class="table table-hover align-middle" id="tabelNilai">
+                <table class="table table-bordered table-hover align-middle" id="tabelNilai">
                     <thead class="table-light">
                         <tr>
                             <th class="text-center" width="5%">No</th>
-                            <th width="20%">Nama Siswa</th>
-                            <th width="20%">Paket Soal</th>
-                            <th class="text-center" width="8%">Skor</th>
-                            <th width="12%">Tanggal</th>
-                            <th class="text-center" width="8%">Mulai</th>
-                            <th class="text-center" width="12%">Selesai</th>
-                            <th class="text-center" width="10%">Aksi</th>
+                            <th class="text-center">Nama Siswa</th>
+                            <th class="text-center">Kelas</th>
+                            <th class="text-center">Kuis 1</th>
+                            <th class="text-center">Kuis 2</th>
+                            <th class="text-center">Kuis 3</th>
+                            <th class="text-center">Kuis 4</th>
+                            <th class="text-center">Evaluasi</th>
+                            <th class="text-center" width="10%">Riwayat</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach($dataNilai as $item)
-                        
-                        @php
-                            $start = $item->waktu_mulai ? \Carbon\Carbon::parse($item->waktu_mulai) : null;
-                            $end   = $item->waktu_selesai ? \Carbon\Carbon::parse($item->waktu_selesai) : null;
-                            $durasiTeks = '-';
-                            if ($start && $end) {
-                                $diffMinutes = $start->diffInMinutes($end);
-                                $durasiTeks = ($diffMinutes >= 60) 
-                                    ? floor($diffMinutes / 60) . " jam " . ($diffMinutes % 60) . " mnt"
-                                    : $diffMinutes . " menit";
-                            }
-                        @endphp
-
-                        <tr>
-                            <td class="text-center">{{ $loop->iteration }}</td>
-                            <td>
-                                <div class="fw-bold text-truncate" style="max-width: 180px;">
-                                    {{ $item->user->name ?? 'User Hilang' }}
+                        @foreach($dataSiswa as $siswa)
+                        <tr class="text-center">
+                            <td>{{ $loop->iteration }}</td>
+                            <td class="text-start">
+                                <div class="fw-bold text-truncate" style="max-width: 200px;">
+                                    {{ $siswa['name'] }}
                                 </div>
-                                <div class="small text-muted">{{ $item->user->email ?? '-' }}</div>
+                                <div class="small text-muted">{{ $siswa['email'] }}</div>
                             </td>
-                            <td><div class="text-wrap small">{{ $item->paketSoal->judul ?? 'Paket Dihapus' }}</div></td>
-                            <td class="text-center"><span class="badge bg-primary fs-6">{{ $item->skor_akhir }}</span></td>
-                            <td class="small"><i class="bi bi-calendar-event text-muted"></i> {{ $start ? $start->translatedFormat('d M Y') : '-' }}</td>
-                            <td class="text-center small">{{ $start ? $start->format('H:i') : '-' }}</td>
-                            <td class="text-center small">
-                                <div>{{ $end ? $end->format('H:i') : '-' }}</div>
-                                @if($durasiTeks !== '-')
-                                    <span class="badge bg-light text-secondary border rounded-pill px-2 mt-1 fw-normal" style="font-size: 0.7rem;">
-                                        <i class="bi bi-hourglass-split"></i> {{ $durasiTeks }}
-                                    </span>
-                                @endif
+                            <td>{{ $siswa['kelas'] }}</td>
+                            
+                            @foreach(['kuis_1', 'kuis_2', 'kuis_3', 'kuis_4', 'evaluasi'] as $key)
+                            <td>
+                                @php 
+                                    $val = $siswa['nilai'][$key];
+                                    $color = ($val === '-') ? 'bg-secondary' : ($key === 'evaluasi' ? 'bg-success' : 'bg-primary');
+                                @endphp
+                                <span class="badge {{ $color }} fs-6">
+                                    {{ $val }}
+                                </span>
                             </td>
-                            <td class="text-center">
-                                <button class="btn btn-sm btn-success text-white btn-analisis shadow-sm" 
-                                        data-id="{{ $item->id }}" title="Lihat Analisis Jawaban">
-                                    <i class="bi bi-grid-3x3 me-1"></i> Detail
+                            @endforeach
+                            
+                            <td>
+                                <button class="btn btn-sm btn-info text-white shadow-sm btn-riwayat" 
+                                        data-user-id="{{ $siswa['user_id'] }}" 
+                                        data-user-name="{{ $siswa['name'] }}"
+                                        title="Lihat Riwayat Pengerjaan">
+                                    <i class="bi bi-clock-history"></i>
                                 </button>
                             </td>
                         </tr>
@@ -77,88 +112,16 @@
     </div>
 </div>
 
-{{-- MODAL ANALISIS & DETAIL --}}
-<div class="modal fade" id="modalAnalisis" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable" style="margin-top: 70px; height: calc(100vh - 100px);">
-        <div class="modal-content rounded-4 border-0 h-100">
-            
+{{-- MODAL RIWAYAT PENGERJAAN --}}
+<div class="modal fade" id="modalRiwayat" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content rounded border-0 shadow">
             <div class="modal-header bg-success text-white py-3">
-                <h5 class="modal-title fw-bold"><i class="bi bi-card-checklist me-2"></i>Analisis & Detail Jawaban</h5>
+                <h5 class="modal-title fw-bold" id="modalRiwayatTitle">Riwayat Pengerjaan</h5>
                 <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
-            </div>
-
-            <div class="modal-body bg-light">
-                {{-- INFO SISWA --}}
-                <div class="card border-0 shadow-sm mb-3">
-                    <div class="card-body py-2">
-                        <div class="row align-items-center">
-                            <div class="col-md-6">
-                                <h5 class="fw-bold mb-0 text-dark" id="analisisNama">-</h5>
-                                <small class="text-muted" id="analisisPaket">-</small>
-                            </div>
-                            <div class="col-md-6 text-end">
-                                <span class="badge bg-primary fs-4 px-3" id="analisisSkor">0</span>
-                                <div class="small text-muted mt-1" id="analisisWaktu">-</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                {{-- MATRIKS JAWABAN (HORIZONTAL) --}}
-                <div class="card border-0 shadow-sm mb-3">
-                    <div class="card-header bg-white fw-bold border-bottom-0 py-2">
-                        <i class="bi bi-grid-3x3 me-2"></i>Matriks Jawaban (1 = Benar, 0 = Salah)
-                    </div>
-                    <div class="card-body p-0">
-                        <div class="table-responsive">
-                            <table class="table table-bordered text-center mb-0" style="min-width: 800px;">
-                                {{-- PERUBAHAN: Header Putih (bg-white) --}}
-                                <thead class="bg-white text-secondary">
-                                    <tr id="headNomorSoal"></tr> 
-                                </thead>
-                                {{-- Body Putih --}}
-                                <tbody class="bg-white fs-6"> 
-                                    <tr id="bodySkorSoal"></tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-
-                {{-- ACCORDION DETAIL SOAL (VERTIKAL) --}}
-                <div class="accordion shadow-sm" id="accordionDetailSoal">
-                    <div class="accordion-item border-0 rounded-3 overflow-hidden">
-                        <h2 class="accordion-header" id="headingDetail">
-                            <button class="accordion-button collapsed fw-bold bg-white py-3" 
-                                    type="button" 
-                                    data-bs-toggle="collapse" 
-                                    data-bs-target="#collapseDetail" 
-                                    aria-expanded="false" 
-                                    aria-controls="collapseDetail">
-                                <i class="bi bi-list-ol me-2"></i> Lihat Rincian Soal & Jawaban Lengkap
-                            </button>
-                        </h2>
-                        <div id="collapseDetail" class="accordion-collapse collapse" aria-labelledby="headingDetail" data-bs-parent="#accordionDetailSoal">
-                            <div class="accordion-body p-0">
-                                <div class="table-responsive">
-                                    <table class="table table-hover align-middle mb-0">
-                                        <thead class="table-light text-secondary small">
-                                            <tr>
-                                                <th class="text-center" width="5%">No</th>
-                                                <th width="50%">Pertanyaan</th>
-                                                <th class="text-center" width="15%">Jawaban Siswa</th>
-                                                <th class="text-center" width="15%">Kunci</th>
-                                                <th class="text-center" width="15%">Status</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody id="bodyDetailVertikal"></tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
+            </div>  
+            <div class="modal-body bg-light" id="modalRiwayatBody">
+                {{-- Diisi via AJAX --}}
             </div>
         </div>
     </div>
@@ -168,119 +131,122 @@
 @push('scripts')
 <script>
 $(document).ready(function() {
-    // Init DataTable Utama
-    $('#tabelNilai').DataTable();
-
-    // Variable global untuk instance modal
-    let myModalAnalisis = new bootstrap.Modal(document.getElementById('modalAnalisis'));
-
-    // EVENT KLIK TOMBOL ANALISIS
-    $(document).on('click', '.btn-analisis', function() {
-        let id = $(this).data('id');
-        let url = "{{ route('guru.data_nilai.show', ':id') }}".replace(':id', id);
-
-        Swal.fire({ title: 'Memuat Analisis...', didOpen: () => Swal.showLoading() });
-
-        $.ajax({
-            url: url,
-            type: 'GET',
-            dataType: 'json',
-            success: function(response) {
-                if(response.success) {
-                    let d = response.data;
-                    
-                    // 1. INFO HEADER
-                    $('#analisisNama').text(d.user ? d.user.name : 'User Hilang');
-                    $('#analisisPaket').text(d.paket_soal ? d.paket_soal.judul : '-');
-                    $('#analisisSkor').text(d.skor_akhir);
-                    let date = new Date(d.created_at);
-                    $('#analisisWaktu').text(date.toLocaleDateString('id-ID') + ' ' + date.toLocaleTimeString('id-ID'));
-
-                    // 2. BUILD TABEL
-                    let htmlHead = '';
-                    let htmlBody = '';
-                    let htmlDetail = '';
-                    let totalBenar = 0;
-
-                    if (d.jawaban_siswa && d.jawaban_siswa.length > 0) {
-                        d.jawaban_siswa.forEach((item, index) => {
-                            let no = index + 1;
-                            // Logika Benar/Salah (1/0)
-                            let isBenar = parseInt(item.benar) === 1; 
-                            if(isBenar) totalBenar++;
-
-                            // A. Matriks Horizontal
-                            // Header (Putih/Abu tipis)
-                            htmlHead += `<th class="py-2 fw-normal" style="min-width:40px;">${no}</th>`;
-                            
-                            // Body (Warna Soft: Hijau/Merah)
-                            let bgClass = isBenar ? 'bg-success-subtle text-success' : 'bg-danger-subtle text-danger';
-                            let val = isBenar ? '1' : '0';
-                            htmlBody += `<td class="py-2 ${bgClass}">${val}</td>`;
-
-                            // B. Detail Vertikal
-                            let textSoal = '-';
-                            let imgHtml = '';
-                            if (item.butir_soal && item.butir_soal.pertanyaan) {
-                                let raw = item.butir_soal.pertanyaan;
-                                try {
-                                    let obj = (typeof raw === 'object') ? raw : JSON.parse(raw);
-                                    textSoal = obj.text ? String(obj.text).replace(/<[^>]*>?/gm, '') : '-';
-                                    if(obj.image) {
-                                        imgHtml = `<div class="mt-1"><a href="${obj.image}" target="_blank"><img src="${obj.image}" class="img-thumbnail" style="height:40px;"></a></div>`;
-                                    }
-                                } catch(e) { textSoal = raw; }
-                            }
-
-                            let badgeStatus = isBenar 
-                                ? '<span class="badge bg-success fw-normal">Benar</span>'
-                                : '<span class="badge bg-danger fw-normal">Salah</span>';
-                            
-                            // Warna baris detail (Merah muda jika salah, Putih jika benar)
-                            let rowColorDetail = isBenar ? '' : 'table-danger'; 
-
-                            htmlDetail += `
-                                <tr class="${rowColorDetail}">
-                                    <td class="text-center text-secondary">${no}</td>
-                                    <td>
-                                        <div class="text-wrap" style="max-width: 450px; font-size: 0.9rem;">${textSoal}</div>
-                                        ${imgHtml}
-                                    </td>
-                                    <td class="text-center fw-bold fs-6">${item.jawaban || '-'}</td>
-                                    <td class="text-center fw-bold text-success fs-6">${item.butir_soal.kunci_jawaban || '-'}</td>
-                                    <td class="text-center">${badgeStatus}</td>
-                                </tr>
-                            `;
-                        });
-
-                        // Kolom Total
-                        htmlHead += `<th class="bg-light text-secondary border-start">Jumlah</th><th class="bg-light text-primary border-start">Nilai</th>`;
-                        htmlBody += `<td class="fw-bold border-start bg-light">${totalBenar}</td><td class="fw-bold text-primary bg-light border-start">${d.skor_akhir}</td>`;
-
-                    } else {
-                        htmlHead = '<th>-</th>';
-                        htmlBody = '<td>No Data</td>';
-                        htmlDetail = '<tr><td colspan="5" class="text-center py-3">Tidak ada data detail.</td></tr>';
-                    }
-
-                    // Render HTML
-                    $('#headNomorSoal').html(htmlHead);
-                    $('#bodySkorSoal').html(htmlBody);
-                    $('#bodyDetailVertikal').html(htmlDetail);
-
-                    // RESET Accordion (Tutup Paksa setiap kali modal dibuka)
-                    $('#collapseDetail').removeClass('show'); 
-                    $('#headingDetail button').addClass('collapsed').attr('aria-expanded', 'false');
-
-                    Swal.close();
-                    myModalAnalisis.show();
-                }
+        // 1. INISIALISASI DATATABLES TABEL UTAMA
+        $('#tabelNilai').DataTable({
+            "language": {
+                search: "Cari:",
+                lengthMenu: "Tampilkan _MENU_ data",
+                info: "Menampilkan _START_ sampai _END_ dari _TOTAL_ nilai",
+                emptyTable: "Belum ada data Nilai.",
+                paginate: {
+                    first: "Pertama",
+                    last: "Terakhir",
+                    next: "Berikutnya",
+                    previous: "Sebelumnya"
+                },
+                "url": "//cdn.datatables.net/plug-ins/1.13.4/i18n/id.json"
+                
             },
-            error: function() {
-                Swal.fire('Error', 'Gagal memuat data', 'error');
-            }
+            "pageLength": 10,
+            "columnDefs": [
+                { "orderable": false, "targets": [0, 8] }
+            ],
+            "order": [[1, 'asc']]
+        });
+
+        // 2. LOGIKA AJAX RIWAYAT (FIXED VERSION)
+        $(document).on('click', '.btn-riwayat', function() {
+            let userId = $(this).data('user-id');
+            let userName = $(this).data('user-name');
+            let url = "{{ route('guru.data_nilai.riwayat', ':id') }}".replace(':id', userId);
+
+            $('#modalRiwayatTitle').html(`<i class="bi bi-clock-history me-2"></i>Riwayat: ${userName}`);
+            $('#modalRiwayatBody').html('<div class="text-center my-5"><div class="spinner-border text-success"></div><p class="mt-2">Memuat data...</p></div>');
+            
+            let modalRiwayat = new bootstrap.Modal(document.getElementById('modalRiwayat'));
+            modalRiwayat.show();
+
+            $.ajax({
+                url: url,
+                type: 'GET',
+                success: function(res) {
+                    if(res.success) {
+                        let data = res.data;
+                        let html = '';
+
+                        if(Object.keys(data).length === 0) {
+                            html = '<div class="alert alert-warning text-center">Belum ada riwayat pengerjaan.</div>';
+                        } else {
+                            for (const [judulPaket, attempts] of Object.entries(data)) {
+                                html += `<h5 class="fw-bold mt-4 mb-3 text-success text-uppercase">${judulPaket}</h5>`;
+                                html += `<div class="card shadow-sm border-0 mb-4 rounded overflow-hidden">
+                                            <div class="card-body p-0">
+                                                <div class="table-responsive">
+                                                    <table class="table table-bordered table-hover text-center mb-0" style="min-width: 900px;">
+                                                        <thead class="bg-success text-white"> 
+                                                            <tr>
+                                                                <th width="8%" class="py-3">Percobaan</th>
+                                                                <th width="12%">Tanggal</th>
+                                                                <th width="10%">Mulai</th>
+                                                                <th width="10%">Selesai</th>
+                                                                <th width="8%">Nilai</th>
+                                                                <th width="10%">Status</th>`;
+                                
+                                // Mencari jumlah soal terbanyak
+                                let maxSoal = 0;
+                                attempts.forEach(attempt => {
+                                    if (attempt.total_soal > maxSoal) maxSoal = attempt.total_soal;
+                                });
+
+                                for (let i = 1; i <= maxSoal; i++) {
+                                    html += `<th class="fw-bold">S${i}</th>`;
+                                }
+                                
+                                html += `</tr></thead><tbody class="bg-white fs-6">`;
+
+                                attempts.forEach((attempt, index) => {
+                                    let badgeStatus = attempt.status_lulus 
+                                            ? '<span class="badge bg-success rounded-pill px-3">Lulus</span>'
+                                            : '<span class="badge bg-danger rounded-pill px-3">Tidak Lulus</span>';
+
+                                    // --- PERBAIKAN DI SINI ---
+                                    // Langsung pakai data dari Controller (tidak perlu split-split lagi)
+                                    // Controller Anda sudah mengirimkan key: 'tanggal', 'jam_mulai', 'jam_selesai'
+                                    
+                                    html += `<tr>
+                                                <td class="text-muted fw-bold">Ke-${index + 1}</td>
+                                                <td>${attempt.tanggal}</td>
+                                                <td class="fw-bold text-primary">${attempt.jam_mulai}</td>
+                                                <td class="fw-bold text-danger">${attempt.jam_selesai}</td>
+                                                <td class="fw-bold fs-5">${attempt.skor}</td>
+                                                <td>${badgeStatus}</td>`;
+
+                                    // Loop Jawaban (Matrix)
+                                    for (let i = 0; i < maxSoal; i++) {
+                                        if (i < attempt.matrix.length) {
+                                            let isBenar = attempt.matrix[i];
+                                            let icon = isBenar 
+                                                ? '<i class="bi bi-check-circle-fill text-success fs-5"></i>' 
+                                                : '<i class="bi bi-x-circle-fill text-danger fs-5"></i>';
+                                            html += `<td>${icon}</td>`;
+                                        } else {
+                                            html += `<td class="text-muted">-</td>`;
+                                        }
+                                    }
+                                    html += `</tr>`;
+                                });
+
+                                html += `</tbody></table></div></div></div>`;
+                            }
+                        }
+                        $('#modalRiwayatBody').html(html);
+                    }
+                },
+                error: function() {
+                    $('#modalRiwayatBody').html('<div class="alert alert-danger text-center">Terjadi kesalahan saat mengambil data riwayat.</div>');
+                }
+            });
         });
     });
-});
 </script>
 @endpush

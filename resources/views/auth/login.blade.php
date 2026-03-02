@@ -8,8 +8,8 @@
     <!-- BOOTSTRAP -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 
-    <!-- FONT AWESOME -->
-    <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+
 
     <style>
         :root {
@@ -99,6 +99,16 @@
         <form method="POST" action="{{ route('login.process') }}">
             @csrf
 
+            {{-- TAMBAHAN: DROPDOWN ROLE --}}
+            <div class="form-floating mb-3">
+                <select name="role" class="form-select" required>
+                    <option value="siswa" selected>Siswa</option>
+                    <option value="guru">Guru</option>
+                </select>
+                <label>Masuk Sebagai</label>
+            </div>
+            {{-- AKHIR TAMBAHAN --}}
+
             <div class="form-floating mb-3">
                 <input type="email"
                        name="email"
@@ -107,17 +117,26 @@
                        value="{{ old('email') }}"
                        required autofocus>
                 <label>Email</label>
+            
             </div>
+                <div class="form-floating mb-3 position-relative">
+                    <input type="password"
+                        name="password"
+                        class="form-control pe-5"
+                        id="password"
+                        placeholder="Password"
+                        required>
 
-            <div class="form-floating mb-3">
-                <input type="password"
-                       name="password"
-                       class="form-control"
-                       placeholder="Password"
-                       required>
-                <label>Password</label>
-            </div>
+                    <label for="password">Password</label>
 
+                    <i class="bi bi-eye-slash position-absolute top-50 end-0 translate-middle-y me-3"
+                    id="togglePassword"
+                    style="cursor: pointer; z-index: 10;"></i>
+                </div>
+
+
+
+            {{-- Sisa kode (checkbox remember me, tombol, dll) biarkan sama... --}}
             <div class="form-check mb-3">
                 <input class="form-check-input" type="checkbox" name="remember" id="remember">
                 <label class="form-check-label" for="remember">
@@ -152,6 +171,24 @@
     </div>
 
 </div>
+
+<script>
+document.getElementById("togglePassword").addEventListener("click", function () {
+    const password = document.getElementById("password");
+    const icon = this;
+
+    if (password.type === "password") {
+        password.type = "text";
+        icon.classList.remove("bi-eye-slash");
+        icon.classList.add("bi-eye");
+    } else {
+        password.type = "password";
+        icon.classList.remove("bi-eye");
+        icon.classList.add("bi-eye-slash");
+    }
+});
+</script>
+
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>

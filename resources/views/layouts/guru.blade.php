@@ -7,11 +7,8 @@
     <title>@yield('title','Dashboard Guru • PythaLearn')</title>
 
     <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
-
     <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css" rel="stylesheet">
-
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css">
-
     <link href="https://fonts.googleapis.com/css2?family=PT+Sans:wght@400;700&family=Open+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
@@ -19,367 +16,347 @@
     @stack('head')
 
     <style>
-        :root{
-            --primary: #2E8B57;   /* Hijau utama (Sea Green) */
-            --accent:  #A1E8AF;   /* Hijau muda aksen */
-            --dark:    #1E5631;   /* Hijau gelap */
-            --light-green: #E8F5E9; /* Hijau sangat muda */
-            --topbar-h: 64px;    
-            --sidebar-w: 240px;
+        :root {
+            --primary: #2E8B57;   
+            --dark:    #1E5631;   
+            --sidebar-w: 260px;
+            --sidebar-mini-w: 80px; 
+            --header-h: 65px;
+            --transition: all 0.3s ease;
         }
 
-    html,body{height:100%;}
+        body {
+            font-family: 'PT Sans', sans-serif;
+            background: #f8f9fa;
+            overflow-x: hidden;
+        }
 
-    body {
-        font-family: 'PT Sans', 'Open Sans', system-ui;
-        background:#f7f9f8;
-        color:#0b2b27;
-        margin:0;
-    }
-
-    /* === TOPBAR: fixed di atas === */
-    .topbar {
-        position: fixed;
-        top: 0;
-        left: 0;
-        right: 0;
-        height: var(--topbar-h);
-        background: var(--primary);
-        color: #fff;
-        border-bottom: none;
-        z-index: 1100;
-        display:flex;
-        align-items:center;
-        padding: 0;
-    }
-
-    .topbar .brand a{
-        font-size: 1.4rem;
-        font-weight: 700;
-        color:#fff;
-        text-decoration:none;
-    }
-
-    .topbar .nav-link{
-        font-size: .95rem;
-        transition: .15s;
-    }
-    .topbar .nav-link,
-    .topbar .nav-link.text-light{
-        color: rgba(255,255,255,.8) !important;
-    }
-    .topbar .nav-link:hover{
-        color:#fff !important;
-    }
-    .topbar .nav-link.active-link{
-        font-weight:600;
-        color:#fff !important;
-    }
-
-    .topbar-user-name{
-        color:#fff;
-    }
-    .topbar-user-email{
-        color:rgba(255,255,255,.8);
-    }
-
-    /* ruang konten di bawah topbar */
-    .app-container {
-        display:flex;
-        min-height: calc(100vh - var(--topbar-h));
-        padding-top: var(--topbar-h); 
-        width:100%;
-    }
-
-    /* Sidebar */
-    .sidebar {
-        width: var(--sidebar-w);
-        background:#fff;
-        border-right:1px solid #e9e9e9;
-        padding:1.2rem;
-        position: sticky;
-        top: var(--topbar-h);
-        height: calc(100vh - var(--topbar-h));
-        overflow-y: auto;
-        z-index: 1000;
-    }
-
-    .sidebar .heading {
-        font-size:.85rem;
-        font-weight:700;
-        color:var(--primary);
-        text-align:center;
-        margin-bottom:.75rem;
-    }
-
-    .list-group-item {
-        border: 0;
-        border-radius: .5rem;
-        padding: .6rem .9rem;
-        color: var(--dark);
-        transition: all 0.2s ease;
-    }
-    .list-group-item + .list-group-item { margin-top:.45rem; }
-
-    .list-group-item:hover {
-        background: rgba(46, 139, 87, 0.08);
-        color: var(--primary);
-        transform: translateX(3px);
-    }
-    .list-group .active {
-        background: var(--dark);
-        color: #fff;
-        font-weight:600;
-    }
-
-    /* Content area */
-    .content-area {
-        flex:1;
-        display:flex;
-        flex-direction:column;
-        min-height: calc(100vh - var(--topbar-h));
-        background: #f6f8f7;
-    }
-    .content-wrapper {
-        padding: 1.6rem;
-    }
-
-    /* Dashboard Card Styles */
-    .dashboard-card {
-        background: white;
-        border-radius: 12px;
-        padding: 1.5rem;
-        height: 100%;
-        box-shadow: 0 2px 8px rgba(0,0,0,0.04);
-        border: 1px solid #eaeaea;
-        transition: transform 0.2s, box-shadow 0.2s;
-    }
-
-    .dashboard-card:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-    }
-
-    .dashboard-card .card-icon {
-        width: 50px;
-        height: 50px;
-        border-radius: 10px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        margin-bottom: 1rem;
-        font-size: 1.5rem;
-    }
-
-    .dashboard-card h5 {
-        color: var(--dark);
-        font-weight: 600;
-        margin-bottom: 0.5rem;
-    }
-
-    .dashboard-card p {
-        color: #666;
-        font-size: 0.9rem;
-        margin-bottom: 0;
-    }
-
-    .quick-action-btn {
-        background: white;
-        border: 2px dashed var(--primary);
-        color: var(--primary);
-        padding: 1.2rem;
-        border-radius: 12px;
-        transition: all 0.2s;
-        height: 100%;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        text-decoration: none;
-    }
-
-    .quick-action-btn:hover {
-        background: var(--light-green);
-        border-color: var(--dark);
-        color: var(--dark);
-    }
-
-    .quick-action-btn i {
-        font-size: 2rem;
-        margin-bottom: 0.5rem;
-    }
-
-    .section-title {
-        color: var(--dark);
-        font-weight: 600;
-        margin-bottom: 1.5rem;
-        padding-bottom: 0.75rem;
-        border-bottom: 2px solid var(--accent);
-    }
-
-    .welcome-header {
-        background: linear-gradient(135deg, var(--primary), var(--dark));
-        color: white;
-        padding: 2rem;
-        border-radius: 12px;
-        margin-bottom: 2rem;
-    }
-
-    .welcome-header h1 {
-        font-weight: 700;
-        margin-bottom: 0.5rem;
-    }
-
-    .welcome-header p {
-        opacity: 0.9;
-        margin-bottom: 0;
-    }
-
-    /* Mobile behaviour */
-    @media (max-width: 991px) {
+        /* === 1. SIDEBAR === */
         .sidebar {
-            position: relative;
-            width: 100%;
-            height: auto;
+            width: var(--sidebar-w);
+            height: 100vh;
+            position: fixed;
             top: 0;
-            border-right: 0;
-            border-bottom: 1px solid #e9e9e9;
+            left: 0;
+            z-index: 1040;
+            background: #ffffff;
+            border-right: 1px solid #eaeaea; /* Border default sidebar */
+            transition: var(--transition);
+            display: flex;
+            flex-direction: column;
         }
-        .app-container { 
-            flex-direction: column; 
-        }
-        .topbar-center-nav{
-            display:none !important;
-        }
-    }
-    /* Agar backdrop (layar gelap) ada di BELAKANG navbar */
-    .modal-backdrop {
-        z-index: 1040 !important; 
-    }
-    
-    /* Agar modalnya sendiri ada di BELAKANG navbar tapi di DEPAN backdrop */
-    .modal {
-        z-index: 1050 !important;
-    }
 
-    .topbar {
-        position: fixed;
-        z-index: 1100;
-    }
+        /* HEADER SIDEBAR (BRAND + TOGGLE) */
+        .sidebar-header {
+            height: var(--header-h);
+            background: var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: space-between; /* Brand kiri, Burger kanan */
+            padding: 0 1rem;
+            color: #fff;
+            
+            /* TRICK: Menutup garis border kanan sidebar agar seamless dengan header atas */
+            margin-right: -1px; 
+            position: relative;
+            z-index: 1042; /* Lebih tinggi dari elemen lain */
+        }
 
+        .brand-wrapper {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+            color: #fff;
+            font-weight: 700;
+            font-size: 1.25rem;
+            white-space: nowrap;
+            overflow: hidden;
+            transition: opacity 0.2s;
+        }
+
+        /* Tombol Burger di dalam Sidebar */
+        #btnSidebarToggle {
+            background: none;
+            border: none;
+            color: #fff;
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* KONTEN MENU */
+        .sidebar-content {
+            flex: 1;
+            padding: 1rem;
+            overflow-y: auto;
+            overflow-x: hidden; /* Cegah scroll horizontal saat animasi */
+        }
+
+        .list-group-item {
+            border: none;
+            border-radius: 6px !important;
+            margin-bottom: 4px;
+            color: #555;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            height: 48px;
+            white-space: nowrap;
+        }
+
+        .list-group-item i {
+            font-size: 1.2rem;
+            min-width: 35px; /* Lebar tetap agar icon sejajar */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 5px;
+        }
+
+        .list-group-item.active {
+            background-color: var(--primary) !important;
+            color: #fff;
+        }
+
+        .list-group-item:hover:not(.active) {
+            background-color: #f0fdf4;
+            color: var(--primary);
+        }
+
+        /* === 2. TOPBAR (HEADER ATAS) === */
+        .topbar {
+            height: var(--header-h);
+            background: var(--primary);
+            position: fixed;
+            top: 0;
+            right: 0;
+            left: var(--sidebar-w); /* Mulai setelah sidebar */
+            z-index: 1030;
+            display: flex;
+            align-items: center;
+            padding: 0 1.5rem;
+            /* Shadow halus */
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05); 
+            transition: var(--transition);
+        }
+
+        /* === 3. MAIN CONTENT === */
+        .main-wrapper {
+            margin-top: var(--header-h);
+            margin-left: var(--sidebar-w);
+            min-height: calc(100vh - var(--header-h));
+            display: flex;
+            flex-direction: column;
+            transition: var(--transition);
+        }
+        
+        .content-body {
+            padding: 2rem;
+            flex: 1;
+        }
+
+        /* === LOGIC: COLLAPSED / MINI SIDEBAR (DESKTOP) === */
+        body.sidebar-collapsed .sidebar {
+            width: var(--sidebar-mini-w);
+        }
+        
+        body.sidebar-collapsed .topbar {
+            left: var(--sidebar-mini-w);
+        }
+        
+        body.sidebar-collapsed .main-wrapper {
+            margin-left: var(--sidebar-mini-w);
+        }
+
+        /* Sembunyikan Text saat Collapsed */
+        body.sidebar-collapsed .brand-text,
+        body.sidebar-collapsed .nav-text,
+        body.sidebar-collapsed .menu-heading {
+            display: none;
+        }
+
+        /* Pusatkan elemen saat Collapsed */
+        body.sidebar-collapsed .sidebar-header {
+            padding: 0;
+            justify-content: center;
+        }
+        
+        /* Saat collapsed, Logo Icon hilang, ganti jadi Burger Button saja di tengah */
+        body.sidebar-collapsed .brand-wrapper {
+            display: none; 
+        }
+
+        body.sidebar-collapsed .list-group-item {
+            justify-content: center;
+            padding: 0;
+        }
+        body.sidebar-collapsed .list-group-item i {
+            margin-right: 0;
+        }
+
+        /* === MOBILE RESPONSIVE === */
+        @media (max-width: 991.98px) {
+            .sidebar { left: calc(var(--sidebar-w) * -1); } /* Sembunyi ke kiri */
+            .topbar { left: 0; }
+            .main-wrapper { margin-left: 0; }
+
+            /* Toggle Mobile */
+            body.mobile-open .sidebar { left: 0; }
+            
+            /* Overlay */
+            .sidebar-overlay {
+                position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+                background: rgba(0,0,0,0.5); z-index: 1035;
+                display: none;
+            }
+            body.mobile-open .sidebar-overlay { display: block; }
+
+            /* Tombol Toggle Mobile di Header (karena sidebar sembunyi) */
+            .mobile-toggle-btn { display: block !important; }
+            
+            /* Sembunyikan toggle internal sidebar di mode mobile agar tidak bingung */
+            #btnSidebarToggle { display: none; } 
+            
+            /* Header Sidebar di Mobile Full Text */
+            .sidebar-header { justify-content: center; }
+        }
+        
+        .mobile-toggle-btn { display: none; font-size: 1.5rem; color: white; border: none; background: none; margin-right: 1rem; }
     </style>
 </head>
 
 <body>
 
-    <header class="topbar">
-        <div class="container-fluid">
-            <div class="row align-items-center" style="height: var(--topbar-h);">
+    <div class="sidebar-overlay" id="overlay"></div>
 
-                {{-- Kiri: Brand --}}
-                <div class="col-auto d-flex align-items-center">
-                    <a href="{{ url('/') }}"
-                    class="fw-bold h2 text-decoration-none ms-2">
-                        PythaLearn
-                    </a>
-                </div>
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <a href="{{ url('/') }}" class="brand-wrapper">
+                <i class="bi bi-mortardboard-fill me-2"></i>
+                <span class="brand-text">PythaLearn</span>
+            </a>
+            
+            <button id="btnSidebarToggle">
+                <i class="bi bi-list"></i>
+            </button>
+        </div>
+
+        <div class="sidebar-content">
+            <div class="list-group">
+                <a href="{{ url('/guru/dashboard') }}" class="list-group-item list-group-item-action {{ request()->is('guru/dashboard') ? 'active' : '' }}" title="Dashboard">
+                    <i class="bi bi-speedometer2"></i> 
+                    <span class="nav-text">Dashboard Guru</span>
+                </a>
                 
-                {{-- Kanan: Info user --}}
-                <div class="col-auto ms-auto d-flex align-items-center gap-2 me-3">
+                <a href="{{ url('/guru/data_siswa') }}" class="list-group-item list-group-item-action {{ request()->is('guru/data_siswa') ? 'active' : '' }}" title="Data Siswa">
+                    <i class="bi bi-people"></i> 
+                    <span class="nav-text">Data Siswa</span>
+                </a>
+                
+                <a href="{{ url('/guru/data_nilai') }}" class="list-group-item list-group-item-action {{ request()->is('guru/data_nilai') ? 'active' : '' }}" title="Data Nilai">
+                    <i class="bi bi-list-check"></i> 
+                    <span class="nav-text">Data Nilai</span>
+                </a>
 
-                    <div class="text-end d-none d-md-block">
-                        <div class="fw-semibold topbar-user-name">
-                            {{ auth()->user()->name }}
-                        </div>
-                        <div class="small topbar-user-email">
-                            {{ auth()->user()->email }}
-                        </div>
-                    </div>
+                <a href="{{ url('/guru/data_kelas') }}" class="list-group-item list-group-item-action {{ request()->is('guru/data_kelas') ? 'active' : '' }}" title="Data Kelas">
+                    <i class="bi bi-house"></i> 
+                    <span class="nav-text">Data Kelas</span>
+                </a>
 
-                    <div class="dropdown">
-                        <button class="btn btn-light btn-sm rounded-circle"
-                                type="button" 
-                                data-bs-toggle="dropdown"
-                                aria-expanded="false">
-                            <i class="bi bi-person text-secondary fs-5"></i>
-                        </button>
+                <a href="{{ url('/guru/paket_soal') }}" class="list-group-item list-group-item-action {{ request()->is('guru/paket_soal') ? 'active' : '' }}" title="Paket Soal">
+                    <i class="bi bi-box"></i> 
+                    <span class="nav-text">Paket Soal</span>
+                </a>
 
-                        <ul class="dropdown-menu dropdown-menu-end shadow-sm">
-                            <li>
-                                <form method="POST" action="{{ route('logout') }}">
-                                    @csrf
-                                    <button type="submit" class="dropdown-item text-danger">
-                                        <i class="bi bi-box-arrow-right me-1"></i> Logout
-                                    </button>
-                                </form>
-                            </li>
-                        </ul>
-                    </div>
+                <a href="{{ route('guru.data_soal') }}" class="list-group-item list-group-item-action {{ request()->is('guru/data_soal') ? 'active' : '' }}" title="Data Soal">
+                    <i class="bi bi-journal-text"></i> 
+                    <span class="nav-text">Data Soal</span>
+                </a>
 
-                </div>
+                <a href="{{ route('guru.aktivitas.index') }}" class="list-group-item list-group-item-action {{ request()->is('guru/aktivitas*') ? 'active' : '' }}" title="Aktivitas Siswa">
+                    <i class="bi bi-clipboard-data"></i> 
+                    <span class="nav-text">Aktivitas Siswa</span>
+                </a>
+            </div>
+        </div>
+    </aside>
 
+    <header class="topbar">
+        <button class="mobile-toggle-btn" id="btnMobileToggle">
+            <i class="bi bi-list"></i>
+        </button>
+
+        <div class="ms-auto d-flex align-items-center">
+            <div class="text-end d-none d-sm-block me-3 text-white">
+                <div class="fw-bold lh-1" style="font-size: 0.85rem;">{{ auth()->user()->name }}</div>
+                <small class="opacity-75" style="font-size: 0.7rem;">{{ auth()->user()->email }}</small>
+            </div>
+
+            <div class="dropdown">
+                <button class="btn btn-light rounded-circle shadow-sm p-0 d-flex align-items-center justify-content-center" 
+                        style="width: 40px; height: 40px;" data-bs-toggle="dropdown">
+                    <i class="bi bi-person-fill text-success fs-5"></i>
+                </button>
+                <ul class="dropdown-menu dropdown-menu-end border-0 shadow mt-3">
+                    <li>
+                        <form method="POST" action="{{ route('logout') }}">
+                            @csrf
+                            <button type="submit" style="--bs-dropdown-link-active-bg: #f8f9fa" class="dropdown-item text-danger py-2">
+                                <i class="bi bi-box-arrow-right me-2"></i> Logout
+                            </button>
+                        </form>
+                    </li>
+                </ul>
             </div>
         </div>
     </header>
 
-    <div class="app-container">
-        <aside class="sidebar d-none d-lg-block" role="navigation" aria-label="Sidebar">
-            <div class="mb-4">
-                <div class="heading">MENU UTAMA</div>
+    <div class="main-wrapper">
+        <main class="content-body">
+            @yield('content')
+        </main>
 
-                <div class="list-group">
-                    <a href="{{ url('/guru/dashboard') }}" class="list-group-item list-group-item-action {{ request()->is('guru/dashboard') ? 'active' : '' }}">
-                        <i class="bi bi-speedometer2 me-2"></i> Dashboard Guru
-                    </a>
-
-                    <a href="{{ url('/guru/data_siswa') }}" class="list-group-item list-group-item-action {{ request()->is('guru/data_siswa') ? 'active' : '' }}">
-                        <i class="bi bi-people me-2"></i> Data Siswa
-                    </a>
-
-                    <a href="{{ url('/guru/data_nilai') }}" class="list-group-item list-group-item-action {{ request()->is('guru/data_nilai') ? 'active' : '' }}">
-                        <i class="bi bi-list-check me-2"></i> Data Nilai
-                    </a>
-
-                    <a href="{{ url('/guru/data_kelas') }}" class="list-group-item list-group-item-action {{ request()->is('guru/data_kelas') ? 'active' : '' }}">
-                        <i class="bi bi-house me-2"></i> Data Kelas
-                    </a>
-
-                    <a href="{{ url('/guru/paket_soal') }}" class="list-group-item list-group-item-action {{ request()->is('guru/paket_soal') ? 'active' : '' }}">
-                        <i class="bi bi-box me-2"></i> Paket Soal
-                    </a>
-
-                    <a href="{{ route('guru.data_soal') }}" class="list-group-item list-group-item-action {{ request()->is('guru/data_soal') ? 'active' : '' }}">
-                        <i class="bi bi-journal-text me-2"></i> Data Soal
-                    </a>
-
-                    <a href="{{ route('guru.aktivitas.index') }}"
-                    class="list-group-item list-group-item-action {{ request()->is('guru/aktivitas*') ? 'active' : '' }}">
-                        <i class="bi bi-journal-text me-2"></i> Aktivitas Siswa
-                    </a>
-
-                </div>
-            </div>
-        </aside>
-
-        <div class="content-area" role="main">
-            <main class="content-wrapper">
-                @yield('content')
-            </main>
-        </div>
-
-    </div> <footer class="py-3 text-center small text-muted">
-        &copy; {{ date('Y') }} PythaLearn
-    </footer>
+        <footer class="py-3 px-4 bg-white border-top text-center text-muted mt-auto">
+            <small>&copy; {{ date('Y') }} <strong>PythaLearn</strong>. Dashboard Guru.</small>
+        </footer>
+    </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-    
     <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
     
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        $(document).ready(function() {
+            // 1. Toggle Desktop (Tombol di dalam sidebar)
+            $('#btnSidebarToggle').on('click', function() {
+                $('body').toggleClass('sidebar-collapsed');
+            });
+
+            // 2. Toggle Mobile (Tombol di Header Atas)
+            $('#btnMobileToggle').on('click', function() {
+                $('body').addClass('mobile-open');
+            });
+
+            // 3. Tutup Mobile saat klik overlay
+            $('#overlay').on('click', function() {
+                $('body').removeClass('mobile-open');
+            });
+            
+            // 4. Reset state saat resize layar
+            $(window).resize(function() {
+                if ($(window).width() >= 992) {
+                    $('body').removeClass('mobile-open');
+                } else {
+                    $('body').removeClass('sidebar-collapsed');
+                }
+            });
+        });
+    </script>
 
     @stack('scripts')
-
-    
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </body>
 </html>

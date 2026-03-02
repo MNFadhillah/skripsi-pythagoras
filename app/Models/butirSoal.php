@@ -28,7 +28,8 @@ class ButirSoal extends Model
 
     public function getPertanyaanGambarAttribute()
     {
-        return $this->pertanyaan['gambar'] ?? null;
+        // Cek dua kemungkinan key: 'image' (format baru) atau 'gambar' (format lama)
+        return $this->pertanyaan['image'] ?? $this->pertanyaan['gambar'] ?? null;
     }
 
     public function paketSoal()

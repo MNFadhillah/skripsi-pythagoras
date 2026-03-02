@@ -13,17 +13,18 @@
         </div>
     </div>
 
-    <div class="card shadow-sm border-0 rounded-4">
+    <div class="card shadow-sm border-1 rounded">
         <div class="card-body">
             <div class="table-responsive">
-                <table class="table table-hover align-middle" id="tabelAktivitas">
+                <table class="table table-bordered table-hover align-middle" id="tabelAktivitas">
                     <thead class="table-light">
                         <tr>
                             <th width="5%" class="text-center">No</th>
-                            <th>Judul Aktivitas</th>
-                            <th>Kategori</th>
-                            <th>Tipe</th>
-                            <th>Jadwal & Token</th>
+                            <th class="text-center">Judul Aktivitas</th>
+                            <th class="text-center">Kelas</th>
+                            <th class="text-center">Kategori</th>
+                            <th class="text-center">Tipe</th>
+                            <th class="text-center">Jadwal & Token</th>
                             <th class="text-center">Status</th>
                             <th width="15%" class="text-center">Aksi</th>
                         </tr>
@@ -38,15 +39,20 @@
                                 </div>
                             </td>
                             <td>
+                                <span class="badge bg-primary-subtle text-dark border">
+                                    {{ $item->kelas->nama_kelas ?? '-' }}
+                                </span>
+                            </td>
+                            <td>
                                 <span class="badge bg-light text-dark border border-secondary">
                                     {{ ucfirst($item->kategori) }}
                                 </span>
                             </td>
                             <td>
                                 @if($item->tipe == 'streak')
-                                    <span class="badge bg-danger mb-1"><i class="bi bi-fire"></i> Streak</span>
+                                    <span class="badge bg-danger mb-1">Streak</span>
                                 @elseif($item->tipe == 'evaluasi')
-                                    <span class="badge bg-warning text-dark mb-1"><i class="bi bi-journal-check"></i> Evaluasi</span>
+                                    <span class="badge bg-warning text-dark mb-1">Evaluasi</span>
                                 @else
                                     <span class="badge bg-info mb-1">Kuis</span>
                                 @endif
@@ -87,8 +93,8 @@
 
 </div>
 
-<div class="modal fade mt-4" id="modalForm" tabindex="-1" data-bs-backdrop="static">
-    <div class="modal-dialog modal-dialog-centered modal-lg"> <div class="modal-content border-0 shadow-lg rounded-4 overflow-hidden">
+<div class="modal fade" id="modalForm" tabindex="-1" data-bs-backdrop="static">
+    <div class="modal-dialog modal-dialog-centered modal-xl"> <div class="modal-content border-0 shadow-lg rounded overflow-hidden">
             
             <div class="modal-header bg-success text-white px-4 py-3">
                 <div class="d-flex align-items-center gap-2">
@@ -112,12 +118,26 @@
                                 <i class="bi bi-journal-text"></i> Informasi Utama
                             </h6>
 
-                            <div class="mb-3">
+                            <div class="mb-2">
                                 <label class="form-label fw-semibold small text-secondary">Judul Aktivitas <span class="text-danger">*</span></label>
-                                <input type="text" class="form-control bg-light border-0 py-2" name="judul" id="judul" required placeholder="Kuis 1 : Menemukan Konsep Teorema Pythagoras">
+                                <input type="text" class="form-control bg-light border-0 py-2" name="judul" id="judul" required placeholder="Tambahkan Judul Aktivitas">
                             </div>
 
-                            <div class="mb-3">
+                            <div class="mb-2">
+                                <label class="form-label fw-semibold small text-secondary">
+                                    Kelas <span class="text-danger">*</span>
+                                </label>
+                                <select class="form-select bg-light border-0 py-2" name="kelas_id" id="kelas_id" required>
+                                    <option value="">-- Pilih Kelas --</option>
+                                    @foreach($listKelas as $kelas)
+                                        <option value="{{ $kelas->id }}">
+                                            {{ $kelas->nama_kelas }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
+
+                            <div class="mb-2">
                                 <label class="form-label fw-semibold small text-secondary">Kategori Materi <span class="text-danger">*</span></label>
                                 <select class="form-select bg-light border-0 py-2" name="kategori" id="kategori" required>
                                     <option value="">-- Pilih Posisi Menu --</option>
@@ -130,15 +150,13 @@
                                 <div class="form-text small">Menentukan di menu mana aktivitas ini akan muncul pada sidebar siswa.</div>
                             </div>
 
-                            <div class="row g-3 mb-3">
+                            <div class="row g-3 mb-2">
                                 <div class="col-md-6">
                                     <label class="form-label fw-semibold small text-secondary">Tipe Aktivitas</label>
                                     <div class="input-group">
                                         <select class="form-select bg-light border-start-0 py-2" name="tipe" id="tipe" required>
                                             <option value="kuis">Kuis</option>
                                             <option value="evaluasi">Evaluasi</option>
-                                            <option value="streak">Streak</option>
-                                            <option value="materi">Materi Bacaan</option>
                                         </select>
                                     </div>
                                 </div>
@@ -150,7 +168,7 @@
                                 </div>
                             </div>
 
-                            <div class="mb-3">
+                            <div class="mb-2">
                                 <label class="form-label fw-semibold small text-secondary">Hubungkan Paket Soal</label>
                                 <select class="form-select bg-light border-0 py-2" name="paket_soal_id" id="paket_soal_id">
                                     <option value="">-- Pilih Paket Soal --</option>
@@ -160,7 +178,7 @@
                                 </select>
                             </div>
 
-                             <div class="mb-0">
+                            <div>
                                 <label class="form-label fw-semibold small text-secondary">Instruksi / Catatan</label>
                                 <textarea class="form-control bg-light border-0" name="instruksi" id="instruksi" rows="3" placeholder="Instruksi untuk siswa"></textarea>
                             </div>
@@ -171,19 +189,19 @@
                                 <i class="bi bi-calendar-check"></i> Jadwal & Akses
                             </h6>
 
-                            <div class="mb-3">
+                            <div class="mb-2">
                                 <label class="form-label fw-semibold small text-secondary">Waktu Mulai</label>
                                 <input type="datetime-local" class="form-control bg-white border shadow-sm" name="waktu_mulai" id="waktu_mulai">
                             </div>
 
-                            <div class="mb-3">
+                            <div class="mb-2">
                                 <label class="form-label fw-semibold small text-secondary">Waktu Selesai</label>
                                 <input type="datetime-local" class="form-control bg-white border shadow-sm" name="waktu_selesai" id="waktu_selesai">
                             </div>
 
                             <hr class="border-secondary opacity-25 my-4">
 
-                            <div class="mb-3">
+                            <div class="mb-2">
                                 <label class="form-label fw-semibold small text-secondary">Durasi (Menit)</label>
                                 <div class="input-group shadow-sm">
                                     <input type="number" class="form-control border-end-0" name="durasi_menit" id="durasi_menit" value="60">
@@ -191,12 +209,12 @@
                                 </div>
                             </div>
 
-                            <div class="mb-4">
-                                <label class="form-label fw-semibold small text-secondary">Token Masuk (Opsional)</label>
+                            <div class="mb-2">
+                                <label class="form-label fw-semibold small text-secondary">Token</label>
                                 <input type="text" class="form-control bg-white text-uppercase shadow-sm fw-bold letter-spacing-2" name="token" id="token" placeholder="-----" maxlength="6" style="letter-spacing: 3px; text-align: center;">
                             </div>
 
-                            <div class="card border-0 shadow-sm bg-white">
+                            <div class="card border-0 mb-2 shadow-sm bg-white">
                                 <div class="card-body py-2 px-3 d-flex justify-content-between align-items-center">
                                     <label class="form-check-label small fw-bold text-dark" for="status">
                                         Buka Akses Sekarang?
@@ -206,16 +224,14 @@
                                     </div>
                                 </div>
                             </div>
+                            <div class="mb-2">                                
+                                <button type="submit" class="btn btn-success rounded-3 px-5 shadow fw-bold">
+                                    <i class="bi bi-save me-1"></i> Simpan
+                                </button>
+                            </div>
 
                         </div>
                     </div>
-                </div>
-                
-                <div class="modal-footer bg-light border-top-0 px-4 py-3">
-                    <button type="button" class="btn btn-link text-decoration-none text-muted fw-semibold me-auto" data-bs-dismiss="modal">Batal</button>
-                    <button type="submit" class="btn btn-success rounded-3 px-5 shadow fw-bold">
-                        <i class="bi bi-save me-1"></i> Simpan
-                    </button>
                 </div>
             </form>
         </div>
@@ -245,11 +261,30 @@
 @push('scripts')
 <script>
 $(document).ready(function() {
-    // 1. Setup DataTable
+    // 1. Setup DataTable (Kode lama Anda)
     $('#tabelAktivitas').DataTable({
         language: { search: "Cari:", lengthMenu: "Lihat _MENU_", info: "Total _TOTAL_ aktivitas" },
         responsive: true
     });
+
+    // === TAMBAHAN BARU: Cek apakah ada kiriman ID Kelas dari URL ===
+    const urlParams = new URLSearchParams(window.location.search);
+    const triggerKelasId = urlParams.get('trigger_kelas_id');
+
+    if (triggerKelasId) {
+        // Reset form dulu
+        $('#formAktivitas')[0].reset();
+        $('#id').val('');
+        $('#_method').val('POST');
+        $('#modalTitle').text('Buat Aktivitas Baru');
+        $('#status').prop('checked', true);
+        
+        // Isi Kelas ID secara otomatis
+        $('#input_kelas_id').val(triggerKelasId);
+        
+        // Buka Modal
+        $('#modalForm').modal('show');
+    }
 
     // 2. Tombol Tambah
     $('#btnTambah').click(function() {
@@ -274,6 +309,7 @@ $(document).ready(function() {
                 let d = res.data;
                 $('#id').val(d.id);
                 $('#judul').val(d.judul);
+                $('#kelas_id').val(d.kelas_id);
                 $('#kategori').val(d.kategori);
                 $('#tipe').val(d.tipe);
                 $('#poin_didapat').val(d.poin_didapat);
