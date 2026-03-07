@@ -99,16 +99,6 @@
         <form method="POST" action="{{ route('login.process') }}">
             @csrf
 
-            {{-- TAMBAHAN: DROPDOWN ROLE --}}
-            <div class="form-floating mb-3">
-                <select name="role" class="form-select" required>
-                    <option value="siswa" selected>Siswa</option>
-                    <option value="guru">Guru</option>
-                </select>
-                <label>Masuk Sebagai</label>
-            </div>
-            {{-- AKHIR TAMBAHAN --}}
-
             <div class="form-floating mb-3">
                 <input type="email"
                        name="email"

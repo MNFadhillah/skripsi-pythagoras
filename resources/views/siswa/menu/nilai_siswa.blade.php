@@ -95,11 +95,24 @@
                             @php
                                 $mulai = \Carbon\Carbon::parse($row->waktu_mulai);
                                 $selesai = \Carbon\Carbon::parse($row->waktu_selesai);
-                                $durasi = $mulai->diffInMinutes($selesai);
+                                
+                                // Menghitung selisih secara mendalam
+                                $diff = $mulai->diff($selesai);
+                                
+                                $hasil = [];
+                                if ($diff->h > 0) $hasil[] = $diff->h . ' jam';
+                                if ($diff->i > 0) $hasil[] = $diff->i . ' menit';
+                                if ($diff->s > 0) $hasil[] = $diff->s . ' detik';
+                                
+                                // Menggabungkan array menjadi string (misal: 1 jam 30 menit 5 detik)
+                                $durasiTeks = implode(' ', $hasil) ?: '0 detik';
                             @endphp
-                            {{ $mulai->format('H:i') }} - {{ $selesai->format('H:i') }} 
-                            <small class="text-muted">({{ $durasi }} menit)</small>
+
+                            {{ $mulai->format('H:i:s') }} - {{ $selesai->format('H:i:s') }}
+                            <br>
+                            <small class="text-muted">({{ $durasiTeks }})</small>
                         </td>
+                       
                         
                         {{-- BAGIAN NILAI --}}
                         <td>

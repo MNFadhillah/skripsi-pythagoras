@@ -50,7 +50,7 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     function initPageSpecificCode(pageIndex) {
-        console.log("Membuka halaman index:", pageIndex); // Debugging
+        console.log("Membuka halaman index:", pageIndex);
 
         switch(pageIndex) {
             case 0:
@@ -65,6 +65,9 @@ document.addEventListener('DOMContentLoaded', function () {
                 break;
             case 3:
                 if (typeof initPage3 === 'function') initPage3();
+                break;
+            case 4: // Halaman "Ayo Berlatih" (Index ke-4 / Page 5)
+                if (typeof initDragDropSoal3 === 'function') initDragDropSoal3();
                 break;
         }
     }
@@ -677,6 +680,481 @@ function initPageAkar() {
 document.addEventListener('DOMContentLoaded', function() {
     initPageAkar();
 });
+
+
+
+
+/* =====================================================
+   AYO BERLATIH (HALAMAN 5) - SOAL 1, 2, DAN 3
+===================================================== */
+
+// Variabel Global untuk Ayo Berlatih
+let attemptLatihan1 = 0;
+let attemptLatihan2 = 0;
+let attemptLatihan3 = 0;
+const MAX_ATTEMPT_LATIHAN = 3;
+
+// --- FUNGSI BANTUAN VISUAL UMUM ---
+function setValidVisual(el) {
+    if (!el) return;
+    el.classList.remove('border-danger', 'text-danger', 'border-secondary', 'bg-light', 'text-muted', 'border-dark', 'text-dark', 'btn-dark', 'btn-outline-dark', 'bg-light-danger');
+    el.classList.add('border-success', 'text-success');
+    if (el.classList.contains('btn-pilihan')) el.classList.add('btn-success', 'text-white');
+}
+
+function setInvalidVisual(el) {
+    if (!el) return;
+    el.classList.remove('border-success', 'text-success', 'border-secondary', 'bg-light', 'text-muted', 'border-dark', 'text-dark', 'btn-dark', 'btn-outline-dark');
+    el.classList.add('border-danger', 'text-danger');
+    if (el.classList.contains('drop-zone')) el.classList.add('bg-light-danger');
+    if (el.classList.contains('btn-pilihan')) el.classList.add('btn-danger', 'text-white');
+}
+
+function setGreyVisual(el) {
+    if (!el) return;
+    el.classList.remove('border-danger', 'text-danger', 'border-success', 'text-success', 'border-dark', 'text-dark', 'bg-light-danger');
+    el.classList.add('border-secondary', 'bg-light', 'text-muted');
+    if(el.tagName === 'INPUT' || el.tagName === 'SELECT') el.disabled = true;
+}
+
+
+// ==========================================
+// SOAL 1
+// ==========================================
+function pilihRumusAnalisis(status, btn) {
+    const container = btn.closest('.row');
+    const semuaTombol = container.querySelectorAll('.btn-pilihan');
+    semuaTombol.forEach(b => {
+        b.classList.remove('btn-success', 'btn-dark', 'text-white', 'is-selected');
+        b.classList.add('btn-outline-dark'); 
+        b.dataset.status = 'salah'; 
+    });
+    btn.classList.remove('btn-outline-dark'); 
+    btn.classList.add('btn-dark', 'text-white', 'is-selected');
+    btn.dataset.status = status; 
+}
+
+function cekLatihanAnalisis1() {
+    const tanya = document.getElementById('s1_tanya');
+    const diket1 = document.getElementById('s1_diketahui_1');
+    const diket2 = document.getElementById('s1_diketahui_2');
+    
+    const btnGroups = document.getElementById('s1_tanya').closest('.card-body').querySelectorAll('.row.g-2, .row.g-3');
+    const btnOp = btnGroups[0] ? btnGroups[0].querySelector('.is-selected') : null;
+    const btnRumus = btnGroups[1] ? btnGroups[1].querySelector('.is-selected') : null;
+
+    if (!tanya.value || !diket1.value.trim() || !diket2.value.trim() || !btnOp || !btnRumus) {
+        Swal.fire({ title: 'Perhatian', text: 'Lengkapi isian dan pilihan rumus.', confirmButtonColor: '#198754'});
+        return;
+    }
+
+    attemptLatihan1++;
+    let benarSemua = true;
+
+    if (tanya.value === 'miring') setValidVisual(tanya); else { setInvalidVisual(tanya); benarSemua = false; }
+
+    const valDiket = [diket1.value.trim().toUpperCase(), diket2.value.trim().toUpperCase()];
+    if (valDiket.includes('AB') && valDiket.includes('BC')) {
+        setValidVisual(diket1); setValidVisual(diket2);
+    } else {
+        if(!['AB', 'BC'].includes(valDiket[0])) setInvalidVisual(diket1); else setValidVisual(diket1);
+        if(!['AB', 'BC'].includes(valDiket[1])) setInvalidVisual(diket2); else setValidVisual(diket2);
+        benarSemua = false;
+    }
+
+    if (btnOp.dataset.status === 'benar') setValidVisual(btnOp); else { setInvalidVisual(btnOp); benarSemua = false; }
+    if (btnRumus.dataset.status === 'benar') setValidVisual(btnRumus); else { setInvalidVisual(btnRumus); benarSemua = false; }
+
+    if (benarSemua) {
+        document.getElementById('s1_feedback').innerText = "Tepat sekali!";
+        Swal.fire({ title: 'Berhasil', text: 'Semua analisismu benar.', confirmButtonColor: '#198754' });
+    } else if (attemptLatihan1 >= MAX_ATTEMPT_LATIHAN) {
+        Swal.fire({ title: 'Kesempatan Habis', text: 'Mari kita lihat jawaban yang tepat.', confirmButtonColor: '#6c757d'}).then(() => {
+            if (tanya.value !== 'miring') { setGreyVisual(tanya); tanya.value = 'miring'; }
+            if (!['AB', 'BC'].includes(diket1.value.trim().toUpperCase())) { setGreyVisual(diket1); diket1.value = 'AB'; }
+            if (!['AB', 'BC'].includes(diket2.value.trim().toUpperCase())) { setGreyVisual(diket2); diket2.value = 'BC'; }
+            if (btnOp && btnOp.dataset.status !== 'benar') {
+                setGreyVisual(btnOp);
+                const correctBtn = btnGroups[0].querySelector('[onclick*="benar"]');
+                if (correctBtn) correctBtn.classList.add('bg-secondary', 'text-white');
+            }
+            if (btnRumus && btnRumus.dataset.status !== 'benar') {
+                setGreyVisual(btnRumus);
+                const correctBtn = btnGroups[1].querySelector('[onclick*="benar"]');
+                if (correctBtn) correctBtn.classList.add('bg-secondary', 'text-white');
+            }
+        });
+    } else {
+        Swal.fire({ title: 'Kurang Tepat', text: `Sisa kesempatan: ${MAX_ATTEMPT_LATIHAN - attemptLatihan1}`, confirmButtonColor: '#dc3545'});
+    }
+}
+
+
+// ==========================================
+// SOAL 2 & 3: SETUP DRAG AND DROP BERSAMA
+// ==========================================
+// Fungsi universal untuk mengurus Drag & Drop di wadah yang spesifik
+function setupDragAndDrop(containerId, targetPrefix) {
+    const dragContainer = document.getElementById(containerId);
+    if (!dragContainer) return;
+    
+    const dragItems = dragContainer.querySelectorAll('.draggable-item');
+    
+    // Acak posisi awal item
+    for (let i = dragContainer.children.length; i >= 0; i--) {
+        dragContainer.appendChild(dragContainer.children[Math.random() * i | 0]);
+    }
+
+    // Setup Drag
+    dragItems.forEach(item => {
+        // Hilangkan event listener ganda dengan teknik kloning
+        const newItem = item.cloneNode(true);
+        item.parentNode.replaceChild(newItem, item);
+        
+        newItem.addEventListener('dragstart', function(e) {
+            e.dataTransfer.setData('text/plain', e.target.id);
+            e.dataTransfer.effectAllowed = 'move';
+            setTimeout(() => e.target.style.opacity = '0.5', 0);
+        });
+
+        newItem.addEventListener('dragend', function(e) {
+            e.target.style.opacity = '1';
+        });
+    });
+
+    // Setup Drop Zones
+    const dropZones = document.querySelectorAll(`.drop-zone[data-target^="${targetPrefix}"]`);
+    dropZones.forEach(zone => {
+        const newZone = zone.cloneNode(true);
+        zone.parentNode.replaceChild(newZone, zone);
+
+        newZone.addEventListener('dragover', function(e) {
+            e.preventDefault(); 
+            this.style.backgroundColor = '#e8f5e9'; 
+            this.style.borderStyle = 'solid';
+        });
+
+        newZone.addEventListener('dragleave', function(e) {
+            this.style.backgroundColor = ''; 
+            this.style.borderStyle = 'dashed';
+        });
+
+        newZone.addEventListener('drop', function(e) {
+            e.preventDefault();
+            this.style.backgroundColor = '';
+            
+            const id = e.dataTransfer.getData('text/plain');
+            const draggedElement = document.getElementById(id);
+
+            // Cek elemen dari container yang sesuai (menggunakan ID Soal atau prefix)
+            if (draggedElement && draggedElement.id.includes(targetPrefix === 's2_' ? 'item-' : 'item-')) {
+                
+                // Jika sudah ada item di zona ini, kembalikan ke atas
+                if (this.children.length > 0) {
+                    const existingItem = this.querySelector('.draggable-item');
+                    if (existingItem) {
+                        existingItem.classList.replace('p-1', 'p-2');
+                        document.getElementById(containerId).appendChild(existingItem);
+                    }
+                }
+                
+                // Masukkan item baru
+                draggedElement.style.margin = "0"; 
+                draggedElement.classList.replace('p-2', 'p-1'); 
+                
+                this.appendChild(draggedElement);
+                this.style.borderStyle = 'solid';
+                this.classList.remove('border-danger', 'bg-light-danger');
+                this.classList.add('border-dark'); 
+            }
+        });
+
+        // Fitur klik untuk mengembalikan ke asal
+        newZone.addEventListener('click', function(e) {
+            if (this.children.length > 0) {
+                const item = this.querySelector('.draggable-item');
+                if (item) {
+                    item.classList.replace('p-1', 'p-2');
+                    document.getElementById(containerId).appendChild(item); 
+                    
+                    this.style.borderStyle = 'dashed';
+                    this.classList.remove('border-danger', 'border-success', 'bg-light-danger');
+                    this.classList.add('border-dark');
+                }
+            }
+        });
+    });
+}
+
+// Inisialisasi saat halaman khusus "Ayo Berlatih" (Index 4) dimuat
+function initDragDropSoal3() {
+    setupDragAndDrop('drag-items-container', 's2_'); // Untuk Soal 2
+    setupDragAndDrop('drag-items-container-s3', 's3_'); // Untuk Soal 3
+}
+
+
+// ==========================================
+// SOAL 2: LOGIKA VALIDASI
+// ==========================================
+function cekLatihanAnalisis2() {
+    const getDropValue = (targetId) => {
+        const zone = document.querySelector(`[data-target="${targetId}"]`);
+        if (!zone) return null;
+        const item = zone.querySelector('.draggable-item');
+        return item ? item.getAttribute('data-value') : null;
+    };
+
+    const inputsText = document.querySelectorAll('#s2_inp_mo_1, #s2_inp_mo_2, #s2_inp_mo_3, #s2_inp_mo_4');
+    const inputMn = document.getElementById('s2_inp_mn');
+    const inputNo = document.getElementById('s2_inp_no');
+    const resMnSq = document.getElementById('s2_res_mn_sq');
+    const resNoSq = document.getElementById('s2_res_no_sq');
+    const resSum = document.getElementById('s2_res_sum');
+    const resSqrt = document.getElementById('s2_res_sqrt');
+    const final = document.getElementById('s2_final');
+    
+    const dropZones = [
+        'diketahui_mn', 'diketahui_no', 'ditanya', 
+        'rumus_miring', 'rumus_tegak1', 'rumus_tegak2'
+    ].map(t => document.querySelector(`[data-target="s2_${t}"]`)).filter(el => el !== null);
+
+    // Cek form kosong (Gunakan pengecekan spesifik Soal 2 agar tdk nabrak dgn null value)
+    const isInputEmpty = [...inputsText, inputMn, inputNo, resMnSq, resNoSq, resSum, resSqrt, final]
+                         .some(input => input && input.value.trim() === '');
+    
+    // Perbaikan: Cek kekosongan manual dengan getDropValue karena nama target di HTML bisa bervariasi
+    let isDropEmpty = false;
+    if(!getDropValue('diketahui_mn') || !getDropValue('diketahui_no') || !getDropValue('ditanya') || 
+       !getDropValue('rumus_miring') || !getDropValue('rumus_tegak1') || !getDropValue('rumus_tegak2')){
+        isDropEmpty = true;
+    }
+
+    if (isDropEmpty || isInputEmpty) {
+        Swal.fire({ title: 'Perhatian', text: 'Harap lengkapi susunan item dan kotak perhitungan terlebih dahulu.', confirmButtonColor: '#198754' });
+        return;
+    }
+
+    attemptLatihan2++;
+    let benarSemua = true;
+
+    const checkDrop = (target, validValues) => {
+        const zone = document.querySelector(`[data-target="${target}"]`);
+        if (!zone) return;
+        const itemVal = getDropValue(target);
+        if (validValues.includes(itemVal)) {
+            setValidVisual(zone);
+        } else {
+            setInvalidVisual(zone);
+            benarSemua = false;
+        }
+    };
+
+    // Validasi Drop Zones Soal 2
+    checkDrop('diketahui_mn', ['15cm', '8cm']);
+    checkDrop('diketahui_no', ['15cm', '8cm']);
+    checkDrop('ditanya', ['tanya']);
+    checkDrop('rumus_miring', ['MO']);
+    checkDrop('rumus_tegak1', ['MN', 'NO']);
+    checkDrop('rumus_tegak2', ['MN', 'NO']);
+
+    inputsText.forEach(inp => {
+        if (inp && inp.value.trim().toUpperCase() === 'MO') setValidVisual(inp);
+        else if (inp) { setInvalidVisual(inp); benarSemua = false; }
+    });
+
+    const valMn = parseInt(inputMn.value);
+    const valNo = parseInt(inputNo.value);
+    
+    if ((valMn === 15 && valNo === 8) || (valMn === 8 && valNo === 15)) {
+        setValidVisual(inputMn); setValidVisual(inputNo);
+    } else {
+        setInvalidVisual(inputMn); setInvalidVisual(inputNo);
+        benarSemua = false;
+    }
+
+    if (parseInt(resMnSq.value) === Math.pow(valMn, 2) && valMn > 0) setValidVisual(resMnSq); else { setInvalidVisual(resMnSq); benarSemua = false; }
+    if (parseInt(resNoSq.value) === Math.pow(valNo, 2) && valNo > 0) setValidVisual(resNoSq); else { setInvalidVisual(resNoSq); benarSemua = false; }
+    if (parseInt(resSum.value) === 289) setValidVisual(resSum); else { setInvalidVisual(resSum); benarSemua = false; }
+    if (parseInt(resSqrt.value) === 289) setValidVisual(resSqrt); else { setInvalidVisual(resSqrt); benarSemua = false; }
+    if (parseInt(final.value) === 17) setValidVisual(final); else { setInvalidVisual(final); benarSemua = false; }
+
+    if (benarSemua) {
+        const fb = document.getElementById('s2_feedback');
+        if(fb) fb.innerText = "Perhitungan Sempurna!";
+        Swal.fire({ title: 'Berhasil', text: 'Susunan rumus dan perhitunganmu tepat.', confirmButtonColor: '#198754' });
+        return;
+    }
+
+    if (attemptLatihan2 >= MAX_ATTEMPT_LATIHAN) {
+        Swal.fire({ title: 'Kesempatan Habis', text: 'Mari perbaiki bagian yang salah menjadi abu-abu.', confirmButtonColor: '#6c757d' }).then(() => {
+            const checkAndFix = (el, correctVal) => {
+                if (el && el.classList.contains('border-danger')) {
+                    setGreyVisual(el);
+                    el.value = correctVal;
+                }
+            };
+            inputsText.forEach(inp => checkAndFix(inp, 'MO'));
+            checkAndFix(inputMn, 15); checkAndFix(inputNo, 8); checkAndFix(resMnSq, 225);
+            checkAndFix(resNoSq, 64); checkAndFix(resSum, 289); checkAndFix(resSqrt, 289); checkAndFix(final, 17);
+            
+            // Dropzone reset logic (Sederhana: disabled saja visualnya jika salah)
+            ['diketahui_mn', 'diketahui_no', 'ditanya', 'rumus_miring', 'rumus_tegak1', 'rumus_tegak2'].forEach(t => {
+                const z = document.querySelector(`[data-target="${t}"]`);
+                if(z && z.classList.contains('border-danger')) setGreyVisual(z);
+            });
+        });
+    } else {
+        Swal.fire({ title: 'Kurang Tepat', text: `Periksa kembali yang berwarna merah. (Sisa kesempatan: ${MAX_ATTEMPT_LATIHAN - attemptLatihan2})`, confirmButtonColor: '#dc3545' });
+    }
+}
+
+
+// ==========================================
+// SOAL 3: LOGIKA RESET & VALIDASI
+// ==========================================
+function resetSoal3() {
+    const container = document.getElementById('soal3-container');
+    const dragContainer = document.getElementById('drag-items-container-s3');
+    if(!container || !dragContainer) return;
+
+    // 1. Kembalikan semua item drag ke container aslinya
+    const allItems = container.querySelectorAll('.draggable-item');
+    allItems.forEach(item => {
+        item.classList.replace('p-1', 'p-2');
+        item.style.opacity = '1';
+        item.style.margin = '';
+        dragContainer.appendChild(item);
+    });
+
+    // 2. Acak ulang
+    for (let i = dragContainer.children.length; i >= 0; i--) {
+        dragContainer.appendChild(dragContainer.children[Math.random() * i | 0]);
+    }
+
+    // 3. Reset Drop Zones
+    const allDropZones = container.querySelectorAll('.drop-zone[data-target^="s3_"]');
+    allDropZones.forEach(zone => {
+        zone.style.borderStyle = 'dashed';
+        zone.style.backgroundColor = '';
+        zone.classList.remove('border-danger', 'border-success', 'bg-light-danger');
+        zone.classList.add('border-dark');
+    });
+
+    // 4. Reset Inputs
+    const allInputs = container.querySelectorAll('input[id^="s3_"]:not([disabled])');
+    allInputs.forEach(input => {
+        input.value = '';
+        input.disabled = false;
+        input.classList.remove('border-danger', 'text-danger', 'border-success', 'text-success', 'bg-light', 'text-muted');
+        input.classList.add('border-dark', 'bg-white');
+    });
+
+    // 5. Reset attempts
+    attemptLatihan3 = 0;
+    const feedback = document.getElementById('s3_feedback');
+    if(feedback) feedback.innerText = '';
+}
+
+function cekLatihanAnalisis3() {
+    const getDropValue = (targetId) => {
+        const zone = document.querySelector(`[data-target="${targetId}"]`);
+        if (!zone) return null;
+        const item = zone.querySelector('.draggable-item');
+        return item ? item.getAttribute('data-value') : null;
+    };
+    
+    const getVal = (id) => {
+        const el = document.getElementById(id);
+        return el ? parseInt(el.value) : NaN;
+    };
+
+    // Ambil Elemen Input & Zona Drop
+    const inps = {
+        ac_sq1: document.getElementById('s3_ac_sq1'), ac_sq2: document.getElementById('s3_ac_sq2'),
+        ac_sum1: document.getElementById('s3_ac_sum1'), ac_sum2: document.getElementById('s3_ac_sum2'),
+        ac_tot: document.getElementById('s3_ac_total'), ac_sqrt: document.getElementById('s3_ac_sqrt_val'), ac_fin: document.getElementById('s3_ac_final'),
+        ab_sq1: document.getElementById('s3_ab_sq1'), ab_sq2: document.getElementById('s3_ab_sq2'),
+        ab_sum1: document.getElementById('s3_ab_sum1'), ab_sum2: document.getElementById('s3_ab_sum2'),
+        ab_tot: document.getElementById('s3_ab_total'), ab_sqrt: document.getElementById('s3_ab_sqrt_val'), ab_fin: document.getElementById('s3_ab_final'),
+        bc_sq1: document.getElementById('s3_bc_sq1'), bc_sq2: document.getElementById('s3_bc_sq2'),
+        bc_diff1: document.getElementById('s3_bc_diff1'), bc_diff2: document.getElementById('s3_bc_diff2'),
+        bc_tot: document.getElementById('s3_bc_total'), bc_sqrt: document.getElementById('s3_bc_sqrt_val'), bc_fin: document.getElementById('s3_bc_final')
+    };
+
+    const zones = {
+        diketAE: document.querySelector('[data-target="s3_diket_ae"]'), diketCE: document.querySelector('[data-target="s3_diket_ce"]'),
+        diketAD: document.querySelector('[data-target="s3_diket_ad"]'), diketBD: document.querySelector('[data-target="s3_diket_bd"]'),
+        ditanya: document.querySelector('[data-target="s3_ditanya"]'),
+        ac1: document.querySelector('[data-target="s3_ac_drop1"]'), ac2: document.querySelector('[data-target="s3_ac_drop2"]'),
+        ab1: document.querySelector('[data-target="s3_ab_drop1"]'), ab2: document.querySelector('[data-target="s3_ab_drop2"]'),
+        bc1: document.querySelector('[data-target="s3_bc_drop1"]'), bc2: document.querySelector('[data-target="s3_bc_drop2"]')
+    };
+
+    const isDropZoneEmpty = Object.values(zones).some(z => !z || z.querySelectorAll('.draggable-item').length === 0);
+    const isInputEmpty = Object.values(inps).some(i => !i || i.value.trim() === '');
+
+    if (isDropZoneEmpty || isInputEmpty) {
+        Swal.fire({ title: 'Perhatian', text: 'Lengkapi kotak drag & drop dan angka terlebih dahulu.', confirmButtonColor: '#198754' });
+        return;
+    }
+
+    attemptLatihan3++;
+    let benarSemua = true;
+    const elementsToValidate = []; 
+
+    const check = (el, condition) => {
+        if(!el) return;
+        elementsToValidate.push({ el: el, isCorrect: condition });
+        if (!condition) benarSemua = false;
+    };
+    
+    const checkDropPair = (z1, z2, validArr) => {
+        const v1 = getDropValue(z1.dataset.target);
+        const v2 = getDropValue(z2.dataset.target);
+        const isCor = (v1 === validArr[0] && v2 === validArr[1]) || (v1 === validArr[1] && v2 === validArr[0]);
+        check(z1, isCor); check(z2, isCor);
+    };
+
+    // Validasi Soal 3
+    check(zones.diketAE, getDropValue('s3_diket_ae') === '24');
+    check(zones.diketCE, getDropValue('s3_diket_ce') === '7');
+    check(zones.diketAD, getDropValue('s3_diket_ad') === '16');
+    check(zones.diketBD, getDropValue('s3_diket_bd') === '12');
+    check(zones.ditanya, getDropValue('s3_ditanya') === 'BC');
+
+    checkDropPair(zones.ac1, zones.ac2, ['AE', 'CE']);
+    check(inps.ac_sq1, [24, 7].includes(getVal('s3_ac_sq1'))); check(inps.ac_sq2, [24, 7].includes(getVal('s3_ac_sq2')));
+    check(inps.ac_sum1, [576, 49].includes(getVal('s3_ac_sum1'))); check(inps.ac_sum2, [576, 49].includes(getVal('s3_ac_sum2')));
+    check(inps.ac_tot, getVal('s3_ac_total') === 625); check(inps.ac_sqrt, getVal('s3_ac_sqrt_val') === 625); check(inps.ac_fin, getVal('s3_ac_final') === 25);
+
+    checkDropPair(zones.ab1, zones.ab2, ['AD', 'BD']);
+    check(inps.ab_sq1, [16, 12].includes(getVal('s3_ab_sq1'))); check(inps.ab_sq2, [16, 12].includes(getVal('s3_ab_sq2')));
+    check(inps.ab_sum1, [256, 144].includes(getVal('s3_ab_sum1'))); check(inps.ab_sum2, [256, 144].includes(getVal('s3_ab_sum2')));
+    check(inps.ab_tot, getVal('s3_ab_total') === 400); check(inps.ab_sqrt, getVal('s3_ab_sqrt_val') === 400); check(inps.ab_fin, getVal('s3_ab_final') === 20);
+
+    check(zones.bc1, getDropValue('s3_bc_drop1') === 'AC'); check(zones.bc2, getDropValue('s3_bc_drop2') === 'AB');
+    check(inps.bc_sq1, getVal('s3_bc_sq1') === 25); check(inps.bc_sq2, getVal('s3_bc_sq2') === 20); 
+    check(inps.bc_diff1, getVal('s3_bc_diff1') === 625); check(inps.bc_diff2, getVal('s3_bc_diff2') === 400);
+    check(inps.bc_tot, getVal('s3_bc_total') === 225); check(inps.bc_sqrt, getVal('s3_bc_sqrt_val') === 225); check(inps.bc_fin, getVal('s3_bc_final') === 15);
+
+    // Apply Style
+    elementsToValidate.forEach(item => item.isCorrect ? setValidVisual(item.el) : setInvalidVisual(item.el));
+
+    if (benarSemua) {
+        document.getElementById('s3_feedback').innerText = "Sempurna!";
+        Swal.fire({ title: 'Berhasil!', text: 'Semua jawaban benar.', icon: 'success', confirmButtonColor: '#198754' });
+    } else {
+        if (attemptLatihan3 >= MAX_ATTEMPT_LATIHAN) {
+            Swal.fire({ title: 'Kesempatan Habis', text: 'Perbaiki bagian yang berwarna abu-abu.', confirmButtonColor: '#6c757d' }).then(() => {
+                 elementsToValidate.forEach(item => { if (!item.isCorrect) setGreyVisual(item.el); });
+            });
+        } else {
+            Swal.fire({ title: 'Ada yang keliru', text: `Sisa percobaan: ${MAX_ATTEMPT_LATIHAN - attemptLatihan3}`, icon: 'warning', confirmButtonColor: '#dc3545' });
+        }
+    }
+}
+
+
 /* ===============================
    HALAMAN 3 – FUNGSI (VISUAL INTERAKTIF SEGITIGA)
 ================================ */
@@ -1583,6 +2061,284 @@ function cekJawabanPembuktian() {
     }
 }
 
+
+function cekTabelGeoGebra() {
+    // 1. Definisikan Kunci Jawaban (Berdasarkan simulasi GeoGebra umum: 3-4-5)
+    // Sisi: A=3, B=4, C=5 (Hipotenusa)
+    // Luas: A=9, B=16, C=25
+    const kunci = {
+        sisi_a: 3,
+        sisi_b: 4,
+        sisi_c: 5,
+        luas_a: 9,
+        luas_b: 16,
+        luas_c: 25
+    };
+
+    // 2. Ambil elemen input
+    const inputs = {
+        sisi_a: document.getElementById('sisi_a'),
+        sisi_b: document.getElementById('sisi_b'),
+        sisi_c: document.getElementById('sisi_c'),
+        luas_a: document.getElementById('luas_a'),
+        luas_b: document.getElementById('luas_b'),
+        luas_c: document.getElementById('luas_c')
+    };
+
+    let benarSemua = true;
+
+    // 3. Loop untuk validasi setiap input
+    for (let key in inputs) {
+        let nilaiInput = parseInt(inputs[key].value);
+        
+        // Reset style
+        inputs[key].classList.remove('is-valid', 'is-invalid');
+
+        // Cek validitas
+        if (nilaiInput === kunci[key]) {
+            inputs[key].classList.add('is-valid'); // Tambah border hijau (Bootstrap)
+        } else {
+            inputs[key].classList.add('is-invalid'); // Tambah border merah (Bootstrap)
+            benarSemua = false;
+        }
+    }
+
+    // 4. Berikan Feedback Visual (Alert/Pesan)
+    const feedbackBox = document.getElementById('feedbackTabelGeoGebra'); // Pastikan div ini ada di HTML Anda
+    
+    if (feedbackBox) {
+        if (benarSemua) {
+            feedbackBox.className = "mt-2 fw-bold text-success animate__animated animate__fadeIn";
+            feedbackBox.innerHTML = "<i class='bi bi-check-circle-fill'></i> Luar biasa! Semua jawabanmu benar.";
+        } else {
+            feedbackBox.className = "mt-2 fw-bold text-danger animate__animated animate__shakeX";
+            feedbackBox.innerHTML = "<i class='bi bi-exclamation-triangle-fill'></i> Masih ada yang kurang tepat. Coba perhatikan lagi kotak-kotaknya.";
+        }
+    } else {
+        // Fallback jika div feedback belum dibuat
+        if (benarSemua) alert("Benar Semua!");
+        else alert("Masih ada yang salah.");
+    }
+}
+// ==========================================
+    // VALIDASI CONTOH 1 (Mencari Sisi Miring)
+    // ==========================================
+    function cekContoh1() {
+        // Ambil Nilai Input
+        let dik_ac = parseFloat(document.getElementById('c1_dik_b').value); // 4
+        let dik_bc = parseFloat(document.getElementById('c1_dik_a').value); // 3
+        
+        let s1_a = parseFloat(document.getElementById('c1_step1_a').value);
+        let s1_b = parseFloat(document.getElementById('c1_step1_b').value);
+        
+        let s2_a = parseFloat(document.getElementById('c1_step2_a_sq').value);
+        let s2_b = parseFloat(document.getElementById('c1_step2_b_sq').value);
+        
+        let s3_sum = parseFloat(document.getElementById('c1_step3_sum').value);
+        let s4_root = parseFloat(document.getElementById('c1_step4_root').value);
+        let final = parseFloat(document.getElementById('c1_final').value);
+
+        // --- VALIDASI BERTINGKAT ---
+
+        // 1. Cek Diketahui
+        if (dik_ac !== 4 || dik_bc !== 3) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Cek bagian "Diketahui". Jarak dinding (AC) adalah 4m dan Tinggi (BC) adalah 3m.',
+                confirmButtonColor: '#d33'
+            });
+            return;
+        }
+
+        // 2. Cek Langkah 1 (Input Rumus) - Bisa dibolak-balik (Komutatif)
+        let validStep1 = (s1_a === 4 && s1_b === 3) || (s1_a === 3 && s1_b === 4);
+        if (!validStep1) {
+            Swal.fire({
+                icon: 'warning',
+                title: 'Langkah 1 Kurang Tepat',
+                text: 'Masukkan angka sisi tegak (3) dan sisi alas (4) ke dalam rumus.',
+                confirmButtonColor: '#f39c12'
+            });
+            return;
+        }
+
+        // 3. Cek Langkah 2 (Kuadrat)
+        // Pastikan kuadratnya sesuai dengan input di langkah 1
+        if (s2_a !== Math.pow(s1_a, 2) || s2_b !== Math.pow(s1_b, 2)) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Perhitungan Salah',
+                text: 'Coba hitung kembali hasil kuadrat/pangkat dua dari angka di atasnya.',
+                confirmButtonColor: '#d33'
+            });
+            return;
+        }
+
+        // 4. Cek Langkah 3 (Penjumlahan)
+        if (s3_sum !== 25) { // 16 + 9
+            Swal.fire({
+                icon: 'error',
+                title: 'Penjumlahan Salah',
+                text: 'Hasil penjumlahan 16 + 9 bukan segitu. Coba hitung lagi.',
+                confirmButtonColor: '#d33'
+            });
+            return;
+        }
+
+        // 5. Cek Akar & Final
+        if (s4_root !== 25) {
+            Swal.fire({
+                icon: 'warning',
+                title: 'Cek Akar',
+                text: 'Angka di dalam akar harus sama dengan hasil penjumlahan sebelumnya (25).',
+                confirmButtonColor: '#f39c12'
+            });
+            return;
+        }
+
+        if (final !== 5) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Hasil Akhir Salah',
+                text: 'Akar dari 25 berapa hayo?',
+                confirmButtonColor: '#d33'
+            });
+            return;
+        }
+
+        // JIKA SEMUA BENAR
+        Swal.fire({
+            icon: 'success',
+            title: 'Luar Biasa!',
+            text: 'Jawaban kamu benar! Jarak yang ditempuh Ahmad adalah 5 meter.',
+            confirmButtonColor: '#198754'
+        });
+    }
+
+    // ==========================================
+    // VALIDASI CONTOH 2 (Dua Segitiga)
+    // ==========================================
+    function cekContoh2() {
+        // Ambil Input Diketahui
+        let d_ab = parseFloat(document.getElementById('c2_dik_ab').value); // 13
+        let d_ac = parseFloat(document.getElementById('c2_dik_ac').value); // 12
+        let d_cd = parseFloat(document.getElementById('c2_dik_cd').value); // 3
+
+        // Cek Diketahui
+        if (d_ab !== 13 || d_ac !== 12 || d_cd !== 3) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Diketahui Salah',
+                text: 'Perhatikan gambar dengan teliti untuk mengisi bagian Diketahui.',
+                confirmButtonColor: '#d33'
+            });
+            return;
+        }
+
+        // --- STEP 1: MENCARI BC ---
+        let s1_ab = parseFloat(document.getElementById('c2_step1_ab').value);
+        let s1_ac = parseFloat(document.getElementById('c2_step1_ac').value);
+        
+        let s1_r1 = parseFloat(document.getElementById('c2_step1_res1').value); // 169
+        let s1_r2 = parseFloat(document.getElementById('c2_step1_res2').value); // 144
+        let s1_sq = parseFloat(document.getElementById('c2_step1_sqrt').value); // 25
+        let bc_res = parseFloat(document.getElementById('c2_bc_result').value); // 5
+
+        // Validasi Step 1
+        if (s1_ab !== 13 || s1_ac !== 12) {
+            Swal.fire({
+                icon: 'warning',
+                title: 'Langkah 1 Keliru',
+                text: 'Untuk mencari BC, masukkan Sisi Miring (13) dikurang Sisi Alas (12).',
+                confirmButtonColor: '#f39c12'
+            });
+            return;
+        }
+        if (s1_r1 !== 169 || s1_r2 !== 144) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Hitungan Kuadrat Salah',
+                text: 'Cek kembali hasil kuadrat dari 13 dan 12.',
+                confirmButtonColor: '#d33'
+            });
+            return;
+        }
+        if (s1_sq !== 25) {
+             Swal.fire({
+                icon: 'error',
+                title: 'Pengurangan Salah',
+                text: 'Hasil 169 - 144 salah. Coba hitung lagi.',
+                confirmButtonColor: '#d33'
+            });
+            return;
+        }
+        if (bc_res !== 5) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Akar Salah',
+                text: 'Akar dari 25 adalah 5.',
+                confirmButtonColor: '#d33'
+            });
+            return;
+        }
+
+        // --- STEP 2: MENCARI BD ---
+        let s2_bc = parseFloat(document.getElementById('c2_step2_bc').value); // 5
+        let s2_cd = parseFloat(document.getElementById('c2_step2_cd').value); // 3
+        
+        let s2_r1 = parseFloat(document.getElementById('c2_step2_res1').value); // 25
+        let s2_r2 = parseFloat(document.getElementById('c2_step2_res2').value); // 9
+        let s2_sq = parseFloat(document.getElementById('c2_step2_sqrt').value); // 16
+        let final = parseFloat(document.getElementById('c2_final').value); // 4
+
+        // Validasi Step 2
+        if (s2_bc !== 5 || s2_cd !== 3) {
+            Swal.fire({
+                icon: 'warning',
+                title: 'Langkah 2 Keliru',
+                text: 'Gunakan hasil BC (5) yang baru didapat, dan sisi CD (3).',
+                confirmButtonColor: '#f39c12'
+            });
+            return;
+        }
+        if (s2_r1 !== 25 || s2_r2 !== 9) {
+             Swal.fire({
+                icon: 'error',
+                title: 'Kuadrat Salah',
+                text: 'Cek hasil kuadrat 5 dan 3.',
+                confirmButtonColor: '#d33'
+            });
+            return;
+        }
+        if (s2_sq !== 16) {
+             Swal.fire({
+                icon: 'error',
+                title: 'Pengurangan Salah',
+                text: 'Hasil 25 - 9 bukan segitu.',
+                confirmButtonColor: '#d33'
+            });
+            return;
+        }
+        if (final !== 4) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Hasil Akhir Salah',
+                text: 'Akar dari 16 adalah 4.',
+                confirmButtonColor: '#d33'
+            });
+            return;
+        }
+
+        // JIKA SEMUA BENAR
+        Swal.fire({
+            icon: 'success',
+            title: 'Kerja Bagus!',
+            text: 'Kamu berhasil menyelesaikan soal bertingkat ini dengan benar.',
+            confirmButtonColor: '#198754'
+        });
+    }
+
 /* ===============================
    HALAMAN 4 – FUNGSI (PYTHAGORAS STEP PROOF)
 ================================ */
@@ -2063,297 +2819,6 @@ style.textContent = `
     }
 `;
 document.head.appendChild(style);
-
-
-
-// Script Drag & Drop Pythagoras - Versi Sederhana
-(function() {
-    // State
-    let dragState = {
-        answers: {},
-        draggingElement: null
-    };
-    
-    // Jawaban yang benar
-    const correctAnswers = {
-        '1': '8', // Soal 1
-        '2': '13',  // Soal 2
-        '3': '25',  // Soal 3
-        '4': '29'   // Soal 4
-    };
-    
-    // Inisialisasi
-    function initDragDrop() {
-        setupDragEvents();
-        setupCheckButton();
-    }
-    
-    // Setup event listeners untuk drag & drop
-    function setupDragEvents() {
-        // Event untuk elemen yang bisa di-drag (jawaban)
-        document.querySelectorAll('.draggable').forEach(item => {
-            item.addEventListener('dragstart', handleDragStart);
-            item.addEventListener('dragend', handleDragEnd);
-        });
-        
-        // Event untuk drop zone
-        document.querySelectorAll('.drop-zone').forEach(zone => {
-            zone.addEventListener('dragover', handleDragOver);
-            zone.addEventListener('dragenter', handleDragEnter);
-            zone.addEventListener('dragleave', handleDragLeave);
-            zone.addEventListener('drop', handleDrop);
-        });
-    }
-    
-    // Setup tombol periksa jawaban
-    function setupCheckButton() {
-        const checkButton = document.getElementById('periksa-jawaban');
-        if (checkButton) {
-            checkButton.addEventListener('click', checkAllAnswers);
-        }
-    }
-    
-    // Event Handlers
-    function handleDragStart(e) {
-        dragState.draggingElement = this;
-        this.classList.add('dragging');
-        
-        // Set data yang akan ditransfer
-        const value = this.getAttribute('data-value');
-        e.dataTransfer.setData('text/plain', value);
-        e.dataTransfer.effectAllowed = 'move';
-    }
-    
-    function handleDragEnd(e) {
-        if (dragState.draggingElement) {
-            dragState.draggingElement.classList.remove('dragging');
-        }
-        dragState.draggingElement = null;
-        
-        // Reset semua drop zone yang sedang di-hover
-        document.querySelectorAll('.drop-zone.drag-over').forEach(zone => {
-            zone.classList.remove('drag-over');
-        });
-    }
-    
-    function handleDragOver(e) {
-        e.preventDefault();
-        e.dataTransfer.dropEffect = 'move';
-    }
-    
-    function handleDragEnter(e) {
-        e.preventDefault();
-        this.classList.add('drag-over');
-    }
-    
-    function handleDragLeave(e) {
-        this.classList.remove('drag-over');
-    }
-    
-    function handleDrop(e) {
-        e.preventDefault();
-        this.classList.remove('drag-over');
-        
-        // Ambil data dari elemen yang di-drag
-        const draggedValue = e.dataTransfer.getData('text/plain');
-        const soalId = this.getAttribute('data-soal');
-        
-        // Update jawaban di state
-        dragState.answers[soalId] = draggedValue;
-        
-        // Update tampilan drop zone
-        updateDropZoneDisplay(this, draggedValue);
-        
-        // Reset status pemeriksaan jika ada
-        resetCheckStatus();
-    }
-    
-    // Update tampilan drop zone
-    function updateDropZoneDisplay(zone, value) {
-        // Reset kelas status
-        zone.classList.remove('correct-answer', 'incorrect-answer');
-        zone.classList.add('has-answer');
-        
-        // Update teks
-        const placeholder = zone.querySelector('.drop-placeholder');
-        if (placeholder) {
-            placeholder.innerHTML = `<span class="placeholder-text">${value}</span>`;
-        }
-        
-        // Update soal item untuk menghapus status benar/salah
-        const soalItem = zone.closest('.soal-item');
-        if (soalItem) {
-            soalItem.classList.remove('correct', 'incorrect');
-        }
-    }
-    
-    // Reset status pemeriksaan
-    function resetCheckStatus() {
-        const hasilDiv = document.getElementById('hasil-pemeriksaan');
-        if (hasilDiv && !hasilDiv.innerHTML.includes('Belum ada jawaban')) {
-            hasilDiv.innerHTML = `
-                <p class="mb-1">Jawaban telah diubah.</p>
-                <p class="mb-0 text-muted small">Klik tombol "Periksa Jawaban" untuk melihat hasil.</p>
-            `;
-        }
-    }
-    
-    // Fungsi Periksa semua jawaban - Versi SweetAlert
-function checkAllAnswers() {
-    const totalSoal = Object.keys(correctAnswers).length;
-    const answeredSoal = Object.keys(dragState.answers).length;
-    
-    // Cek apakah semua soal sudah dijawab
-    if (answeredSoal < totalSoal) {
-        Swal.fire({
-            icon: 'warning',
-            title: 'Belum Lengkap',
-            html: `<div class="text-start">
-                    <p>Harap jawab semua soal terlebih dahulu!</p>
-                    <p class="text-muted small">${answeredSoal} dari ${totalSoal} soal terjawab</p>
-                   </div>`,
-            confirmButtonText: 'Mengerti',
-            confirmButtonColor: '#ffc107'
-        });
-        return;
-    }
-    
-    let correctCount = 0;
-    let incorrectSoals = [];
-    
-    // Periksa setiap jawaban
-    for (let i = 1; i <= totalSoal; i++) {
-        const soalId = i.toString();
-        const userAnswer = dragState.answers[soalId];
-        const correctAnswer = correctAnswers[soalId];
-        const isCorrect = userAnswer === correctAnswer;
-        
-        // Update tampilan visual
-        const dropZone = document.querySelector(`.drop-zone[data-soal="${soalId}"]`);
-        if (dropZone) {
-            if (isCorrect) {
-                dropZone.classList.add('correct-answer');
-                dropZone.classList.remove('incorrect-answer');
-                correctCount++;
-            } else {
-                dropZone.classList.add('incorrect-answer');
-                dropZone.classList.remove('correct-answer');
-                incorrectSoals.push(soalId);
-            }
-        }
-        
-        // Update soal item
-        const soalItem = dropZone?.closest('.soal-item');
-        if (soalItem) {
-            if (isCorrect) {
-                soalItem.classList.add('correct');
-                soalItem.classList.remove('incorrect');
-            } else {
-                soalItem.classList.add('incorrect');
-                soalItem.classList.remove('correct');
-            }
-        }
-    }
-    
-    // Tampilkan SweetAlert berdasarkan hasil
-    if (correctCount === totalSoal) {
-        // Semua jawaban benar
-        Swal.fire({
-            icon: 'success',
-            title: 'Selamat!',
-            html: `<div class="text-center">
-                    <p><strong>Semua jawaban Anda benar!</strong></p>
-                   </div>`,
-            confirmButtonText: 'Lanjutkan',
-            confirmButtonColor: '#28a745'
-        });
-    } else {
-        // Ada jawaban salah
-        const incorrectCount = totalSoal - correctCount;
-        
-        Swal.fire({
-            icon: 'warning',
-            title: 'Jawaban Masih Kurang Tepat',
-            html: `<div class="text-center">
-                    <p><strong>${correctCount} dari ${totalSoal} jawaban benar</strong></p>
-                    <p class="mb-2">Masih ada ${incorrectCount} jawaban yang perlu diperbaiki.</p>
-                    <p class="text-muted small">Periksa kembali perhitungan Anda.</p>
-                   </div>`,
-            confirmButtonText: 'Coba Lagi',
-            confirmButtonColor: '#ffc107'
-        });
-    }
-}
-    
-    // Inisialisasi saat DOM siap
-    if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', initDragDrop);
-    } else {
-        initDragDrop();
-    }
-})
-
-document.addEventListener('DOMContentLoaded', function () {
-
-    /* =========================
-       FUNGSI RESET JAWABAN
-    ========================== */
-    window.resetInputs = function () {
-
-        // Reset textarea
-        document.getElementById('jawaban1').value = '';
-        document.getElementById('jawaban4').value = '';
-
-        // Reset radio
-        document.querySelectorAll('input[name="refleksi2"]')
-            .forEach(el => el.checked = false);
-
-        // Reset select
-        document.getElementById('jawaban3').value = '';
-
-        // Notifikasi reset
-        Swal.fire({
-            icon: 'info',
-            title: 'Jawaban Direset',
-            text: 'Semua jawaban sudah dikosongkan.',
-            confirmButtonColor: '#6c757d',
-            confirmButtonText: 'Oke'
-        });
-    }
-
-    /* =========================
-       LOGIC SIMPAN JAWABAN
-    ========================== */
-    const btnSimpan = document.getElementById('btnSimpan');
-    if (btnSimpan) {
-        btnSimpan.addEventListener('click', function () {
-            let jawaban1 = document.getElementById('jawaban1').value.trim();
-            let jawaban2 = document.querySelector('input[name="refleksi2"]:checked');
-            let jawaban3 = document.getElementById('jawaban3').value;
-            let jawaban4 = document.getElementById('jawaban4').value.trim();
-
-            if (!jawaban1 || !jawaban2 || !jawaban3 || !jawaban4) {
-                Swal.fire({
-                    icon: 'warning',
-                    title: 'Jawaban Belum Lengkap',
-                    text: 'Silakan lengkapi semua pertanyaan sebelum menyimpan.',
-                    confirmButtonColor: '#ffc107'
-                });
-                return;
-            }
-
-            Swal.fire({
-                icon: 'success',
-                title: 'Jawaban Berhasil Disimpan',
-                text: 'Refleksimu sudah tercatat.',
-                confirmButtonColor: '#198754'
-            });
-        });
-    }
-
-
-
-}); 
 
 
 function cekRefleksi() {

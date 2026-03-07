@@ -104,22 +104,22 @@
                                             </div>
                                             <div class="d-flex align-items-center gap-2 mb-3">
                                                 <span class="text-dark fw-medium" style="width: 45px;">AB =</span>
-                                                <input type="number" id="s1_ab" class="form-control form-control-sm text-center bg-white" style="width:80px;" placeholder="40">
+                                                <input type="number" id="s1_ab" class="form-control form-control-sm text-center bg-white" style="width:80px;">
                                                 <span class="text-muted small">meter</span>
                                             </div>
                                             <div class="d-flex align-items-center gap-2 mb-3">
                                                 <span class="text-dark fw-medium" style="width: 45px;">BC =</span>
-                                                <input type="number" id="s1_bc" class="form-control form-control-sm text-center bg-white" style="width:80px;" placeholder="30">
+                                                <input type="number" id="s1_bc" class="form-control form-control-sm text-center bg-white" style="width:80px;">
                                                 <span class="text-muted small">meter</span>
                                             </div>
                                             <div class="d-flex align-items-center gap-2 mb-3">
                                                 <span class="text-dark fw-medium" style="width: 45px;">AC² =</span>
-                                                <input type="number" id="s1_ac2" class="form-control form-control-sm text-center bg-white" style="width:100px;" placeholder="2500" readonly>
+                                                <input type="number" id="s1_ac2" class="form-control form-control-sm text-center bg-white" style="width:100px;" readonly>
                                                 <span class="text-muted small fst-italic">(otomatis)</span>
                                             </div>
                                             <div class="d-flex align-items-center gap-2 pt-3 border-top">
                                                 <span class="text-dark fw-bold" style="width: 45px;">AC =</span>
-                                                <input type="number" id="s1_ac" class="form-control form-control-sm text-center bg-white fw-bold" style="width:80px;" placeholder="50">
+                                                <input type="number" id="s1_ac" class="form-control form-control-sm text-center bg-white fw-bold" style="width:80px;">
                                                 <span class="fw-bold text-dark">meter</span>
                                             </div>
                                             <small class="text-muted d-block mt-3">*Isi AB, BC, dan AC. Kolom AC² akan terisi otomatis.</small>
@@ -173,22 +173,22 @@
                                             </div>
                                             <div class="d-flex align-items-center gap-2 mb-3">
                                                 <span class="text-dark fw-medium" style="width: 45px;">AB =</span>
-                                                <input type="number" id="s2_ab" class="form-control form-control-sm text-center bg-white" style="width:80px;" placeholder="24">
+                                                <input type="number" id="s2_ab" class="form-control form-control-sm text-center bg-white" style="width:80px;">
                                                 <span class="text-muted small">meter</span>
                                             </div>
                                             <div class="d-flex align-items-center gap-2 mb-3">
                                                 <span class="text-dark fw-medium" style="width: 45px;">AC =</span>
-                                                <input type="number" id="s2_ac" class="form-control form-control-sm text-center bg-white" style="width:80px;" placeholder="25">
+                                                <input type="number" id="s2_ac" class="form-control form-control-sm text-center bg-white" style="width:80px;">
                                                 <span class="text-muted small">meter</span>
                                             </div>
                                             <div class="d-flex align-items-center gap-2 mb-3">
                                                 <span class="text-dark fw-medium" style="width: 45px;">BC² =</span>
-                                                <input type="number" id="s2_bc2" class="form-control form-control-sm text-center bg-white" style="width:100px;" placeholder="49" readonly>
+                                                <input type="number" id="s2_bc2" class="form-control form-control-sm text-center bg-white" style="width:100px;" readonly>
                                                 <span class="text-muted small fst-italic">(otomatis)</span>
                                             </div>
                                             <div class="d-flex align-items-center gap-2 pt-3 border-top">
                                                 <span class="text-dark fw-bold" style="width: 45px;">BC =</span>
-                                                <input type="number" id="s2_bc" class="form-control form-control-sm text-center bg-white fw-bold" style="width:80px;" placeholder="7">
+                                                <input type="number" id="s2_bc" class="form-control form-control-sm text-center bg-white fw-bold" style="width:80px;">
                                                 <span class="fw-bold text-dark">meter</span>
                                             </div>
                                             <small class="text-muted d-block mt-3">*Isi AB, AC, dan BC. Kolom BC² otomatis.</small>
@@ -245,17 +245,17 @@
                                                 </div>
                                                 <div class="d-flex align-items-center gap-2 mb-3">
                                                     <span class="text-dark fw-medium" style="width: 190px;">Jarak horizontal ke A (OA) =</span>
-                                                    <input type="number" id="s3_oa" class="form-control form-control-sm text-center bg-white" style="width:70px;" placeholder="20">
+                                                    <input type="number" id="s3_oa" class="form-control form-control-sm text-center bg-white" style="width:70px;">
                                                     <span class="text-muted small">meter</span>
                                                 </div>
                                                 <div class="d-flex align-items-center gap-2 mb-3">
                                                     <span class="text-dark fw-medium" style="width: 190px;">Jarak horizontal ke B (OB) =</span>
-                                                    <input type="number" id="s3_ob" class="form-control form-control-sm text-center bg-white" style="width:70px;" placeholder="8">
+                                                    <input type="number" id="s3_ob" class="form-control form-control-sm text-center bg-white" style="width:70px;">
                                                     <span class="text-muted small">meter</span>
                                                 </div>
                                                 <div class="d-flex align-items-center gap-2 pt-3 border-top">
                                                     <span class="text-dark fw-bold" style="width: 190px;">Jarak AB = |OA - OB| =</span>
-                                                    <input type="number" id="s3_ab" class="form-control form-control-sm text-center bg-white fw-bold" style="width:70px;" placeholder="12">
+                                                    <input type="number" id="s3_ab" class="form-control form-control-sm text-center bg-white fw-bold" style="width:70px">
                                                     <span class="fw-bold text-dark">meter</span>
                                                 </div>
                                                 <small class="text-muted d-block mt-3">*Kedua tenda berada di sisi yang sama dari drone, sehingga jaraknya selisih.</small>

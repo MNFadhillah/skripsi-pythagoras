@@ -334,13 +334,13 @@
           <h6 class="text-center mb-3">Nomor Soal</h6>
           <div class="d-flex flex-wrap gap-2 justify-content-center mb-3 small" style="font-size: 0.8rem;">
             <div class="d-flex align-items-center">
-              <span class="d-inline-block rounded border border-dark" style="width: 12px; height: 12px; background-color: #fff; margin-right: 4px;"></span> Belum Terjawab
+              <span class="d-inline-block rounded border border-dark" style="width: 12px; height: 12px; background-color: #fff; margin-right: 4px;"></span> Belum dijawab
             </div>
             <div class="d-flex align-items-center">
-              <span class="d-inline-block rounded border border-dark" style="width: 12px; height: 12px; background-color: #0f593f; margin-right: 4px;"></span> Terjawab
+              <span class="d-inline-block rounded border border-dark" style="width: 12px; height: 12px; background-color: #0f593f; margin-right: 4px;"></span> Sudah dijawab
             </div>
             <div class="d-flex align-items-center">
-              <span class="d-inline-block rounded border border-dark" style="width: 12px; height: 12px; background-color: #fff3cd; margin-right: 4px;"></span> Ragu
+              <span class="d-inline-block rounded border border-dark" style="width: 12px; height: 12px; background-color: #fff3cd; margin-right: 4px;"></span> Ragu-ragu
             </div>
             <div class="d-flex align-items-center" id="legendaReview" style="display: none !important;">
                 <span class="d-inline-block rounded border border-dark" style="width: 12px; height: 12px; background-color: #dc3545; margin-right: 4px;"></span> Salah
