@@ -182,10 +182,6 @@
                     <div class="card border-success border-4 shadow-sm animate__animated animate__fadeIn">
                         <div class="card-body p-4">
                             <p class="mb-3 text-justify">
-                                Benar sekali! Tiang penyangga, badan jembatan dan kabel baja pada <strong>Jembatan Barito</strong> tersebut membentuk sebuah <strong>segitiga siku-siku</strong>. 
-                            </p>
-
-                            <p class="mb-3 text-justify">
                                 Tahukah kamu? Setiap kali kita bertemu dengan segitiga siku-siku, ada satu aturan matematika terkenal yang selalu mengikutinya, yaitu <strong>Teorema Pythagoras</strong>. Nah, dengan menggunakan Teorema Pythagoras, kita bisa menjawab rasa penasaran Ahmad tadi untuk mengetahui panjang kabel baja serta cara menghitungnya tanpa harus mengukur secara manual. Namun, sebelum mempelajarinya lebih jauh, kita harus mengetahui bagian-bagian penting dari segitiga siku-siku terlebih dahulu.
                             </p>
 
@@ -197,7 +193,7 @@
                 </div>
             </div>
 
-            <div class="row">
+            <div class="row mb-2">
                 <div class="col-12">
                     <div class="card bg-white shadow-sm">
                         <div class="card-header bg-light">
@@ -209,7 +205,7 @@
                                 <div class="card-body">
                                     <h5 class="fw-bold">Petunjuk Pengerjaan</h5>
                                     <ol class="mb-0 ps-3 small">
-                                        <li>Perhatikan gambar bagian jembatan di bawah (Tiang, Badan Jembatan, atau Kabel).</li>
+                                        <li>Perhatikan kembali gambar bagian jembatan barito di atas.</li>
                                         <li>Tentukan apakah bagian tersebut termasuk <strong>Sisi Siku-siku</strong> atau <strong>Sisi Miring</strong>.</li>
                                         <li><strong>Klik & Tahan (Drag)</strong> tombol jawaban yang sesuai, lalu <strong>Lepaskan (Drop)</strong> ke dalam kotak kosong yang tersedia.</li>
                                     </ol>
@@ -269,19 +265,12 @@
                 </div>
             </div>
 
-            <div class="row mb-5 d-none animate__animated animate__fadeInUp" id="penguatan-materi">
+            <div class="row mb-2 d-none" id="penguatan-materi-dragdrop">
                 <div class="col-12">
                     <div class="card border-success border-4 shadow-sm animate__animated animate__fadeIn">
-                        <div class="card-body p-4"> <h5 class="card-title fw-bold mb-3 text-success">Luar Biasa! Jawabanmu Tepat</h5>
-                            <p class="mb-3 text-justify">
-                                Kamu sudah berhasil mengenali bagian-bagian penyusun segitiga siku-siku. Tiang penyangga dan badan jembatan yang saling tegak lurus membentuk sudut 90&deg; disebut sebagai <strong>sisi siku-siku</strong>. 
-                            </p>
-                            <p class="mb-3 text-justify">
-                                Sementara itu, kabel baja yang posisinya berada tepat di depan sudut siku-siku disebut sebagai <strong>sisi miring</strong> atau dikenal dengan istilah <strong>hipotenusa</strong>.
-                            </p>
-                            <hr class="border-success">
-                            <p class="mb-0 text-justify fw-bold text-dark">
-                                Nah, untuk menjawab rasa penasaran Ahmad tentang panjang kabel baja tadi, kita akan menggunakan hubungan istimewa antara panjang kedua sisi siku-siku dan sisi miring (hipotenusa). Hubungan inilah yang menjadi inti utama dari <strong>Teorema Pythagoras</strong>. Selanjutnya, mari kita pelajari bagaimana cara merumuskan dan menghitungnya!
+                        <div class="card-body p-4"> 
+                            <p class="mb-0 text-justify text-dark">
+                                Nah, untuk menjawab rasa penasaran Ahmad tentang panjang kabel baja tadi, kita akan menggunakan hubungan antara panjang kedua <strong>sisi siku-siku</strong> dan <strong>sisi miring (hipotenusa)</strong>. Hubungan inilah yang harus selalu kamu ingat untuk memahami <strong>Teorema Pythagoras</strong>. Selanjutnya, mari kita pelajari bagaimana cara merumuskan dan menghitungnya!
                             </p>
                         </div>
                     </div>
@@ -301,7 +290,7 @@
                         <ol class="small ps-3">
                             <li>Perhatikan gambar jembatan barito dan cerita yang disajikan</li> 
                             <li>Pada bagian cerita, terdapat kata-kata berwarna yang bisa diklik untuk melihat posisi bagian jembatan.</li> 
-                            <li>Isilah kolom jawaban berdasarkan pengamatanmu, lalu klik tombol cek jawaban.</li>
+                            <li>Berdasarkan pengamatanmu jawablah pertanyaan yang tersedia dengan memilih pada menu pilihan, lalu klik tombol cek jawaban.</li>
                         </ol>
                     </div>
                 </div>
@@ -1980,13 +1969,14 @@
                         </div>
                         
                         <div class="card-body">
-                            <div class="alert alert-white shadow-sm border-start border-success border-4">
+                            <div class="alert alert-white shadow-sm border-start border-success border-4 mb-4">
                                 <h6 class="fw-bold">Petunjuk Pengerjaan:</h6>
-                                <ul class="mb-0 small text-muted">
-                                    <li>Perhatikan gambar dan angka yang diketahui di sebelah kiri.</li>
-                                    <li>Isi kotak-kotak kosong pada langkah penyelesaian di sebelah kanan.</li>
-                                    <li>Klik tombol <strong>Cek Jawaban</strong> di setiap nomor untuk memeriksa hasilmu.</li>
-                                </ul>
+                                <ol class="mb-0 small text-muted text-justify">
+                                    <li>Amati gambar dan informasi yang diketahui di kolom sebelah kiri pada setiap soal.</li>
+                                    <li><strong>Pada Soal 1</strong> Pilihlah sisi yang dicari pada menu pilihan, lalu klik tombol operator dan rumus yang paling tepat dan lengkapi perhitungannya.</li>
+                                    <li><strong>Pada Soal 2 dan 3</strong> Tarik <em>(drag)</em> item kotak yang tersedia di kiri, lalu lepas <em>(drop)</em> ke dalam area kotak putus-putus yang sesuai di sebelah kanan dan lengkap perhitungannya</li>
+                                    <li>Klik tombol <strong class="text-success">Cek Jawaban</strong> di setiap akhir nomor untuk memeriksa apakah langkah penyelesaianmu sudah benar.</li>
+                                </ol>
                             </div>
 
                             <div class="card border-0 shadow mb-4">
@@ -2107,14 +2097,15 @@
                                             <p class="text-muted fw-bold mb-2 small">Perhatikan gambar segitiga siku-siku MNO di bawah ini:</p>
                                             <div class="bg-white rounded-3 border border-dark mb-3 d-flex justify-content-center">
                                                 <img src="/images/segitiga_latihan1_nomor2.png" class="img-fluid p-2" style="max-height: 250px;" alt="Segitiga MNO">
+                                                
                                             </div>
-                                            
-                                            <div class="alert bg-light border border-dark text-dark small shadow-sm mb-3">
-                                                Tarik (drag) kotak-kotak item di bawah ini ke area yang tepat di kolom sebelah kanan untuk menyusun jawaban yang tepat!
+                                            <div class="alert bg-light border border-dark text-justify small shadow-sm">
+                                                Berdasarkan segitiga siku-siku di atas, tentukan panjang sisi miring MO!
                                             </div>
 
                                             <div class="p-3 bg-white border border-dark rounded shadow-sm mb-3">
-                                                <h6 class="fw-bold text-dark mb-3 small">Pilihan Item (Tarik kotak di bawah ini dan letakkan pada kolom yang sesuai):</h6>
+                                                <h6 class="text-dark small"><strong>Pilihan Item</strong></h6>
+                                                <p class="text-dark mb-3 small"> Tarik (drag) kotak-kotak item di bawah ini ke area yang sesuai untuk menyusun jawaban yang tepat!:</p>
                                                 <div class="d-flex flex-wrap gap-2" id="drag-items-container">
                                                     <div class="p-2 bg-white border border-dark text-dark rounded shadow-sm draggable-item cursor-grab fw-bold small" draggable="true" id="item-8cm" data-value="8cm">8 cm</div>
                                                     <div class="p-2 bg-white border border-dark text-dark rounded shadow-sm draggable-item cursor-grab fw-bold small" draggable="true" id="item-15cm" data-value="15cm">15 cm</div>
@@ -2146,17 +2137,17 @@
                                                                 
                                                                 <div class="col-md-6">
                                                                     <span class="text-dark fw-bold small d-block mb-2">Panjang sisi siku-siku (MN) =</span>
-                                                                    <div class="drop-zone bg-white border border-dark rounded border-dashed d-flex align-items-center justify-content-center p-1" style="min-width: 100px; min-height: 30px;" data-target="diketahui_mn"></div>
+                                                                    <div class="drop-zone bg-white border border-dark rounded border-dashed d-flex align-items-center justify-content-center p-1" style="min-width: 100px; min-height: 30px;" data-target="s2_diketahui_mn"></div>
                                                                 </div>
-                                                                
+                                                                                                                        
                                                                 <div class="col-md-6">
                                                                     <span class="text-dark fw-bold small d-block mb-2">Panjang sisi siku-siku (NO) =</span>
-                                                                    <div class="drop-zone bg-white border border-dark rounded border-dashed d-flex align-items-center justify-content-center p-1" style="min-width: 100px; min-height: 30px;" data-target="diketahui_no"></div>
+                                                                    <div class="drop-zone bg-white border border-dark rounded border-dashed d-flex align-items-center justify-content-center p-1" style="min-width: 100px; min-height: 30px;" data-target="s2_diketahui_no"></div>
                                                                 </div>
-                                                                
+                                                                                                                        
                                                                 <div class="col-md-12 mt-2">
-                                                                    <strong class="text-warning small d-block mb-2">Ditanya:</strong>
-                                                                    <div class="drop-zone bg-white border border-warning rounded border-dashed d-flex align-items-center justify-content-center p-1" style="min-width: 100px; min-height: 42px;" data-target="ditanya"></div>
+                                                                    <strong class="text-dark small d-block mb-2">Ditanya:</strong>
+                                                                    <div class="drop-zone bg-white border border-dark rounded border-dashed d-flex align-items-center justify-content-center p-1" style="min-width: 100px; min-height: 42px;" data-target="s2_ditanya"></div>
                                                                 </div>
                                                                 
                                                             </div>                       
@@ -2168,21 +2159,21 @@
                                                             
                                                             <div class="d-flex align-items-center justify-content-center gap-2 mb-2 p-2 bg-white border border-dark rounded shadow-sm">
                                                                 <div class="d-flex align-items-start">
-                                                                    <div class="drop-zone bg-white border border-dark rounded border-dashed d-flex align-items-center justify-content-center p-1" style="min-width: 80px; min-height: 42px;" data-target="rumus_miring"></div>
+                                                                    <div class="drop-zone bg-white border border-dark rounded border-dashed d-flex align-items-center justify-content-center p-1" style="min-width: 80px; min-height: 42px;" data-target="s2_rumus_miring"></div>
                                                                     <span class="text-dark fw-bold ms-1" style="font-size: 1.2rem;">²</span>
                                                                 </div>
-                                                                
+                                                                                                                        
                                                                 <span class="fw-bold text-dark mx-2" style="font-size: 1.2rem;">=</span>
-                                                                
+                                                                                                                        
                                                                 <div class="d-flex align-items-start">
-                                                                    <div class="drop-zone bg-light border border-dark rounded border-dashed d-flex align-items-center justify-content-center" style="width: 80px; height: 40px;" data-target="rumus_tegak1"></div>
+                                                                    <div class="drop-zone bg-light border border-dark rounded border-dashed d-flex align-items-center justify-content-center" style="width: 80px; height: 40px;" data-target="s2_rumus_tegak1"></div>
                                                                     <span class="text-dark fw-bold ms-1" style="font-size: 1.2rem;">²</span>
                                                                 </div>
-                                                                
+                                                                                                                        
                                                                 <span class="fw-bold text-dark mx-2" style="font-size: 1.2rem;">+</span>
-                                                                
+                                                                                                                        
                                                                 <div class="d-flex align-items-start">
-                                                                    <div class="drop-zone bg-light border border-dark rounded border-dashed d-flex align-items-center justify-content-center" style="width: 80px; height: 40px;" data-target="rumus_tegak2"></div>
+                                                                    <div class="drop-zone bg-light border border-dark rounded border-dashed d-flex align-items-center justify-content-center" style="width: 80px; height: 40px;" data-target="s2_rumus_tegak2"></div>
                                                                     <span class="text-dark fw-bold ms-1" style="font-size: 1.2rem;">²</span>
                                                                 </div>
                                                             </div>
@@ -2253,283 +2244,287 @@
                             </div>
 
                             <div class="card border-0 shadow mb-4" id="soal3-container">
-                                            <div class="card-header bg-success text-white">
-                                                <h5 class="mb-0 fw-bold">Soal 3</h5>
+                                <div class="card-header bg-success text-white">
+                                    <h5 class="mb-0 fw-bold">Soal 3</h5>
+                                </div>
+
+                                <div class="card-body">
+                                    <div class="row">
+
+                                        <div class="col-lg-5 mb-3">
+                                            <p class="text-muted fw-bold mb-2 small">Perhatikan gambar di bawah ini:</p>
+                                            <div class="bg-white rounded-3 border border-dark mb-3 d-flex justify-content-center">
+                                                <img src="/images/segitiga_latihan1_nomor3.png"
+                                                    class="img-fluid p-2"
+                                                    style="max-height:300px;"
+                                                    alt="Soal 3">
                                             </div>
 
-                                            <div class="card-body">
-                                                <div class="row">
+                                            <div class="alert bg-light border border-dark text-justify small shadow-sm">
+                                                Berdasarkan bangun datar di atas, tentukan panjang BC!
+                                            </div>
 
-                                                    <div class="col-lg-5 mb-3">
-                                                        <p class="text-muted fw-bold mb-2 small">Perhatikan gambar di bawah ini:</p>
-                                                        <div class="bg-white rounded-3 border border-dark mb-3 d-flex justify-content-center">
-                                                            <img src="/images/segitiga_latihan1_nomor3.png"
-                                                                class="img-fluid p-2"
-                                                                style="max-height:300px;"
-                                                                alt="Soal 3">
+                                            
+                                            <div class="p-3 bg-light border border-dark rounded shadow-sm mb-4">
+                                                <h6 class="text-dark small"><strong>Pilihan Item</strong></h6>
+                                                <p class="text-dark mb-3 small"> Tarik (drag) kotak-kotak item di bawah ini ke area yang sesuai untuk menyusun jawaban yang tepat!:</p>
+                                                <div class="d-flex flex-wrap gap-2" id="drag-items-container-s3">
+                                                    <div class="p-1 px-2 bg-white border border-dark text-dark rounded shadow-sm draggable-item cursor-grab fw-bold small" draggable="true" id="item-AE" data-value="AE">AE</div>
+                                                    <div class="p-1 px-2 bg-white border border-dark text-dark rounded shadow-sm draggable-item cursor-grab fw-bold small" draggable="true" id="item-CE" data-value="CE">CE</div>
+                                                    <div class="p-1 px-2 bg-white border border-dark text-dark rounded shadow-sm draggable-item cursor-grab fw-bold small" draggable="true" id="item-AD" data-value="AD">AD</div>
+                                                    <div class="p-1 px-2 bg-white border border-dark text-dark rounded shadow-sm draggable-item cursor-grab fw-bold small" draggable="true" id="item-BD" data-value="BD">BD</div>
+                                                    <div class="p-1 px-2 bg-white border border-dark text-dark rounded shadow-sm draggable-item cursor-grab fw-bold small" draggable="true" id="item-AC" data-value="AC">AC</div>
+                                                    <div class="p-1 px-2 bg-white border border-dark text-dark rounded shadow-sm draggable-item cursor-grab fw-bold small" draggable="true" id="item-AB" data-value="AB">AB</div>
+                                                    <div class="p-1 px-2 bg-white border border-dark text-dark rounded shadow-sm draggable-item cursor-grab fw-bold small" draggable="true" id="item-BC" data-value="BC">BC</div>
+                                                    
+                                                    <div class="p-1 px-2 bg-white border border-dark text-dark rounded shadow-sm draggable-item cursor-grab fw-bold small" draggable="true" id="item-24" data-value="24">24</div>
+                                                    <div class="p-1 px-2 bg-white border border-dark text-dark rounded shadow-sm draggable-item cursor-grab fw-bold small" draggable="true" id="item-7" data-value="7">7</div>
+                                                    <div class="p-1 px-2 bg-white border border-dark text-dark rounded shadow-sm draggable-item cursor-grab fw-bold small" draggable="true" id="item-16" data-value="16">16</div>
+                                                    <div class="p-1 px-2 bg-white border border-dark text-dark rounded shadow-sm draggable-item cursor-grab fw-bold small" draggable="true" id="item-12" data-value="12">12</div>
+                                                    
+                                                    <div class="p-1 px-2 bg-white border border-dark text-dark rounded shadow-sm draggable-item cursor-grab fw-bold small" draggable="true" id="item-CD" data-value="CD">CD</div>
+                                                    <div class="p-1 px-2 bg-white border border-dark text-dark rounded shadow-sm draggable-item cursor-grab fw-bold small" draggable="true" id="item-20" data-value="20">20</div>
+                                                </div>
+                                            </div>
+                                            
+                                            <div class="card bg-white border border-dark rounded-3 shadow-sm mb-4">
+                                                <div class="card-body p-3">
+                                                    <div class="row g-3">
+                                                        
+                                                        <div class="col-12 pb-0 mb-0">
+                                                            <strong class="text-dark small d-block">Diketahui:</strong>
                                                         </div>
-                                                        <p class="text-dark small fw-bold">Berdasarkan gambar di atas, tentukan panjang BC!</p>
-
-                                                        <div class="card bg-white border border-dark rounded-3 shadow-sm mb-4">
-                                                            <div class="card-body p-3">
-                                                                <div class="row g-3">
-                                                                    
-                                                                    <div class="col-12 pb-0 mb-0">
-                                                                        <strong class="text-dark small d-block">Diketahui:</strong>
-                                                                    </div>
-
-                                                                    <div class="col-6 pt-1">
-                                                                        <div class="d-flex flex-column gap-2 small">
-                                                                            <div>
-                                                                                <span class="text-dark fw-bold d-block mb-1">Panjang AE =</span>
-                                                                                <div class="drop-zone bg-light border border-dark rounded border-dashed d-flex align-items-center justify-content-center p-1" style="min-width: 100px; min-height: 38px;" data-target="s3_diket_ae"></div>
-                                                                            </div>
-                                                                            <div>
-                                                                                <span class="text-dark fw-bold d-block mb-1">Panjang CE =</span>
-                                                                                <div class="drop-zone bg-light border border-dark rounded border-dashed d-flex align-items-center justify-content-center p-1" style="min-width: 100px; min-height: 38px;" data-target="s3_diket_ce"></div>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-
-                                                                    <div class="col-6 pt-1">
-                                                                        <div class="d-flex flex-column gap-2 small">
-                                                                            <div>
-                                                                                <span class="text-dark fw-bold d-block mb-1">Panjang AD =</span>
-                                                                                <div class="drop-zone bg-light border border-dark rounded border-dashed d-flex align-items-center justify-content-center p-1" style="min-width: 100px; min-height: 38px;" data-target="s3_diket_ad"></div>
-                                                                            </div>
-                                                                            <div>
-                                                                                <span class="text-dark fw-bold d-block mb-1">Panjang BD =</span>
-                                                                                <div class="drop-zone bg-light border border-dark rounded border-dashed d-flex align-items-center justify-content-center p-1" style="min-width: 100px; min-height: 38px;" data-target="s3_diket_bd"></div>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-
-                                                                    <div class="col-12 py-1">
-                                                                        <hr class="m-0 border-secondary">
-                                                                    </div>
-
-                                                                    <div class="col-12 pt-1">
-                                                                        <strong class="text-dark small d-block mb-2">Ditanya:</strong>
-                                                                        <div class="d-flex align-items-center gap-2 small">
-                                                                            <span class="text-muted">Panjang sisi</span>
-                                                                            <div class="drop-zone bg-light border border-dark rounded border-dashed d-flex align-items-center justify-content-center p-1" style="min-width: 80px; min-height: 38px;" data-target="s3_ditanya"></div>
-                                                                            <span class="text-dark fw-bold">= ... ?</span>
-                                                                        </div>
-                                                                    </div>
-
+    
+                                                        <div class="col-6 pt-1">
+                                                            <div class="d-flex flex-column gap-2 small">
+                                                                <div>
+                                                                    <span class="text-dark fw-bold d-block mb-1">Panjang AE =</span>
+                                                                    <div class="drop-zone bg-light border border-dark rounded border-dashed d-flex align-items-center justify-content-center p-1" style="min-width: 100px; min-height: 38px;" data-target="s3_diket_ae"></div>
+                                                                </div>
+                                                                <div>
+                                                                    <span class="text-dark fw-bold d-block mb-1">Panjang CE =</span>
+                                                                    <div class="drop-zone bg-light border border-dark rounded border-dashed d-flex align-items-center justify-content-center p-1" style="min-width: 100px; min-height: 38px;" data-target="s3_diket_ce"></div>
                                                                 </div>
                                                             </div>
                                                         </div>
-
-                                                        <div class="p-3 bg-light border border-dark rounded shadow-sm mb-4">
-                                                            <h6 class="fw-bold text-dark mb-2 small">Pilihan Item (Tarik Saya):</h6>
-                                                            <p class="text-muted" style="font-size: 0.75rem; margin-bottom: 8px;">Tarik item ke kotak putus-putus. Klik item di kotak untuk mengembalikannya.</p>
-                                                            <div class="d-flex flex-wrap gap-2" id="drag-items-container-s3">
-                                                                <div class="p-1 px-2 bg-white border border-dark text-dark rounded shadow-sm draggable-item cursor-grab fw-bold small" draggable="true" id="item-AE" data-value="AE">AE</div>
-                                                                <div class="p-1 px-2 bg-white border border-dark text-dark rounded shadow-sm draggable-item cursor-grab fw-bold small" draggable="true" id="item-CE" data-value="CE">CE</div>
-                                                                <div class="p-1 px-2 bg-white border border-dark text-dark rounded shadow-sm draggable-item cursor-grab fw-bold small" draggable="true" id="item-AD" data-value="AD">AD</div>
-                                                                <div class="p-1 px-2 bg-white border border-dark text-dark rounded shadow-sm draggable-item cursor-grab fw-bold small" draggable="true" id="item-BD" data-value="BD">BD</div>
-                                                                <div class="p-1 px-2 bg-white border border-dark text-dark rounded shadow-sm draggable-item cursor-grab fw-bold small" draggable="true" id="item-AC" data-value="AC">AC</div>
-                                                                <div class="p-1 px-2 bg-white border border-dark text-dark rounded shadow-sm draggable-item cursor-grab fw-bold small" draggable="true" id="item-AB" data-value="AB">AB</div>
-                                                                <div class="p-1 px-2 bg-white border border-dark text-dark rounded shadow-sm draggable-item cursor-grab fw-bold small" draggable="true" id="item-BC" data-value="BC">BC</div>
-                                                                
-                                                                <div class="p-1 px-2 bg-white border border-dark text-dark rounded shadow-sm draggable-item cursor-grab fw-bold small" draggable="true" id="item-24" data-value="24">24</div>
-                                                                <div class="p-1 px-2 bg-white border border-dark text-dark rounded shadow-sm draggable-item cursor-grab fw-bold small" draggable="true" id="item-7" data-value="7">7</div>
-                                                                <div class="p-1 px-2 bg-white border border-dark text-dark rounded shadow-sm draggable-item cursor-grab fw-bold small" draggable="true" id="item-16" data-value="16">16</div>
-                                                                <div class="p-1 px-2 bg-white border border-dark text-dark rounded shadow-sm draggable-item cursor-grab fw-bold small" draggable="true" id="item-12" data-value="12">12</div>
-
-                                                                <div class="p-1 px-2 bg-white border border-dark text-dark rounded shadow-sm draggable-item cursor-grab fw-bold small" draggable="true" id="item-CD" data-value="CD">CD</div>
-                                                                <div class="p-1 px-2 bg-white border border-dark text-dark rounded shadow-sm draggable-item cursor-grab fw-bold small" draggable="true" id="item-20" data-value="20">20</div>
+    
+                                                        <div class="col-6 pt-1">
+                                                            <div class="d-flex flex-column gap-2 small">
+                                                                <div>
+                                                                    <span class="text-dark fw-bold d-block mb-1">Panjang AD =</span>
+                                                                    <div class="drop-zone bg-light border border-dark rounded border-dashed d-flex align-items-center justify-content-center p-1" style="min-width: 100px; min-height: 38px;" data-target="s3_diket_ad"></div>
+                                                                </div>
+                                                                <div>
+                                                                    <span class="text-dark fw-bold d-block mb-1">Panjang BD =</span>
+                                                                    <div class="drop-zone bg-light border border-dark rounded border-dashed d-flex align-items-center justify-content-center p-1" style="min-width: 100px; min-height: 38px;" data-target="s3_diket_bd"></div>
+                                                                </div>
                                                             </div>
                                                         </div>
-
+    
+                                                        <div class="col-12 py-1">
+                                                            <hr class="m-0 border-secondary">
+                                                        </div>
+    
+                                                        <div class="col-12 pt-1">
+                                                            <strong class="text-dark small d-block mb-2">Ditanya:</strong>
+                                                            <div class="d-flex align-items-center gap-2 small">
+                                                                <span class="text-muted">Panjang sisi</span>
+                                                                <div class="drop-zone bg-light border border-dark rounded border-dashed d-flex align-items-center justify-content-center p-1" style="min-width: 80px; min-height: 38px;" data-target="s3_ditanya"></div>
+                                                                <span class="text-dark fw-bold">= ... ?</span>
+                                                            </div>
+                                                        </div>
+    
                                                     </div>
+                                                </div>
+                                            </div>
+                                        </div>
 
-                                                    <div class="col-lg-7">
-                                                        <div class="card bg-white border border-dark rounded-3 shadow-sm h-100">
-                                                            <div class="card-body">
+                                        <div class="col-lg-7">
+                                            <div class="card bg-white border border-dark rounded-3 shadow-sm h-100">
+                                                <div class="card-body">
 
-                                                                <h6 class="fw-bold mb-3 text-dark border-bottom pb-2">Langkah Penyelesaian:</h6>
+                                                    <h6 class="fw-bold mb-3 text-dark border-bottom pb-2">Langkah Penyelesaian:</h6>
 
-                                                                <ol class="ps-3 mb-0 text-muted list-group-numbered-custom fw-bold text-dark">
+                                                    <ol class="ps-3 mb-0 text-muted list-group-numbered-custom fw-bold text-dark">
 
-                                                                    <li class="mb-4">
-                                                                        <span class="text-dark">Mencari sisi miring AC (\(\triangle AEC\)):</span>
-                                                                        
-                                                                        <div class="mt-2 p-3 bg-light border border-dark rounded shadow-sm">
-                                                                            <div class="d-flex align-items-center gap-1 mb-2 bg-white p-2 rounded border border-dark justify-content-start">
-                                                                                <span class="fw-bold text-dark" style="min-width: 60px;">\( AC^2 = \)</span>
-                                                                                <div class="d-flex align-items-start">
-                                                                                    <div class="drop-zone bg-light border border-dark rounded border-dashed d-flex align-items-center justify-content-center" style="width: 60px; height: 32px;" data-target="s3_ac_drop1"></div>
-                                                                                    <span class="text-dark fw-bold ms-1" style="font-size: 0.85em;">2</span>
-                                                                                </div>
-                                                                                <span class="text-dark fw-bold mx-1">+</span>
-                                                                                <div class="d-flex align-items-start">
-                                                                                    <div class="drop-zone bg-light border border-dark rounded border-dashed d-flex align-items-center justify-content-center" style="width: 60px; height: 32px;" data-target="s3_ac_drop2"></div>
-                                                                                    <span class="text-dark fw-bold ms-1" style="font-size: 0.85em;">2</span>
-                                                                                </div>
-                                                                            </div>
-
-                                                                            <div class="d-flex align-items-center gap-1 mb-2 justify-content-start">
-                                                                                <span class="fw-bold text-dark" style="min-width: 60px;">\( AC^2 = \)</span>
-                                                                                <div class="input-group input-group-sm" style="width: 85px;">
-                                                                                    <input type="number" id="s3_ac_sq1" class="form-control text-center bg-white border-dark px-1">
-                                                                                    <span class="input-group-text bg-white border-dark text-dark fw-bold px-1" style="font-size: 0.85em;">2</span>
-                                                                                </div>
-                                                                                <span class="text-dark fw-bold mx-1">+</span>
-                                                                                <div class="input-group input-group-sm" style="width: 85px;">
-                                                                                    <input type="number" id="s3_ac_sq2" class="form-control text-center bg-white border-dark px-1">
-                                                                                    <span class="input-group-text bg-white border-dark text-dark fw-bold px-1" style="font-size: 0.85em;">2</span>
-                                                                                </div>
-                                                                            </div>
-                                                                            
-                                                                            <div class="d-flex align-items-center gap-1 mb-2 justify-content-start">
-                                                                                <span class="fw-bold text-dark" style="min-width: 60px;">\( AC^2 = \)</span>
-                                                                                <input type="number" id="s3_ac_sum1" class="form-control form-control-sm text-center bg-white border-dark" style="width: 85px;">
-                                                                                <span class="text-dark fw-bold mx-1">+</span>
-                                                                                <input type="number" id="s3_ac_sum2" class="form-control form-control-sm text-center bg-white border-dark" style="width: 85px;">
-                                                                            </div>
-
-                                                                            <div class="d-flex align-items-center gap-1 mb-2 justify-content-start">
-                                                                                <span class="fw-bold text-dark" style="min-width: 60px;">\( AC^2 = \)</span>
-                                                                                <input type="number" id="s3_ac_total" class="form-control form-control-sm text-center bg-white border-dark fw-bold" style="width: 190px;">
-                                                                            </div>
-
-                                                                            <div class="d-flex align-items-center gap-1 justify-content-start">
-                                                                                <span class="fw-bold text-dark" style="min-width: 60px;">\( AC = \)</span>
-                                                                                <span class="fw-bold text-dark">\(\sqrt{}\)</span>
-                                                                                <input type="number" id="s3_ac_sqrt_val" class="form-control form-control-sm text-center bg-white border-dark fw-bold" style="width: 75px;">
-                                                                                <span class="text-dark fw-bold mx-1">=</span>
-                                                                                <input type="number" id="s3_ac_final" class="form-control form-control-sm text-center bg-white border-dark fw-bold text-success" style="width: 75px;">
-                                                                                <span class="fw-bold text-dark small">cm</span>
-                                                                            </div>
-                                                                        </div>
-                                                                    </li>
-
-                                                                    <li class="mb-4">
-                                                                        <span class="text-dark">Mencari sisi miring AB (\(\triangle ADB\)):</span>
-                                                                        
-                                                                        <div class="mt-2 p-3 bg-light border border-dark rounded shadow-sm">
-                                                                            <div class="d-flex align-items-center gap-1 mb-3 bg-white p-2 rounded border border-dark justify-content-start">
-                                                                                <span class="fw-bold text-dark" style="min-width: 60px;">\( AB^2 = \)</span>
-                                                                                <div class="d-flex align-items-start">
-                                                                                    <div class="drop-zone bg-light border border-dark rounded border-dashed d-flex align-items-center justify-content-center" style="width: 60px; height: 32px;" data-target="s3_ab_drop1"></div>
-                                                                                    <span class="text-dark fw-bold ms-1" style="font-size: 0.85em;">2</span>
-                                                                                </div>
-                                                                                <span class="text-dark fw-bold mx-1">+</span>
-                                                                                <div class="d-flex align-items-start">
-                                                                                    <div class="drop-zone bg-light border border-dark rounded border-dashed d-flex align-items-center justify-content-center" style="width: 60px; height: 32px;" data-target="s3_ab_drop2"></div>
-                                                                                    <span class="text-dark fw-bold ms-1" style="font-size: 0.85em;">2</span>
-                                                                                </div>
-                                                                            </div>
-
-                                                                            <div class="d-flex align-items-center gap-1 mb-2 justify-content-start">
-                                                                                <span class="fw-bold text-dark" style="min-width: 60px;">\( AB^2 = \)</span>
-                                                                                <div class="input-group input-group-sm" style="width: 85px;">
-                                                                                    <input type="number" id="s3_ab_sq1" class="form-control text-center bg-white border-dark px-1">
-                                                                                    <span class="input-group-text bg-white border-dark text-dark fw-bold px-1" style="font-size: 0.85em;">2</span>
-                                                                                </div>
-                                                                                <span class="text-dark fw-bold mx-1">+</span>
-                                                                                <div class="input-group input-group-sm" style="width: 85px;">
-                                                                                    <input type="number" id="s3_ab_sq2" class="form-control text-center bg-white border-dark px-1">
-                                                                                    <span class="input-group-text bg-white border-dark text-dark fw-bold px-1" style="font-size: 0.85em;">2</span>
-                                                                                </div>
-                                                                            </div>
-                                                                            
-                                                                            <div class="d-flex align-items-center gap-1 mb-2 justify-content-start">
-                                                                                <span class="fw-bold text-dark" style="min-width: 60px;">\( AB^2 = \)</span>
-                                                                                <input type="number" id="s3_ab_sum1" class="form-control form-control-sm text-center bg-white border-dark" style="width: 85px;">
-                                                                                <span class="text-dark fw-bold mx-1">+</span>
-                                                                                <input type="number" id="s3_ab_sum2" class="form-control form-control-sm text-center bg-white border-dark" style="width: 85px;">
-                                                                            </div>
-
-                                                                            <div class="d-flex align-items-center gap-1 mb-2 justify-content-start">
-                                                                                <span class="fw-bold text-dark" style="min-width: 60px;">\( AB^2 = \)</span>
-                                                                                <input type="number" id="s3_ab_total" class="form-control form-control-sm text-center bg-white border-dark fw-bold" style="width: 190px;">
-                                                                            </div>
-
-                                                                            <div class="d-flex align-items-center gap-1 justify-content-start">
-                                                                                <span class="fw-bold text-dark" style="min-width: 60px;">\( AB = \)</span>
-                                                                                <span class="fw-bold text-dark">\(\sqrt{}\)</span>
-                                                                                <input type="number" id="s3_ab_sqrt_val" class="form-control form-control-sm text-center bg-white border-dark fw-bold" style="width: 75px;">
-                                                                                <span class="text-dark fw-bold mx-1">=</span>
-                                                                                <input type="number" id="s3_ab_final" class="form-control form-control-sm text-center bg-white border-dark fw-bold text-success" style="width: 75px;">
-                                                                                <span class="fw-bold text-dark small">cm</span>
-                                                                            </div>
-                                                                        </div>
-                                                                    </li>
-
-                                                                    <li class="mb-2">
-                                                                        <span class="text-dark">Mencari sisi tegak BC (\(\triangle ABC\)):</span>
-
-                                                                        <div class="mt-2 p-3 bg-light border border-dark rounded shadow-sm">
-                                                                            <div class="d-flex align-items-center gap-1 mb-3 bg-white p-2 rounded border border-dark justify-content-start">
-                                                                                <span class="fw-bold text-dark" style="min-width: 60px;">\( BC^2 = \)</span>
-                                                                                <div class="d-flex align-items-start">
-                                                                                    <div class="drop-zone bg-light border border-dark rounded border-dashed d-flex align-items-center justify-content-center" style="width: 60px; height: 32px;" data-target="s3_bc_drop1"></div>
-                                                                                    <span class="text-dark fw-bold ms-1" style="font-size: 0.85em;">2</span>
-                                                                                </div>
-                                                                                <span class="text-danger fw-bold fs-5 mx-1">-</span>
-                                                                                <div class="d-flex align-items-start">
-                                                                                    <div class="drop-zone bg-light border border-dark rounded border-dashed d-flex align-items-center justify-content-center" style="width: 60px; height: 32px;" data-target="s3_bc_drop2"></div>
-                                                                                    <span class="text-dark fw-bold ms-1" style="font-size: 0.85em;">2</span>
-                                                                                </div>
-                                                                            </div>
-
-                                                                            <div class="d-flex align-items-center gap-1 mb-2 justify-content-start">
-                                                                                <span class="fw-bold text-dark" style="min-width: 60px;">\( BC^2 = \)</span>
-                                                                                <div class="input-group input-group-sm" style="width: 85px;">
-                                                                                    <input type="number" id="s3_bc_sq1" class="form-control text-center bg-white border-dark px-1">
-                                                                                    <span class="input-group-text bg-white border-dark text-dark fw-bold px-1" style="font-size: 0.85em;">2</span>
-                                                                                </div>
-                                                                                <span class="text-danger fw-bold mx-1">-</span>
-                                                                                <div class="input-group input-group-sm" style="width: 85px;">
-                                                                                    <input type="number" id="s3_bc_sq2" class="form-control text-center bg-white border-dark px-1">
-                                                                                    <span class="input-group-text bg-white border-dark text-dark fw-bold px-1" style="font-size: 0.85em;">2</span>
-                                                                                </div>
-                                                                            </div>
-                                                                            
-                                                                            <div class="d-flex align-items-center gap-1 mb-2 justify-content-start">
-                                                                                <span class="fw-bold text-dark" style="min-width: 60px;">\( BC^2 = \)</span>
-                                                                                <input type="number" id="s3_bc_diff1" class="form-control form-control-sm text-center bg-white border-dark" style="width: 85px;">
-                                                                                <span class="text-danger fw-bold mx-1">-</span>
-                                                                                <input type="number" id="s3_bc_diff2" class="form-control form-control-sm text-center bg-white border-dark" style="width: 85px;">
-                                                                            </div>
-
-                                                                            <div class="d-flex align-items-center gap-1 mb-2 justify-content-start">
-                                                                                <span class="fw-bold text-dark" style="min-width: 60px;">\( BC^2 = \)</span>
-                                                                                <input type="number" id="s3_bc_total" class="form-control form-control-sm text-center bg-white border-dark fw-bold" style="width: 190px;">
-                                                                            </div>
-
-                                                                            <div class="d-flex align-items-center gap-1 justify-content-start">
-                                                                                <span class="fw-bold text-dark" style="min-width: 60px;">\( BC = \)</span>
-                                                                                <span class="fw-bold text-dark">\(\sqrt{}\)</span>
-                                                                                <input type="number" id="s3_bc_sqrt_val" class="form-control form-control-sm text-center bg-white border-dark fw-bold" style="width: 75px;">
-                                                                                <span class="text-dark fw-bold mx-1">=</span>
-                                                                                <input type="number" id="s3_bc_final" class="form-control form-control-sm text-center bg-white border-dark fw-bold text-success" style="width: 75px;">
-                                                                                <span class="fw-bold text-dark small">cm</span>
-                                                                            </div>
-                                                                        </div>
-                                                                    </li>
-
-                                                                </ol>
-                                                                
-                                                                <div class="d-flex justify-content-center gap-2 mt-4 pt-3 border-top"> 
-                                                                    <button class="btn btn-outline-secondary px-3 fw-bold shadow-sm" onclick="resetSoal3()">
-                                                                        Reset
-                                                                    </button>
-                                                                    <button class="btn btn-success px-4 fw-bold shadow-sm" onclick="cekLatihanAnalisis3()">
-                                                                        Cek Jawaban
-                                                                    </button>
+                                                        <li class="mb-4">
+                                                            <span class="text-dark">Mencari sisi miring AC pada \(\triangle AEC\):</span>
+                                                            
+                                                            <div class="mt-2 p-3 bg-light border border-dark rounded shadow-sm">
+                                                                <div class="d-flex align-items-center gap-1 mb-2 bg-white p-2 rounded border border-dark justify-content-start">
+                                                                    <span class="fw-bold text-dark" style="min-width: 60px;">\( AC^2 = \)</span>
+                                                                    <div class="d-flex align-items-start">
+                                                                        <div class="drop-zone bg-light border border-dark rounded border-dashed d-flex align-items-center justify-content-center" style="width: 60px; height: 32px;" data-target="s3_ac_drop1"></div>
+                                                                        <span class="text-dark fw-bold ms-1" style="font-size: 0.85em;">2</span>
+                                                                    </div>
+                                                                    <span class="text-dark fw-bold mx-1">+</span>
+                                                                    <div class="d-flex align-items-start">
+                                                                        <div class="drop-zone bg-light border border-dark rounded border-dashed d-flex align-items-center justify-content-center" style="width: 60px; height: 32px;" data-target="s3_ac_drop2"></div>
+                                                                        <span class="text-dark fw-bold ms-1" style="font-size: 0.85em;">2</span>
+                                                                    </div>
                                                                 </div>
 
+                                                                <div class="d-flex align-items-center gap-1 mb-2 justify-content-start">
+                                                                    <span class="fw-bold text-dark" style="min-width: 60px;">\( AC^2 = \)</span>
+                                                                    <div class="input-group input-group-sm" style="width: 85px;">
+                                                                        <input type="number" id="s3_ac_sq1" class="form-control text-center bg-white border-dark px-1">
+                                                                        <span class="input-group-text bg-white border-dark text-dark fw-bold px-1" style="font-size: 0.85em;">2</span>
+                                                                    </div>
+                                                                    <span class="text-dark fw-bold mx-1">+</span>
+                                                                    <div class="input-group input-group-sm" style="width: 85px;">
+                                                                        <input type="number" id="s3_ac_sq2" class="form-control text-center bg-white border-dark px-1">
+                                                                        <span class="input-group-text bg-white border-dark text-dark fw-bold px-1" style="font-size: 0.85em;">2</span>
+                                                                    </div>
+                                                                </div>
+                                                                
+                                                                <div class="d-flex align-items-center gap-1 mb-2 justify-content-start">
+                                                                    <span class="fw-bold text-dark" style="min-width: 60px;">\( AC^2 = \)</span>
+                                                                    <input type="number" id="s3_ac_sum1" class="form-control form-control-sm text-center bg-white border-dark" style="width: 85px;">
+                                                                    <span class="text-dark fw-bold mx-1">+</span>
+                                                                    <input type="number" id="s3_ac_sum2" class="form-control form-control-sm text-center bg-white border-dark" style="width: 85px;">
+                                                                </div>
+
+                                                                <div class="d-flex align-items-center gap-1 mb-2 justify-content-start">
+                                                                    <span class="fw-bold text-dark" style="min-width: 60px;">\( AC^2 = \)</span>
+                                                                    <input type="number" id="s3_ac_total" class="form-control form-control-sm text-center bg-white border-dark fw-bold" style="width: 190px;">
+                                                                </div>
+
+                                                                <div class="d-flex align-items-center gap-1 justify-content-start">
+                                                                    <span class="fw-bold text-dark" style="min-width: 60px;">\( AC = \)</span>
+                                                                    <span class="fw-bold text-dark">\(\sqrt{}\)</span>
+                                                                    <input type="number" id="s3_ac_sqrt_val" class="form-control form-control-sm text-center bg-white border-dark fw-bold" style="width: 75px;">
+                                                                    <span class="text-dark fw-bold mx-1">=</span>
+                                                                    <input type="number" id="s3_ac_final" class="form-control form-control-sm text-center bg-white border-dark fw-bold text-success" style="width: 75px;">
+                                                                    <span class="fw-bold text-dark small">cm</span>
+                                                                </div>
                                                             </div>
-                                                        </div>
+                                                        </li>
+
+                                                        <li class="mb-4">
+                                                            <span class="text-dark">Mencari sisi miring AB pada \(\triangle ADB\):</span>
+                                                            
+                                                            <div class="mt-2 p-3 bg-light border border-dark rounded shadow-sm">
+                                                                <div class="d-flex align-items-center gap-1 mb-3 bg-white p-2 rounded border border-dark justify-content-start">
+                                                                    <span class="fw-bold text-dark" style="min-width: 60px;">\( AB^2 = \)</span>
+                                                                    <div class="d-flex align-items-start">
+                                                                        <div class="drop-zone bg-light border border-dark rounded border-dashed d-flex align-items-center justify-content-center" style="width: 60px; height: 32px;" data-target="s3_ab_drop1"></div>
+                                                                        <span class="text-dark fw-bold ms-1" style="font-size: 0.85em;">2</span>
+                                                                    </div>
+                                                                    <span class="text-dark fw-bold mx-1">+</span>
+                                                                    <div class="d-flex align-items-start">
+                                                                        <div class="drop-zone bg-light border border-dark rounded border-dashed d-flex align-items-center justify-content-center" style="width: 60px; height: 32px;" data-target="s3_ab_drop2"></div>
+                                                                        <span class="text-dark fw-bold ms-1" style="font-size: 0.85em;">2</span>
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="d-flex align-items-center gap-1 mb-2 justify-content-start">
+                                                                    <span class="fw-bold text-dark" style="min-width: 60px;">\( AB^2 = \)</span>
+                                                                    <div class="input-group input-group-sm" style="width: 85px;">
+                                                                        <input type="number" id="s3_ab_sq1" class="form-control text-center bg-white border-dark px-1">
+                                                                        <span class="input-group-text bg-white border-dark text-dark fw-bold px-1" style="font-size: 0.85em;">2</span>
+                                                                    </div>
+                                                                    <span class="text-dark fw-bold mx-1">+</span>
+                                                                    <div class="input-group input-group-sm" style="width: 85px;">
+                                                                        <input type="number" id="s3_ab_sq2" class="form-control text-center bg-white border-dark px-1">
+                                                                        <span class="input-group-text bg-white border-dark text-dark fw-bold px-1" style="font-size: 0.85em;">2</span>
+                                                                    </div>
+                                                                </div>
+                                                                
+                                                                <div class="d-flex align-items-center gap-1 mb-2 justify-content-start">
+                                                                    <span class="fw-bold text-dark" style="min-width: 60px;">\( AB^2 = \)</span>
+                                                                    <input type="number" id="s3_ab_sum1" class="form-control form-control-sm text-center bg-white border-dark" style="width: 85px;">
+                                                                    <span class="text-dark fw-bold mx-1">+</span>
+                                                                    <input type="number" id="s3_ab_sum2" class="form-control form-control-sm text-center bg-white border-dark" style="width: 85px;">
+                                                                </div>
+
+                                                                <div class="d-flex align-items-center gap-1 mb-2 justify-content-start">
+                                                                    <span class="fw-bold text-dark" style="min-width: 60px;">\( AB^2 = \)</span>
+                                                                    <input type="number" id="s3_ab_total" class="form-control form-control-sm text-center bg-white border-dark fw-bold" style="width: 190px;">
+                                                                </div>
+
+                                                                <div class="d-flex align-items-center gap-1 justify-content-start">
+                                                                    <span class="fw-bold text-dark" style="min-width: 60px;">\( AB = \)</span>
+                                                                    <span class="fw-bold text-dark">\(\sqrt{}\)</span>
+                                                                    <input type="number" id="s3_ab_sqrt_val" class="form-control form-control-sm text-center bg-white border-dark fw-bold" style="width: 75px;">
+                                                                    <span class="text-dark fw-bold mx-1">=</span>
+                                                                    <input type="number" id="s3_ab_final" class="form-control form-control-sm text-center bg-white border-dark fw-bold text-success" style="width: 75px;">
+                                                                    <span class="fw-bold text-dark small">cm</span>
+                                                                </div>
+                                                            </div>
+                                                        </li>
+
+                                                        <li class="mb-2">
+                                                            <span class="text-dark">Mencari sisi siku-siku BC pada \(\triangle ABC\):</span>
+
+                                                            <div class="mt-2 p-3 bg-light border border-dark rounded shadow-sm">
+                                                                <div class="d-flex align-items-center gap-1 mb-3 bg-white p-2 rounded border border-dark justify-content-start">
+                                                                    <span class="fw-bold text-dark" style="min-width: 60px;">\( BC^2 = \)</span>
+                                                                    <div class="d-flex align-items-start">
+                                                                        <div class="drop-zone bg-light border border-dark rounded border-dashed d-flex align-items-center justify-content-center" style="width: 60px; height: 32px;" data-target="s3_bc_drop1"></div>
+                                                                        <span class="text-dark fw-bold ms-1" style="font-size: 0.85em;">2</span>
+                                                                    </div>
+                                                                    <span class="text-danger fw-bold fs-5 mx-1">-</span>
+                                                                    <div class="d-flex align-items-start">
+                                                                        <div class="drop-zone bg-light border border-dark rounded border-dashed d-flex align-items-center justify-content-center" style="width: 60px; height: 32px;" data-target="s3_bc_drop2"></div>
+                                                                        <span class="text-dark fw-bold ms-1" style="font-size: 0.85em;">2</span>
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="d-flex align-items-center gap-1 mb-2 justify-content-start">
+                                                                    <span class="fw-bold text-dark" style="min-width: 60px;">\( BC^2 = \)</span>
+                                                                    <div class="input-group input-group-sm" style="width: 85px;">
+                                                                        <input type="number" id="s3_bc_sq1" class="form-control text-center bg-white border-dark px-1">
+                                                                        <span class="input-group-text bg-white border-dark text-dark fw-bold px-1" style="font-size: 0.85em;">2</span>
+                                                                    </div>
+                                                                    <span class="text-danger fw-bold mx-1">-</span>
+                                                                    <div class="input-group input-group-sm" style="width: 85px;">
+                                                                        <input type="number" id="s3_bc_sq2" class="form-control text-center bg-white border-dark px-1">
+                                                                        <span class="input-group-text bg-white border-dark text-dark fw-bold px-1" style="font-size: 0.85em;">2</span>
+                                                                    </div>
+                                                                </div>
+                                                                
+                                                                <div class="d-flex align-items-center gap-1 mb-2 justify-content-start">
+                                                                    <span class="fw-bold text-dark" style="min-width: 60px;">\( BC^2 = \)</span>
+                                                                    <input type="number" id="s3_bc_diff1" class="form-control form-control-sm text-center bg-white border-dark" style="width: 85px;">
+                                                                    <span class="text-danger fw-bold mx-1">-</span>
+                                                                    <input type="number" id="s3_bc_diff2" class="form-control form-control-sm text-center bg-white border-dark" style="width: 85px;">
+                                                                </div>
+
+                                                                <div class="d-flex align-items-center gap-1 mb-2 justify-content-start">
+                                                                    <span class="fw-bold text-dark" style="min-width: 60px;">\( BC^2 = \)</span>
+                                                                    <input type="number" id="s3_bc_total" class="form-control form-control-sm text-center bg-white border-dark fw-bold" style="width: 190px;">
+                                                                </div>
+
+                                                                <div class="d-flex align-items-center gap-1 justify-content-start">
+                                                                    <span class="fw-bold text-dark" style="min-width: 60px;">\( BC = \)</span>
+                                                                    <span class="fw-bold text-dark">\(\sqrt{}\)</span>
+                                                                    <input type="number" id="s3_bc_sqrt_val" class="form-control form-control-sm text-center bg-white border-dark fw-bold" style="width: 75px;">
+                                                                    <span class="text-dark fw-bold mx-1">=</span>
+                                                                    <input type="number" id="s3_bc_final" class="form-control form-control-sm text-center bg-white border-dark fw-bold text-success" style="width: 75px;">
+                                                                    <span class="fw-bold text-dark small">cm</span>
+                                                                </div>
+                                                            </div>
+                                                        </li>
+
+                                                    </ol>
+                                                    <div id="s3_feedback" class="w-100 text-center small fw-bold text-success mb-2"></div>
+                                                    
+                                                    <div class="d-flex justify-content-center gap-2 mt-4 pt-3 border-top"> 
+                                                        <button class="btn btn-outline-secondary px-3 fw-bold shadow-sm" onclick="resetSoal3()">
+                                                            Reset
+                                                        </button>
+                                                        <button class="btn btn-success px-4 fw-bold shadow-sm" onclick="cekLatihanAnalisis3()">
+                                                            Cek Jawaban
+                                                        </button>
                                                     </div>
 
                                                 </div>
                                             </div>
                                         </div>
+
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -2710,8 +2705,15 @@
     </nav>
 </div>
 
+
 @push('scripts')
+
+
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+
+
+
 @endpush
 
 

@@ -57,4 +57,8 @@ class User extends Authenticatable
         return $this->belongsToMany(Kelas::class, 'guru_kelas', 'guru_id', 'kelas_id');
     }
 
+    public function badges()
+    {
+        return $this->belongsToMany(Badge::class, 'badge_user')->withTimestamps();
+    }
 }

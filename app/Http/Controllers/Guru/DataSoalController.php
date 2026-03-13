@@ -255,11 +255,11 @@ class DataSoalController extends Controller
         try {
             $soal = ButirSoal::findOrFail($id);
 
-            $gambar = $soal->pertanyaan['image'] ?? null;
+            // $gambar = $soal->pertanyaan['image'] ?? null;
 
-            if ($gambar) {
-                $this->hapusFileFisik($gambar);
-            }
+            // if ($gambar) {
+            //     $this->hapusFileFisik($gambar);
+            // }
 
             $soal->delete();
 

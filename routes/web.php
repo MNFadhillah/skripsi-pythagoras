@@ -11,6 +11,7 @@ use App\Http\Controllers\InformasiController;
 use App\Http\Controllers\Siswa\MenuController;
 use App\Http\Controllers\Siswa\MateriController;
 use App\Http\Controllers\Siswa\QuizController;
+use App\Http\Controllers\Siswa\ProgressController;
 
 /* =====================
    CONTROLLER GURU
@@ -22,6 +23,7 @@ use App\Http\Controllers\Guru\AktivitasController;
 use App\Http\Controllers\Guru\DataNilaiController;
 use App\Http\Controllers\Guru\DataSiswaController;
 use App\Http\Controllers\Guru\DataKelasController; 
+use App\Http\Controllers\Guru\ProgresSiswaController;
 
 /* =====================
    PUBLIC
@@ -71,7 +73,11 @@ Route::middleware(['auth', 'role:siswa'])
    Route::get('/hasil/{id}', [QuizController::class, 'showResult'])->name('kuis.result');
    Route::get('/api/hasil/{id}', [QuizController::class, 'getResultDetail'])->name('kuis.result.detail');
 
+   /* ====  GABUNG KELAS ===== */
    Route::post('/gabung-kelas', [MenuController::class, 'gabungKelas'])->name('gabung.kelas');
+
+   /* ===== PROGRESS SISWA ===== */
+   Route::post('/progress/update', [ProgressController::class, 'store'])->name('progress.update');
 });
 
 /* =====================================================
@@ -120,4 +126,9 @@ Route::middleware(['auth', 'role:guru'])
 
    // Route Data Kelas
    Route::resource('data_kelas', DataKelasController::class)->except(['show']);
+
+   /* ===== PROGRES SISWA ===== */
+   Route::get('/progres_siswa', [ProgresSiswaController::class, 'index'])->name('progres_siswa.index');
+   Route::get('/progres_siswa/data', [ProgresSiswaController::class, 'data'])->name('progres_siswa.data'); // Untuk AJAX DataTables
+   Route::get('/progres_siswa/{user_id}/detail', [ProgresSiswaController::class, 'detail'])->name('progres_siswa.detail');
 });

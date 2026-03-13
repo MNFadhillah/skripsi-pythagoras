@@ -63,7 +63,7 @@
                 </div>
 
             @else
-                {{-- === TAMPILAN JIKA BELUM MASUK KELAS (TETAP DIPISAH AGAR KONTRAS) === --}}
+                {{-- === TAMPILAN JIKA BELUM MASUK KELAS === --}}
                 <div class="row align-items-center">
                     <div class="col-md-6 mb-3 mb-md-0">
                         <h3 class="mb-1">Dashboard</h3>
@@ -101,66 +101,65 @@
 
     {{-- STAT KARTU RINGKAS --}}
     <div class="row g-3 mb-4">  
-        <div class="col-md-4">
-            <div class="card border-primary border-2 h-100">
+        
+        {{-- Kartu Progress --}}
+        <div class="col-md-6">
+            <div class="card border-success border-2 h-100 position-relative badge-card-hover">
                 <div class="card-body d-flex justify-content-between align-items-center">
                     <div>
                         <h5 class="text-muted mb-1">Progress Pembelajaran</h5>
                         <div class="d-flex align-items-center">
-                            <h2 class="mb-0 me-2">75%</h2>
+                            
+                            {{-- MUNCULKAN ANGKA PERSENTASE DI SINI --}}
+                            <h2 class="mb-0 me-2 text-success">{{ $totalProgressKeseluruhan }}%</h2>
+                            
                             <div class="progress flex-grow-1" style="height: 10px; width: 60px;">
-                                <div class="progress-bar bg-primary" role="progressbar" style="width: 75%"></div>
+                                {{-- UBAH LEBAR BAR SESUAI PERSENTASE --}}
+                                <div class="progress-bar bg-success" role="progressbar" style="width: <?php echo $totalProgressKeseluruhan; ?>%"></div>
                             </div>
                         </div>
-                        <p class="small text-muted mt-2">Materi sedang berjalan</p>
-                    </div>
-                    <div class="display-6 text-primary">
-                        <i class="bi bi-graph-up-arrow"></i>
+                        
+                        {{-- TEKS DINAMIS BERDASARKAN PROGRESS --}}
+                        <p class="small mt-2 mb-0 fw-semibold {{ $totalProgressKeseluruhan == 100 ? 'text-success' : 'text-muted' }}">
+                            @if($totalProgressKeseluruhan == 100)
+                                <i class="bi bi-check-circle-fill me-1"></i> Materi Selesai
+                            @elseif($totalProgressKeseluruhan > 0)
+                                Materi sedang berjalan...
+                            @else
+                                Belum ada progress
+                            @endif
+                        </p>
+                        
                     </div>
                 </div>
+
+                {{-- TRIGGER UNTUK MEMBUKA MODAL PROGRES --}}
+                <a href="#" class="stretched-link" data-bs-toggle="modal" data-bs-target="#modalDetailProgres" onclick="loadDetailProgres()"></a>
             </div>
         </div>
         
-        <div class="col-md-4">
-            <div class="card border-success border-2 h-100">
+        {{-- Kartu Lencana (Hijau, Dinamis & Bisa Diklik) --}}
+        <div class="col-md-6">
+            <div class="card border-success border-2 h-100 position-relative badge-card-hover">
                 <div class="card-body d-flex justify-content-between align-items-center">
                     <div>
                         <h5 class="text-muted mb-1">Perolehan Lencana</h5>
-                        <h2 class="mb-0">4/8</h2>
-                        <p class="small text-muted mt-2">Terakhir: "Ahli Pythagoras"</p>
-                    </div>
-                    <div class="display-6 text-success">
-                        <i class="bi bi-patch-check-fill"></i>
-                    </div>
-                </div>
-            </div>
-        </div>
-        
-        <div class="col-md-4">
-            <div class="card border-warning border-2 h-100">
-                <div class="card-body d-flex justify-content-between align-items-center">
-                    <div>
-                        <h5 class="text-muted mb-1">Nilai Kamu</h5>
                         
-                        {{-- PANGGIL VARIABEL RATA-RATA DISINI --}}
-                        <h2 class="mb-0">{{ $rataRata }}</h2>
+                        {{-- ANGKA LENCANA DINAMIS --}}
+                        <h2 class="mb-0 text-success">{{ $earnedBadgesCount }}/{{ $totalBadgesCount }}</h2>
                         
-                        <p class="small text-muted mt-2">
-                            @if($rataRata >= 80)
-                                Pertahankan prestasimu!
-                            @elseif($rataRata > 0)
-                                Terus tingkatkan belajarmu!
-                            @else
-                                Belum ada nilai masuk.
-                            @endif
+                        {{-- NAMA LENCANA TERAKHIR DINAMIS --}}
+                        <p class="small text-muted mt-2 mb-0">
+                            Terakhir: <strong class="text-success">"{{ $lastBadgeName }}"</strong>
                         </p>
                     </div>
-                    <div class="display-6 text-warning">
-                        <i class="bi bi-trophy-fill"></i>
-                    </div>
-                </div>  
+                </div>
+                
+                {{-- TRIGGER UNTUK MEMBUKA MODAL LENCANA --}}
+                <a href="#" class="stretched-link" data-bs-toggle="modal" data-bs-target="#modalLencana"></a>
             </div>
         </div>
+
     </div>
 
     {{-- PROFIL & AKTIVITAS --}}
@@ -168,12 +167,12 @@
       <div class="col-lg-6">
         {{-- Profil Siswa --}}
         <div class="card mb-3 h-100">
-            <div class="card-header bg-primary bg-opacity-10">
-                <h5 class="mb-0"><i class="bi bi-person-circle me-2"></i>Profil Siswa</h5>
+            <div class="card-header bg-success bg-opacity-10">
+                <h5 class="mb-0 text-success"><i class="bi bi-person-circle me-2"></i>Profil Siswa</h5>
             </div>
             <div class="card-body">
                 <div class="d-flex align-items-center mb-3">
-                    <div class="rounded-circle bg-primary bg-opacity-10 text-primary d-flex align-items-center justify-content-center me-3"
+                    <div class="rounded-circle bg-success bg-opacity-10 text-success d-flex align-items-center justify-content-center me-3"
                         style="width: 80px; height: 80px;">
                         <i class="bi bi-person-fill fs-1"></i>
                     </div>
@@ -192,7 +191,7 @@
                         <div class="small text-muted">Kelas</div>
                         <div class="fw-medium">
                             @if(auth()->user()->kelas)
-                                <span class="badge bg-primary">{{ auth()->user()->kelas->nama_kelas }}</span>
+                                <span class="badge bg-success">{{ auth()->user()->kelas->nama_kelas }}</span>
                             @else
                                 <span class="badge bg-secondary">Belum Masuk Kelas</span>
                             @endif
@@ -207,7 +206,7 @@
           {{-- Profil Guru --}}
           <div class="card mb-3 h-100">
               <div class="card-header bg-success bg-opacity-10">
-                  <h5 class="mb-0"><i class="bi bi-person-badge me-2"></i>Profil Guru</h5>
+                  <h5 class="mb-0 text-success"><i class="bi bi-person-badge me-2"></i>Profil Guru</h5>
               </div>
               <div class="card-body">
                   @if(auth()->user()->kelas)
@@ -238,11 +237,318 @@
                         <p>Silakan bergabung ke kelas terlebih dahulu untuk melihat profil guru Anda.</p>
                     </div>
                   @endif
-            </div>
-        </div>
+              </div>
+          </div>
       </div>
     </div>
 
 </div>
+
+{{-- === MODAL KOLEKSI LENCANA === --}}
+<div class="modal fade" id="modalLencana" tabindex="-1" aria-labelledby="modalLencanaLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content border-0 shadow-lg rounded">
+            
+            <div class="modal-header border-0 bg-success text-white py-3">
+                <h4 class="modal-title text-white fw-bold ms-2 mt-2" id="modalLencanaLabel">Koleksi Lencana
+                </h4>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+
+                
+            </div>
+            
+            <div class="modal-body p-4 pt-2 bg-success bg-opacity-10" style="min-height: 50vh">
+                <p class="text-muted text-center mb-4 ">
+                    Selesaikan materi dan kuis untuk mendapatkan semua lencana!
+                </p>
+                <div class="row justify-content-center g-4 mt-5 pt-4">
+
+                    @forelse($allBadges as $badge)
+                        @php
+                            $isEarned = in_array($badge->id, $earnedBadgeIds);
+                            
+                            // --- LOGIKA DINAMIS TEKS TOOLTIP ---
+                            $teksTooltip = $badge->description;
+                            
+                            // Jika BELUM didapat, ubah teks deskripsi menjadi kalimat petunjuk (Clue)
+                            if (!$isEarned) {
+                                $teksTooltip = str_replace('Berhasil menyelesaikan', 'Selesaikan', $teksTooltip);
+                                $teksTooltip = str_replace('Berhasil menuntaskan', 'Tuntaskan', $teksTooltip);
+                                $teksTooltip = str_replace('Berhasil lulus dari', 'Luluslah dari', $teksTooltip);
+                                $teksTooltip = str_replace('Luar Biasa! Telah menyelesaikan', 'Selesaikan', $teksTooltip);
+                            }
+                        @endphp
+
+                        <div class="col-4 col-sm-3 col-md-2 text-center badge-container">
+                            
+                            {{-- Gambar Lencana --}}
+                            <img src="{{ asset('images/badges/' . $badge->image_path) }}" 
+                                 alt="{{ $badge->name }}" 
+                                 class="img-fluid badge-modal-img {{ $isEarned ? '' : 'locked-badge' }}">
+                            
+                            {{-- Nama Lencana --}}
+                            <div class="mt-2 fw-bold {{ $isEarned ? 'text-success' : 'text-muted' }}" style="font-size: 0.75rem; text-transform: uppercase;">
+                                {{ $badge->name }}
+                            </div>
+
+                            {{-- KOTAK CLUE / TOOLTIP --}}
+                            <div class="custom-badge-tooltip shadow-sm">
+                                {{ $teksTooltip }}
+                            </div>
+
+                        </div>
+                    @empty
+                        <div class="col-12 text-center text-muted py-4">
+                            Data lencana belum tersedia.
+                        </div>
+                    @endforelse
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+{{-- === MODAL DETAIL PROGRES SISWA === --}}
+    <div class="modal fade" id="modalDetailProgres" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
+            <div class="modal-content rounded border-0 shadow">
+                
+                {{-- Header Modal --}}
+                <div class="modal-header bg-success text-white py-3">
+                    <h5 class="modal-title fw-bold">Progres Belajar</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                
+                <div class="modal-body p-4 bg-light">
+                    
+                    {{-- Box Info Siswa & Total Progress --}}
+                    <div class="bg-white rounded-3 p-4 mb-4 shadow-sm border">
+                        <div class="row">
+                            <div class="col-md-6 mb-3 mb-md-0">
+                                <span class="text-muted small d-block mb-1">Nama Siswa</span> 
+                                <span class="text-dark fw-bold fs-5">{{ auth()->user()->name }}</span>
+                            </div>
+                            <div class="col-md-6 border-start">
+                                <span class="text-muted small d-block mb-1">Kelas</span> 
+                                <span class="text-dark fw-bold fs-5">
+                                    {{ auth()->user()->kelas->nama_kelas ?? 'Belum Masuk Kelas' }}
+                                </span>
+                            </div>
+                        </div>
+                        
+                        {{-- Bar Progress Keseluruhan --}}
+                        <div class="mt-4 pt-3 border-top">
+                            <div class="d-flex justify-content-between align-items-end mb-2">
+                                <span class="text-dark fw-bold">Total Progres Keseluruhan</span>
+                                <span class="fw-bold fs-4 {{ $totalProgressKeseluruhan == 100 ? 'text-success' : 'text-primary' }}">
+                                    {{ $totalProgressKeseluruhan }}%
+                                </span>
+                            </div>
+                            <div class="progress rounded-pill bg-light border" style="height: 14px;">
+                                <div class="progress-bar progress-bar-striped progress-bar-animated rounded-pill {{ $totalProgressKeseluruhan == 100 ? 'bg-success' : 'bg-primary' }}" 
+                                     role="progressbar" style="width: <?php echo e($totalProgressKeseluruhan); ?>%;"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    {{-- Kontainer List Progres (Akan Diisi oleh Javascript) --}}
+                    <div class="bg-white rounded-3 p-4 shadow-sm border" id="dtl_content">
+                        <div class="text-center py-5">
+                            <div class="spinner-border text-success" role="status"></div>
+                            <p class="mt-2 text-muted fw-bold">Memuat data progres...</p>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+{{-- Tambahan CSS Sedikit agar interaktif --}}
+@push('head')
+<style>
+    .badge-card-hover {
+        transition: all 0.2s ease-in-out;
+    }
+    .badge-card-hover:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 20px rgba(40, 167, 69, 0.2) !important;
+    }
+
+    /* Efek untuk gambar lencana di modal */
+    .badge-modal-img {
+        max-width: 90px;
+        width: 100%;
+        transition: transform 0.3s ease;
+        cursor: help; /* Kursor berubah jadi tanda tanya/bantuan */
+    }
+    
+    .locked-badge {
+        filter: grayscale(100%) brightness(65%) contrast(120%); 
+        opacity: 0.85;
+    }
+
+    /* === STYLING CUSTOM TOOLTIP (CLUE) === */
+.badge-container {
+        position: relative; 
+    }
+
+    .custom-badge-tooltip {
+        position: absolute;
+        bottom: 100%; /* Kembali ke atas */
+        left: 50%;
+        transform: translateX(-50%) translateY(10px);
+        background-color: #155724; 
+        color: #ffffff;
+        padding: 8px 12px;
+        border-radius: 8px;
+        font-size: 0.75rem;
+        width: 150px;
+        text-align: center;
+        opacity: 0;
+        visibility: hidden;
+        transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55); 
+        z-index: 1055;
+        pointer-events: none; 
+        margin-bottom: 15px; /* Jarak antara tooltip dan gambar lencana */
+    }
+
+    /* Segitiga panah ke bawah */
+    .custom-badge-tooltip::after {
+        content: '';
+        position: absolute;
+        top: 100%;
+        left: 50%;
+        margin-left: -6px;
+        border-width: 6px;
+        border-style: solid;
+        border-color: #155724 transparent transparent transparent;
+    }
+
+    /* Munculkan tooltip ke atas saat di-hover */
+    .badge-container:hover .custom-badge-tooltip {
+        opacity: 1;
+        visibility: visible;
+        transform: translateX(-50%) translateY(-10px); /* Efek melompat ke atas */
+    }
+    .badge-container:hover .badge-modal-img {
+        transform: scale(1.1);
+    }
+</style>
+@endpush
+
+@push('scripts')
+<script>
+    function loadDetailProgres() {
+        const contentBox = document.getElementById('dtl_content');
+        
+        // 1. Munculkan animasi loading sebentar agar natural
+        contentBox.innerHTML = `
+            <div class="text-center py-5">
+                <div class="spinner-border text-success" role="status"></div>
+                <p class="mt-2 text-muted fw-bold">Memuat data progres...</p>
+            </div>
+        `;
+
+        // 2. Render UI setelah jeda 0.6 detik
+        // 2. Render UI setelah jeda 0.6 detik
+        setTimeout(() => {
+            
+            const res = {
+                materi: {
+                    // Gunakan $progMateri1 KHUSUS untuk baris materi 1 saja
+                    m1: { nama: 'Materi 1: Menemukan Konsep', persen: parseInt('{{ $progMateri1 }}') || 0, info: '' },
+                    m2: { nama: 'Materi 2: Tripel Pythagoras', persen: 0, info: 'Locked' },
+                    m3: { nama: 'Materi 3: Segitiga Istimewa', persen: 0, info: 'Locked' },
+                    m4: { nama: 'Materi 4: Penerapan Teorema Pythagoras', persen: 0, info: 'Locked' }
+                },
+                kuis: {
+                    k1: { nama: 'Kuis 1: Konsep Pythagoras', persen: parseInt('{{ $progKuis1 }}') || 0, info: '' },
+                    k2: { nama: 'Kuis 2: Tripel Pythagoras', persen: parseInt('{{ $progKuis2 }}') || 0, info: '' },
+                    k3: { nama: 'Kuis 3: Segitiga Istimewa', persen: parseInt('{{ $progKuis3 }}') || 0, info: '' },
+                    k4: { nama: 'Kuis 4: Penerapan Pythagoras', persen: parseInt('{{ $progKuis4 }}') || 0, info: '' },
+                    eval: { nama: 'Evaluasi Akhir', persen: parseInt('{{ $progEval }}') || 0, info: '' }
+                },
+                // Variabel total khusus untuk header atas
+                total: parseInt('{{ $totalProgressKeseluruhan }}') || 0
+            };
+
+            // Fungsi perakit HTML List
+            const renderRow = (title, percent, info = '') => {
+                let statusHtml = '';
+                let barColor = '';
+                let titleClass = 'text-dark fw-bold'; 
+
+                if (percent === 100) {
+                    statusHtml = '<span class="text-success">Selesai</span>';
+                    barColor = 'bg-success';
+                } else if (percent > 0) {
+                    statusHtml = `<span class="text-primary">${percent}%</span>`;
+                    barColor = 'bg-primary';
+                } else {
+                    statusHtml = '<span class="text-muted">Belum dikerjakan</span>';
+                    barColor = 'bg-secondary';
+                }
+
+                let infoHtml = info && info !== 'Locked' ? `<span class="text-muted fw-normal small ms-1">(${info})</span>` : '';
+
+                return `
+                    <div class="py-3 border-bottom border-light">
+                        <div class="d-flex justify-content-between align-items-center mb-2">
+                            <div class="${titleClass}" style="font-size: 0.95rem;">
+                                ${title} ${infoHtml}
+                            </div>
+                            <div class="fw-bold" style="font-size: 0.9rem;">
+                                ${statusHtml}
+                            </div>
+                        </div>
+                        <div class="progress rounded-pill bg-light" style="height: 6px;">
+                            <div class="progress-bar ${barColor} rounded-pill" role="progressbar" style="width: ${percent}%;"></div>
+                        </div>
+                    </div>
+                `;
+            };
+
+            let html = '';
+
+            // --- INJECT TOTAL PROGRESS KE HEADER MODAL SECARA DINAMIS ---
+            // Kita timpa bagian header total progress agar akurat
+            const totalBarColor = res.total === 100 ? 'bg-success' : 'bg-primary';
+            const totalTextColor = res.total === 100 ? 'text-success' : 'text-primary';
+            
+            // Cari elemen header total dan ubah nilainya (tambahkan ID ini di HTML modal Anda jika belum ada)
+            const elTotalText = document.getElementById('modal-total-text');
+            const elTotalBar = document.getElementById('modal-total-bar');
+            if(elTotalText && elTotalBar) {
+                elTotalText.className = `fw-bold fs-4 ${totalTextColor}`;
+                elTotalText.innerText = `${res.total}%`;
+                elTotalBar.className = `progress-bar progress-bar-striped progress-bar-animated rounded-pill ${totalBarColor}`;
+                elTotalBar.style.width = `${res.total}%`;
+            }
+
+            // Section MATERI
+            html += '<div class="mb-4">';
+            html += '<div class="border-bottom pb-2 mb-3"><h6 class="fw-bold text-success text-uppercase mb-0" style="font-size: 0.85rem; letter-spacing: 1px;"><i class="bi bi-book-half me-2"></i>Materi Pembelajaran</h6></div>';
+            html += renderRow(res.materi.m1.nama, res.materi.m1.persen, res.materi.m1.info);
+            html += renderRow(res.materi.m2.nama, res.materi.m2.persen, res.materi.m2.info);
+            html += renderRow(res.materi.m3.nama, res.materi.m3.persen, res.materi.m3.info);
+            html += renderRow(res.materi.m4.nama, res.materi.m4.persen, res.materi.m4.info);
+            html += '</div>';
+
+            // Section KUIS & EVALUASI
+            html += '<div class="mt-5">';
+            html += '<div class="border-bottom pb-2 mb-3"><h6 class="fw-bold text-success text-uppercase mb-0" style="font-size: 0.85rem; letter-spacing: 1px;"><i class="bi bi-pencil-square me-2"></i>Kuis & Evaluasi</h6></div>';
+            html += renderRow(res.kuis.k1.nama, res.kuis.k1.persen);
+            html += renderRow(res.kuis.k2.nama, res.kuis.k2.persen);
+            html += renderRow(res.kuis.k3.nama, res.kuis.k3.persen);
+            html += renderRow(res.kuis.k4.nama, res.kuis.k4.persen);
+            html += renderRow(res.kuis.eval.nama, res.kuis.eval.persen);
+            html += '</div>';
+
+            contentBox.innerHTML = html;
+            
+        }, 600);// Tunda 0.6 detik agar loading spinner sempat terlihat
+    }
+</script>
+@endpush
 
 @endsection

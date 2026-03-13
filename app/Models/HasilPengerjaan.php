@@ -13,8 +13,13 @@ class HasilPengerjaan extends Model
         'paket_soal_id',
         'user_id',       
         'skor_akhir',
+        'snapshot_jawaban',
         'waktu_mulai',
         'waktu_selesai'
+    ];
+    
+    protected $casts = [
+        'snapshot_jawaban' => 'array', 
     ];
 
     public function paketSoal()

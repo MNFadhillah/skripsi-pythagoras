@@ -69,8 +69,18 @@
                                 @endif
                             </td>
                             <td class="text-center">
-                                @if($item->status)
+                                @php
+                                    $now = now();
+                                    $isTimeValid = $item->waktu_mulai && $item->waktu_selesai && $now->between($item->waktu_mulai, $item->waktu_selesai);
+                                    $isRealActive = $item->status == 1 && $isTimeValid;
+                                    $isExpired = $item->waktu_selesai && \Carbon\Carbon::parse($item->waktu_selesai)->isPast();
+                                @endphp
+
+                                @if($isRealActive)
                                     <span class="badge bg-success rounded-pill px-3">AKTIF</span>
+                                @elseif($item->status == 1 && $isExpired)
+                                    {{-- Jika toggle nyala tapi waktu habis, sebut Kadaluarsa --}}
+                                    <span class="badge bg-danger rounded-pill px-3" title="Waktu Habis">KADALUARSA</span>
                                 @else
                                     <span class="badge bg-secondary rounded-pill px-3">TIDAK AKTIF</span>
                                 @endif
@@ -322,7 +332,7 @@ $(document).ready(function() {
                 $('#durasi_menit').val(d.durasi_menit);
                 $('#token').val(d.token);
                 $('#instruksi').val(d.instruksi);
-                $('#status').prop('checked', d.status == 1);
+                $('#status').prop('checked', d.is_currently_active === true);   
 
                 $('#_method').val('PUT');
                 $('#modalTitle').text('Edit Aktivitas');
