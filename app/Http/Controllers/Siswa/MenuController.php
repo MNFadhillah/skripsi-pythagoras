@@ -13,6 +13,9 @@ use App\Models\Kelas;
 use App\Models\progres_siswa;
 use App\Models\Badge;
 
+// Panggil ProgressController agar kita bisa mencontek datanya!
+use App\Http\Controllers\Siswa\ProgressController;
+
 class MenuController extends Controller
 {
     public function dashboard()
@@ -43,51 +46,22 @@ class MenuController extends Controller
         $rataRata = $jumlahPaketDiambil > 0 ? round($totalSkor / $jumlahPaketDiambil, 2) : 0;
 
         // ========================================================
-        // --- BAGIAN 3: HITUNG PROGRESS MATERI 1 ---
+        // --- BAGIAN 3: SINKRONISASI PROGRESS MUTLAK 100% ---
         // ========================================================
-        $totalKeseluruhanCheckpoint = 16; 
-        $completedCount = progres_siswa::where('user_id', $userId)->count();
+        // Kita panggil fungsi getDetail() dari ProgressController
+        // Agar angka di Dashboard SAMA PERSIS dengan di Profil dan Modal!
+        $progressCtrl = new ProgressController();
+        $detailProgres = $progressCtrl->getDetail()->getData();
+
+        $totalProgressKeseluruhan = $detailProgres->total_progress; // Mengambil 57%
         
-        $progMateri1 = 0; // Ganti nama variabel jadi spesifik Materi 1
-        if ($totalKeseluruhanCheckpoint > 0) {
-            $progMateri1 = round(($completedCount / $totalKeseluruhanCheckpoint) * 100);
-            if ($progMateri1 > 100) { $progMateri1 = 100; }
-        }
-
-        // ========================================================
-        // --- BAGIAN 4.5: SINKRONISASI STATUS KUIS & EVALUASI ---
-        // ========================================================
-        $progKuis1 = 0; $progKuis2 = 0; $progKuis3 = 0; $progKuis4 = 0; $progEval = 0;
-
-        foreach ($semuaPaket as $paket) {
-            $namaPaket = strtolower($paket->nama_paket ?? $paket->judul);
-            
-            $sudahMengerjakan = HasilPengerjaan::where('paket_soal_id', $paket->id)
-                                               ->where('user_id', $userId)
-                                               ->exists();
-
-            if ($sudahMengerjakan) {
-                if (str_contains($namaPaket, 'kuis 1')) $progKuis1 = 100;
-                elseif (str_contains($namaPaket, 'kuis 2')) $progKuis2 = 100;
-                elseif (str_contains($namaPaket, 'kuis 3')) $progKuis3 = 100;
-                elseif (str_contains($namaPaket, 'kuis 4')) $progKuis4 = 100;
-                elseif (str_contains($namaPaket, 'evaluasi')) $progEval = 100;
-            }
-        }
-
-        // ========================================================
-        // --- BAGIAN BARU: HITUNG TOTAL PROGRESS KESELURUHAN ---
-        // ========================================================
-        // Karena materi 2, 3, 4 belum ada backendnya, kita set 0 dulu
-        $progMateri2 = 0; $progMateri3 = 0; $progMateri4 = 0; 
-        
-        // Total ada 9 item pembelajaran (4 Materi + 4 Kuis + 1 Eval)
-        $totalSemuaPersen = $progMateri1 + $progMateri2 + $progMateri3 + $progMateri4 + 
-                            $progKuis1 + $progKuis2 + $progKuis3 + $progKuis4 + $progEval;
-        
-        // Rata-rata keseluruhan (Dibagi 9)
-        $totalProgressKeseluruhan = round($totalSemuaPersen / 9);
-
+        // Ambil nilai masing-masing untuk dikirim ke view jika dibutuhkan
+        $progMateri1 = $detailProgres->materi->m1->persen;
+        $progKuis1   = $detailProgres->kuis->k1->persen;
+        $progKuis2   = $detailProgres->kuis->k2->persen;
+        $progKuis3   = $detailProgres->kuis->k3->persen;
+        $progKuis4   = $detailProgres->kuis->k4->persen;
+        $progEval    = $detailProgres->kuis->eval->persen;
 
         // --- LENCANA / BADGES ---
         $totalBadgesCount = Badge::count(); 
@@ -100,7 +74,7 @@ class MenuController extends Controller
         // --- BAGIAN 5: Kirim ke View ---
         return view('siswa.menu.dashboard', compact(
             'aktivitas', 'rataRata', 
-            'progMateri1', 'totalProgressKeseluruhan', // Variabel yang diperbaiki
+            'progMateri1', 'totalProgressKeseluruhan', 
             'totalBadgesCount', 'earnedBadgesCount', 'lastBadgeName',
             'allBadges', 'earnedBadgeIds',
             'progKuis1', 'progKuis2', 'progKuis3', 'progKuis4', 'progEval'
@@ -174,16 +148,13 @@ class MenuController extends Controller
                         ->orderBy('created_at', 'desc')
                         ->get();
 
-
         // 2. Logika Rangkuman (Nilai Tertinggi per Paket)
         $semuaPaket = PaketSoal::all()->sortBy(function ($paket) {
-
             if (str_contains(strtolower($paket->nama_paket ?? $paket->judul), 'kuis 1')) return 1;
             if (str_contains(strtolower($paket->nama_paket ?? $paket->judul), 'kuis 2')) return 2;
             if (str_contains(strtolower($paket->nama_paket ?? $paket->judul), 'kuis 3')) return 3;
             if (str_contains(strtolower($paket->nama_paket ?? $paket->judul), 'kuis 4')) return 4;
             if (str_contains(strtolower($paket->nama_paket ?? $paket->judul), 'evaluasi')) return 5;
-
             return 99; // selain itu di paling bawah
         });
 
@@ -208,19 +179,12 @@ class MenuController extends Controller
                 $skorPertama = $riwayatPaket->first()->skor_akhir;
 
                 if ($skorPertama >= $kkm) {
-                    // LOGIKA PENGAYAAN: Jika percobaan pertama sudah lulus, 
-                    // nilai resmi yang diambil adalah nilai pertama tersebut.
                     $finalScore = $skorPertama; 
                 } else {
-                    // LOGIKA REMEDIAL: Jika percobaan pertama gagal (< KKM)
-                    // Cari nilai tertinggi dari seluruh percobaannya
                     $skorTertinggi = $riwayatPaket->max('skor_akhir');
-                    
                     if ($skorTertinggi >= $kkm) {
-                        // Jika saat remedial dia berhasil melewati KKM, nilainya dipaskan ke KKM (70)
                         $finalScore = $kkm;
                     } else {
-                        // Jika saat remedial masih gagal juga, ambil nilai tertingginya
                         $finalScore = $skorTertinggi; 
                     }
                 }

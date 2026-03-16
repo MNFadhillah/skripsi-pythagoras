@@ -47,16 +47,16 @@
             </a>
         </div>
 
-        {{-- Progres Siswa --}}
+        {{-- pencapaian Siswa --}}
         <div class="col-md-6 col-lg-4">
-            <a href="{{ url('/guru/progres_siswa') }}" class="card text-decoration-none shadow-sm border-0 h-100 hover-card">
+            <a href="{{ url('/guru/pencapaian_siswa') }}" class="card text-decoration-none shadow-sm border-0 h-100 hover-card">
                 <div class="card-body d-flex align-items-center p-4">
                     <div class="rounded-3 p-3 me-3 d-flex align-items-center justify-content-center" style="background-color: #E8F5E9; width: 60px; height: 60px;">
                         <i class="bi bi-graph-up fs-3 text-success"></i>
                     </div>
                     <div>
-                        <h5 class="fw-bold text-dark mb-0">Progres Siswa</h5>
-                        <small class="text-muted">Lihat progres belajar siswa</small>
+                        <h5 class="fw-bold text-dark mb-0">Pencapaian Siswa</h5>
+                        <small class="text-muted">Lihat Pencapaian belajar siswa</small>
                     </div>
                 </div>
             </a>

@@ -256,9 +256,9 @@
                     <span class="nav-text">Data Siswa</span>
                 </a>
 
-                <a href="{{ url('/guru/progres_siswa') }}" class="list-group-item list-group-item-action {{ request()->is('guru/progres_siswa') ? 'active' : '' }}" title="Progress Siswa">
+                <a href="{{ url('/guru/pencapaian_siswa') }}" class="list-group-item list-group-item-action {{ request()->is('guru/pencapaian_siswa') ? 'active' : '' }}" title="Pencapaian Siswa">
                     <i class="bi bi-graph-up"></i> 
-                    <span class="nav-text">Progres Siswa</span>
+                    <span class="nav-text">Pencapaian Siswa</span>
                 </a>
                 
                 <a href="{{ url('/guru/data_nilai') }}" class="list-group-item list-group-item-action {{ request()->is('guru/data_nilai') ? 'active' : '' }}" title="Data Nilai">

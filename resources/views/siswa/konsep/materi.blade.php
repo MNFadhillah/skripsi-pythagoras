@@ -2,6 +2,10 @@
 
 @section('title', 'PythaLearn')
 
+@push('scripts')
+    <script src="{{ asset('js/materi1.js') }}"></script>
+@endpush
+
 @section('content')
 <div class="container">
     <div class="row align-items-center">
@@ -1271,149 +1275,217 @@
                         <div class="row">
                             <div class="col-12">
                                 <div class="card mb-4 shadow-sm border-success">
-    <div class="card-body">
-        
-        <p class="mb-3 text-justify">
-            Setelah melakukan percobaan di atas, perhatikan ukuran sisi segitiga siku-siku dan ukuran persegi yang menempel pada sisi-sisinya. Hitunglah panjang sisi dan luas dari masing-masing persegi tersebut, dan masukkan hasilnya ke dalam tabel yang tersedia.
-        </p>
-        
-        <div class="alert alert-light border border-success mb-4">
-            <p class="mb-0 small fw-bold text-dark">Tugasmu:</p>
-            <ol class="mb-0 small text-muted ps-3">
-                <li>Hitung <strong>panjang sisi persegi</strong> atau perhatikan dan hitung jumlah kotak yang ada pada sisi persegi.</li>
-                <li>Hitung <strong>luas persegi</strong> dengan rumus \(\text{Sisi} \times \text{Sisi}\) atau perhatikan dan hitung jumlah seluruh kotak yang ada pada setiap persegi.</li>
-                <li>Isilah hasil perhitungan kamu ke dalam tabel berikut untuk Persegi A, B, dan C.</li>
-            </ol>
-        </div>
+                                    <div class="card-body">
+                                        
+                                        <p class="mb-3 text-justify">
+                                            Setelah melakukan percobaan di atas, perhatikan ukuran sisi segitiga siku-siku dan ukuran persegi yang menempel pada sisi-sisinya. Hitunglah panjang sisi dan luas dari masing-masing persegi tersebut, dan masukkan hasilnya ke dalam tabel yang tersedia.
+                                        </p>
+                                        
+                                        <div class="alert alert-light border border-success mb-4">
+                                            <p class="mb-0 small fw-bold text-dark">Tugasmu:</p>
+                                            <ol class="mb-0 small text-muted ps-3">
+                                                <li>Hitung <strong>panjang sisi persegi</strong> atau perhatikan dan hitung jumlah kotak yang ada pada sisi persegi.</li>
+                                                <li>Hitung <strong>luas persegi</strong> dengan rumus \(\text{Sisi} \times \text{Sisi}\) atau perhatikan dan hitung jumlah seluruh kotak yang ada pada setiap persegi.</li>
+                                                <li>Isilah hasil perhitungan kamu ke dalam tabel berikut untuk Persegi A, B, dan C.</li>
+                                            </ol>
+                                        </div>
 
-        <div class="table-responsive">
-            <table class="table table-bordered text-center align-middle bg-white mb-3">
-                <thead class="table-success">
-                    <tr>
-                        <th class="align-middle">Panjang dan Luas Persegi</th>
-                        <th>Persegi A</th>
-                        <th>Persegi B</th>
-                        <th>Persegi C</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td class="fw-bold text-start">Panjang Sisi</td>
-                        <td><input type="number" id="sisi_a" class="form-control text-center mx-auto" style="width: 80px;"></td>
-                        <td><input type="number" id="sisi_b" class="form-control text-center mx-auto" style="width: 80px;"></td>
-                        <td><input type="number" id="sisi_c" class="form-control text-center mx-auto" style="width: 80px;"></td>
-                    </tr>
-                    <tr>
-                        <td class="fw-bold text-start">Luas Persegi (sisi x sisi)</td>
-                        <td><input type="number" id="luas_a" class="form-control text-center mx-auto" style="width: 80px;"></td>
-                        <td><input type="number" id="luas_b" class="form-control text-center mx-auto" style="width: 80px;"></td>
-                        <td><input type="number" id="luas_c" class="form-control text-center mx-auto" style="width: 80px;"></td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-        
-        <button class="btn btn-success fw-bold mb-2" onclick="cekTabelGeoGebra()">Cek Jawaban Tabel</button>
-        <div id="feedbackTabelGeoGebra" class="mb-2 fw-semibold"></div>
+                                        <div class="table-responsive">
+                                            <table class="table table-bordered text-center align-middle bg-white mb-3">
+                                                <thead class="table-success">
+                                                    <tr>
+                                                        <th class="align-middle">Panjang dan Luas Persegi</th>
+                                                        <th>Persegi A</th>
+                                                        <th>Persegi B</th>
+                                                        <th>Persegi C</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td class="fw-bold text-start">Panjang Sisi</td>
+                                                        <td><input type="number" id="sisi_a" class="form-control text-center mx-auto fw-bold" style="width: 80px;" placeholder="..."></td>
+                                                        <td><input type="number" id="sisi_b" class="form-control text-center mx-auto fw-bold" style="width: 80px;" placeholder="..."></td>
+                                                        <td><input type="number" id="sisi_c" class="form-control text-center mx-auto fw-bold" style="width: 80px;" placeholder="..."></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="fw-bold text-start">Luas Persegi (sisi x sisi)</td>
+                                                        
+                                                        {{-- Penjabaran Persegi A --}}
+                                                        <td>
+                                                            <div class="d-flex align-items-center justify-content-center gap-1">
+                                                                <input type="number" id="luas_a_1" class="form-control text-center px-1" style="width: 60px;" placeholder="...">
+                                                                <span class="fw-bold">×</span>
+                                                                <input type="number" id="luas_a_2" class="form-control text-center px-1" style="width: 60px;" placeholder="...">
+                                                                <span class="fw-bold">=</span>
+                                                                <div class="d-flex align-items-start">
+                                                                    <input type="number" id="luas_a_sq" class="form-control text-center px-1" style="width: 60px;" placeholder="...">
+                                                                    <sup class="fw-bold mt-1">2</sup>
+                                                                </div>
+                                                                <span class="fw-bold">=</span>
+                                                                <input type="number" id="luas_a_hasil" class="form-control text-center px-1 fw-bold text-primary" style="width: 50px;" placeholder="...">
+                                                            </div>
+                                                        </td>
 
-        <hr class="border-success my-4">
+                                                        {{-- Penjabaran Persegi B --}}
+                                                        <td>
+                                                            <div class="d-flex align-items-center justify-content-center gap-1">
+                                                                <input type="number" id="luas_b_1" class="form-control text-center px-1" style="width: 60px;" placeholder="...">
+                                                                <span class="fw-bold">×</span>
+                                                                <input type="number" id="luas_b_2" class="form-control text-center px-1" style="width: 60px;" placeholder="...">
+                                                                <span class="fw-bold">=</span>
+                                                                <div class="d-flex align-items-start">
+                                                                    <input type="number" id="luas_b_sq" class="form-control text-center px-1" style="width: 60px;" placeholder="...">
+                                                                    <sup class="fw-bold mt-1">2</sup>
+                                                                </div>
+                                                                <span class="fw-bold">=</span>
+                                                                <input type="number" id="luas_b_hasil" class="form-control text-center px-1 fw-bold text-primary" style="width: 50px;" placeholder="...">
+                                                            </div>
+                                                        </td>
 
-        <div class="mb-4">
-            <h6 class="fw-bold">1. Berdasarkan pengamatanmu pada tabel di atas, persegi manakah yang memiliki luas paling besar?</h6>
-            <p class="text-justify">
-                Perhatikan angka-angka pada baris <strong>Luas Persegi</strong> di tabelmu, coba tentukan persegi mana yang paling besar dari ketiga luas persegi tersebut dengan memilih salah satu kotak di bawah ini.
-            </p>
-            
-            <div class="row g-3 mb-3">
-                <div class="col-md-4">
-                    <button type="button" class="btn btn-outline-success w-100 h-100 p-2 shadow-sm text-center btn-soal1" onclick="cekSoal1geogebra('salah', this)">
-                        <span class="fw-bold">Persegi A</span><br>
-                    </button>
-                </div>
-                <div class="col-md-4">
-                    <button type="button" class="btn btn-outline-success w-100 h-100 p-2 shadow-sm text-center btn-soal1" onclick="cekSoal1geogebra('salah', this)">
-                        <span class="fw-bold">Persegi B</span><br>
-                    </button>
-                </div>
-                <div class="col-md-4">
-                    <button type="button" class="btn btn-outline-success w-100 h-100 p-2 shadow-sm text-center btn-soal1" onclick="cekSoal1geogebra('benar', this)">
-                        <span class="fw-bold">Persegi C</span><br>
-                    </button>
-                </div>
-            </div>
+                                                        {{-- Penjabaran Persegi C --}}
+                                                        <td>
+                                                            <div class="d-flex align-items-center justify-content-center gap-1">
+                                                                <input type="number" id="luas_c_1" class="form-control text-center px-1" style="width: 60px;" placeholder="...">
+                                                                <span class="fw-bold">×</span>
+                                                                <input type="number" id="luas_c_2" class="form-control text-center px-1" style="width: 60px;" placeholder="...">
+                                                                <span class="fw-bold">=</span>
+                                                                <div class="d-flex align-items-start">
+                                                                    <input type="number" id="luas_c_sq" class="form-control text-center px-1" style="width: 60px;" placeholder="...">
+                                                                    <sup class="fw-bold mt-1">2</sup>
+                                                                </div>
+                                                                <span class="fw-bold">=</span>
+                                                                <input type="number" id="luas_c_hasil" class="form-control text-center px-1 fw-bold text-primary" style="width: 50px;" placeholder="...">
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        
+                                        <button class="btn btn-success fw-bold mb-2" onclick="cekTabelGeoGebra()">Cek Jawaban Tabel</button>
+                                        <div id="feedbackTabelGeoGebra" class="mb-2 fw-semibold"></div>
 
-            <div id="feedbackSalah1" class="alert alert-danger d-none small text-center fw-bold animate__animated animate__fadeIn">
-                Jawaban Kamu kurang tepat. Coba perhatikan lagi tabelmu, mana angka yang paling tinggi?
-            </div>
-            
-            <div id="feedbackBenar1" class="alert alert-success d-none small text-center fw-bold animate__animated animate__fadeIn">
-                Jawaban Kamu Benar! Persegi C memiliki luas yang paling besar.
-            </div>
-        </div>
+                                        <hr class="border-success my-4">
 
-        <div>
-            <h6 class="fw-bold mb-2">2. Temukan hubungan luas persegi!</h6>
-            <p class="mb-3 text-justify">
-                Perhatikan kembali angka-angka pada baris <strong>Luas Persegi</strong> di tabelmu, coba temukan hubungan matematika yang menurutmu paling tepat antara ketiga luas persegi tersebut dengan memilih salah satu kotak di bawah ini.
-            </p>
+                                        <div class="mb-4">
+                                            <h6 class="fw-bold">1. Berdasarkan pengamatanmu pada tabel di atas, persegi manakah yang memiliki luas paling besar?</h6>
+                                            <p class="text-justify">
+                                                Perhatikan angka-angka pada baris <strong>Luas Persegi</strong> di tabelmu, coba tentukan persegi mana yang paling besar dari ketiga luas persegi tersebut dengan memilih salah satu kotak di bawah ini.
+                                            </p>
+                                            
+                                            <div class="row g-3 mb-3">
+                                                <div class="col-md-4">
+                                                    <button type="button" class="btn btn-outline-success w-100 h-100 p-2 shadow-sm text-center btn-soal1" onclick="cekSoal1geogebra('salah', this)">
+                                                        <span class="fw-bold">Persegi A</span><br>
+                                                    </button>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <button type="button" class="btn btn-outline-success w-100 h-100 p-2 shadow-sm text-center btn-soal1" onclick="cekSoal1geogebra('salah', this)">
+                                                        <span class="fw-bold">Persegi B</span><br>
+                                                    </button>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <button type="button" class="btn btn-outline-success w-100 h-100 p-2 shadow-sm text-center btn-soal1" onclick="cekSoal1geogebra('benar', this)">
+                                                        <span class="fw-bold">Persegi C</span><br>
+                                                    </button>
+                                                </div>
+                                            </div>
 
-            <div class="row g-3 mb-3">
-                <div class="col-md-4">
-                    <button type="button" class="btn btn-outline-success w-100 h-100 p-2 shadow-sm text-center btn-pilihan" onclick="cekPilihan('salah', this)">
-                        <span class="fw-bold">Luas Persegi A + Luas Persegi C = Luas Persegi B</span>
-                    </button>
-                </div>
-                <div class="col-md-4">
-                    <button type="button" class="btn btn-outline-success w-100 h-100 p-2 shadow-sm text-center btn-pilihan" onclick="cekPilihan('benar', this)">
-                        <span class="fw-bold">Luas Persegi A + Luas Persegi B = Luas Persegi C</span>
-                    </button>
-                </div>
-                <div class="col-md-4">
-                    <button type="button" class="btn btn-outline-success w-100 h-100 p-2 shadow-sm text-center btn-pilihan" onclick="cekPilihan('salah', this)">
-                        <span class="fw-bold">Luas Persegi C + Luas Persegi B = Luas Persegi A</span>
-                    </button>
-                </div>
-            </div>
+                                            <div id="feedbackSalah1" class="alert alert-danger d-none small text-center fw-bold animate__animated animate__fadeIn">
+                                                Jawaban Kamu kurang tepat. Coba perhatikan lagi tabelmu, mana angka yang paling tinggi?
+                                            </div>
+                                            
+                                            <div id="feedbackBenar1" class="alert alert-success d-none small text-center fw-bold animate__animated animate__fadeIn">
+                                                Jawaban Kamu Benar! Persegi C memiliki luas yang paling besar.
+                                            </div>
+                                        </div>
 
-            <div id="feedbackSalah" class="mb-3 fw-bold small text-center text-danger d-none">
-                Masih kurang tepat. Cek kembali hasil penjumlahanmu.
-            </div>
+                                        <div>
+                                            <h6 class="fw-bold mb-2">2. Temukan hubungan luas persegi yang menempel pada sisi segitiga siku-siku!</h6>
+                                            <p class="mb-3 text-justify">
+                                                Perhatikan kembali angka-angka pada baris <strong>Luas Persegi</strong> di tabelmu, coba temukan hubungan matematika yang menurutmu paling tepat antara ketiga luas persegi tersebut dengan memilih salah satu kotak di bawah ini.
+                                            </p>
 
-            <div id="feedbackBenar" class="mb-3 fw-bold small text-center text-success d-none">
-                Jawaban kamu benar!
-            </div>
+                                            <div class="row g-3 mb-3">
+                                                <div class="col-md-4">
+                                                    <button type="button" class="btn btn-outline-success w-100 h-100 p-2 shadow-sm text-center btn-pilihan" onclick="cekPilihan('salah', this)">
+                                                        <span class="fw-bold">Luas Persegi A + Luas Persegi C = Luas Persegi B</span>
+                                                    </button>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <button type="button" class="btn btn-outline-success w-100 h-100 p-2 shadow-sm text-center btn-pilihan" onclick="cekPilihan('benar', this)">
+                                                        <span class="fw-bold">Luas Persegi A + Luas Persegi B = Luas Persegi C</span>
+                                                    </button>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <button type="button" class="btn btn-outline-success w-100 h-100 p-2 shadow-sm text-center btn-pilihan" onclick="cekPilihan('salah', this)">
+                                                        <span class="fw-bold">Luas Persegi C + Luas Persegi B = Luas Persegi A</span>
+                                                    </button>
+                                                </div>
+                                            </div>
 
-            <div id="boxPenjelasanAkhir" class="alert bg-white border border-success shadow-sm d-none animate__animated animate__fadeIn">
-                <h6 class="fw-bold text-success mb-2">Tepat Sekali!</h6>
-                <p class="mb-3 text-justify small text-dark">
-                    Berdasarkan percobaan di atas, kita menemukan bahwa Luas Persegi A + Luas Persegi B = Luas Persegi C dengan penyelesaian:
-                </p>
-                
-                <div class="text-center fw-bold text-dark bg-light p-3 rounded border mb-3">
-                    <div class="mb-2">
-                        Luas Persegi A + Luas Persegi B = Luas Persegi C <br>
-                        9 + 16 = 25
-                    </div>
-                    <hr class="my-2">
-                    <div class="mb-2">
-                        Berdasarkan hubungan luas di atas, maka kita temukan hubungan panjang sisi-sisinya yaitu: <br>
-                        \( 3^2 + 4^2 = 5^2 \)
-                    </div>
-                </div>
+                                            <div id="feedbackSalah" class="mb-3 fw-bold small text-center text-danger d-none">
+                                                Masih kurang tepat. Cek kembali hasil penjumlahanmu.
+                                            </div>
 
-                <div class="p-3 rounded border border-success bg-white text-center">
-                    <p class="mb-2 small text-center">
-                        Jika panjang sisi siku-siku kita misalkan sebagai <strong>a</strong> dan <strong>b</strong>, serta sisi miring sebagai <strong>c</strong>, maka terbentuklah <strong>Hubungan Sisi-sisi pada Segitiga Siku-siku</strong> sebagai berikut:
-                    </p>
-                    
-                    <h4 class="fw-bold my-3">
-                        \( a^2 + b^2 = c^2 \)
-                    </h4>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
+                                            <div id="feedbackBenar" class="mb-3 fw-bold small text-center text-success d-none">
+                                                Jawaban kamu benar!
+                                            </div>
+
+                                            <div id="boxPenjelasanAkhir" class="alert bg-white border border-success shadow-sm d-none animate__animated animate__fadeIn">
+                                                <h6 class="fw-bold text-success mb-2"><i class="bi bi-check-circle-fill me-1"></i>Tepat Sekali!</h6>
+                                                <p class="mb-3 text-justify small text-dark">
+                                                    Berdasarkan percobaan di atas, kita menemukan bahwa <strong>Luas Persegi A + Luas Persegi B = Luas Persegi C</strong> dengan penyelesaian:
+                                                </p>
+                                                
+                                                <div class="text-center fw-bold text-dark bg-light p-3 rounded border mb-3">
+                                                    
+                                                    <div class="mb-2">
+                                                        Luas Persegi A + Luas Persegi B = Luas Persegi C <br>
+                                                        <span class="text-primary fs-5">9 + 16 = 25</span>
+                                                    </div>
+                                                    
+                                                    <hr class="my-3">
+                                                    
+                                                    <div class="mb-3 text-start px-md-3 small fw-normal">
+                                                        <p class="mb-2">
+                                                            Ingat kembali bahwa rumus Luas Persegi adalah <strong>sisi &times; sisi</strong> atau <strong>sisi&sup2;</strong>. Karena persegi-persegi tersebut menempel tepat pada sisi segitiga, maka panjang sisi perseginya sama dengan panjang sisi segitiga siku-siku!
+                                                        </p>
+                                                        <ul class="mb-0 text-dark">
+                                                            <li>Panjang <strong>sisi siku-siku 1 (BC)</strong> = 3</li>
+                                                            <li>Panjang <strong>sisi siku-siku 2 (AC)</strong> = 4</li>
+                                                            <li>Panjang <strong>sisi miring (AB)</strong> = 5</li>
+                                                        </ul>
+                                                    </div>
+                                                    
+                                                    <hr class="my-3">
+                                                    
+                                                    <div class="mb-2">
+                                                        <p class="small fw-normal mb-2 text-muted">Sehingga, jika dituliskan dalam bentuk panjang sisi segitiga, hubungannya menjadi:</p>
+                                                        <div class="p-2 mb-2 rounded bg-white border border-secondary d-inline-block">
+                                                            <span class="text-danger">\( (\text{sisi siku-siku 1})^2 + (\text{sisi siku-siku 2})^2 = (\text{sisi miring})^2 \)</span>
+                                                        </div>
+                                                        <br>
+                                                        <span class="fs-5">\( 3^2 + 4^2 = 5^2 \)</span>
+                                                    </div>
+
+                                                </div>
+
+                                                <div class="p-3 rounded border border-success bg-success bg-opacity-10 text-center">
+                                                    <p class="mb-3 small text-center text-dark">
+                                                        Jika <strong>sisi siku-siku</strong> kita misalkan sebagai variabel <strong>a</strong> dan <strong>b</strong>, serta <strong>sisi miring</strong> kita misalkan sebagai <strong>c</strong>, maka kesimpulannya adalah: <br><br>
+                                                        <em>"Sisi siku-siku yang dikuadratkan dan dijumlahkan hasilnya akan sama dengan kuadrat sisi miringnya."</em><br><br>
+                                                        Inilah hubungan yang dikenal dengan <strong>Teorema Pythagoras</strong>:
+                                                    </p>
+                                                    
+                                                    <h3 class="fw-bold mb-0 text-success">
+                                                        \( a^2 + b^2 = c^2 \)
+                                                    </h3>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -1440,9 +1512,8 @@
 
                                 <div class="col-md-7">
                                     
-                                    <p class="text-justify">
-                                        Berdasarkan aktivitas sebelumnya, kita mendapatkan kesimpulan yaitu jumlah <strong>Luas Persegi A</strong> dan <strong>Luas Persegi B</strong>, hasilnya ternyata sama persis dengan <strong>Luas Persegi C</strong>. <br>
-                                        Apa yang kamu temukan melalui aktivitas tersebut sebenarnya adalah bunyi dari <strong>Dalil Pythagoras</strong> yang berbunyi:
+                                    <p class="text-justify mb-3">
+                                        Berdasarkan aktivitas sebelumnya, hubungan yang kalian temukan merupakan <strong>Dalil Pythagoras</strong>, yang berbunyi:
                                     </p>
                                     
                                     <div class="alert alert-success border-start border-success border-4">
@@ -1472,114 +1543,6 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
-                </div>
-            </div>
-
-            
-            <!-- ================================= -->
-            <!-- TEOREMA PYTHAGORAS -->
-            <!-- ================================= -->
-            <div class="col-sm-12 mb-4">
-                <div class="card">
-                    <div class="card-header text-center">
-                        <h4>Pembuktian Teorema Pythagoras</h4>
-                    </div>
-
-                    <div class="card-body">
-                        <p class="text-justify">
-                            Setelah mengetahui bunyi <strong>Dalil Pythagoras</strong> di atas, langkah selanjutnya adalah membuktikan kebenaran pernyataan tersebut. Melalui Geogebra dan penjabaran aljabar di bawah ini:
-                        </p>
-
-                        <div class="row">
-                            <div class="col-lg-3 mb-3">
-                                <div class="alert alert-light border border-success border-2 shadow-sm">
-                                    <h6 class="fw-bold text-success"><i class="fa fa-list-ol"></i> Petunjuk Aktivitas:</h6>
-                                    <ol class="ps-3 small text-muted" style="text-align: justify;">
-                                        <li>
-                                            Klik tombol <strong>Mulai</strong> hingga keempat segitiga berada di masing-masing sudut persegi.
-                                        </li>
-                                        <li>
-                                            Perhatikan persegi yang terbentuk oleh sisi miring segitiga dan memiliki luas sebesar (<strong>c²</strong>).
-                                        </li>
-                                        <li>
-                                            Klik Tombol <strong>Transformasi</strong> dan amati perpindahan susunan segitiga yang akan mengisi persegi 2.
-                                        </li>
-                                        <li>
-                                            Klik Tombol <strong>Reset</strong> dan <strong>Reset Transformasi</strong> untuk mengulang animasi.
-                                        </li>
-                                        <li>
-                                            Perhatikan seluruh perubahan yang terjadi dan amati luas persegi sebelum dan sesudah transformasi, dan selesaikan persamaan rumus di bawah.
-                                        </li>
-                                    </ol>
-                                </div>
-                            </div>
-
-                            <div class="col-lg-9">
-                                <div class="geogebra-container border rounded shadow-sm" style="width: 100%; height: 300px; overflow: hidden;">
-                                    <iframe 
-                                        scrolling="no" 
-                                        title="Pembuktian Teorema Pythagoras" 
-                                        src="https://www.geogebra.org/material/iframe/id/jkuwjk2p/width/1536/height/794/border/888888/sfsb/true/smb/false/stb/false/stbh/false/ai/false/asb/false/sri/false/rc/false/ld/false/sdz/false/ctl/false" 
-                                        width="100%" 
-                                        height="100%" 
-                                        style="border:0;" 
-                                        allowfullscreen>  
-                                    </iframe>
-                                </div>
-                            </div>
-                        </div>
-                        <hr>
-                        <p class="text-center">
-                            Berdasarkan hasil transformasi pada <strong>GeoGebra</strong>, diperoleh bahwa luas bangun sebelum dan sesudah transformasi adalah sama.
-                        </p>
-
-                        <p class="text-center fst-italic">
-                            Luas sebelum = Luas sesudah
-                        </p>
-                            
-                        <p class="text-center">
-                            4 Segitiga Siku-siku + Luas persegi sisi miring = 4 Segitiga Siku-siku + Luas dua persegi hasil transformasi
-                        </p>
-
-                        <p class="text-center mb-4">
-                            4Δ + c² = 4Δ + a² + b²
-                        </p>
-
-                        <p class="text-center text-muted">
-                            Maka, diperoleh kesimpulan rumus Pythagoras:
-                        </p>
-
-                        <div class="text-center my-3 fw-bold" style="font-size: 1.5rem;">
-                            <select id="jawaban1" class="form-select d-inline-block text-center border-primary shadow-sm" style="width: 70px; font-weight: bold; font-size: 1.2rem; background-color: #e6f2ff;">
-                                <option value="">...</option>
-                                <option value="a">a</option>
-                                <option value="b">b</option>
-                                <option value="c">c</option>
-                            </select>² 
-                            = 
-        
-                            <select id="jawaban2" class="form-select d-inline-block text-center border-primary shadow-sm" style="width: 70px; font-weight: bold; font-size: 1.2rem; background-color: #e6f2ff;">
-                                <option value="">...</option>
-                                <option value="a">a</option>
-                                <option value="b">b</option>
-                                <option value="c">c</option>
-                            </select>² 
-                            + 
-                            <select id="jawaban3" class="form-select d-inline-block text-center border-primary shadow-sm" style="width: 70px; font-weight: bold; font-size: 1.2rem; background-color: #e6f2ff;">
-                                <option value="">...</option>
-                                <option value="a">a</option>
-                                <option value="b">b</option>
-                                <option value="c">c</option>
-                            </select>²
-                        </div>
-
-                        <div class="text-center mb-3">
-                            <button onclick="cekJawabanPembuktian()" class="btn btn-success px-4 mt-2">
-                                Cek Jawaban
-                            </button>
-                        </div>
-                        <div id="pesanFeedback" class="text-center mt-2" style="display: none;"></div>
                     </div>
                 </div>
             </div>

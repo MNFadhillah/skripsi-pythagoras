@@ -12,6 +12,7 @@ use App\Http\Controllers\Siswa\MenuController;
 use App\Http\Controllers\Siswa\MateriController;
 use App\Http\Controllers\Siswa\QuizController;
 use App\Http\Controllers\Siswa\ProgressController;
+use App\Http\Controllers\Siswa\ProfileController;
 
 /* =====================
    CONTROLLER GURU
@@ -22,8 +23,8 @@ use App\Http\Controllers\Guru\PaketSoalController;
 use App\Http\Controllers\Guru\AktivitasController;
 use App\Http\Controllers\Guru\DataNilaiController;
 use App\Http\Controllers\Guru\DataSiswaController;
-use App\Http\Controllers\Guru\DataKelasController; 
-use App\Http\Controllers\Guru\ProgresSiswaController;
+use App\Http\Controllers\Guru\DataKelasController;
+use App\Http\Controllers\Guru\PencapaianSiswaController;
 
 /* =====================
    PUBLIC
@@ -78,6 +79,15 @@ Route::middleware(['auth', 'role:siswa'])
 
    /* ===== PROGRESS SISWA ===== */
    Route::post('/progress/update', [ProgressController::class, 'store'])->name('progress.update');
+   Route::get('/progres-detail', [ProgressController::class, 'getDetail'])->name('progres.detail');
+   Route::post('/progres/simpan', [ProgressController::class, 'store'])->name('progres.simpan');
+
+   /* ===== PROFILE ===== */
+   Route::get('/profile', [ProfileController::class, 'index'])->name('profile');
+   Route::post('/profile/avatar', [ProfileController::class, 'updateAvatar'])->name('profile.avatar');
+   Route::put('/profile/update', [ProfileController::class, 'updateProfile'])->name('profile.update');
+   
+
 });
 
 /* =====================================================
@@ -127,8 +137,12 @@ Route::middleware(['auth', 'role:guru'])
    // Route Data Kelas
    Route::resource('data_kelas', DataKelasController::class)->except(['show']);
 
-   /* ===== PROGRES SISWA ===== */
-   Route::get('/progres_siswa', [ProgresSiswaController::class, 'index'])->name('progres_siswa.index');
-   Route::get('/progres_siswa/data', [ProgresSiswaController::class, 'data'])->name('progres_siswa.data'); // Untuk AJAX DataTables
-   Route::get('/progres_siswa/{user_id}/detail', [ProgresSiswaController::class, 'detail'])->name('progres_siswa.detail');
+/* ===== PENCAPAIAN SISWA (Pengganti Progres Siswa) ===== */
+   Route::get('/pencapaian_siswa', [PencapaianSiswaController::class, 'index'])->name('pencapaian_siswa');
+   Route::get('/pencapaian_siswa/data', [PencapaianSiswaController::class, 'data'])->name('pencapaian_siswa.data'); 
+   Route::get('/pencapaian_siswa/{user_id}/detail', [PencapaianSiswaController::class, 'detail'])->name('pencapaian_siswa.detail');
+
+   // DUA ROUTE BARU INI:
+   Route::get('/pencapaian_siswa/data_leaderboard', [PencapaianSiswaController::class, 'dataLeaderboard'])->name('pencapaian_siswa.data_leaderboard');
+   Route::get('/pencapaian_siswa/badge/{badge_id}/detail', [PencapaianSiswaController::class, 'detailBadge'])->name('pencapaian_siswa.badge_detail');
 });

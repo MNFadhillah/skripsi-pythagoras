@@ -339,7 +339,7 @@
                         {{-- Bar Progress Keseluruhan --}}
                         <div class="mt-4 pt-3 border-top">
                             <div class="d-flex justify-content-between align-items-end mb-2">
-                                <span class="text-dark fw-bold">Total Progres Keseluruhan</span>
+                                <span class="text-dark fw-bold">Progres Keseluruhan</span>
                                 <span class="fw-bold fs-4 {{ $totalProgressKeseluruhan == 100 ? 'text-success' : 'text-primary' }}">
                                     {{ $totalProgressKeseluruhan }}%
                                 </span>
@@ -439,115 +439,103 @@
 @push('scripts')
 <script>
     function loadDetailProgres() {
-        const contentBox = document.getElementById('dtl_content');
-        
-        // 1. Munculkan animasi loading sebentar agar natural
-        contentBox.innerHTML = `
-            <div class="text-center py-5">
-                <div class="spinner-border text-success" role="status"></div>
-                <p class="mt-2 text-muted fw-bold">Memuat data progres...</p>
-            </div>
-        `;
+    const contentBox = document.getElementById('dtl_content');
+    
+    // Tampilkan loading
+    contentBox.innerHTML = `
+        <div class="text-center py-5">
+            <div class="spinner-border text-success" role="status"></div>
+            <p class="mt-2 text-muted fw-bold">Memuat data progres...</p>
+        </div>
+    `;
 
-        // 2. Render UI setelah jeda 0.6 detik
-        // 2. Render UI setelah jeda 0.6 detik
-        setTimeout(() => {
-            
-            const res = {
-                materi: {
-                    // Gunakan $progMateri1 KHUSUS untuk baris materi 1 saja
-                    m1: { nama: 'Materi 1: Menemukan Konsep', persen: parseInt('{{ $progMateri1 }}') || 0, info: '' },
-                    m2: { nama: 'Materi 2: Tripel Pythagoras', persen: 0, info: 'Locked' },
-                    m3: { nama: 'Materi 3: Segitiga Istimewa', persen: 0, info: 'Locked' },
-                    m4: { nama: 'Materi 4: Penerapan Teorema Pythagoras', persen: 0, info: 'Locked' }
-                },
-                kuis: {
-                    k1: { nama: 'Kuis 1: Konsep Pythagoras', persen: parseInt('{{ $progKuis1 }}') || 0, info: '' },
-                    k2: { nama: 'Kuis 2: Tripel Pythagoras', persen: parseInt('{{ $progKuis2 }}') || 0, info: '' },
-                    k3: { nama: 'Kuis 3: Segitiga Istimewa', persen: parseInt('{{ $progKuis3 }}') || 0, info: '' },
-                    k4: { nama: 'Kuis 4: Penerapan Pythagoras', persen: parseInt('{{ $progKuis4 }}') || 0, info: '' },
-                    eval: { nama: 'Evaluasi Akhir', persen: parseInt('{{ $progEval }}') || 0, info: '' }
-                },
-                // Variabel total khusus untuk header atas
-                total: parseInt('{{ $totalProgressKeseluruhan }}') || 0
-            };
+    // Fetch data dari server
+    fetch('/siswa/progres-detail', {
+        headers: {
+            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+            'Accept': 'application/json'
+        }
+    })
+    .then(response => response.json())
+    .then(res => {
+        // Fungsi renderRow
+        const renderRow = (title, percent, info = '') => {
+            let statusHtml = '';
+            let barColor = '';
 
-            // Fungsi perakit HTML List
-            const renderRow = (title, percent, info = '') => {
-                let statusHtml = '';
-                let barColor = '';
-                let titleClass = 'text-dark fw-bold'; 
-
-                if (percent === 100) {
-                    statusHtml = '<span class="text-success">Selesai</span>';
-                    barColor = 'bg-success';
-                } else if (percent > 0) {
-                    statusHtml = `<span class="text-primary">${percent}%</span>`;
-                    barColor = 'bg-primary';
-                } else {
-                    statusHtml = '<span class="text-muted">Belum dikerjakan</span>';
-                    barColor = 'bg-secondary';
-                }
-
-                let infoHtml = info && info !== 'Locked' ? `<span class="text-muted fw-normal small ms-1">(${info})</span>` : '';
-
-                return `
-                    <div class="py-3 border-bottom border-light">
-                        <div class="d-flex justify-content-between align-items-center mb-2">
-                            <div class="${titleClass}" style="font-size: 0.95rem;">
-                                ${title} ${infoHtml}
-                            </div>
-                            <div class="fw-bold" style="font-size: 0.9rem;">
-                                ${statusHtml}
-                            </div>
-                        </div>
-                        <div class="progress rounded-pill bg-light" style="height: 6px;">
-                            <div class="progress-bar ${barColor} rounded-pill" role="progressbar" style="width: ${percent}%;"></div>
-                        </div>
-                    </div>
-                `;
-            };
-
-            let html = '';
-
-            // --- INJECT TOTAL PROGRESS KE HEADER MODAL SECARA DINAMIS ---
-            // Kita timpa bagian header total progress agar akurat
-            const totalBarColor = res.total === 100 ? 'bg-success' : 'bg-primary';
-            const totalTextColor = res.total === 100 ? 'text-success' : 'text-primary';
-            
-            // Cari elemen header total dan ubah nilainya (tambahkan ID ini di HTML modal Anda jika belum ada)
-            const elTotalText = document.getElementById('modal-total-text');
-            const elTotalBar = document.getElementById('modal-total-bar');
-            if(elTotalText && elTotalBar) {
-                elTotalText.className = `fw-bold fs-4 ${totalTextColor}`;
-                elTotalText.innerText = `${res.total}%`;
-                elTotalBar.className = `progress-bar progress-bar-striped progress-bar-animated rounded-pill ${totalBarColor}`;
-                elTotalBar.style.width = `${res.total}%`;
+            if (percent === 100) {
+                statusHtml = '<span class="text-success">Selesai</span>';
+                barColor = 'bg-success';
+            } else if (percent > 0) {
+                statusHtml = `<span class="text-primary">${percent}%</span>`;
+                barColor = 'bg-primary';
+            } else {
+                statusHtml = '<span class="text-muted">Belum dikerjakan</span>';
+                barColor = 'bg-secondary';
             }
 
-            // Section MATERI
-            html += '<div class="mb-4">';
-            html += '<div class="border-bottom pb-2 mb-3"><h6 class="fw-bold text-success text-uppercase mb-0" style="font-size: 0.85rem; letter-spacing: 1px;"><i class="bi bi-book-half me-2"></i>Materi Pembelajaran</h6></div>';
-            html += renderRow(res.materi.m1.nama, res.materi.m1.persen, res.materi.m1.info);
-            html += renderRow(res.materi.m2.nama, res.materi.m2.persen, res.materi.m2.info);
-            html += renderRow(res.materi.m3.nama, res.materi.m3.persen, res.materi.m3.info);
-            html += renderRow(res.materi.m4.nama, res.materi.m4.persen, res.materi.m4.info);
-            html += '</div>';
+            let infoHtml = info && info !== 'Locked' 
+                ? `<span class="text-muted fw-normal small ms-1">(${info})</span>` 
+                : '';
 
-            // Section KUIS & EVALUASI
-            html += '<div class="mt-5">';
-            html += '<div class="border-bottom pb-2 mb-3"><h6 class="fw-bold text-success text-uppercase mb-0" style="font-size: 0.85rem; letter-spacing: 1px;"><i class="bi bi-pencil-square me-2"></i>Kuis & Evaluasi</h6></div>';
-            html += renderRow(res.kuis.k1.nama, res.kuis.k1.persen);
-            html += renderRow(res.kuis.k2.nama, res.kuis.k2.persen);
-            html += renderRow(res.kuis.k3.nama, res.kuis.k3.persen);
-            html += renderRow(res.kuis.k4.nama, res.kuis.k4.persen);
-            html += renderRow(res.kuis.eval.nama, res.kuis.eval.persen);
-            html += '</div>';
+            return `
+                <div class="py-3 border-bottom border-light">
+                    <div class="d-flex justify-content-between align-items-center mb-2">
+                        <div class="text-dark fw-bold" style="font-size: 0.95rem;">
+                            ${title} ${infoHtml}
+                        </div>
+                        <div class="fw-bold" style="font-size: 0.9rem;">
+                            ${statusHtml}
+                        </div>
+                    </div>
+                    <div class="progress rounded-pill bg-light" style="height: 6px;">
+                        <div class="progress-bar ${barColor} rounded-pill" role="progressbar" style="width: ${percent}%;"></div>
+                    </div>
+                </div>
+            `;
+        };
 
-            contentBox.innerHTML = html;
-            
-        }, 600);// Tunda 0.6 detik agar loading spinner sempat terlihat
-    }
+        let html = '';
+
+        // Update total progress di header modal (jika elemen dengan ID ada)
+        const totalBarColor = res.total_progress === 100 ? 'bg-success' : 'bg-primary';
+        const totalTextColor = res.total_progress === 100 ? 'text-success' : 'text-primary';
+        
+        const elTotalText = document.getElementById('modal-total-text');
+        const elTotalBar = document.getElementById('modal-total-bar');
+        if(elTotalText && elTotalBar) {
+            elTotalText.className = `fw-bold fs-4 ${totalTextColor}`;
+            elTotalText.innerText = `${res.total_progress}%`;
+            elTotalBar.className = `progress-bar progress-bar-striped progress-bar-animated rounded-pill ${totalBarColor}`;
+            elTotalBar.style.width = `${res.total_progress}%`;
+        }
+
+        // Section Materi
+        html += '<div class="mb-4">';
+        html += '<div class="border-bottom pb-2 mb-3"><h6 class="fw-bold text-success text-uppercase mb-0" style="font-size: 0.85rem; letter-spacing: 1px;"><i class="bi bi-book-half me-2"></i>Materi Pembelajaran</h6></div>';
+        html += renderRow(res.materi.m1.nama, res.materi.m1.persen, res.materi.m1.info);
+        html += renderRow(res.materi.m2.nama, res.materi.m2.persen, res.materi.m2.info);
+        html += renderRow(res.materi.m3.nama, res.materi.m3.persen, res.materi.m3.info);
+        html += renderRow(res.materi.m4.nama, res.materi.m4.persen, res.materi.m4.info);
+        html += '</div>';
+
+        // Section Kuis & Evaluasi
+        html += '<div class="mt-5">';
+        html += '<div class="border-bottom pb-2 mb-3"><h6 class="fw-bold text-success text-uppercase mb-0" style="font-size: 0.85rem; letter-spacing: 1px;"><i class="bi bi-pencil-square me-2"></i>Kuis & Evaluasi</h6></div>';
+        html += renderRow(res.kuis.k1.nama, res.kuis.k1.persen);
+        html += renderRow(res.kuis.k2.nama, res.kuis.k2.persen);
+        html += renderRow(res.kuis.k3.nama, res.kuis.k3.persen);
+        html += renderRow(res.kuis.k4.nama, res.kuis.k4.persen);
+        html += renderRow(res.kuis.eval.nama, res.kuis.eval.persen);
+        html += '</div>';
+
+        contentBox.innerHTML = html;
+    })
+    .catch(error => {
+        console.error('Gagal memuat detail progres:', error);
+        contentBox.innerHTML = '<div class="alert alert-danger">Gagal memuat data. Silakan coba lagi.</div>';
+    });
+}
 </script>
 @endpush
 

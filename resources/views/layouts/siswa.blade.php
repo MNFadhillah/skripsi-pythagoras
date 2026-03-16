@@ -8,6 +8,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}"/>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="route-progress" content="/progress/update">
     <title>@yield('title','Dashboard Siswa - PythaLearn')</title>
 
     <link href="https://fonts.googleapis.com/css2?family=PT+Sans:wght@400;700&family=Open+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
@@ -78,13 +79,22 @@
                     </button>
                     <ul class="dropdown-menu dropdown-menu-end shadow border-0 mt-2">
                         <li>
+                            <a href="{{ route('siswa.profile') }}" class="dropdown-item" style="color: #212529 !important; --bs-dropdown-link-active-bg: #f8f9fa">
+                                <i class="bi bi-person-badge me-2 text-success"></i> Profil Saya
+                            </a>
+                        </li>
+                        
+                        <li><hr class="dropdown-divider"></li>
+
+                        <li>
                             <form method="POST" action="{{ route('logout') }}">
                                 @csrf
-                                <button type="submit" style="--bs-dropdown-link-active-bg: #f8f9fa" class="dropdown-item text-danger fw-semibold btn-logout">
+                                <button type="submit" style="--bs-dropdown-link-active-bg: #f8f9fa" class="dropdown-item text-danger btn-logout">
                                     <i class="bi bi-box-arrow-right me-2"></i> Logout
                                 </button>
                             </form>
                         </li>
+                        
                     </ul>
                 </div>
             </div>
