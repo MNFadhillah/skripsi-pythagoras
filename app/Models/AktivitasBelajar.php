@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Carbon\Carbon;
 
 class AktivitasBelajar extends Model
 {
@@ -27,10 +28,24 @@ class AktivitasBelajar extends Model
     ];
 
     protected $casts = [
-        'waktu_mulai' => 'datetime',
-        'waktu_selesai' => 'datetime',
+        'waktu_mulai' => 'datetime:Y-m-d H:i:s',
+        'waktu_selesai' => 'datetime:Y-m-d H:i:s',
         'status' => 'boolean',
     ];
+
+    protected $appends = ['is_currently_active'];
+
+    // --- ACCESSOR: Otomatis Menghitung Status Real-time ---
+    public function getIsCurrentlyActiveAttribute()
+    {
+        $now = Carbon::now();
+        
+        // Pastikan waktu mulai dan selesai ada isinya, lalu cek apakah sekarang di antara keduanya
+        $isTimeValid = $this->waktu_mulai && $this->waktu_selesai && $now->between($this->waktu_mulai, $this->waktu_selesai);
+        
+        // Return TRUE jika toggle dinyalakan (status = 1) DAN waktunya valid
+        return $this->status == 1 && $isTimeValid;
+    }
 
     // Relasi ke Paket Soal
     public function paket_soal()

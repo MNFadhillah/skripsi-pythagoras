@@ -407,6 +407,35 @@ $(document).ready(function() {
             }
         });
     });
+
+    // 6. Fitur Auto-Update Waktu saat Toggle "Buka Akses" ditekan
+    $('#status').change(function() {
+        if ($(this).is(':checked')) {
+            let durasi = parseInt($('#durasi_menit').val()) || 60;
+            let now = new Date();
+            
+            // Mengakali Timezone lokal laptop guru agar formatnya YYYY-MM-DDTHH:mm
+            now.setMinutes(now.getMinutes() - now.getTimezoneOffset());
+            $('#waktu_mulai').val(now.toISOString().slice(0, 16));
+
+            // Set waktu selesai berdasarkan durasi
+            let selesai = new Date(now.getTime() + durasi * 60000);
+            $('#waktu_selesai').val(selesai.toISOString().slice(0, 16));
+        }
+    });
+
+    // 7. Auto-Update Waktu Selesai jika Durasi Menit diketik ulang
+    $('#durasi_menit').on('input', function() {
+        let mulai = $('#waktu_mulai').val();
+        if (mulai && $('#status').is(':checked')) {
+            let durasi = parseInt($(this).val()) || 0;
+            let start = new Date(mulai);
+            let selesai = new Date(start.getTime() + durasi * 60000);
+            
+            selesai.setMinutes(selesai.getMinutes() - selesai.getTimezoneOffset());
+            $('#waktu_selesai').val(selesai.toISOString().slice(0, 16));
+        }
+    });
 });
 </script>
 @endpush
