@@ -25,6 +25,7 @@ use App\Http\Controllers\Guru\DataNilaiController;
 use App\Http\Controllers\Guru\DataSiswaController;
 use App\Http\Controllers\Guru\DataKelasController;
 use App\Http\Controllers\Guru\PencapaianSiswaController;
+use App\Http\Controllers\Guru\ProfileGuruController;
 
 /* =====================
    PUBLIC
@@ -145,4 +146,9 @@ Route::middleware(['auth', 'role:guru'])
    // DUA ROUTE BARU INI:
    Route::get('/pencapaian_siswa/data_leaderboard', [PencapaianSiswaController::class, 'dataLeaderboard'])->name('pencapaian_siswa.data_leaderboard');
    Route::get('/pencapaian_siswa/badge/{badge_id}/detail', [PencapaianSiswaController::class, 'detailBadge'])->name('pencapaian_siswa.badge_detail');
+
+   /* PROFILE GURU */
+   Route::get('/profil', [ProfileGuruController::class, 'index'])->name('profil');
+   Route::post('/profil/update', [ProfileGuruController::class, 'update'])->name('profil.update');
+   Route::post('/profil/avatar', [ProfileController::class, 'uploadAvatar'])->name('profil.avatar');
 });

@@ -56,7 +56,8 @@
                                     <th class="text-center" width="10%">Peringkat</th>
                                     <th>Nama Siswa</th>
                                     <th class="text-center" width="20%">Kelas</th>
-                                    <th class="text-center" width="20%">Rata-rata Nilai</th>
+                                    {{-- UBAH DI SINI: Judul kolom diubah menjadi Total Poin --}}
+                                    <th class="text-center" width="20%">Total Poin</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -215,7 +216,7 @@ $(document).ready(function() {
 // Inisialisasi DataTables untuk Progres
     var tableProgress = $('#tableProgress').DataTable({
         processing: true, 
-        serverSide: false, // <--- UBAH BAGIAN INI MENJADI FALSE
+        serverSide: false,
         ajax: {
             url: "{{ route('guru.pencapaian_siswa.data') }}", 
             type: "GET",
@@ -234,7 +235,7 @@ $(document).ready(function() {
     // Inisialisasi DataTables untuk Leaderboard
     var tableLeaderboard = $('#tableLeaderboard').DataTable({
         processing: true, 
-        serverSide: false, // Gunakan false karena kita mengurutkan semua data di controller, lalu melempar JSON utuh
+        serverSide: false,
         ajax: {
             url: "{{ route('guru.pencapaian_siswa.data_leaderboard') }}", 
             type: "GET",
@@ -244,9 +245,9 @@ $(document).ready(function() {
             { data: 'peringkat', className: 'text-center align-middle' },
             { data: 'nama', className: 'align-middle' },
             { data: 'kelas', className: 'text-center align-middle' },
-            { data: 'rata_rata', className: 'text-center align-middle' }
+            { data: 'points', className: 'text-center align-middle' }
         ],
-        order: [], // Matikan auto-sort bawaan Datatables karena data dari server sudah urut rank 1,2,3...
+        order: [],
         language: { url: "//cdn.datatables.net/plug-ins/1.13.4/i18n/id.json" }
     });
 
@@ -271,7 +272,6 @@ function showBadgeModal(badgeId, badgeName) {
         success: function(res) {
             
             // 1. Tampilkan Gambar di Modal (Jika ada)
-            // Cek apakah ada tag img untuk lencana di modal, jika belum kita buat dinamis
             let badgeIconHtml = '';
             if (res.gambar_badge) {
                 badgeIconHtml = `<img src="${res.gambar_badge}" alt="icon" style="width: 100px; margin-bottom: 10px;"><br>`;
@@ -314,9 +314,8 @@ function showDetailModal(userId) {
     $('#dtl_content').html('<div class="text-center py-5"><div class="spinner-border text-success" role="status"></div><p class="mt-2 text-muted fw-bold">Memuat data pencapaian...</p></div>');
 
     // Tarik data detail via AJAX
-    // PERBAIKAN: URL disesuaikan dengan Route terbaru
     $.ajax({
-        url: '/guru/pencapaian_siswa/' + userId + '/detail', // <--- INI YANG DIUBAH
+        url: '/guru/pencapaian_siswa/' + userId + '/detail',
         type: 'GET',
         success: function(res) {
             // Isi Header Box (Identitas)

@@ -40,7 +40,7 @@
             left: 0;
             z-index: 1040;
             background: #ffffff;
-            border-right: 1px solid #eaeaea; /* Border default sidebar */
+            border-right: 1px solid #eaeaea; 
             transition: var(--transition);
             display: flex;
             flex-direction: column;
@@ -52,14 +52,12 @@
             background: var(--primary);
             display: flex;
             align-items: center;
-            justify-content: space-between; /* Brand kiri, Burger kanan */
+            justify-content: space-between;
             padding: 0 1rem;
             color: #fff;
-            
-            /* TRICK: Menutup garis border kanan sidebar agar seamless dengan header atas */
             margin-right: -1px; 
             position: relative;
-            z-index: 1042; /* Lebih tinggi dari elemen lain */
+            z-index: 1042;
         }
 
         .brand-wrapper {
@@ -74,7 +72,6 @@
             transition: opacity 0.2s;
         }
 
-        /* Tombol Burger di dalam Sidebar */
         #btnSidebarToggle {
             background: none;
             border: none;
@@ -92,7 +89,7 @@
             flex: 1;
             padding: 1rem;
             overflow-y: auto;
-            overflow-x: hidden; /* Cegah scroll horizontal saat animasi */
+            overflow-x: hidden;
         }
 
         .list-group-item {
@@ -109,7 +106,7 @@
 
         .list-group-item i {
             font-size: 1.2rem;
-            min-width: 35px; /* Lebar tetap agar icon sejajar */
+            min-width: 35px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -133,12 +130,11 @@
             position: fixed;
             top: 0;
             right: 0;
-            left: var(--sidebar-w); /* Mulai setelah sidebar */
+            left: var(--sidebar-w);
             z-index: 1030;
             display: flex;
             align-items: center;
             padding: 0 1.5rem;
-            /* Shadow halus */
             box-shadow: 0 2px 5px rgba(0,0,0,0.05); 
             transition: var(--transition);
         }
@@ -159,54 +155,28 @@
         }
 
         /* === LOGIC: COLLAPSED / MINI SIDEBAR (DESKTOP) === */
-        body.sidebar-collapsed .sidebar {
-            width: var(--sidebar-mini-w);
-        }
-        
-        body.sidebar-collapsed .topbar {
-            left: var(--sidebar-mini-w);
-        }
-        
-        body.sidebar-collapsed .main-wrapper {
-            margin-left: var(--sidebar-mini-w);
-        }
+        body.sidebar-collapsed .sidebar { width: var(--sidebar-mini-w); }
+        body.sidebar-collapsed .topbar { left: var(--sidebar-mini-w); }
+        body.sidebar-collapsed .main-wrapper { margin-left: var(--sidebar-mini-w); }
 
-        /* Sembunyikan Text saat Collapsed */
         body.sidebar-collapsed .brand-text,
         body.sidebar-collapsed .nav-text,
-        body.sidebar-collapsed .menu-heading {
-            display: none;
-        }
+        body.sidebar-collapsed .menu-heading { display: none; }
 
-        /* Pusatkan elemen saat Collapsed */
-        body.sidebar-collapsed .sidebar-header {
-            padding: 0;
-            justify-content: center;
-        }
-        
-        /* Saat collapsed, Logo Icon hilang, ganti jadi Burger Button saja di tengah */
-        body.sidebar-collapsed .brand-wrapper {
-            display: none; 
-        }
+        body.sidebar-collapsed .sidebar-header { padding: 0; justify-content: center; }
+        body.sidebar-collapsed .brand-wrapper { display: none; }
 
-        body.sidebar-collapsed .list-group-item {
-            justify-content: center;
-            padding: 0;
-        }
-        body.sidebar-collapsed .list-group-item i {
-            margin-right: 0;
-        }
+        body.sidebar-collapsed .list-group-item { justify-content: center; padding: 0; }
+        body.sidebar-collapsed .list-group-item i { margin-right: 0; }
 
         /* === MOBILE RESPONSIVE === */
         @media (max-width: 991.98px) {
-            .sidebar { left: calc(var(--sidebar-w) * -1); } /* Sembunyi ke kiri */
+            .sidebar { left: calc(var(--sidebar-w) * -1); }
             .topbar { left: 0; }
             .main-wrapper { margin-left: 0; }
 
-            /* Toggle Mobile */
             body.mobile-open .sidebar { left: 0; }
             
-            /* Overlay */
             .sidebar-overlay {
                 position: fixed; top: 0; left: 0; width: 100%; height: 100%;
                 background: rgba(0,0,0,0.5); z-index: 1035;
@@ -214,13 +184,8 @@
             }
             body.mobile-open .sidebar-overlay { display: block; }
 
-            /* Tombol Toggle Mobile di Header (karena sidebar sembunyi) */
             .mobile-toggle-btn { display: block !important; }
-            
-            /* Sembunyikan toggle internal sidebar di mode mobile agar tidak bingung */
             #btnSidebarToggle { display: none; } 
-            
-            /* Header Sidebar di Mobile Full Text */
             .sidebar-header { justify-content: center; }
         }
         
@@ -305,7 +270,13 @@
                         style="width: 40px; height: 40px;" data-bs-toggle="dropdown">
                     <i class="bi bi-person-fill text-success fs-5"></i>
                 </button>
-                <ul class="dropdown-menu dropdown-menu-end border-0 shadow mt-3">
+                <ul class="dropdown-menu dropdown-menu-end border-0 shadow mt-3 py-2">
+                    <li>
+                        <a href="{{ route('guru.profil') }}" class="dropdown-item py-2">
+                            <i class="bi bi-person-circle me-2 text-success"></i> Profil Saya
+                        </a>
+                    </li>
+                    <li><hr class="dropdown-divider"></li>
                     <li>
                         <form method="POST" action="{{ route('logout') }}">
                             @csrf

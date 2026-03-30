@@ -14,54 +14,80 @@ use Carbon\Carbon;
 
 class DataNilaiController extends Controller
 {
-
     // Terima parameter kelasId (bisa null jika pilih "Semua Kelas")
-    private function getProcessedData($kelasId = null)
+ private function getProcessedData($kelasId = null)
     {
-        // 1. Mulai Query
-        $query = HasilPengerjaan::with(['user.kelas', 'paketSoal'])
-            ->whereNotNull('user_id');
+        // 1. Mulai Query dari tabel User agar semua siswa tampil
+        $usersQuery = \App\Models\User::with('kelas')->where('role', 'siswa'); // Pastikan hanya role siswa
 
-        // 2. JIKA ADA FILTER KELAS, TAMBAHKAN KONDISI "WHERE HAS"
+        // Jika ada filter kelas
         if ($kelasId) {
-            $query->whereHas('user', function($q) use ($kelasId) {
-                // Asumsi nama kolom foreign key di tabel users adalah 'kelas_id'
-                $q->where('kelas_id', $kelasId);
-            });
+            $usersQuery->where('kelas_id', $kelasId);
         }
-// AMBIL YANG TERBARU DULU
-        $hasilPengerjaan = $query->orderBy('created_at', 'asc')->get();
 
-        $dataSiswa = $hasilPengerjaan->groupBy('user_id')->map(function ($items) {
-            $user = $items->first()->user;
-            
+        $users = $usersQuery->get();
+
+        // 2. Ambil semua hasil pengerjaan hanya dari user yang didapatkan
+        $userIds = $users->pluck('id');
+        $hasilPengerjaan = HasilPengerjaan::with('paketSoal')
+            ->whereIn('user_id', $userIds)
+            ->whereNotNull('waktu_selesai') // Pastikan hanya mengambil yang sudah selesai
+            ->orderBy('created_at', 'asc') // Urutan waktu sangat penting untuk ngecek "percobaan pertama"
+            ->get()
+            ->groupBy('user_id');
+
+        // 3. Mapping data siswa dan nilainya
+        $dataSiswa = $users->map(function ($user) use ($hasilPengerjaan) {
             $nilai = [
                 'kuis_1' => '-', 'kuis_2' => '-', 'kuis_3' => '-', 
                 'kuis_4' => '-', 'evaluasi' => '-',
             ];
 
-            foreach ($items as $item) {
-                $judul = strtolower($item->paketSoal->judul ?? '');
+            // Jika siswa tersebut sudah punya riwayat mengerjakan sesuatu
+            if (isset($hasilPengerjaan[$user->id])) {
                 
-                // PERBAIKAN LOGIC STRING MATCHING
-                // Menggunakan regex word boundary agar 'kuis 1' tidak tertukar dengan 'kuis 10'
-                if (preg_match('/\bkuis 1\b/', $judul)) $nilai['kuis_1'] = $item->skor_akhir;
-                elseif (preg_match('/\bkuis 2\b/', $judul)) $nilai['kuis_2'] = $item->skor_akhir;
-                elseif (preg_match('/\bkuis 3\b/', $judul)) $nilai['kuis_3'] = $item->skor_akhir;
-                elseif (preg_match('/\bkuis 4\b/', $judul)) $nilai['kuis_4'] = $item->skor_akhir;
-                elseif (str_contains($judul, 'evaluasi')) $nilai['evaluasi'] = $item->skor_akhir;
+                // KELOMPOKKAN BERDASARKAN PAKET SOAL
+                // Agar kita bisa mengecek "percobaan pertama" dan "tertinggi" per Kuis
+                $riwayatPerPaket = $hasilPengerjaan[$user->id]->groupBy('paket_soal_id');
+                $kkm = 70;
+
+                foreach ($riwayatPerPaket as $paketId => $attempts) {
+                    $judul = strtolower($attempts->first()->paketSoal->judul ?? '');
+                    
+                    // --- LOGIKA REMEDIAL (SAMA PERSIS DENGAN CONTROLLER SISWA) ---
+                    $skorPertama = $attempts->first()->skor_akhir;
+                    $finalScore = null;
+
+                    if ($skorPertama >= $kkm) {
+                        $finalScore = $skorPertama; // Lulus di percobaan pertama
+                    } else {
+                        $skorTertinggi = $attempts->max('skor_akhir');
+                        if ($skorTertinggi >= $kkm) {
+                            $finalScore = $kkm; // Remedial lulus, mentok di KKM
+                        } else {
+                            $finalScore = $skorTertinggi; // Remedial masih gagal, ambil yang tertinggi
+                        }
+                    }
+
+                    // --- MATCHING JUDUL KE KOLOM ---
+                    if (preg_match('/kuis[\s\-_]*1\b/i', $judul)) $nilai['kuis_1'] = $finalScore;
+                    elseif (preg_match('/kuis[\s\-_]*2\b/i', $judul)) $nilai['kuis_2'] = $finalScore;
+                    elseif (preg_match('/kuis[\s\-_]*3\b/i', $judul)) $nilai['kuis_3'] = $finalScore;
+                    elseif (preg_match('/kuis[\s\-_]*4\b/i', $judul)) $nilai['kuis_4'] = $finalScore;
+                    elseif (str_contains($judul, 'evaluasi')) $nilai['evaluasi'] = $finalScore;
+                }
             }
 
             return [
                 'user_id' => $user->id,
-                'name' => $user->name,
-                'email' => $user->email,
-                'kelas' => $user->kelas->nama_kelas ?? '-',
-                'nilai' => $nilai
+                'name'    => $user->name,
+                'email'   => $user->email,
+                'kelas'   => $user->kelas->nama_kelas ?? '-',
+                'nilai'   => $nilai
             ];
-        })->values();
+        });
 
-        return $dataSiswa;
+        return $dataSiswa->values();
     }
 
     public function index(Request $request)

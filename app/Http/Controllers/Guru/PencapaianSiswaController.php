@@ -72,25 +72,23 @@ class PencapaianSiswaController extends Controller
         }
         
         $semuaSiswa = $query->get();
-        $semuaPaket = PaketSoal::all();
-        $kkm = 70;
         
         // Kumpulkan data mentah
         $leaderboardData = [];
         foreach ($semuaSiswa as $siswa) {
-            $rataRata = $this->hitungRataRataSiswa($siswa, $semuaPaket, $kkm);
-            
             $leaderboardData[] = [
                 'id' => $siswa->id,
                 'nama' => $siswa->name,
                 'kelas' => $siswa->kelas?->nama_kelas ?? 'Belum Masuk Kelas',
-                'rata_rata' => $rataRata,
+                // Asumsi poin disimpan di kolom 'point' pada tabel users.
+                // Jika namanya 'points' atau 'skor', silakan disesuaikan.
+                'points' => $siswa->points ?? 0, 
             ];
         }
 
-        // Urutkan berdasarkan rata-rata tertinggi
+        // Urutkan berdasarkan points tertinggi
         $leaderboardSorted = collect($leaderboardData)
-            ->sortByDesc('rata_rata')
+            ->sortByDesc('points')
             ->values()
             ->toArray();
 
@@ -102,7 +100,8 @@ class PencapaianSiswaController extends Controller
                 'peringkat' => $this->formatPeringkat($rank),
                 'nama' => '<span class="fw-bold">' . e($item['nama']) . '</span>',
                 'kelas' => '<span class="badge bg-light text-dark border">' . e($item['kelas']) . '</span>',
-                'rata_rata' => '<span class="fw-bold text-primary fs-6">' . number_format($item['rata_rata'], 2) . '</span>',
+                // Mengubah UI rata-rata menjadi UI Point (Bisa ditambah icon bintang/koin)
+                'points' => '<span class="fw-bold fs-6">' . number_format($item['points'], 0, ',', '.') . ' Pts</span>',
             ];
         }
 
@@ -148,7 +147,7 @@ class PencapaianSiswaController extends Controller
             'materi_1_konsep_pythagoras'   => 16,
             'materi_2_tripel_pythagoras'   => 7,
             'materi_3_segitiga_istimewa'   => 10,
-            'materi_4_penerapan_pythagoras' => 14,
+            'materi_4_penerapan_pythagoras' => 8,
         ];
 
         $semuaPaket = PaketSoal::orderBy('id', 'asc')->get();
@@ -224,7 +223,7 @@ class PencapaianSiswaController extends Controller
             'materi_1_konsep_pythagoras'   => 16,
             'materi_2_tripel_pythagoras'   => 7,
             'materi_3_segitiga_istimewa'   => 10,
-            'materi_4_penerapan_pythagoras' => 14,
+            'materi_4_penerapan_pythagoras' => 8,
         ];
 
         // Hitung persentase setiap materi

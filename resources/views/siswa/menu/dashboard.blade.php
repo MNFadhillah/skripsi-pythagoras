@@ -67,7 +67,7 @@
                 <div class="row align-items-center">
                     <div class="col-md-6 mb-3 mb-md-0">
                         <h3 class="mb-1">Dashboard</h3>
-                        <p class="text-muted mb-0">Selamat datang kembali, <strong>{{ auth()->user()->name }}</strong>!</p>
+                        <p class="text-muted mb-0">Selamat datang, <strong>{{ auth()->user()->name }}</strong>!</p>
                     </div>
                     <div class="col-md-6">
                         <div class="card border-warning shadow-sm">
@@ -102,60 +102,70 @@
     {{-- STAT KARTU RINGKAS --}}
     <div class="row g-3 mb-4">  
         
-        {{-- Kartu Progress --}}
-        <div class="col-md-6">
+        {{-- Kartu Progress (Ubah jadi col-md-4) --}}
+        <div class="col-md-4">
             <div class="card border-success border-2 h-100 position-relative badge-card-hover">
                 <div class="card-body d-flex justify-content-between align-items-center">
-                    <div>
-                        <h5 class="text-muted mb-1">Progress Pembelajaran</h5>
+                    <div class="w-100">
+                        <h5 class="text-muted mb-1 fs-6">Progres Pembelajaran</h5>
                         <div class="d-flex align-items-center">
-                            
-                            {{-- MUNCULKAN ANGKA PERSENTASE DI SINI --}}
                             <h2 class="mb-0 me-2 text-success">{{ $totalProgressKeseluruhan }}%</h2>
-                            
-                            <div class="progress flex-grow-1" style="height: 10px; width: 60px;">
-                                {{-- UBAH LEBAR BAR SESUAI PERSENTASE --}}
-                                <div class="progress-bar bg-success" role="progressbar" style="width: <?php echo $totalProgressKeseluruhan; ?>%"></div>
+                            <div class="progress flex-grow-1" style="height: 8px;">
+                                <div class="progress-bar bg-success" role="progressbar" style="width: <?php echo $totalProgressKeseluruhan?>%"></div>
                             </div>
                         </div>
-                        
-                        {{-- TEKS DINAMIS BERDASARKAN PROGRESS --}}
                         <p class="small mt-2 mb-0 fw-semibold {{ $totalProgressKeseluruhan == 100 ? 'text-success' : 'text-muted' }}">
                             @if($totalProgressKeseluruhan == 100)
                                 <i class="bi bi-check-circle-fill me-1"></i> Materi Selesai
                             @elseif($totalProgressKeseluruhan > 0)
                                 Materi sedang berjalan...
                             @else
-                                Belum ada progress
+                                Belum ada progres
                             @endif
                         </p>
-                        
                     </div>
                 </div>
-
-                {{-- TRIGGER UNTUK MEMBUKA MODAL PROGRES --}}
                 <a href="#" class="stretched-link" data-bs-toggle="modal" data-bs-target="#modalDetailProgres" onclick="loadDetailProgres()"></a>
             </div>
         </div>
         
-        {{-- Kartu Lencana (Hijau, Dinamis & Bisa Diklik) --}}
-        <div class="col-md-6">
-            <div class="card border-success border-2 h-100 position-relative badge-card-hover">
+        {{-- Kartu Poin (BARU: Disisipkan di tengah) --}}
+        <div class="col-md-4">
+            <div class="card border-success border-2 h-100 position-relative badge-card-hover" style="background: linear-gradient(to right, #fff, #fffdf2);">
                 <div class="card-body d-flex justify-content-between align-items-center">
                     <div>
-                        <h5 class="text-muted mb-1">Perolehan Lencana</h5>
-                        
-                        {{-- ANGKA LENCANA DINAMIS --}}
-                        <h2 class="mb-0 text-success">{{ $earnedBadgesCount }}/{{ $totalBadgesCount }}</h2>
-                        
-                        {{-- NAMA LENCANA TERAKHIR DINAMIS --}}
-                        <p class="small text-muted mt-2 mb-0">
-                            Terakhir: <strong class="text-success">"{{ $lastBadgeName }}"</strong>
+                        <h5 class="text-muted mb-1 fs-6">Total Poin</h5>
+                        <div class="d-flex align-items-center">
+                            {{-- Ikon Koin/Poin --}}
+                            <div class="bg-success text-white rounded-circle d-flex justify-content-center align-items-center me-3 shadow-sm" style="width: 45px; height: 45px;">
+                                <i class="bi bi-coin fs-4"></i>
+                            </div>
+                            <div>
+                                <h2 class="mb-0 text-success fw-bold">{{ number_format($userPoints, 0, ',', '.') }} <span class="fs-6 text-muted fw-normal">Poin</span></h2>
+                            </div>
+                        </div>
+                        <p class="small mt-2 mb-0 text-muted">
+                            Kumpulkan poin sebanyak-banyaknya!
                         </p>
                     </div>
                 </div>
-                
-                {{-- TRIGGER UNTUK MEMBUKA MODAL LENCANA --}}
+                {{-- Trigger Buka Modal Poin --}}
+                <a href="#" class="stretched-link" data-bs-toggle="modal" data-bs-target="#modalPoin"></a>
+            </div>
+        </div>
+
+        {{-- Kartu Lencana (Ubah jadi col-md-4) --}}
+        <div class="col-md-4">
+            <div class="card border-success border-2 h-100 position-relative badge-card-hover">
+                <div class="card-body d-flex justify-content-between align-items-center">
+                    <div>
+                        <h5 class="text-muted mb-1 fs-6">Perolehan Lencana</h5>
+                        <h2 class="mb-0 text-success">{{ $earnedBadgesCount }}/{{ $totalBadgesCount }}</h2>
+                        <p class="small text-muted mt-2 mb-0 text-truncate" style="max-width: 200px;">
+                            <strong class="text-success">"{{ $lastBadgeName }}"</strong>
+                        </p>
+                    </div>
+                </div>
                 <a href="#" class="stretched-link" data-bs-toggle="modal" data-bs-target="#modalLencana"></a>
             </div>
         </div>
@@ -164,82 +174,96 @@
 
     {{-- PROFIL & AKTIVITAS --}}
     <div class="row g-3 mb-4">
-      <div class="col-lg-6">
-        {{-- Profil Siswa --}}
-        <div class="card mb-3 h-100">
-            <div class="card-header bg-success bg-opacity-10">
-                <h5 class="mb-0 text-success"><i class="bi bi-person-circle me-2"></i>Profil Siswa</h5>
-            </div>
-            <div class="card-body">
-                <div class="d-flex align-items-center mb-3">
-                    <div class="rounded-circle bg-success bg-opacity-10 text-success d-flex align-items-center justify-content-center me-3"
-                        style="width: 80px; height: 80px;">
-                        <i class="bi bi-person-fill fs-1"></i>
-                    </div>
-                    <div>
-                        <h4 class="mb-1">{{ auth()->user()->name }}</h4>
-                        <small class="text-muted">{{ auth()->user()->email }}</small>
-                    </div>
+        <div class="col-lg-6">
+            {{-- Profil Siswa --}}
+            <div class="card mb-3 h-100 shadow-sm border-0">
+                <div class="card-header bg-success bg-opacity-10 border-0 pt-3">
+                    <h5 class="mb-0 text-success"><i class="bi bi-person-circle me-2"></i>Profil Siswa</h5>
                 </div>
-                
-                <div class="row">
-                    <div class="col-6 mb-2">
-                        <div class="small text-muted">Status</div>
-                        <div class="fw-medium text-capitalize">{{ auth()->user()->role }}</div>
+                <div class="card-body">
+                    <div class="d-flex align-items-center mb-3">
+                        
+                        {{-- Logika Avatar Siswa (JALUR SUDAH DIPERBAIKI) --}}
+                        @if(auth()->user()->avatar)
+                            <img src="{{ asset('images/avatars/' . auth()->user()->avatar) }}" alt="Foto Siswa" class="rounded-circle me-3 shadow-sm bg-white" style="width: 80px; height: 80px; object-fit: cover; border: 2px solid #198754;">
+                        @else
+                            <div class="rounded-circle bg-success bg-opacity-10 text-success d-flex align-items-center justify-content-center me-3" style="width: 80px; height: 80px;">
+                                <i class="bi bi-person-fill fs-1"></i>
+                            </div>
+                        @endif
+
+                        <div>
+                            <h4 class="mb-1 fw-bold">{{ auth()->user()->name }}</h4>
+                            <small class="text-muted">{{ auth()->user()->email }}</small>
+                        </div>
                     </div>
-                    <div class="col-6 mb-2">
-                        <div class="small text-muted">Kelas</div>
-                        <div class="fw-medium">
-                            @if(auth()->user()->kelas)
-                                <span class="badge bg-success">{{ auth()->user()->kelas->nama_kelas }}</span>
-                            @else
-                                <span class="badge bg-secondary">Belum Masuk Kelas</span>
-                            @endif
+                    
+                    <div class="row mt-4">
+                        <div class="col-6 mb-2">
+                            <div class="small text-muted mb-1">Status</div>
+                            <div class="fw-bold text-capitalize text-dark">{{ auth()->user()->role }}</div>
+                        </div>
+                        <div class="col-6 mb-2">
+                            <div class="small text-muted mb-1">Kelas</div>
+                            <div class="fw-medium">
+                                @if(auth()->user()->kelas)
+                                    <span class="badge bg-success px-3 py-2">{{ auth()->user()->kelas->nama_kelas }}</span>
+                                @else
+                                    <span class="badge bg-secondary px-3 py-2">Belum Masuk Kelas</span>
+                                @endif
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-      </div>
-        
-      <div class="col-lg-6">
-          {{-- Profil Guru --}}
-          <div class="card mb-3 h-100">
-              <div class="card-header bg-success bg-opacity-10">
-                  <h5 class="mb-0 text-success"><i class="bi bi-person-badge me-2"></i>Profil Guru</h5>
-              </div>
-              <div class="card-body">
-                  @if(auth()->user()->kelas)
-                    <div class="d-flex align-items-center mb-3">
-                        <div class="rounded-circle bg-success bg-opacity-10 text-success d-flex align-items-center justify-content-center me-3"
-                            style="width: 80px; height: 80px;">
-                            <i class="bi bi-person-workspace fs-1"></i>
+            
+        <div class="col-lg-6">
+            {{-- Profil Guru --}}
+            <div class="card mb-3 h-100 shadow-sm border-0">
+                <div class="card-header bg-success bg-opacity-10 border-0 pt-3">
+                    <h5 class="mb-0 text-success"><i class="bi bi-person-badge me-2"></i>Profil Guru</h5>
+                </div>
+                <div class="card-body">
+                    @if(auth()->user()->kelas)
+                        <div class="d-flex align-items-center mb-3">
+                            
+                            {{-- Logika Avatar Guru (JALUR SUDAH DIPERBAIKI) --}}
+                            @if(!empty(auth()->user()->kelas->guru->avatar))
+                                <img src="{{ asset('images/avatars/' . auth()->user()->kelas->guru->avatar) }}" alt="Foto Guru" class="rounded-circle me-3 shadow-sm bg-white" style="width: 80px; height: 80px; object-fit: cover; border: 2px solid #198754;">
+                            @else
+                                <div class="rounded-circle bg-success bg-opacity-10 text-success d-flex align-items-center justify-content-center me-3" style="width: 80px; height: 80px;">
+                                    <i class="bi bi-person-workspace fs-1"></i>
+                                </div>
+                            @endif
+
+                            <div>
+                                <h4 class="mb-1 fw-bold">{{ auth()->user()->kelas->guru->name ?? 'Nama Guru Tidak Tersedia' }}</h4>
+                                <p class="mb-0 text-success small fw-semibold">Guru Matematika</p>
+                            </div>
                         </div>
-                        <div>
-                            <h4 class="mb-1">{{ auth()->user()->kelas->guru->name ?? 'Nama Guru Tidak Tersedia' }}</h4>
-                            <p class="mb-0 text-muted small">Guru Matematika</p>
+                        
+                        <div class="row mt-4">
+                            <div class="col-6 mb-2">
+                                <div class="small text-muted mb-1">Email</div>
+                                <div class="fw-bold text-dark text-break">{{ auth()->user()->kelas->guru->email ?? '-' }}</div>
+                            </div>
+                            <div class="col-6 mb-2">
+                                <div class="small text-muted mb-1">Kode Kelas</div>
+                                <div class="fw-bold text-primary font-monospace fs-6">{{ auth()->user()->kelas->token }}</div>
+                            </div>
                         </div>
-                    </div>
-                    
-                    <div class="row">
-                        <div class="col-6 mb-2">
-                            <div class="small text-muted">Email</div>
-                            <div class="fw-medium text-break">{{ auth()->user()->kelas->guru->email ?? '-' }}</div>
+                    @else
+                        <div class="text-center py-5 text-muted">
+                            <div class="bg-light rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 80px; height: 80px;">
+                                <i class="bi bi-person-x fs-1 text-secondary"></i>
+                            </div>
+                            <p class="mb-0">Silakan bergabung ke kelas terlebih dahulu<br>untuk melihat profil guru Anda.</p>
                         </div>
-                        <div class="col-6 mb-2">
-                            <div class="small text-muted">Kode Kelas</div>
-                            <div class="fw-medium font-monospace">{{ auth()->user()->kelas->token }}</div>
-                        </div>
-                    </div>
-                  @else
-                    <div class="text-center py-4 text-muted">
-                        <i class="bi bi-person-x fs-1 d-block mb-2"></i>
-                        <p>Silakan bergabung ke kelas terlebih dahulu untuk melihat profil guru Anda.</p>
-                    </div>
-                  @endif
-              </div>
-          </div>
-      </div>
+                    @endif
+                </div>
+            </div>
+        </div>
     </div>
 
 </div>
@@ -363,6 +387,37 @@
             </div>
         </div>
     </div>
+{{-- === MODAL INFO POIN === --}}
+<div class="modal fade" id="modalPoin" tabindex="-1" aria-labelledby="modalPoinLabel" aria-hidden="true">
+    <div class="modal-dialog modal-md modal-dialog-centered">
+        <div class="modal-content border-0 shadow-lg rounded">
+            
+            <div class="modal-header border-0 bg-success py-3">
+                <h5 class="modal-title text-white fw-bold d-flex align-items-center" id="modalPoinLabel">Poin</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            
+            <div class="modal-body p-4 text-center">
+                <h1 class="display-3 text-success fw-bold mb-0">{{ number_format($userPoints, 0, ',', '.') }}</h1>
+                <p class="text-muted fw-semibold mb-4">Total Poin Saat Ini</p>
+
+                {{-- Box Cara Memperoleh Poin --}}
+                <div class="card bg-light border-0 shadow-sm mt-2 text-start rounded-3">
+                    <div class="card-body p-3">
+                        <h6 class="fw-bold text-dark pb-2 mb-3">Cara Memperoleh Poin:</h6>
+                        <ul class="small text-justify mb-0" style="line-height: 1.8; padding-left: 1.2rem;">
+                            <li>Selesaikan seluruh <strong>aktivitas</strong> yang tersedia di setiap materi pembelajaran.</li>
+                            <li>Poin akan diberikan hanya ketika kamu berhasil mengerjakan aktivitas dengan <strong>benar semua</strong>.</li>
+                            <li>Poin untuk setiap aktivitas hanya dapat diklaim <strong>satu kali</strong> (mengulang aktivitas yang sama tidak menambah poin).</li>
+                            <li>Kerjakan <strong>Kuis</strong> dan <strong>Evaluasi Akhir</strong> nanti untuk mendapatkan poin yang lebih besar!</li>
+                        </ul>
+                    </div>
+                </div>
+                
+            </div>            
+        </div>
+    </div>
+</div>
 {{-- Tambahan CSS Sedikit agar interaktif --}}
 @push('head')
 <style>

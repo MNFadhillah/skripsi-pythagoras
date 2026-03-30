@@ -1825,8 +1825,803 @@ function cekRefleksi() {
         return;
     }
 
+    // Opsional: simpan ke localStorage atau kirim ke server
+    if (typeof updateProgress === 'function') {
+        updateProgress('materi_1_konsep_pythagoras', 'm1_cp16_refleksi_akhir');
+    }
+
     // Jika semua terisi, tampilkan pesan sukses
     Swal.fire({ icon: 'success', title: 'Refleksi Tersimpan', text: 'Terima kasih telah mengisi refleksi.', confirmButtonColor: '#198754' });
 
     // Opsional: simpan ke localStorage atau kirim ke server
 }
+
+/* =====================================================
+   FITUR MODE REVIEW & ULANGI LATIHAN (ANTI DOBEL AMAN)
+===================================================== */
+window.setupReviewMode = function(checkpointCode, buttonSelector, showAnswerCallback, resetCallback) {
+    if (window.completedCheckpoints && window.completedCheckpoints.includes(checkpointCode)) {
+        
+        const btnCek = document.querySelector(buttonSelector); 
+        if(!btnCek) return;
+
+        // Jika tombol sudah punya stempel, hentikan agar tidak dobel!
+        // (Ini sudah cukup mengamankan tanpa perlu menghapus elemen tetangga)
+        if (btnCek.getAttribute('data-review-setup') === 'true') return;
+        btnCek.setAttribute('data-review-setup', 'true');
+
+        // Eksekusi fungsi untuk menampilkan jawaban benar
+        if(typeof showAnswerCallback === 'function') {
+            showAnswerCallback();
+        }
+
+        // Sembunyikan tombol aslinya
+        btnCek.style.display = 'none';
+
+        // Pastikan input text/select tidak melar
+        const container = btnCek.parentElement;
+        const inputEl = container.querySelector('.form-control, .form-select');
+        if (inputEl) {
+            inputEl.style.maxWidth = '250px'; 
+            inputEl.style.borderTopRightRadius = '0.375rem';
+            inputEl.style.borderBottomRightRadius = '0.375rem';
+        }
+
+        // Buat UI Review Baru (Badge Selesai & Tombol Ulangi)
+        const reviewUI = document.createElement('div');
+        reviewUI.className = 'review-mode-ui mt-3 animate__animated animate__fadeIn'; 
+        reviewUI.innerHTML = `
+            <div class="d-flex flex-column align-items-start">
+                <div class="alert alert-success border-success py-2 mb-0 shadow-sm" style="border-radius: 8px;">
+                    <i class="bi bi-check-circle-fill me-2"></i><strong class="small">Latihan Selesai!</strong>
+                </div>
+                <button class="btn btn-outline-success btn-sm fw-bold btn-ulangi mt-2 shadow-sm" type="button" style="border-radius: 8px;">
+                    <i class="bi bi-arrow-counterclockwise me-1"></i>Ulangi Latihan
+                </button>
+            </div>
+        `;
+        
+        // Tempelkan tepat di bawah tombol target (tanpa menghapus punya latihan lain)
+        btnCek.insertAdjacentElement('afterend', reviewUI);
+
+        // Aksi Tombol Ulangi
+        reviewUI.querySelector('.btn-ulangi').addEventListener('click', function(e) {
+            e.preventDefault(); 
+            
+            Swal.fire({
+                title: 'Ulangi Latihan?',
+                text: 'Mengulang latihan tidak akan mengubah nilai progresmu. Lanjut?',
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonColor: '#198754',
+                cancelButtonColor: '#6c757d',
+                confirmButtonText: 'Ya, Ulangi!',
+                cancelButtonText: 'Batal'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    if(typeof resetCallback === 'function') resetCallback();
+                    
+                    if (inputEl) {
+                        inputEl.style.maxWidth = ''; 
+                        inputEl.style.borderTopRightRadius = '';
+                        inputEl.style.borderBottomRightRadius = '';
+                    }
+                    
+                    btnCek.style.display = 'inline-block';
+                    btnCek.disabled = false;
+                    btnCek.removeAttribute('data-review-setup');
+                    reviewUI.remove();
+                }
+            });
+        });
+    }
+};
+
+/* =====================================================
+   AKTIFASI MODE REVIEW UNTUK SETIAP LATIHAN
+===================================================== */
+document.addEventListener('DOMContentLoaded', function () {
+    
+    // Pastikan fungsi setupReviewMode sudah termuat dari script.js
+    if (typeof window.setupReviewMode === 'function') {
+        
+        // ---------------------------------------------------------
+        // 1. Latihan: Menebak Jenis Segitiga (Halaman 1)
+        // ---------------------------------------------------------
+        window.setupReviewMode(
+            'm1_cp1_segitiga_jembatan', 
+            'button[onclick="cekJawabanSegitigaSikuSiku()"]', 
+            function showAnswer() {
+                const input = document.getElementById('inputJawaban');
+                const penjelasanBox = document.getElementById('penjelasan-pythagoras');
+                if (input) {
+                    input.value = 'siku-siku'; 
+                    input.disabled = true;     
+                    input.classList.add('is-valid', 'border-success');
+                }
+                if (penjelasanBox) penjelasanBox.classList.remove('d-none');
+            },
+            function resetExercise() {
+                const input = document.getElementById('inputJawaban');
+                const penjelasanBox = document.getElementById('penjelasan-pythagoras');
+                const feedback = document.getElementById('feedbackPesan');
+                if (input) {
+                    input.value = ''; 
+                    input.disabled = false; 
+                    input.classList.remove('is-valid', 'border-success');
+                }
+                if (feedback) feedback.innerHTML = '';
+                if (penjelasanBox) penjelasanBox.classList.add('d-none');
+            }
+        );
+
+        // ---------------------------------------------------------
+        // 2. Latihan: Drag & Drop Sisi Segitiga (Halaman 1)
+        // ---------------------------------------------------------
+        window.setupReviewMode(
+            'm1_cp2_dragdrop_sisi', 
+            '#check-matching', 
+            function showAnswer() {
+                const dragSource = document.getElementById('drag-source');
+                const dropZones = document.querySelectorAll('.drop-zone[data-correct]');
+                const resetBtn = document.getElementById('reset-matching'); // Tombol ulangi bawaan drag & drop
+                const penguatan = document.getElementById('penguatan-materi-dragdrop');
+
+                if(!dragSource || dropZones.length === 0) return;
+                
+                // Isi otomatis jawaban yang benar
+                dropZones.forEach(zone => {
+                    const correctVal = zone.getAttribute('data-correct');
+                    const correctItem = dragSource.querySelector(`.drag-item[data-value="${correctVal}"]`) || document.querySelector(`.drag-item[data-value="${correctVal}"]`);
+                    if (correctItem) {
+                        zone.appendChild(correctItem);
+                        zone.style.borderColor = '#198754';
+                        zone.style.backgroundColor = '#d1e7dd';
+                        zone.classList.add('correct-answer');
+                        const fb = zone.parentNode.querySelector('.feedback-msg');
+                        if (fb) fb.innerHTML = '<span class="text-success small fw-bold">Tepat!</span>';
+                    }
+                });
+
+                if (penguatan) penguatan.classList.remove('d-none');
+                if (resetBtn) resetBtn.style.display = 'none'; // Sembunyikan tombol Ulangi bawaan HTML
+            },
+            function resetExercise() {
+                const dragSource = document.getElementById('drag-source');
+                const dropZones = document.querySelectorAll('.drop-zone[data-correct]');
+                const resetBtn = document.getElementById('reset-matching');
+                const penguatan = document.getElementById('penguatan-materi-dragdrop');
+
+                // Kembalikan item ke tempat asal
+                document.querySelectorAll('.drag-item').forEach(item => {
+                    dragSource.appendChild(item);
+                });
+
+                dropZones.forEach(zone => {
+                    zone.style.borderStyle = 'dashed';
+                    zone.style.borderColor = '#198754';
+                    zone.style.backgroundColor = '#f8f9fa';
+                    zone.classList.remove('correct-answer', 'bg-light-success');
+                    const fb = zone.parentNode.querySelector('.feedback-msg');
+                    if (fb) fb.innerHTML = '';
+                });
+
+                if (penguatan) penguatan.classList.add('d-none');
+                if (resetBtn) resetBtn.style.display = 'inline-block'; // Munculkan lagi
+            }
+        );
+
+        // ---------------------------------------------------------
+        // 3. Latihan: Tabel Bilangan Kuadrat (Halaman 2)
+        // ---------------------------------------------------------
+        window.setupReviewMode(
+            'm1_cp3_tabel_kuadrat', 
+            '#btnCekKuadrat', 
+            function showAnswer() {
+                const container = document.getElementById('kuadrat-container');
+                const penguatan = document.getElementById('penguatan-materi');
+                if(!container) return;
+                
+                container.querySelectorAll('.input-kuadrat').forEach(input => {
+                    input.value = input.getAttribute('data-answer');
+                    input.classList.remove('is-invalid');
+                    input.classList.add('is-valid');
+                    input.disabled = true;
+                });
+                
+                if (penguatan) penguatan.classList.remove('d-none');
+            },
+            function resetExercise() {
+                const container = document.getElementById('kuadrat-container');
+                const penguatan = document.getElementById('penguatan-materi');
+                if(!container) return;
+                
+                container.querySelectorAll('.input-kuadrat').forEach(input => {
+                    input.value = '';
+                    input.classList.remove('is-valid', 'is-invalid');
+                    input.disabled = false;
+                });
+                
+                if (penguatan) penguatan.classList.add('d-none');
+            }
+        );
+
+        // ---------------------------------------------------------
+        // 4. Latihan: Akar Kuadrat (Halaman 2)
+        // ---------------------------------------------------------
+        window.setupReviewMode(
+            'm1_cp4_isian_akar', 
+            '#btnCekAkar', 
+            function showAnswer() {
+                const container = document.getElementById('akar-container');
+                if(!container) return;
+                
+                container.querySelectorAll('.input-akar').forEach(input => {
+                    input.value = input.getAttribute('data-answer');
+                    input.classList.remove('is-invalid');
+                    input.classList.add('is-valid');
+                    input.disabled = true;
+                });
+            },
+            function resetExercise() {
+                const container = document.getElementById('akar-container');
+                if(!container) return;
+                
+                container.querySelectorAll('.input-akar').forEach(input => {
+                    input.value = '';
+                    input.classList.remove('is-valid', 'is-invalid');
+                    input.disabled = false;
+                });
+            }
+        );
+
+        // ---------------------------------------------------------
+        // 5. Latihan: Titik Sudut Siku-Siku (GeoGebra 1)
+        // ---------------------------------------------------------
+        window.setupReviewMode(
+            'm1_cp5_titik_siku',
+            'button[onclick="cekJawabanSikusiku()"]',
+            function showAnswer() {
+                const input = document.getElementById('inputTitikSudut');
+                const feedbackBenar = document.getElementById('feedbackBenar');
+                if (input) {
+                    input.value = 'B'; // Titik siku-sikunya adalah B
+                    input.disabled = true;
+                    input.classList.add('is-valid', 'border-success');
+                }
+                if (feedbackBenar) feedbackBenar.classList.remove('d-none');
+            },
+            function resetExercise() {
+                const input = document.getElementById('inputTitikSudut');
+                const feedbackBenar = document.getElementById('feedbackBenar');
+                const feedbackSalah = document.getElementById('feedbackSalah');
+                if (input) {
+                    input.value = '';
+                    input.disabled = false;
+                    input.classList.remove('is-valid', 'border-success');
+                }
+                if (feedbackBenar) feedbackBenar.classList.add('d-none');
+                if (feedbackSalah) feedbackSalah.classList.add('d-none');
+            }
+        );
+
+        // ---------------------------------------------------------
+        // 6. Latihan: Kuis Canvas (Ayo Menggambar)
+        // ---------------------------------------------------------
+        window.setupReviewMode(
+            'm1_cp6_kuis_canvas',
+            '#btnPeriksaQuiz',
+            function showAnswer() {
+                const overlay = document.getElementById('quizLockOverlay');
+                const q1 = document.getElementById('q1');
+                const q2 = document.getElementById('q2');
+                const q3 = document.getElementById('q3');
+                const feedback = document.getElementById('quizFeedback');
+
+                if (overlay) overlay.classList.add('d-none'); // Buka gembok overlay
+
+                if (q1 && q2 && q3) {
+                    q1.value = '90';
+                    q2.value = 'ab_bc'; // Asumsi titik siku-siku standar
+                    q3.value = 'depan';
+
+                    [q1, q2, q3].forEach(el => {
+                        el.disabled = true;
+                        el.classList.add('is-valid', 'border-success');
+                    });
+                }
+
+                if (feedback) {
+                    feedback.style.display = 'block';
+                    feedback.className = "alert alert-success border-success mt-4 text-center animate__animated animate__fadeInUp";
+                    feedback.innerHTML = `<h6 class="fw-bold mb-1">Semua Jawaban Benar!</h6><p class="mb-0 small">Ini adalah jawaban yang benar.</p>`;
+                }
+            },
+            function resetExercise() {
+                if(typeof resetCanvas === 'function') resetCanvas(); // Panggil fungsi reset canvas bawaanmu
+                
+                const q1 = document.getElementById('q1');
+                const q2 = document.getElementById('q2');
+                const q3 = document.getElementById('q3');
+                const feedback = document.getElementById('quizFeedback');
+
+                if (q1 && q2 && q3) {
+                    q1.value = '';
+                    q2.value = '';
+                    q3.value = '';
+                    [q1, q2, q3].forEach(el => el.classList.remove('is-valid', 'border-success'));
+                }
+                if (feedback) feedback.style.display = 'none';
+            }
+        );
+
+        // ---------------------------------------------------------
+        // 7. Latihan: Tabel Penamaan Sisi Segitiga
+        // ---------------------------------------------------------
+        window.setupReviewMode(
+            'm1_cp7_tabel_penamaan_sisi',
+            'button[onclick="checkAllAnswers()"]',
+            function showAnswer() {
+                const sisiInputs = document.querySelectorAll('.sisi-input');
+                const ruasInputs = document.querySelectorAll('.input-ruas');
+                const titikInputs = document.querySelectorAll('.input-titik');
+                
+                sisiInputs.forEach(input => {
+                    input.value = input.getAttribute('data-answer');
+                    input.classList.add('is-valid');
+                    input.disabled = true;
+                });
+                ruasInputs.forEach(input => {
+                    input.value = input.getAttribute('data-correct');
+                    input.classList.add('is-valid');
+                    input.disabled = true;
+                });
+                titikInputs.forEach(input => {
+                    input.value = input.getAttribute('data-correct');
+                    input.classList.add('is-valid');
+                    input.disabled = true;
+                });
+
+                const feedbackEl = document.getElementById('final-feedback');
+                if (feedbackEl) {
+                    feedbackEl.className = "mt-3 fw-bold text-success";
+                    feedbackEl.innerHTML = "Luar Biasa! Semua jawabanmu benar.";
+                }
+            },
+            function resetExercise() {
+                const allInputs = document.querySelectorAll('.sisi-input, .input-ruas, .input-titik');
+                allInputs.forEach(input => {
+                    input.value = '';
+                    input.classList.remove('is-valid', 'is-invalid');
+                    input.disabled = false;
+                });
+                const feedbackEl = document.getElementById('final-feedback');
+                if (feedbackEl) feedbackEl.innerHTML = '';
+            }
+        );
+
+        // ---------------------------------------------------------
+        // 8. Latihan: Tabel Luas Persegi GeoGebra
+        // ---------------------------------------------------------
+        window.setupReviewMode(
+            'm1_cp8_tabel_luas_geogebra',
+            'button[onclick="cekTabelGeoGebra()"]',
+            function showAnswer() {
+                const kunci = {
+                    sisi_a: 3, sisi_b: 4, sisi_c: 5,
+                    luas_a_1: 3, luas_a_2: 3, luas_a_sq: 3, luas_a_hasil: 9,
+                    luas_b_1: 4, luas_b_2: 4, luas_b_sq: 4, luas_b_hasil: 16,
+                    luas_c_1: 5, luas_c_2: 5, luas_c_sq: 5, luas_c_hasil: 25
+                };
+                for (let id in kunci) {
+                    let el = document.getElementById(id);
+                    if (el) {
+                        el.value = kunci[id];
+                        el.classList.add('is-valid');
+                        el.disabled = true;
+                    }
+                }
+                const feedbackBox = document.getElementById('feedbackTabelGeoGebra');
+                if (feedbackBox) {
+                    feedbackBox.className = "mt-2 fw-bold text-success animate__animated animate__fadeInUp";
+                    feedbackBox.innerHTML = "Perhitungan luas persegimu sangat tepat.";
+                }
+            },
+            function resetExercise() {
+                const kunci = ['sisi_a', 'sisi_b', 'sisi_c', 'luas_a_1', 'luas_a_2', 'luas_a_sq', 'luas_a_hasil', 'luas_b_1', 'luas_b_2', 'luas_b_sq', 'luas_b_hasil', 'luas_c_1', 'luas_c_2', 'luas_c_sq', 'luas_c_hasil'];
+                kunci.forEach(id => {
+                    let el = document.getElementById(id);
+                    if (el) {
+                        el.value = '';
+                        el.classList.remove('is-valid', 'is-invalid');
+                        el.disabled = false;
+                    }
+                });
+                const feedbackBox = document.getElementById('feedbackTabelGeoGebra');
+                if (feedbackBox) feedbackBox.innerHTML = '';
+            }
+        );
+        
+        // ---------------------------------------------------------
+        // 9. Latihan: Soal 1 (Persegi Terbesar)
+        // ---------------------------------------------------------
+        const fbBenar1 = document.getElementById('feedbackBenar1');
+        // Buat tombol hantu tepat di bawah kotak hijau feedback
+        if (fbBenar1 && !document.getElementById('dummy-btn-s1')) {
+            const dummy1 = document.createElement('button');
+            dummy1.id = 'dummy-btn-s1';
+            dummy1.style.display = 'none'; // Sembunyikan
+            fbBenar1.insertAdjacentElement('afterend', dummy1);
+        }
+
+        window.setupReviewMode(
+            'm1_cp9_kesimpulan_luas', // Berbagi progres dengan Soal 2
+            '#dummy-btn-s1',
+            function showAnswer() {
+                const btnSoal1 = document.querySelector('.btn-soal1');
+                if (btnSoal1) {
+                    const row1 = btnSoal1.closest('.row');
+                    // Matikan semua tombol
+                    row1.querySelectorAll('.btn-soal1').forEach(btn => {
+                        btn.disabled = true; 
+                        btn.classList.remove('btn-success', 'text-white');
+                        btn.classList.add('btn-outline-success');
+                    });
+                    // Cari tombol yang mengandung kata "benar" di onclick (Bebas error VS Code!)
+                    const btnBenar1 = row1.querySelector('button[onclick*="benar"]');
+                    if (btnBenar1) {
+                        btnBenar1.classList.remove('btn-outline-success');
+                        btnBenar1.classList.add('btn-success', 'text-white');
+                    }
+                }
+                if (fbBenar1) fbBenar1.classList.remove('d-none');
+            },
+            function resetExercise() {
+                const btnSoal1 = document.querySelector('.btn-soal1');
+                if (btnSoal1) {
+                    const row1 = btnSoal1.closest('.row');
+                    row1.querySelectorAll('.btn-soal1').forEach(btn => {
+                        btn.disabled = false; 
+                        btn.classList.remove('btn-success', 'btn-danger', 'text-white');
+                        btn.classList.add('btn-outline-success'); 
+                    });
+                }
+                const fbSalah1 = document.getElementById('feedbackSalah1');
+                if (fbBenar1) fbBenar1.classList.add('d-none');
+                if (fbSalah1) fbSalah1.classList.add('d-none');
+            }
+        );
+
+        // ---------------------------------------------------------
+        // 10. Latihan: Kesimpulan Luas Pythagoras (Soal 2)
+        // ---------------------------------------------------------
+        const boxPenjelasan = document.getElementById('boxPenjelasanAkhir');
+        const fbBenar2 = document.getElementById('feedbackBenar');
+        
+        if (boxPenjelasan && !document.getElementById('dummy-btn-s2')) {
+            const dummy2 = document.createElement('button');
+            dummy2.id = 'dummy-btn-s2';
+            dummy2.style.display = 'none';
+            boxPenjelasan.insertAdjacentElement('afterend', dummy2);
+        }
+
+        window.setupReviewMode(
+            'm1_cp9_kesimpulan_luas',
+            '#dummy-btn-s2',
+            function showAnswer() {
+                const btnPilihan = document.querySelector('.btn-pilihan');
+                if (btnPilihan) {
+                    const row2 = btnPilihan.closest('.row');
+                    row2.querySelectorAll('.btn-pilihan').forEach(btn => {
+                        btn.disabled = true; 
+                        btn.classList.remove('btn-success', 'text-white');
+                        btn.classList.add('btn-outline-success');
+                    });
+                    // Cari tombol yang mengandung kata "benar" di onclick
+                    const btnBenar2 = row2.querySelector('button[onclick*="benar"]');
+                    if (btnBenar2) {
+                        btnBenar2.classList.remove('btn-outline-success');
+                        btnBenar2.classList.add('btn-success', 'text-white');
+                    }
+                }
+                if (fbBenar2) fbBenar2.classList.remove('d-none');
+                if (boxPenjelasan) boxPenjelasan.classList.remove('d-none');
+            },
+            function resetExercise() {
+                const btnPilihan = document.querySelector('.btn-pilihan');
+                if (btnPilihan) {
+                    const row2 = btnPilihan.closest('.row');
+                    row2.querySelectorAll('.btn-pilihan').forEach(btn => {
+                        btn.disabled = false; 
+                        btn.classList.remove('btn-success', 'btn-danger', 'text-white');
+                        btn.classList.add('btn-outline-success'); 
+                    });
+                }
+                const fbSalah2 = document.getElementById('feedbackSalah');
+                if (fbBenar2) fbBenar2.classList.add('d-none');
+                if (fbSalah2) fbSalah2.classList.add('d-none');
+                if (boxPenjelasan) boxPenjelasan.classList.add('d-none');
+            }
+        );
+
+        // ---------------------------------------------------------
+        // 11. Latihan: Contoh Soal 1 (Tangga)
+        // ---------------------------------------------------------
+        window.setupReviewMode(
+            'm1_cp11_contoh_soal_1',
+            'button[onclick="cekContoh1()"]',
+            function showAnswer() {
+                const ans1 = {
+                    'c1_dik_a': 3, 'c1_dik_b': 4, 
+                    'c1_step1_a': 3, 'c1_step1_b': 4, 
+                    'c1_step2_a_sq': 9, 'c1_step2_b_sq': 16, 
+                    'c1_step3_sum': 25, 'c1_step4_root': 25, 
+                    'c1_final': 5
+                };
+                for (let id in ans1) {
+                    let el = document.getElementById(id);
+                    if (el) {
+                        el.value = ans1[id];
+                        el.classList.add('is-valid');
+                        el.disabled = true;
+                    }
+                }
+                const feedback = document.getElementById('c1_feedback');
+                if (feedback) {
+                    feedback.className = "small fw-bold text-success animate__animated animate__fadeIn";
+                    feedback.innerHTML = "Luar Biasa! Jawaban kamu benar.";
+                }
+            },
+            function resetExercise() {
+                const ids1 = ['c1_dik_a', 'c1_dik_b', 'c1_step1_a', 'c1_step1_b', 'c1_step2_a_sq', 'c1_step2_b_sq', 'c1_step3_sum', 'c1_step4_root', 'c1_final'];
+                ids1.forEach(id => {
+                    let el = document.getElementById(id);
+                    if (el) {
+                        el.value = '';
+                        el.classList.remove('is-valid', 'is-invalid');
+                        el.disabled = false;
+                    }
+                });
+                const feedback = document.getElementById('c1_feedback');
+                if (feedback) feedback.innerHTML = '';
+            }
+        );
+
+        // ---------------------------------------------------------
+        // 12. Latihan: Contoh Soal 2 (Segitiga Gabungan)
+        // ---------------------------------------------------------
+        window.setupReviewMode(
+            'm1_cp12_contoh_soal_2',
+            'button[onclick="cekContoh2()"]',
+            function showAnswer() {
+                const ans2 = {
+                    'c2_dik_ab': 13, 'c2_dik_ac': 12, 'c2_dik_cd': 3, 
+                    'c2_step1_ab': 13, 'c2_step1_ac': 12, 
+                    'c2_step1_res1': 169, 'c2_step1_res2': 144, 'c2_step1_sqrt': 25, 
+                    'c2_bc_result': 5, 
+                    'c2_step2_bc': 5, 'c2_step2_cd': 3, 
+                    'c2_step2_res1': 25, 'c2_step2_res2': 9, 'c2_step2_sqrt': 16, 
+                    'c2_final': 4
+                };
+                for (let id in ans2) {
+                    let el = document.getElementById(id);
+                    if (el) {
+                        el.value = ans2[id];
+                        el.classList.add('is-valid');
+                        el.disabled = true;
+                    }
+                }
+                const feedback = document.getElementById('c2_feedback');
+                if (feedback) {
+                    feedback.className = "small fw-bold text-success animate__animated animate__fadeIn";
+                    feedback.innerHTML = "Kerja Bagus! Kamu berhasil menyelesaikannya.";
+                }
+            },
+            function resetExercise() {
+                const ids2 = ['c2_dik_ab', 'c2_dik_ac', 'c2_dik_cd', 'c2_step1_ab', 'c2_step1_ac', 'c2_step1_res1', 'c2_step1_res2', 'c2_step1_sqrt', 'c2_bc_result', 'c2_step2_bc', 'c2_step2_cd', 'c2_step2_res1', 'c2_step2_res2', 'c2_step2_sqrt', 'c2_final'];
+                ids2.forEach(id => {
+                    let el = document.getElementById(id);
+                    if (el) {
+                        el.value = '';
+                        el.classList.remove('is-valid', 'is-invalid');
+                        el.disabled = false;
+                    }
+                });
+                const feedback = document.getElementById('c2_feedback');
+                if (feedback) feedback.innerHTML = '';
+            }
+        );
+
+        // ---------------------------------------------------------
+        // 13. Latihan Analisis: Soal 1 (Pilih Rumus)
+        // ---------------------------------------------------------
+        window.setupReviewMode(
+            'm1_cp13_latihan_1',
+            'button[onclick="cekLatihanAnalisis1()"]',
+            function showAnswer() {
+                const tanya = document.getElementById('s1_tanya');
+                const diket1 = document.getElementById('s1_diketahui_1');
+                const diket2 = document.getElementById('s1_diketahui_2');
+                
+                if(tanya) { tanya.value = 'miring'; tanya.disabled = true; tanya.classList.add('is-valid', 'border-success'); }
+                if(diket1) { diket1.value = 'AB'; diket1.disabled = true; diket1.classList.add('is-valid', 'border-success'); }
+                if(diket2) { diket2.value = 'BC'; diket2.disabled = true; diket2.classList.add('is-valid', 'border-success'); }
+                
+                const btnGroups = document.getElementById('s1_tanya').closest('.card-body').querySelectorAll('.row.g-2, .row.g-3');
+                if(btnGroups[0]) {
+                    btnGroups[0].querySelectorAll('button').forEach(b => { b.disabled = true; b.classList.replace('btn-dark', 'btn-outline-dark'); });
+                    const correct1 = btnGroups[0].querySelector('[onclick*="benar"]');
+                    if(correct1) { correct1.classList.replace('btn-outline-dark', 'btn-success'); correct1.classList.add('text-white'); }
+                }
+                if(btnGroups[1]) {
+                    btnGroups[1].querySelectorAll('button').forEach(b => { b.disabled = true; b.classList.replace('btn-dark', 'btn-outline-dark'); });
+                    const correct2 = btnGroups[1].querySelector('[onclick*="benar"]');
+                    if(correct2) { correct2.classList.replace('btn-outline-dark', 'btn-success'); correct2.classList.add('text-white'); }
+                }
+                
+                const fb = document.getElementById('s1_feedback');
+                if(fb) fb.innerText = "Tepat sekali!";
+            },
+            function resetExercise() {
+                const tanya = document.getElementById('s1_tanya');
+                const diket1 = document.getElementById('s1_diketahui_1');
+                const diket2 = document.getElementById('s1_diketahui_2');
+                
+                [tanya, diket1, diket2].forEach(el => {
+                    if (el) { el.value = ''; el.disabled = false; el.classList.remove('is-valid', 'border-success'); }
+                });
+                
+                const btnGroups = document.getElementById('s1_tanya').closest('.card-body').querySelectorAll('.row.g-2, .row.g-3');
+                btnGroups.forEach(group => {
+                    group.querySelectorAll('button').forEach(b => {
+                        b.disabled = false;
+                        b.classList.remove('btn-success', 'btn-dark', 'text-white');
+                        b.classList.add('btn-outline-dark');
+                        b.dataset.status = 'salah';
+                    });
+                });
+                
+                const fb = document.getElementById('s1_feedback');
+                if(fb) fb.innerText = "";
+            }
+        );
+
+        // ---------------------------------------------------------
+        // 14. Latihan Analisis: Soal 2 (Drag & Drop + Perhitungan 1)
+        // ---------------------------------------------------------
+        window.setupReviewMode(
+            'm1_cp14_latihan_2',
+            'button[onclick="cekLatihanAnalisis2()"]',
+            function showAnswer() {
+                const checkAndFix = (elId, correctVal) => {
+                    const el = document.getElementById(elId);
+                    if (el) {
+                        el.classList.remove('is-invalid', 'border-danger', 'text-danger');
+                        el.classList.add('is-valid', 'border-success', 'text-success');
+                        el.value = correctVal;
+                        el.disabled = true;
+                    }
+                };
+                ['s2_inp_mo_1', 's2_inp_mo_2', 's2_inp_mo_3', 's2_inp_mo_4'].forEach(id => checkAndFix(id, 'MO'));
+                checkAndFix('s2_inp_mn', 15); checkAndFix('s2_inp_no', 8); checkAndFix('s2_res_mn_sq', 225);
+                checkAndFix('s2_res_no_sq', 64); checkAndFix('s2_res_sum', 289); checkAndFix('s2_res_sqrt', 289); checkAndFix('s2_final', 17);
+
+                const fillDrop = (target, correctVal) => {
+                    const zone = document.querySelector(`[data-target="${target}"]`);
+                    if (zone) {
+                        const dragSrc = document.getElementById('drag-items-container');
+                        const correctItem = dragSrc.querySelector(`.draggable-item[data-value="${correctVal}"]`) || document.querySelector(`.draggable-item[data-value="${correctVal}"]`);
+                        if (correctItem) {
+                            zone.innerHTML = '';
+                            correctItem.style.margin = "0";
+                            correctItem.classList.replace('p-2', 'p-1');
+                            zone.appendChild(correctItem);
+                            zone.classList.add('border-success', 'is-valid');
+                        }
+                    }
+                };
+                fillDrop('s2_diketahui_mn', '15cm'); fillDrop('s2_diketahui_no', '8cm'); fillDrop('s2_ditanya', 'tanya');
+                fillDrop('s2_rumus_miring', 'MO'); fillDrop('s2_rumus_tegak1', 'MN'); fillDrop('s2_rumus_tegak2', 'NO');
+                
+                const fb = document.getElementById('s2_feedback');
+                if(fb) fb.innerText = "Perhitungan Sempurna!";
+            },
+            function resetExercise() {
+                const inputsText = document.querySelectorAll('#s2_inp_mo_1, #s2_inp_mo_2, #s2_inp_mo_3, #s2_inp_mo_4, #s2_inp_mn, #s2_inp_no, #s2_res_mn_sq, #s2_res_no_sq, #s2_res_sum, #s2_res_sqrt, #s2_final');
+                inputsText.forEach(el => {
+                    el.value = '';
+                    el.disabled = false;
+                    el.classList.remove('is-valid', 'border-success', 'text-success', 'is-invalid', 'border-danger', 'text-danger');
+                });
+                
+                const dragSrc = document.getElementById('drag-items-container');
+                document.querySelectorAll('[data-target^="s2_"]').forEach(zone => {
+                    const item = zone.querySelector('.draggable-item');
+                    if (item) {
+                        item.classList.replace('p-1', 'p-2');
+                        dragSrc.appendChild(item);
+                    }
+                    zone.classList.remove('border-success', 'is-valid', 'border-danger');
+                    zone.style.borderStyle = 'dashed';
+                });
+                
+                const fb = document.getElementById('s2_feedback');
+                if(fb) fb.innerText = "";
+            }
+        );
+
+        // ---------------------------------------------------------
+        // 15. Latihan Analisis: Soal 3 (Drag & Drop + Perhitungan Bertingkat)
+        // ---------------------------------------------------------
+        window.setupReviewMode(
+            'm1_cp15_latihan_3',
+            'button[onclick="cekLatihanAnalisis3()"]',
+            function showAnswer() {
+                const checkAndFix = (elId, correctVal) => {
+                    const el = document.getElementById(elId);
+                    if (el) {
+                        el.classList.remove('is-invalid', 'border-danger', 'text-danger');
+                        el.classList.add('is-valid', 'border-success', 'text-success');
+                        el.value = correctVal;
+                        el.disabled = true;
+                    }
+                };
+                const ans = {
+                    s3_ac_sq1: 24, s3_ac_sq2: 7, s3_ac_sum1: 576, s3_ac_sum2: 49, s3_ac_total: 625, s3_ac_sqrt_val: 625, s3_ac_final: 25,
+                    s3_ab_sq1: 16, s3_ab_sq2: 12, s3_ab_sum1: 256, s3_ab_sum2: 144, s3_ab_total: 400, s3_ab_sqrt_val: 400, s3_ab_final: 20,
+                    s3_bc_sq1: 25, s3_bc_sq2: 20, s3_bc_diff1: 625, s3_bc_diff2: 400, s3_bc_total: 225, s3_bc_sqrt_val: 225, s3_bc_final: 15
+                };
+                for(let id in ans) checkAndFix(id, ans[id]);
+
+                const fillDrop = (target, correctVal) => {
+                    const zone = document.querySelector(`[data-target="${target}"]`);
+                    if (zone) {
+                        const dragSrc = document.getElementById('drag-items-container-s3');
+                        const correctItem = dragSrc.querySelector(`.draggable-item[data-value="${correctVal}"]`) || document.querySelector(`.draggable-item[data-value="${correctVal}"]`);
+                        if (correctItem) {
+                            zone.innerHTML = '';
+                            correctItem.style.margin = "0";
+                            correctItem.classList.replace('p-2', 'p-1');
+                            zone.appendChild(correctItem);
+                            zone.classList.add('border-success', 'is-valid');
+                        }
+                    }
+                };
+                fillDrop('s3_diket_ae', '24'); fillDrop('s3_diket_ce', '7'); fillDrop('s3_diket_ad', '16'); fillDrop('s3_diket_bd', '12'); fillDrop('s3_ditanya', 'BC');
+                fillDrop('s3_ac_drop1', 'AE'); fillDrop('s3_ac_drop2', 'CE'); fillDrop('s3_ab_drop1', 'AD'); fillDrop('s3_ab_drop2', 'BD'); fillDrop('s3_bc_drop1', 'AC'); fillDrop('s3_bc_drop2', 'AB');
+                
+                const fb = document.getElementById('s3_feedback');
+                if(fb) fb.innerText = "Sempurna!";
+            },
+            function resetExercise() {
+                // Beruntungnya kamu sudah bikin fungsi global resetSoal3(), tinggal panggil!
+                if(typeof resetSoal3 === 'function') resetSoal3();
+            }
+        );
+        // ---------------------------------------------------------
+        // 16. Refleksi
+        // ---------------------------------------------------------
+        // Catatan: Pastikan saat submit refleksi, fungsi updateProgress('materi_1_konsep_pythagoras', 'm1_cp16_refleksi') dipanggil di cekRefleksi()
+        window.setupReviewMode(
+            'm1_cp16_refleksi_akhir', // Pastikan ID ini ada di database jika mau dikunci
+            'button[onclick="cekRefleksi()"]',
+            function showAnswer() {
+                ['ref1_ya', 'ref1_tidak', 'ref1_text', 'ref2', 'ref3'].forEach(id => {
+                    const el = document.getElementById(id);
+                    if (el) { el.disabled = true; el.classList.add('is-valid'); }
+                });
+            },
+            function resetExercise() {
+                ['ref1_ya', 'ref1_tidak'].forEach(id => {
+                    const el = document.getElementById(id);
+                    if (el) { el.disabled = false; el.checked = false; el.classList.remove('is-valid'); }
+                });
+                ['ref1_text', 'ref2', 'ref3'].forEach(id => {
+                    const el = document.getElementById(id);
+                    if (el) { el.disabled = false; el.value = ''; el.classList.remove('is-valid'); }
+                });
+            }
+        );
+
+    }
+});

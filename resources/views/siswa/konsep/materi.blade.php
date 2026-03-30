@@ -3,7 +3,12 @@
 @section('title', 'PythaLearn')
 
 @push('scripts')
+    <script>
+        window.completedCheckpoints = JSON.parse('{!! json_encode($completedCheckpoints ?? []) !!}');
+    </script>
+
     <script src="{{ asset('js/materi1.js') }}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 @endpush
 
 @section('content')
@@ -53,7 +58,7 @@
             <div class="row mb-4">
                 <div class="col-12">
                     <div class="card">
-                        <div class="card-header">
+                        <div class="card-header text-center">
                             <h4>Tujuan Pembelajaran</h4>
                         </div>
                         <div class="card-body">
@@ -1936,7 +1941,7 @@
                                 <h6 class="fw-bold">Petunjuk Pengerjaan:</h6>
                                 <ol class="mb-0 small text-muted text-justify">
                                     <li>Amati gambar dan informasi yang diketahui di kolom sebelah kiri pada setiap soal.</li>
-                                    <li><strong>Pada Soal 1</strong> Pilihlah sisi yang dicari pada menu pilihan, lalu klik tombol operator dan rumus yang paling tepat dan lengkapi perhitungannya.</li>
+                                    <li><strong>Pada Soal 1</strong> pilihlah sisi yang dicari pada pilihan yang tersedia dan isilah sisi yang sudah diketahui, lalu pilih operator dan rumus teorema pythagoras yang paling tepat.</li>
                                     <li><strong>Pada Soal 2 dan 3</strong> Tarik <em>(drag)</em> item kotak yang tersedia di kiri, lalu lepas <em>(drop)</em> ke dalam area kotak putus-putus yang sesuai di sebelah kanan dan lengkap perhitungannya</li>
                                     <li>Klik tombol <strong class="text-success">Cek Jawaban</strong> di setiap akhir nomor untuk memeriksa apakah langkah penyelesaianmu sudah benar.</li>
                                 </ol>
@@ -2667,17 +2672,5 @@
         </ul>
     </nav>
 </div>
-
-
-@push('scripts')
-
-
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
-
-
-
-@endpush
-
 
 @endsection

@@ -21,12 +21,11 @@
                           <th scope="col" class="ps-4">Peringkat</th>
                           <th scope="col">Nama</th>
                           <th scope="col">Kelas</th>
-                          <th scope="col">Rata-rata</th>
+                          <th scope="col">Total Poin</th> {{-- UBAH INI: Dari Rata-rata menjadi Total Poin --}}
                       </tr>
                   </thead>
                   <tbody>
                       @forelse($leaderboardSorted as $index => $data)
-                          {{-- Cek apakah baris ini adalah user yang sedang login --}}
                           @php
                               $isCurrentUser = auth()->id() == $data['id'];
                               $rowClass = $isCurrentUser ? 'table-success fw-bold' : '';
@@ -61,7 +60,8 @@
 
                               {{-- Total Poin --}}
                               <td class="fw-bold text-primary">
-                                  {{ $data['rata_rata'] }}
+                                  {{-- UBAH INI: Panggil variabel 'poin' dan beri format angka --}}
+                                  {{ number_format($data['poin'], 0, ',', '.') }} Pts
                               </td>
                           </tr>
                       @empty

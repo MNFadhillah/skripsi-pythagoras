@@ -21,9 +21,11 @@ class ProgressController extends Controller
         $user = User::find(Auth::id());
         $materi_id = $request->materi_id;
         $checkpoint_code = $request->checkpoint_code;
+        // Ambil data points dari request (default 0 jika tidak ada)
+        $earnedPoints = $request->input('points', 0);
 
         // 1. Simpan progres ke database (jika belum ada)
-        progres_siswa::firstOrCreate(
+        $progress = progres_siswa::firstOrCreate(
             [
                 'user_id'         => $user->id,
                 'materi_id'       => $materi_id,
@@ -32,6 +34,16 @@ class ProgressController extends Controller
             ['is_completed' => 1]
         );
 
+        // --- TAMBAHAN LOGIKA POIN ---
+        // Kita cek apakah progress ini BARU saja dibuat (artinya siswa baru pertama kali menyelesaikan)
+        // Jika wasRecentlyCreated bernilai true, maka poin ditambahkan.
+        // Jika false (siswa sudah pernah mengerjakannya), poin tidak ditambah lagi (mencegah farming poin).
+        if ($progress->wasRecentlyCreated && $earnedPoints > 0) {
+            $user->points += $earnedPoints;
+            $user->save();
+        }
+        // ----------------------------
+
         // 2. Hitung total progres keseluruhan (materi + kuis)
         $totalProgress = $this->hitungTotalProgress($user->id);
 
@@ -39,9 +51,8 @@ class ProgressController extends Controller
         $badgeEarned = false;
         $badgeData = null;
 
-        // Kondisi: jika total progres 100% dan checkpoint yang dikirim berasal dari materi 1
         if ($totalProgress == 100 && str_contains($materi_id, 'materi_1_konsep')) {
-            $badgeId = 1; // ID lencana "Pythagoras Explorer"
+            $badgeId = 1; 
             if (!$user->badges()->where('badge_id', $badgeId)->exists()) {
                 $user->badges()->attach($badgeId);
                 $badge = Badge::find($badgeId);
@@ -53,10 +64,11 @@ class ProgressController extends Controller
             }
         }
 
-        // 4. Kembalikan respons
+        // 4. Kembalikan respons, sertakan total_points terbaru
         return response()->json([
             'success'             => true,
             'progress_percentage' => $totalProgress,
+            'total_points'        => $user->points, // Mengirim total poin terbaru ke frontend
             'badge_earned'        => $badgeEarned,
             'badge_data'          => $badgeData
         ]);
@@ -223,10 +235,10 @@ class ProgressController extends Controller
     private function getConfigCheckpoint()
     {
         return [
-            'materi_1_konsep_pythagoras'    => 16,
-            'materi_2_tripel_pythagoras'    => 7,
-            'materi_3_segitiga_istimewa'    => 10,
-            'materi_4_penerapan_pythagoras' => 14,
+            'materi_1_konsep_pythagoras'   => 16,
+            'materi_2_tripel_pythagoras'   => 7,
+            'materi_3_segitiga_istimewa'   => 10,
+            'materi_4_penerapan_pythagoras' => 8,
         ];
     }
 }

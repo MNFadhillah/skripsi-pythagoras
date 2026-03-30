@@ -3,7 +3,14 @@
 @section('title', 'PythaLearn - Tripel Pythagoras')
 
 @push('scripts')
+    <script>
+        window.completedCheckpoints = <?php echo json_encode($completedCheckpoints ?? []); ?>;
+    </script>
+
+    <script src="{{ asset('js/script.js') }}"></script>
+
     <script src="{{ asset('js/materi2.js') }}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 @endpush
 
 @section('content')
@@ -763,6 +770,9 @@
 
                     <div class="card-body">
                         <div class="row">
+                            <div class="small mb-2">
+                                <strong>Petunjuk :</strong> Perhatikan soal di bawah ini, lengkapi titik-titik dan selesaikan langkah perhitungannya.
+                            </div>
                             
                             <div class="col-md-6 mb-3">
                                 <div class="card h-100 border-success shadow-sm">
@@ -914,198 +924,279 @@
                     </div>
                     <div class="card-body">
                         
-                        <div class="alert border-success shadow-sm" role="alert">
-                            <h6 class="fw-bold">Petunjuk Pengerjaan:</h6>
-                            <ol class="mb-0 ps-3">
+                        <div class="alert border-success shadow-sm bg-light" role="alert">
+                            <h6 class="fw-bold"><i class="bi bi-info-circle-fill text-success me-2"></i>Petunjuk Pengerjaan:</h6>
+                            <ol class="mb-0 ps-3" style="line-height: 1.7;">
                                 <li class="mb-2">
                                     <strong>Perhatikan</strong> setiap perintah soal dengan teliti sebelum menjawab.
                                 </li>
                                 <li class="mb-2">
-                                    <strong>Kerjakan</strong> latihan berikut sesuai dengan jenis soalnya:
+                                    <strong>Kerjakan</strong> 8 soal latihan berikut sesuai dengan bagiannya:
                                     <ul class="ps-3 mt-1" style="list-style-type: disc;">
-                                        <li><strong>Soal 1:</strong> Menentukan apakah kelompok bilangan tersebut termasuk Tripel Pythagoras atau bukan (Pilih Ya/Tidak).</li>
-                                        <li><strong>Soal 2:</strong> Memilih satu pasangan bilangan yang paling tepat membentuk Tripel Pythagoras.</li>
-                                        <li><strong>Soal 3:</strong> Mengisi langkah-langkah pembuktian untuk menentukan jenis segitiga (Siku-siku, Lancip, atau Tumpul).</li>
+                                        <li class="mb-1"><strong>Soal 1 - 2:</strong> Isilah kotak-kotak kosong dengan angka dan tanda perbandingan (<, >, =) yang tepat untuk membuktikan jenis segitiganya.</li>
+                                        <li class="mb-1"><strong>Soal 3 - 5:</strong> Tentukan apakah kelompok bilangan pada tabel termasuk Tripel Pythagoras atau bukan (Pilih Ya/Tidak).</li>
+                                        <li><strong>Soal 6 - 8:</strong> Pilih satu jawaban yang paling tepat dari opsi pilihan ganda yang tersedia.</li>
                                     </ul>
                                 </li>
-                                <li class="mb-1">
-                                    Jika sudah selesai, klik tombol <strong>"Cek Jawaban"</strong>.
+                                <li class="mb-2">
+                                    Jika seluruh soal sudah terisi, klik tombol <strong>"Cek Semua Jawaban"</strong> di bagian paling bawah.
                                 </li>
-                                <li>
-                                    Jawaban <strong>Benar</strong> akan ditandai warna <span class="badge bg-success">Hijau</span>, sedangkan jawaban <strong>Salah</strong> akan berwarna <span class="badge bg-danger">Merah</span> (silakan perbaiki jawaban yang salah tersebut).
-                                </li>
+                                <li class="mb-2">
+                                    Jawaban <strong>Benar</strong> akan ditandai dengan warna <span class="badge bg-success">Hijau</span>, sedangkan jawaban yang <strong>Salah</strong> atau kosong akan berwarna <span class="badge bg-danger">Merah</span>. Silakan perbaiki jika masih ada yang merah.
+                                </li> 
                             </ol>
                         </div>
                         
                         <form id="formLatihan">
+    
+                            {{-- BAGIAN 1: JENIS SEGITIGA (SOAL 1 & 2) --}}
+                            <h5 class="fw-bold text-center mb-4">Tentukan jenis segitiga dari kelompok sisi berikut!</h5>
                             
-                            <div class="mb-4">
+                            <div class="row g-4 mb-4">
+                                {{-- SOAL 1 --}}
+                                <div class="col-md-6">
+                                    <h6 class="fw-bold">1. Sisi segitiga: 9, 12, 15</h6>
+                                    <div class="card bg-light border-0 mt-2 h-100 shadow-sm">
+                                        <div class="card-body">
+                                            <p class="fw-bold text-decoration-underline mb-3">Penyelesaian:</p>
+                                            
+                                            <div class="d-flex align-items-center mb-3">
+                                                <label class="me-2">Sisi terpanjang (\(c\)) =</label>
+                                                <input type="number" class="form-control form-control-sm text-center border-secondary input-soal1" style="width: 80px;">
+                                            </div>
+                                            
+                                            <div class="ps-1">
+                                                <div class="row align-items-center g-1 mb-2">
+                                                    <div class="col-auto">\(c^2\) = </div>
+                                                    <div class="col-auto"><input type="number" class="form-control form-control-sm text-center px-1 input-soal1" style="width: 60px;"></div>
+                                                    <div class="col-auto">\(^2\) = </div>
+                                                    <div class="col-auto"><input type="number" class="form-control form-control-sm text-center px-1 fw-bold input-soal1" style="width: 75px;"></div>
+                                                </div>
+                                                
+                                                <div class="row align-items-center g-1 mb-2">
+                                                    <div class="col-auto">\(a^2 + b^2\) =</div>
+                                                    <div class="col-auto"><input type="number" class="form-control form-control-sm text-center px-1 input-soal1" style="width: 50px;"></div>
+                                                    <div class="col-auto">\(^2\) + </div>
+                                                    <div class="col-auto"><input type="number" class="form-control form-control-sm text-center px-1 input-soal1" style="width: 50px;"></div>
+                                                    <div class="col-auto">\(^2\)</div>
+                                                </div>
+                                                
+                                                <div class="row align-items-center g-1 mb-3 ps-5 ms-3">
+                                                    <div class="col-auto">=</div>
+                                                    <div class="col-auto"><input type="number" class="form-control form-control-sm text-center px-1 input-soal1" style="width: 60px;"></div>
+                                                    <div class="col-auto">+</div>
+                                                    <div class="col-auto"><input type="number" class="form-control form-control-sm text-center px-1 input-soal1" style="width: 60px;"></div>
+                                                    <div class="col-auto">=</div>
+                                                    <div class="col-auto"><input type="number" class="form-control form-control-sm text-center px-1 fw-bold text-primary input-soal1" style="width: 75px;"></div>
+                                                </div>
+                                                
+                                                <div class="d-flex align-items-end gap-2 mt-1 mb-2">
+                                                    <div class="d-flex flex-column align-items-center">
+                                                        <label class="mb-1">\(c^2\)</label>
+                                                        <input type="number" id="inp_compare_c_soal1" class="form-control form-control-sm text-center bg-white" style="width: 80px;" placeholder="...">
+                                                    </div>
+                                                    <select id="inp_sign_soal1" class="form-select form-select-sm text-center bg-white mb-0" style="width: 100px;">
+                                                        <option value="">tanda</option>
+                                                        <option value="<">&lt;</option>
+                                                        <option value=">">&gt;</option>
+                                                        <option value="=">=</option>
+                                                    </select>
+                                                    <div class="d-flex flex-column align-items-center">
+                                                        <label class="mb-1">\(a^2 + b^2\)</label>
+                                                        <input type="number" id="inp_compare_ab_soal1" class="form-control form-control-sm text-center bg-white" style="width: 80px;" placeholder="...">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            
+                                            <div class="d-flex align-items-center bg-white p-3 rounded border shadow-sm mt-3">
+                                                <span class="me-2 fw-bold small">Jadi, segitiga:</span>
+                                                <select class="form-select form-select-sm w-auto fw-bold text-success border-success" id="selectSoal1">
+                                                    <option selected disabled value="">-- Pilih --</option>
+                                                    <option value="Siku-siku">Siku-siku</option>
+                                                    <option value="Lancip">Lancip</option>
+                                                    <option value="Tumpul">Tumpul</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {{-- SOAL 2 --}}
+                                <div class="col-md-6">
+                                    <h6 class="fw-bold">2. Sisi segitiga: 6, 8, 12</h6>
+                                    <div class="card bg-light border-0 mt-2 h-100 shadow-sm">
+                                        <div class="card-body">
+                                            <p class="fw-bold text-decoration-underline mb-3">Penyelesaian:</p>
+                                            
+                                            <div class="d-flex align-items-center mb-3">
+                                                <label class="me-2">Sisi terpanjang (\(c\)) =</label>
+                                                <input type="number" class="form-control form-control-sm text-center border-secondary input-soal2" style="width: 80px;">
+                                            </div>
+                                            
+                                            <div class="ps-1">
+                                                <div class="row align-items-center g-1 mb-2">
+                                                    <div class="col-auto">\(c^2\) = </div>
+                                                    <div class="col-auto"><input type="number" class="form-control form-control-sm text-center px-1 input-soal2" style="width: 60px;"></div>
+                                                    <div class="col-auto">\(^2\) = </div>
+                                                    <div class="col-auto"><input type="number" class="form-control form-control-sm text-center px-1 fw-bold input-soal2" style="width: 75px;"></div>
+                                                </div>
+                                                
+                                                <div class="row align-items-center g-1 mb-2">
+                                                    <div class="col-auto">\(a^2 + b^2\) =</div>
+                                                    <div class="col-auto"><input type="number" class="form-control form-control-sm text-center px-1 input-soal2" style="width: 50px;"></div>
+                                                    <div class="col-auto">\(^2\) + </div>
+                                                    <div class="col-auto"><input type="number" class="form-control form-control-sm text-center px-1 input-soal2" style="width: 50px;"></div>
+                                                    <div class="col-auto">\(^2\)</div>
+                                                </div>
+                                                
+                                                <div class="row align-items-center g-1 mb-3 ps-5 ms-3">
+                                                    <div class="col-auto">=</div>
+                                                    <div class="col-auto"><input type="number" class="form-control form-control-sm text-center px-1 input-soal2" style="width: 60px;"></div>
+                                                    <div class="col-auto">+</div>
+                                                    <div class="col-auto"><input type="number" class="form-control form-control-sm text-center px-1 input-soal2" style="width: 60px;"></div>
+                                                    <div class="col-auto">=</div>
+                                                    <div class="col-auto"><input type="number" class="form-control form-control-sm text-center px-1 fw-bold text-primary input-soal2" style="width: 75px;"></div>
+                                                </div>
+                                                
+                                                <div class="d-flex align-items-end gap-2 mt-1 mb-2">
+                                                    <div class="d-flex flex-column align-items-center">
+                                                        <label class="mb-1">\(c^2\)</label>
+                                                        <input type="number" id="inp_compare_c_soal2" class="form-control form-control-sm text-center bg-white" style="width: 80px;" placeholder="...">
+                                                    </div>
+                                                    <select id="inp_sign_soal2" class="form-select form-select-sm text-center bg-white mb-0" style="width: 100px;">
+                                                        <option value="">tanda</option>
+                                                        <option value="<">&lt;</option>
+                                                        <option value=">">&gt;</option>
+                                                        <option value="=">=</option>
+                                                    </select>
+                                                    <div class="d-flex flex-column align-items-center">
+                                                        <label class="mb-1">\(a^2 + b^2\)</label>
+                                                        <input type="number" id="inp_compare_ab_soal2" class="form-control form-control-sm text-center bg-white" style="width: 80px;" placeholder="...">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            
+                                            <div class="d-flex align-items-center bg-white p-3 rounded border shadow-sm mt-3">
+                                                <span class="me-2 fw-bold small">Jadi, segitiga:</span>
+                                                <select class="form-select form-select-sm w-auto fw-bold text-success border-success" id="selectSoal2">
+                                                    <option selected disabled value="">-- Pilih --</option>
+                                                    <option value="Siku-siku">Siku-siku</option>
+                                                    <option value="Lancip">Lancip</option>
+                                                    <option value="Tumpul">Tumpul</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <hr class="my-5 opacity-25">
+                            
+                            {{-- BAGIAN 2: YA/TIDAK (SOAL 3, 4, 5) --}}
+                            <div class="mb-5">
                                 <h5 class="fw-bold text-center">Periksalah apakah bilangan-bilangan di bawah ini merupakan Tripel Pythagoras!</h5>
-                                <div class="table-responsive">
-                                    <table class="table table-bordered table-hover align-middle">
+                                <div class="table-responsive mt-4">
+                                    <table class="table table-bordered table-hover align-middle shadow-sm">
                                         <thead class="table-light text-center">
                                             <tr>
-                                                <th style="width: 50%">Bilangan (Sisi)</th>
+                                                <th style="width: 10%">No</th>
+                                                <th style="width: 40%">Bilangan (Sisi)</th>
                                                 <th style="width: 25%">Ya</th>
                                                 <th style="width: 25%">Tidak</th>
                                             </tr>
                                         </thead>
                                         <tbody class="text-center">
                                             <tr>
+                                                <td class="fw-bold text-muted">3</td>
                                                 <td class="fw-bold px-3">6, 8, 10</td>
-                                                <td class="text-center"><input class="form-check-input" type="radio" name="soal1a" value="ya"></td>
-                                                <td class="text-center"><input class="form-check-input" type="radio" name="soal1a" value="tidak"></td>
+                                                <td class="text-center"><input class="form-check-input" type="radio" name="soal3" value="ya"></td>
+                                                <td class="text-center"><input class="form-check-input" type="radio" name="soal3" value="tidak"></td>
                                             </tr>
                                             <tr>
+                                                <td class="fw-bold text-muted">4</td>
                                                 <td class="fw-bold px-3">7, 12, 14</td>
-                                                <td class="text-center"><input class="form-check-input" type="radio" name="soal1b" value="ya"></td>
-                                                <td class="text-center"><input class="form-check-input" type="radio" name="soal1b" value="tidak"></td>
+                                                <td class="text-center"><input class="form-check-input" type="radio" name="soal4" value="ya"></td>
+                                                <td class="text-center"><input class="form-check-input" type="radio" name="soal4" value="tidak"></td>
                                             </tr>
                                             <tr>
+                                                <td class="fw-bold text-muted">5</td>
                                                 <td class="fw-bold px-3">8, 15, 17</td>
-                                                <td class="text-center"><input class="form-check-input" type="radio" name="soal1c" value="ya"></td>
-                                                <td class="text-center"><input class="form-check-input" type="radio" name="soal1c" value="tidak"></td>
-                                            </tr>
-                                            <tr>
-                                                <td class="fw-bold px-3">9, 10, 13</td>
-                                                <td class="text-center"><input class="form-check-input" type="radio" name="soal1d" value="ya"></td>
-                                                <td class="text-center"><input class="form-check-input" type="radio" name="soal1d" value="tidak"></td>
-                                            </tr>
-                                            <tr>
-                                                <td class="fw-bold px-3">10, 24, 26</td>
-                                                <td class="text-center"><input class="form-check-input" type="radio" name="soal1e" value="ya"></td>
-                                                <td class="text-center"><input class="form-check-input" type="radio" name="soal1e" value="tidak"></td>
+                                                <td class="text-center"><input class="form-check-input" type="radio" name="soal5" value="ya"></td>
+                                                <td class="text-center"><input class="form-check-input" type="radio" name="soal5" value="tidak"></td>
                                             </tr>
                                         </tbody>
                                     </table>
                                 </div>
                             </div>
                             
-                            <hr>
+                            <hr class="my-5 opacity-25">
                             
+                            {{-- BAGIAN 3: PILIHAN GANDA (SOAL 6, 7, 8) --}}
                             <div class="mb-4">
-                                <h5 class="fw-bold text-center">Manakah dari pasangan angka berikut yang membentuk Tripel Pythagoras?</h5>
+                                <h5 class="fw-bold text-center mb-4">Pilihlah jawaban yang paling tepat!</h5>
                                 
-                                <div class="row g-3 mt-1">
-                                    <div class="col-md-3 col-12">
-                                        <input type="radio" class="btn-check" name="soal2" id="soal2A" value="A" autocomplete="off">
-                                        <label class="btn btn-outline-success w-100 h-100 py-3 fw-bold shadow-sm" for="soal2A">
-                                            A. 7, 24, 25
-                                        </label>
+                                {{-- Soal 6 --}}
+                                <div class="mb-4 p-3 bg-light rounded-3 shadow-sm">
+                                    <h6 class="fw-bold mb-3">6. Manakah dari pasangan angka berikut yang membentuk Tripel Pythagoras?</h6>
+                                    <div class="row g-3">
+                                        <div class="col-md-4 col-12">
+                                            <input type="radio" class="btn-check" name="soal6" id="s6A" value="A" autocomplete="off">
+                                            <label class="btn btn-outline-success w-100 py-2 fw-bold" for="s6A">A. 7, 24, 25</label>
+                                        </div>
+                                        <div class="col-md-4 col-12">
+                                            <input type="radio" class="btn-check" name="soal6" id="s6B" value="B" autocomplete="off">
+                                            <label class="btn btn-outline-success w-100 py-2 fw-bold" for="s6B">B. 8, 20, 25</label>
+                                        </div>
+                                        <div class="col-md-4 col-12">
+                                            <input type="radio" class="btn-check" name="soal6" id="s6C" value="C" autocomplete="off">
+                                            <label class="btn btn-outline-success w-100 py-2 fw-bold" for="s6C">C. 10, 25, 27</label>
+                                        </div>
                                     </div>
-                                    
-                                    <div class="col-md-3 col-12">
-                                        <input type="radio" class="btn-check" name="soal2" id="soal2B" value="B" autocomplete="off">
-                                        <label class="btn btn-outline-success w-100 h-100 py-3 fw-bold shadow-sm" for="soal2B">
-                                            B. 8, 20, 25
-                                        </label>
+                                </div>
+
+                                {{-- Soal 7 --}}
+                                <div class="mb-4 p-3 bg-light rounded-3 shadow-sm">
+                                    <h6 class="fw-bold mb-3">7. Manakah kelompok sisi yang membentuk segitiga tumpul?</h6>
+                                    <div class="row g-3">
+                                        <div class="col-md-4 col-12">
+                                            <input type="radio" class="btn-check" name="soal7" id="s7A" value="A" autocomplete="off">
+                                            <label class="btn btn-outline-success w-100 py-2 fw-bold" for="s7A">A. 3, 4, 5</label>
+                                        </div>
+                                        <div class="col-md-4 col-12">
+                                            <input type="radio" class="btn-check" name="soal7" id="s7B" value="B" autocomplete="off">
+                                            <label class="btn btn-outline-success w-100 py-2 fw-bold" for="s7B">B. 5, 12, 14</label>
+                                        </div>
+                                        <div class="col-md-4 col-12">
+                                            <input type="radio" class="btn-check" name="soal7" id="s7C" value="C" autocomplete="off">
+                                            <label class="btn btn-outline-success w-100 py-2 fw-bold" for="s7C">C. 7, 24, 25</label>
+                                        </div>
                                     </div>
-                                    
-                                    <div class="col-md-3 col-12">
-                                        <input type="radio" class="btn-check" name="soal2" id="soal2C" value="C" autocomplete="off">
-                                        <label class="btn btn-outline-success w-100 h-100 py-3 fw-bold shadow-sm" for="soal2C">
-                                            C. 10, 25, 27
-                                        </label>
-                                    </div>
-                                    <div class="col-md-3 col-12">
-                                        <input type="radio" class="btn-check" name="soal2" id="soal2D" value="D" autocomplete="off">
-                                        <label class="btn btn-outline-success w-100 h-100 py-3 fw-bold shadow-sm" for="soal2D">
-                                            D. 12, 20, 29
-                                        </label>
+                                </div>
+
+                                {{-- Soal 8 --}}
+                                <div class="mb-4 p-3 bg-light rounded-3 shadow-sm">
+                                    <h6 class="fw-bold mb-3">8. Kelompok bilangan berikut merupakan Tripel Pythagoras, KECUALI...</h6>
+                                    <div class="row g-3">
+                                        <div class="col-md-4 col-12">
+                                            <input type="radio" class="btn-check" name="soal8" id="s8A" value="A" autocomplete="off">
+                                            <label class="btn btn-outline-success w-100 py-2 fw-bold" for="s8A">A. 5, 12, 13</label>
+                                        </div>
+                                        <div class="col-md-4 col-12">
+                                            <input type="radio" class="btn-check" name="soal8" id="s8B" value="B" autocomplete="off">
+                                            <label class="btn btn-outline-success w-100 py-2 fw-bold" for="s8B">B. 9, 40, 41</label>
+                                        </div>
+                                        <div class="col-md-4 col-12">
+                                            <input type="radio" class="btn-check" name="soal8" id="s8C" value="C" autocomplete="off">
+                                            <label class="btn btn-outline-success w-100 py-2 fw-bold" for="s8C">C. 6, 12, 14</label>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                             
-                            <hr>
-                            
-                            <div class="mb-4">
-                                <h5 class="fw-bold text-center">Apakah sisi segitiga 9, 12, 15 membentuk segitiga siku-siku, lancip, atau tumpul?</h5>
-                                
-                                <div class="card bg-light border-0 mt-3">
-                                    <div class="card-body">
-                                        <p class="fw-bold text-decoration-underline mb-3">Penyelesaian:</p>
-                                        
-                                        <div class="d-flex align-items-center mb-3">
-                                            <label class="me-2">Sisi terpanjang (\(c\)) =</label>
-                                            <input type="number" class="form-control form-control-sm text-center border-secondary input-soal3" style="width: 80px;" id="inputC">
-                                        </div>
-                                        
-                                        <div class="ps-1">
-                                            <div class="row align-items-center g-1 mb-2">
-                                                <div class="col-auto">\(c^2\) = </div>
-                                                <div class="col-auto">
-                                                    <input type="number" class="form-control form-control-sm text-center px-1 input-soal3" style="width: 60px;">
-                                                </div>
-                                                <div class="col-auto">\(^2\) = </div>
-                                                <div class="col-auto">
-                                                    <input type="number" class="form-control form-control-sm text-center px-1 fw-bold input-soal3" style="width: 75px;">
-                                                </div>
-                                            </div>
-                                            
-                                            <div class="row align-items-center g-1 mb-2">
-                                                <div class="col-auto">\(a^2 + b^2\) =</div>
-                                                <div class="col-auto">
-                                                    <input type="number" class="form-control form-control-sm text-center px-1 input-soal3" style="width: 50px;">
-                                                </div>
-                                                <div class="col-auto">\(^2\) + </div>
-                                                <div class="col-auto">
-                                                    <input type="number" class="form-control form-control-sm text-center px-1 input-soal3" style="width: 50px;">
-                                                </div>
-                                                <div class="col-auto">\(^2\)</div>
-                                            </div>
-                                            
-                                            <div class="row align-items-center g-1 mb-3 ps-5 ms-3">
-                                                <div class="col-auto">=</div>
-                                                <div class="col-auto">
-                                                    <input type="number" class="form-control form-control-sm text-center px-1 input-soal3" style="width: 60px;">
-                                                </div>
-                                                <div class="col-auto">+</div>
-                                                <div class="col-auto">
-                                                    <input type="number" class="form-control form-control-sm text-center px-1 input-soal3" style="width: 60px;">
-                                                </div>
-                                                <div class="col-auto">=</div>
-                                                <div class="col-auto">
-                                                    <input type="number" class="form-control form-control-sm text-center px-1 fw-bold text-primary input-soal3" style="width: 75px;">
-                                                </div>
-                                            </div>
-                                            <div class="d-flex align-items-end gap-2 mt-1 mb-2">
-                                                
-                                                <div class="d-flex flex-column align-items-center">
-                                                    <label class="mb-1">\(c^2\)</label>
-                                                    <input type="number" id="inp_compare_c_soal3" class="form-control form-control-sm text-center bg-white" style="width: 80px;" placeholder="...">
-                                                </div>
-                                                
-                                                <select id="inp_sign_soal3" class="form-select form-select-sm text-center bg-white mb-0" style="width: 120px;">
-                                                    <option value="">pilih tanda</option>
-                                                    <option value="<">&lt;</option>
-                                                    <option value=">">&gt;</option>
-                                                    <option value="=">=</option>
-                                                </select>
-                                                
-                                                <div class="d-flex flex-column align-items-center">
-                                                    <label class="mb-1">\(a^2 + b^2\)</label>
-                                                    <input type="number" id="inp_compare_ab_soal3" class="form-control form-control-sm text-center bg-white" style="width: 80px;" placeholder="...">
-                                                </div>
-                                                
-                                            </div>
-                                        </div>
-                                        
-                                        <div class="d-flex align-items-center bg-white p-3 rounded border shadow-sm">
-                                            <span class="me-2 fw-bold">Jadi, segitiga tersebut adalah:</span>
-                                            <select class="form-select form-select-sm w-auto fw-bold text-success border-success" id="selectSoal3">
-                                                <option selected disabled value="">-- Pilih Jawaban --</option>
-                                                <option value="Siku-siku">Segitiga Siku-siku</option>
-                                                <option value="Lancip">Segitiga Lancip</option>
-                                                <option value="Tumpul">Segitiga Tumpul</option>
-                                            </select>
-                                        </div>
-                                        
-                                    </div>
-                                </div>
-                            </div>
-                            
-                            <div class="d-grid gap-2 col-md-4 mx-auto mt-4">
-                                <button type="button" class="btn btn-success fw-bold py-2" onclick="cekLatihanTripel()">Cek Jawaban</button>
+                            <div class="d-grid gap-2 col-md-4 mx-auto mt-5">
+                                <button type="button" class="btn btn-success btn-lg fw-bold shadow-sm" onclick="cekLatihanTripel()">
+                                    <i class="fas fa-check-circle me-2"></i> Cek Semua Jawaban
+                                </button>
                             </div>
                             
                         </form>

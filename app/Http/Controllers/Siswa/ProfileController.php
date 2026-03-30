@@ -57,8 +57,8 @@ class ProfileController extends Controller
         $totalCheckpoint = [
             'materi_1_konsep_pythagoras'    => 16,
             'materi_2_tripel_pythagoras'    => 7,
-            'materi_3_segitiga_istimewa'    => 10,
-            'materi_4_penerapan_pythagoras' => 14,
+            'materi_3_segitiga_istimewa'    => 7,
+            'materi_4_penerapan_pythagoras' => 8,
         ];
 
         $persenMateri = [];

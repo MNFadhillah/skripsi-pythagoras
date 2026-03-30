@@ -70,6 +70,7 @@ class MenuController extends Controller
         $lastBadgeName = $latestBadge ? $latestBadge->name : 'Belum ada lencana';
         $allBadges = Badge::all();
         $earnedBadgeIds = $user->badges->pluck('id')->toArray();
+        $userPoints = $user->points ?? 0;
 
         // --- BAGIAN 5: Kirim ke View ---
         return view('siswa.menu.dashboard', compact(
@@ -77,7 +78,8 @@ class MenuController extends Controller
             'progMateri1', 'totalProgressKeseluruhan', 
             'totalBadgesCount', 'earnedBadgesCount', 'lastBadgeName',
             'allBadges', 'earnedBadgeIds',
-            'progKuis1', 'progKuis2', 'progKuis3', 'progKuis4', 'progEval'
+            'progKuis1', 'progKuis2', 'progKuis3', 'progKuis4', 'progEval',
+            'userPoints'
         ));
     }
 
@@ -85,55 +87,23 @@ class MenuController extends Controller
     {
         // 1. Ambil semua siswa + relasi kelas
         $semuaSiswa = User::where('role', 'siswa')->with('kelas')->get();
-        $semuaPaket = PaketSoal::all();
-        $kkm = 70;
 
         $leaderboardData = [];
 
         foreach ($semuaSiswa as $siswa) {
-            $totalNilaiResmi = 0;
-            $jumlahPaketDikerjakan = 0;
-
-            foreach ($semuaPaket as $paket) {
-                // Ambil SEMUA riwayat pengerjaan siswa ini untuk paket tersebut (Urutkan dari yang pertama)
-                $riwayat = HasilPengerjaan::where('user_id', $siswa->id)
-                                    ->where('paket_soal_id', $paket->id)
-                                    ->whereNotNull('waktu_selesai')
-                                    ->orderBy('created_at', 'asc')
-                                    ->get();
-
-                if ($riwayat->count() > 0) {
-                    $nilaiFix = 0;
-                    $skorPertama = $riwayat->first()->skor_akhir;
-
-                    // --- TERAPKAN LOGIKA REMEDIAL & PENGAYAAN ---
-                    if ($skorPertama >= $kkm) {
-                        // Jika percobaan 1 sudah lulus, pakai nilai pertama (Pengayaan tidak nambah nilai)
-                        $nilaiFix = $skorPertama;
-                    } else {
-                        // Jika percobaan 1 gagal, cari nilai tertinggi tapi batasi di KKM
-                        $skorTertinggi = $riwayat->max('skor_akhir');
-                        $nilaiFix = ($skorTertinggi >= $kkm) ? $kkm : $skorTertinggi;
-                    }
-
-                    $totalNilaiResmi += $nilaiFix;
-                    $jumlahPaketDikerjakan++;
-                }
-            }
-
-            // 3. Hitung rata-rata berdasarkan Nilai Resmi (Remedial-Friendly)
-            $rataRata = $jumlahPaketDikerjakan > 0 ? ($totalNilaiResmi / $jumlahPaketDikerjakan) : 0;
+            // 2. Langsung ambil poin siswa (jika null, jadikan 0)
+            $poin = $siswa->points ?? 0;
 
             $leaderboardData[] = [
                 'id' => $siswa->id,
                 'nama' => $siswa->name,
                 'kelas' => $siswa->kelas ? $siswa->kelas->nama_kelas : 'Belum Masuk Kelas',
-                'rata_rata' => round($rataRata, 2),
+                'poin' => $poin, // Mengganti kunci 'rata_rata' menjadi 'poin'
             ];
         }
 
-        // 4. Urutkan berdasarkan rata-rata tertinggi
-        $leaderboardSorted = collect($leaderboardData)->sortByDesc('rata_rata')->values();
+        // 3. Urutkan berdasarkan poin tertinggi ke terendah
+        $leaderboardSorted = collect($leaderboardData)->sortByDesc('poin')->values();
 
         return view('siswa.menu.leaderboard', compact('leaderboardSorted'));
     }

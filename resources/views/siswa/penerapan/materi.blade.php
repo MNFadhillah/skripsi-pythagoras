@@ -2,6 +2,15 @@
 
 @section('title', 'PythaLearn - Penerapan Teorema Pythagoras')
 
+@push('scripts')
+    <script>
+        window.completedCheckpoints = JSON.parse('{!! json_encode($completedCheckpoints ?? []) !!}');
+    </script>
+
+    <script src="{{ asset('js/materi4.js') }}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+@endpush
+
 @section('content')
 <div class="container">
     <!-- Judul Halaman -->
@@ -27,12 +36,15 @@
                 <button class="page-link page-btn" data-page="2">3</button>
             </li>
             <li class="page-item">
+                <button class="page-link page-btn" data-page="3">4</button>
+            </li>
+            <li class="page-item">
                 <button class="page-link next-btn">›</button>
             </li>
         </ul>
     </nav>
 
-    <!-- ================= HALAMAN 1 ================= -->
+    <!-- ================= HALAMAN 1 (PAGE 0) ================= -->
     <section class="materi-page" data-page="0">
         <!-- Tujuan Pembelajaran -->
         <section class="mb-4">
@@ -47,287 +59,1150 @@
                 </div>
             </div>
         </section>
-        <section class="mb-5">
-            <div class="card shadow-sm border-1">
-                <div class="card-header text-center py-3">
-                    <h4 class="mb-0 fw-bold">Ayo Berlatih</h4>
-                </div>
+
+        <!-- Tahukah Kamu? -->
+        <section class="mb-4">
+    <div class="card shadow-sm border-1">
+        <div class="card-header text-center bg-light">
+            <h4>Tahukah Kamu?</h4>
+        </div>
+        
+        <div class="card-body bg-white">
+            <div class="mb-2">
+                <p class="text-justify">
+                    Masih ingatkah dengan cerita Ahmad yang melihat kemegahan Jembatan Barito saat menaiki kelotok? Saat itu, Ahmad penasaran bagaimana cara menghitung panjang kabel baja yang membentang miring menghubungkan tiang penyangga dan badan jembatan. <br>
+                    Nah, di materi sebelumnya kita sudah membuktikan bahwa Teorema Pythagoras berlaku pada segitiga siku-siku yang terbentuk di jembatan tersebut. Sekarang, saatnya kita membantu Ahmad menjawab rasa penasarannya dengan menerapkan rumus Teorema Pythagoras secara langsung untuk menghitung panjang kabel baja itu!
+                </p>
+            </div>
+
+            <hr class="border-secondary opacity-25 my-4">
+
+            <div class="row">
                 
-                <div class="card-body p-3">
-
-                    <div class="mb-3 border border-success border-2 rounded p-3">
-                        <h5 class="fw-bold text-dark">Petunjuk Pengerjaan</h5>
-                        <ol class="mb-0 text-muted" style="padding-left: 1.2rem; line-height: 1.6;">
-                            <li>Bacalah dengan cermat setiap soal tentang penerapan Teorema Pythagoras yang tersedia.</li>
-                            <li>Untuk setiap soal, buatlah sketsa segitiga siku-siku sesuai konteksnya (misalnya jarak, ketinggian, atau posisi benda).</li>
-                            <li>Isilah kolom kosong pada tiap soal dengan nilai hasil perhitungan yang kamu temukan dari sketsa percobaan.</li>
-                            <li>Setelah mengisi seluruh kolom jawaban, klik tombol “Periksa Jawaban” untuk memeriksa hasil pengerjaanmu.</li>
-                            <li>Jika jawaban benar, kotak jawaban akan berwarna hijau.</li>
-                            <li>Jika jawaban kurang tepat, kotak akan berwarna merah, dan kamu perlu memperbaikinya hingga benar.</li>
-                        </ol>
+                <div class="col-lg-5 mb-4 mb-lg-0">
+                    <p class="fw-bold mb-2">Perhatikan gambar di bawah ini:</p>
+                    <div class="bg-white rounded-3 border shadow-sm p-2 mb-3 text-center">
+                        <img src="{{ asset('images/jembatan_barito_2.png') }}" class="img-fluid rounded" alt="Ilustrasi Jembatan Barito" style="width: 100%; max-height: 280px; object-fit: cover;">
                     </div>
+                    <div class="bg-white rounded-3 border shadow-sm p-2 mb-3 text-center">
+                        <img src="{{ asset('images/segitiga_jembatan.png') }}" class="img-fluid rounded" alt="Ilustrasi Segitiga Jembatan" style="width: 100%; max-height: 280px; object-fit: cover;">
+                    </div>
+                </div>
 
-                    <div class="card border-1 shadow-sm mb-3">
-                        <div class="card-header bg-success text-white py-3">
-                            <h5 class="mb-0 fw-bold">Soal 1: Klotok di Sungai Barito</h5>
-                        </div>
-                        <div class="card-body p-4">
-                            <div class="row">
-                                <div class="col-lg-5 mb-4 mb-lg-0">
-                                    <p class="text-muted small" style="text-align: justify; line-height: 1.6;">
-                                        Pak Rahman mengemudikan klotok di Sungai Barito. Ia menyeberang sejauh 40 meter ke arah timur, namun karena arus, klotok juga terbawa ke selatan sejauh 30 meter. Tentukan jarak lurus yang ditempuh klotok dari titik awal ke titik akhir.
-                                    </p>
-                                    <img src="/images/ilustrasi_soal1.png" 
-                                        alt="Segitiga" 
-                                        class="img-fluid mb-3" 
-                                        style="max-height: 240px; object-fit: contain; width: 100%;">
-                                    <div class="border-start border-success border-3 ps-3 mb-3 mt-2">
-                                        <strong class="text-success small d-block mb-1">Diketahui:</strong>
-                                        <ul class="mb-0 mt-0 text-muted small ps-3">
-                                            <li>Gerak timur (AB) = <strong>40 m</strong></li>
-                                            <li>Gerak selatan (BC) = <strong>30 m</strong></li>
-                                        </ul>
+                <div class="col-lg-7">
+                    <div class="card border shadow-sm h-100">
+                        <div class="card-body p-4 bg-white rounded-3">
+                            <p class="text-justify mb-4">
+                                Misalkan Ahmad mendapatkan informasi bahwa tinggi tiang penyangga jembatan dari badan jalan adalah <strong>24 meter</strong>, dan panjang jalan dari tiang hingga titik ujung kabel baja adalah <strong>10 meter</strong>. Maka panjang kabel baja tersebut dapat diketahui dengan penyelesaian:
+                            </p>
+                            
+                            <div class="mb-4" id="box_step1">
+                                <label class="fw-bold small mb-2 text-dark">1. Berdasarkan gambar dan cerita, Bagian jembatan apa yang akan kita cari panjangnya?</label>
+                                <select id="ap_step1" class="form-select border-success">
+                                    <option value="" selected disabled>-- Pilih Sisi --</option>
+                                    <option value="tiang">Tinggi Tiang</option>
+                                    <option value="jalan">Panjang Jalan</option>
+                                    <option value="kabel">Panjang Kabel Baja</option>
+                                </select>
+                            </div>
+
+                            <div class="mb-4" id="box_step2">
+                                <label class="fw-bold small mb-2 text-dark">2. Berdasarkan sisi yang kita cari, operator apa yang harus digunakan pada rumus Teorema Pythagoras?</label>
+                                <div class="row g-2">
+                                    <div class="col-6">
+                                        <button type="button" class="btn btn-outline-success w-100 btn-operator" data-val="tambah">Ditambah (+)</button>
                                     </div>
-                                    <div class="border-start border-warning border-3 ps-3">
-                                        <strong class="text-warning small d-block mb-1">Ditanya:</strong>
-                                        <p class="mb-0 text-muted small">Jarak lurus (AC) = ... ?</p>
+                                    <div class="col-6">
+                                        <button type="button" class="btn btn-outline-success w-100 btn-operator" data-val="kurang">Dikurang (-)</button>
                                     </div>
                                 </div>
+                                <input type="hidden" id="ap_step2" value="">
+                            </div>
 
-                                <div class="col-lg-7">
-                                    <div class="bg-light border-0 rounded-3 p-4 h-100">
-                                        <h6 class="fw-bold mb-3 text-dark">Langkah Penyelesaian (Teorema Pythagoras):</h6>
-                                        <p class="text-muted small mb-3">Pada segitiga siku-siku ABC, siku-siku di B. Maka:</p>
-                                        <div class="p-3 bg-white border rounded shadow-sm">
-                                            <div class="mb-3 text-center">
-                                                <span class="fw-bold text-dark fs-5">AC² = AB² + BC²</span>
-                                            </div>
-                                            <div class="d-flex align-items-center gap-2 mb-3">
-                                                <span class="text-dark fw-medium" style="width: 45px;">AB =</span>
-                                                <input type="number" id="s1_ab" class="form-control form-control-sm text-center bg-white" style="width:80px;">
-                                                <span class="text-muted small">meter</span>
-                                            </div>
-                                            <div class="d-flex align-items-center gap-2 mb-3">
-                                                <span class="text-dark fw-medium" style="width: 45px;">BC =</span>
-                                                <input type="number" id="s1_bc" class="form-control form-control-sm text-center bg-white" style="width:80px;">
-                                                <span class="text-muted small">meter</span>
-                                            </div>
-                                            <div class="d-flex align-items-center gap-2 mb-3">
-                                                <span class="text-dark fw-medium" style="width: 45px;">AC² =</span>
-                                                <input type="number" id="s1_ac2" class="form-control form-control-sm text-center bg-white" style="width:100px;" readonly>
-                                                <span class="text-muted small fst-italic">(otomatis)</span>
-                                            </div>
-                                            <div class="d-flex align-items-center gap-2 pt-3 border-top">
-                                                <span class="text-dark fw-bold" style="width: 45px;">AC =</span>
-                                                <input type="number" id="s1_ac" class="form-control form-control-sm text-center bg-white fw-bold" style="width:80px;">
-                                                <span class="fw-bold text-dark">meter</span>
-                                            </div>
-                                            <small class="text-muted d-block mt-3">*Isi AB, BC, dan AC. Kolom AC² akan terisi otomatis.</small>
-                                        </div>
-                                        <div class="mt-4 d-flex justify-content-between align-items-center">
-                                            <div id="s1_feedback" class="small fw-bold text-success"></div>
-                                            <button class="btn btn-success btn-sm px-4 fw-bold shadow-sm rounded" onclick="cekSoal1()">
-                                                Periksa Jawaban
-                                            </button>
-                                        </div>
+                            <div class="mb-4" id="box_step3">
+                                <label class="fw-bold small mb-2 text-dark">3. Berdasarkan analisis di atas, rumus mana yang paling tepat digunakan?</label>
+                                <div class="row g-2">
+                                    <div class="col-md-6">
+                                        <button type="button" class="btn btn-outline-success w-100 btn-rumus" data-val="benar">Kabel² = Tiang² + Jalan²</button>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <button type="button" class="btn btn-outline-success w-100 btn-rumus" data-val="salah1">Kabel² = Tiang² - Jalan²</button>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <button type="button" class="btn btn-outline-success w-100 btn-rumus" data-val="salah2">Tiang² = Kabel² - Jalan²</button>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <button type="button" class="btn btn-outline-success w-100 btn-rumus" data-val="salah3">Jalan² = Tiang² + Kabel²</button>
+                                    </div>
+                                </div>
+                                <input type="hidden" id="ap_step3" value="">
+                            </div>
+
+                            <div class="mb-4" id="box_step4">
+                                <label class="fw-bold small mb-2 text-dark">4. Sekarang, mari hitung nilainya ke dalam rumus yang tepat!</label>
+                                <div class="bg-light p-3 border border-success rounded">
+                                    <div class="d-flex align-items-center gap-2 mb-2 justify-content-center">
+                                        <span class="fw-medium" style="width: 60px;">Kabel² =</span>
+                                        <input type="number" id="ap_t1" class="form-control form-control-sm text-center border-success" style="width:60px;" placeholder="...">
+                                        <span class="fw-bold">² + </span>
+                                        <input type="number" id="ap_j1" class="form-control form-control-sm text-center border-success" style="width:60px;" placeholder="...">
+                                        <span class="fw-bold">²</span>
+                                    </div>
+                                    
+                                    <div class="d-flex align-items-center gap-2 mb-2 justify-content-center">
+                                        <span class="fw-medium" style="width: 60px;">Kabel² =</span>
+                                        <input type="number" id="ap_t2" class="form-control form-control-sm text-center border-success" style="width:70px;" placeholder="...">
+                                        <span class="fw-bold"> + </span>
+                                        <input type="number" id="ap_j2" class="form-control form-control-sm text-center border-success" style="width:70px;" placeholder="...">
+                                    </div>
+
+                                    <div class="d-flex align-items-center gap-2 mb-3 justify-content-center">
+                                        <span class="fw-medium" style="width: 60px;">Kabel² =</span>
+                                        <input type="number" id="ap_jum" class="form-control form-control-sm text-center border-success" style="width:90px;" placeholder="...">
+                                    </div>
+
+                                    <div class="d-flex align-items-center gap-2 justify-content-center">
+                                        <span class="fw-bold text-dark">Kabel = &radic;</span>
+                                        <input type="number" id="ap_akar" class="form-control form-control-sm text-center fw-bold border-success" style="width:70px;" placeholder="...">
+                                        <span class="fw-bold mx-1">=</span>
+                                        <input type="number" id="ap_final" class="form-control form-control-sm text-center fw-bold text-success border-success bg-white shadow-sm" style="width:70px;" placeholder="...">
+                                        <span class="fw-bold text-dark">meter</span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="mt-4 pt-3 border-top d-flex justify-content-between align-items-center">
+                                <div id="ap_feedback" class="small fw-bold"></div>
+                                <button class="btn btn-success fw-bold px-4 shadow-sm" onclick="cekApersepsiLengkap()">Cek Jawaban</button>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>  
+
+
+</section>
+
+    <!-- ================= HALAMAN 2 (PAGE 1) ================= -->
+     <section class="materi-page d-none" data-page="1">
+        <section class="mb-4">
+            <div class="card shadow-sm">
+                <div class="card-header text-center bg-light">
+                    <h4 class="mb-0">Contoh 1</h4>
+                </div>
+                <div class="card-body">
+                    <div class="alert alert-light shadow-sm border-start border-success border-4" role="alert">
+                        <div class="small">
+                            <strong>Petunjuk:</strong> Perhatikan soal dan ilustrasi di bawah. Lengkapi data yang diketahui dan selesaikan langkah perhitungannya dengan mengisi kotak yang kosong.
+                        </div>
+                    </div>
+
+                    <div class="row mt-4">
+                        <div class="col-md-5 mb-4 mb-md-0">
+                            <p class=" small text-justify">
+                                Budi sedang bermain layang-layang di lapangan. Jarak mendatar dari tempat Budi berdiri hingga tepat di bawah posisi layang-layang adalah <strong>40 meter</strong>. Jika tinggi layang-layang dari permukaan tanah adalah <strong>30 meter</strong> (mengabaikan tinggi Budi), tentukan panjang benang layang-layang yang terulur!
+                            </p>
+                            <div class="bg-white rounded-3 shadow-sm border p-3 d-flex justify-content-center align-items-center mb-4 overflow-hidden">
+                                <img src="{{ asset('images/contoh_1_penerapan.png') }}" class="img-fluid" style="max-height: 220px;" alt="Ilustrasi Layang-Layang">
+                            </div>
+
+                            <div class="card border mb-3 shadow-sm">
+                                <div class="card-header border-bottom bg-light py-2">
+                                    <h6 class="fw-bold mb-0 small text-success">Diketahui</h6>
+                                </div>
+                                <div class="card-body small py-2">
+                                    <div class="d-flex align-items-center mb-2">
+                                        <span style="width: 250px;">Jarak Budi ke tinggi layang-layang (AB) :</span>
+                                        <select id="c1_dik_ab" class="form-select form-select-sm text-center border-secondary mx-2" style="width: 80px;">
+                                            <option value=""></option>
+                                            <option value="40">40</option>
+                                            <option value="30">30</option>
+                                            <option value="50">50</option>
+                                        </select>
+                                        <span>m</span>
+                                    </div>
+                                    <div class="d-flex align-items-center">
+                                        <span style="width: 250px;">Tinggi layang-layang (BC) :</span>
+                                        <select id="c1_dik_bc" class="form-select form-select-sm text-center border-secondary mx-2" style="width: 80px;">
+                                            <option value=""></option>
+                                            <option value="40">40</option>
+                                            <option value="30">30</option>
+                                            <option value="50">50</option>
+                                        </select>
+                                        <span>m</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="card border shadow-sm">
+                                <div class="card-header border-bottom bg-light py-2">
+                                    <h6 class="fw-bold mb-0 small text-warning">Ditanya</h6>
+                                </div>
+                                <div class="card-body py-2">
+                                    <div class="d-flex align-items-center small ">
+                                        <span>Panjang benang (</span>
+                                        <select id="c1_ditanya" class="form-select form-select-sm text-center border-warning fw-bold text-dark mx-2" style="width: 70px;">
+                                            <option value=""></option>
+                                            <option value="AB">AB</option>
+                                            <option value="BC">BC</option>
+                                            <option value="AC">AC</option>
+                                        </select>
+                                        <span>) = ...?</span>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
 
-                    <div class="card border-1 shadow-sm mb-3">
-                        <div class="card-header bg-success text-white py-3">
-                            <h5 class="mb-0 fw-bold">Soal 2: Tinggi Menara</h5>
-                        </div>
-                        <div class="card-body p-4">
-                            <div class="row">
-                                <div class="col-lg-5 mb-4 mb-lg-0">
-                                    <p class="text-muted small" style="text-align: justify; line-height: 1.6;">
-                                        Seorang siswa melihat puncak menara dengan jarak mendatar 24 meter dari kaki menara. Jika jarak garis pandang siswa ke puncak menara adalah 25 meter, tentukan tinggi menara tersebut!
-                                    </p>
-                                    <img src="/images/ilustrasi_soal2.png" 
-                                        alt="Segitiga" 
-                                        class="img-fluid mb-3" 
-                                        style="max-height: 240px; object-fit: contain; width: 100%;">
-                                    <div class="border-start border-success border-3 ps-3 mb-3">
-                                        <strong class="text-success small d-block mb-1">Diketahui:</strong>
-                                        <ul class="mb-0 mt-0 text-muted small ps-3">
-                                            <li>Jarak mendatar (AB) = <strong>24 m</strong></li>
-                                            <li>Garis pandang (AC) = <strong>25 m</strong></li>
-                                        </ul>
-                                    </div>
-                                    <div class="border-start border-warning border-3 ps-3">
-                                        <strong class="text-warning small d-block mb-1">Ditanya:</strong>
-                                        <p class="mb-0 text-muted small">Tinggi menara (BC) = ... ?</p>
-                                    </div>
+                        <div class="col-md-7">
+                            <div class="card h-100 border shadow-sm">
+                                <div class="card-header bg-light py-2">
+                                    <h6 class="fw-bold mb-0 small text-dark"><i class="fas fa-calculator me-2"></i>Langkah Penyelesaian</h6>
                                 </div>
-
-                                <div class="col-lg-7">
-                                    <div class="bg-light border-0 rounded-3 p-4 h-100">
-                                        <h6 class="fw-bold mb-3 text-dark">Langkah Penyelesaian:</h6>
-                                        <p class="text-muted small mb-3">Pada segitiga siku-siku ABC, siku-siku di B. Maka:</p>
-                                        <div class="p-3 bg-white border rounded shadow-sm">
-                                            <div class="mb-3 text-center">
-                                                <span class="fw-bold text-dark fs-5">BC² = AC² - AB²</span>
-                                            </div>
-                                            <div class="d-flex align-items-center gap-2 mb-3">
-                                                <span class="text-dark fw-medium" style="width: 45px;">AB =</span>
-                                                <input type="number" id="s2_ab" class="form-control form-control-sm text-center bg-white" style="width:80px;">
-                                                <span class="text-muted small">meter</span>
-                                            </div>
-                                            <div class="d-flex align-items-center gap-2 mb-3">
-                                                <span class="text-dark fw-medium" style="width: 45px;">AC =</span>
-                                                <input type="number" id="s2_ac" class="form-control form-control-sm text-center bg-white" style="width:80px;">
-                                                <span class="text-muted small">meter</span>
-                                            </div>
-                                            <div class="d-flex align-items-center gap-2 mb-3">
-                                                <span class="text-dark fw-medium" style="width: 45px;">BC² =</span>
-                                                <input type="number" id="s2_bc2" class="form-control form-control-sm text-center bg-white" style="width:100px;" readonly>
-                                                <span class="text-muted small fst-italic">(otomatis)</span>
-                                            </div>
-                                            <div class="d-flex align-items-center gap-2 pt-3 border-top">
-                                                <span class="text-dark fw-bold" style="width: 45px;">BC =</span>
-                                                <input type="number" id="s2_bc" class="form-control form-control-sm text-center bg-white fw-bold" style="width:80px;">
-                                                <span class="fw-bold text-dark">meter</span>
-                                            </div>
-                                            <small class="text-muted d-block mt-3">*Isi AB, AC, dan BC. Kolom BC² otomatis.</small>
-                                        </div>
-                                        <div class="mt-4 d-flex justify-content-between align-items-center">
-                                            <div id="s2_feedback" class="small fw-bold text-success"></div>
-                                            <button class="btn btn-success btn-sm px-4 fw-bold shadow-sm rounded" onclick="cekSoal2()">
-                                                Periksa Jawaban
-                                            </button>
+                                <div class="card-body bg-light">
+                                    
+                                    <!-- Langkah 1: Interaktif dengan Dropdown -->
+                                    <div class="p-3 mb-3 bg-white border border-success rounded-3 shadow-sm text-center small">
+                                        <span class="d-block fw-bold text-dark mb-2 border-bottom pb-2">1. Pilih Rumus Pythagoras</span>
+                                        <div class="d-flex justify-content-center align-items-center gap-2 mt-2">
+                                            <select id="c1_rumus" class="form-select form-select-sm text-center fw-bold w-auto cursor-pointer">
+                                                <option value="">-- Pilih Rumus --</option>
+                                                <option value="AC">AC² = AB² + BC²</option>
+                                                <option value="AB">AB² = AC² - BC²</option>
+                                                <option value="BC">BC² = AC² - AB²</option>
+                                            </select>
                                         </div>
                                     </div>
+
+                                    <!-- Langkah 2: Substitusi, Hasil Pangkat, dan Penjumlahan -->
+                                    <div class="p-3 mb-3 bg-white border border-success rounded-3 shadow-sm text-center small">
+                                        <span class="d-block fw-bold text-dark mb-2 border-bottom pb-2">2. Substitusi & Hitung Nilai AC²</span>
+                                        
+                                        <!-- Tahap 2A: Masukkan nilai awal -->
+                                        <div class="d-flex flex-wrap align-items-center justify-content-center gap-2 mt-3">
+                                            <span class="fw-bold">AC² =</span>
+                                            <input type="number" id="c1_ab" class="form-control form-control-sm text-center" style="width:70px;" placeholder="...">
+                                            <span class="fw-bold">² +</span>
+                                            <input type="number" id="c1_bc" class="form-control form-control-sm text-center" style="width:70px;" placeholder="...">
+                                            <span class="fw-bold">²</span>
+                                        </div>
+
+                                        <!-- Tahap 2B: Masukkan hasil pangkat -->
+                                        <div class="d-flex flex-wrap align-items-center justify-content-center gap-2 mt-2">
+                                            <span class="fw-bold">AC² =</span>
+                                            <input type="number" id="c1_ab_kuadrat" class="form-control form-control-sm text-center" style="width:80px;" placeholder="...">
+                                            <span class="fw-bold">+</span>
+                                            <input type="number" id="c1_bc_kuadrat" class="form-control form-control-sm text-center" style="width:80px;" placeholder="...">
+                                        </div>
+
+                                        <!-- Tahap 2C: Masukkan hasil penjumlahan akhir -->
+                                        <div class="d-flex flex-wrap align-items-center justify-content-center gap-2 mt-2">
+                                            <span class="fw-bold">AC² =</span>
+                                            <input type="number" id="c1_ac2" class="form-control form-control-sm text-center fw-bold text-primary" style="width:100px;" placeholder="...">
+                                        </div>
+                                    </div>
+
+                                    <!-- Langkah 3: Akar interaktif -->
+                                    <div class="p-3 mb-3 bg-white border border-success rounded-3 shadow-sm text-center small">
+                                        <span class="d-block fw-bold text-dark mb-2 border-bottom pb-2">3. Hitung Panjang AC</span>
+                                        <div class="d-flex align-items-center justify-content-center gap-2 mt-3">
+                                            <span class="fw-bold">AC =</span>
+                                            <span class="fs-5 fw-bold">√</span>
+                                            <input type="number" id="c1_akar_val" class="form-control form-control-sm text-center" style="width:80px;" placeholder="...">
+                                            <span class="fw-bold">=</span>
+                                            <input type="number" id="c1_ac" class="form-control form-control-sm text-center fw-bold text-success" style="width:80px;" placeholder="...">
+                                            <span class="fw-bold">m</span>
+                                        </div>
+                                    </div>
+
+                                    <!-- Footer / Tombol -->
+                                    <div class="mt-4 d-flex flex-column flex-xl-row justify-content-between align-items-center border-top pt-3">
+                                        <div id="c1_feedback" class="small fw-bold mb-3 mb-xl-0"></div>
+                                        <button class="btn btn-success px-4 fw-bold shadow-sm" onclick="cekContoh1Penerapan()">
+                                            Cek Jawaban
+                                        </button>
+                                    </div>
+                                    
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="card border-1 shadow">
-                        <div class="card-header bg-success text-white">
-                            <h5 class="mb-0 fw-bold">Soal 3: Drone dan Dua Tenda</h5>
-                        </div>
-                        <div class="card-body">
-                            <div class="row">
-                                <!-- Kolom Kiri -->
-                                <div class="col-lg-5 mb-3">
-                                    <p class="text-muted small" style="text-align: justify; line-height: 1.6;">
-                                        Sebuah drone terbang pada ketinggian 15 meter. Dari posisi drone, operator melihat dua tenda, Tenda A dan Tenda B, yang berada dalam satu garis lurus di lapangan. Jarak pandang drone ke Tenda A adalah 25 meter, dan ke Tenda B adalah 17 meter. Berapakah jarak antara Tenda A dan Tenda B di permukaan lapangan?
-                                    </p>
-                                    <img src="/images/ilustrasi_soal3.png" 
-                                        alt="Segitiga" 
-                                        class="img-fluid mb-3" 
-                                        style="max-height: 250px; object-fit: contain; width: 100%;"></ul>
-                                    <div class="border-start border-success border-3 ps-3 mb-3">
-                                        <strong class="text-success small d-block mb-1">Diketahui:</strong>
-                                        <ul class="mb-0 mt-0 text-muted small ps-3">
-                                            <li>Tinggi drone = <strong>15 m</strong></li>
-                                            <li>Jarak pandang ke A = <strong>25 m</strong></li>
-                                            <li>Jarak pandang ke B = <strong>17 m</strong></li>
-                                        </ul>
-                                    </div>
-                                    <div class="border-start border-warning border-3 ps-3">
-                                        <strong class="text-warning small d-block mb-1">Ditanya:</strong>
-                                        <p class="mb-0 text-muted small">Jarak antara tenda A dan B (AB) = ... ?</p>
-                                    </div>
-                                </div>
-
-                                <!-- Kolom Kanan -->
-                                <div class="col-lg-7">
-                                    <div class="card bg-light border-0 rounded-3 h-100">
-                                        <div class="card-body p-4">
-                                            <h6 class="fw-bold mb-3 text-dark">Langkah Penyelesaian:</h6>
-                                            <p class="text-muted small mb-3">Misal proyeksi drone di tanah adalah titik O. Maka OA dan OB adalah jarak horizontal ke tenda. Dengan Pythagoras:</p>
-                                            <div class="p-3 bg-white border rounded shadow-sm">
-                                                <div class="mb-3 text-center">
-                                                    <span class="fw-bold text-dark">OA² = 25² - 15² &nbsp;&nbsp;&nbsp; OB² = 17² - 15²</span>
-                                                </div>
-                                                <div class="d-flex align-items-center gap-2 mb-3">
-                                                    <span class="text-dark fw-medium" style="width: 190px;">Jarak horizontal ke A (OA) =</span>
-                                                    <input type="number" id="s3_oa" class="form-control form-control-sm text-center bg-white" style="width:70px;">
-                                                    <span class="text-muted small">meter</span>
-                                                </div>
-                                                <div class="d-flex align-items-center gap-2 mb-3">
-                                                    <span class="text-dark fw-medium" style="width: 190px;">Jarak horizontal ke B (OB) =</span>
-                                                    <input type="number" id="s3_ob" class="form-control form-control-sm text-center bg-white" style="width:70px;">
-                                                    <span class="text-muted small">meter</span>
-                                                </div>
-                                                <div class="d-flex align-items-center gap-2 pt-3 border-top">
-                                                    <span class="text-dark fw-bold" style="width: 190px;">Jarak AB = |OA - OB| =</span>
-                                                    <input type="number" id="s3_ab" class="form-control form-control-sm text-center bg-white fw-bold" style="width:70px">
-                                                    <span class="fw-bold text-dark">meter</span>
-                                                </div>
-                                                <small class="text-muted d-block mt-3">*Kedua tenda berada di sisi yang sama dari drone, sehingga jaraknya selisih.</small>
-                                            </div>
-                                            <div class="mt-4 d-flex justify-content-between align-items-center">
-                                                <div id="s3_feedback" class="small fw-bold text-success"></div>
-                                                <button class="btn btn-success btn-sm px-4 fw-bold shadow-sm rounded-pill" onclick="cekSoal3()">
-                                                    Periksa Jawaban
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
                 </div>
             </div>
         </section>
-    </section>  
-    <!-- ================= HALAMAN 2 ================= -->
-    <section class="materi-page d-none" data-page="1">
-        <!-- Soal 3 (Drone) -->
+
         <section class="mb-4">
-            
+            <div class="card shadow-sm">
+                <div class="card-header text-center bg-light">
+                    <h4 class="mb-0">Contoh 2</h4>
+                </div>
+                <div class="card-body">
+                    <div class="alert alert-light shadow-sm border-start border-success border-4" role="alert">
+                        <div class="small">
+                            <strong>Petunjuk:</strong> Perhatikan soal dan ilustrasi di bawah. Lengkapi data yang diketahui dan selesaikan langkah perhitungannya.
+                        </div>
+                    </div>
+                    <div class="row mt-4">
+                        <!-- Kolom Kiri: Soal, Diketahui, Ditanya -->
+                        <div class="col-md-5 mb-4 mb-md-0">
+                            <p class="small text-justify">
+                                Seorang pengemudi ojek online menempuh perjalanan sejauh <strong>15 km</strong> ke arah barat kemudian <strong>20 km</strong> ke arah utara untuk mengantar penumpang. Tentukan jarak garis lurus dari titik awal ke titik akhir perjalanan yang ditempuh oleh pengemudi ojek!
+                            </p>
+                            <div class="bg-white rounded-3 shadow-sm border p-3 d-flex justify-content-center align-items-center mb-4 overflow-hidden">
+                                <img src="{{ asset('images/contoh_2_penerapan.png') }}" class="img-fluid" style="max-height:220px;" alt="Ilustrasi Jarak Ojek Online">
+                            </div>
+                            
+                            <!-- Bagian Diketahui -->
+                            <div class="card border mb-3 shadow-sm">
+                                <div class="card-header border-bottom bg-light py-2">
+                                    <h6 class="fw-bold mb-0 small text-success">Diketahui</h6>
+                                </div>
+                                <div class="card-body small py-2">
+                                    <div class="d-flex align-items-center mb-2">
+                                        <span style="width: 250px;">Jarak tempuh ke arah barat (MN) :</span>
+                                        <select id="c2_dik_mn" class="form-select form-select-sm text-center border-secondary mx-2" style="width:80px;">
+                                            <option value=""></option>
+                                            <option value="15">15</option>
+                                            <option value="20">20</option>
+                                            <option value="25">25</option>
+                                        </select>
+                                        <span>km</span>
+                                    </div>
+                                    <div class="d-flex align-items-center">
+                                        <span style="width: 250px;">Jarak tempuh ke arah utara (NO) :</span>
+                                        <select id="c2_dik_no" class="form-select form-select-sm text-center border-secondary mx-2" style="width:80px;">
+                                            <option value=""></option>
+                                            <option value="15">15</option>
+                                            <option value="20">20</option>
+                                            <option value="25">25</option>
+                                        </select>
+                                        <span>km</span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Bagian Ditanya -->
+                            <div class="card border shadow-sm">
+                                <div class="card-header border-bottom bg-light py-2">
+                                    <h6 class="fw-bold mb-0 small text-warning">Ditanya</h6>
+                                </div>
+                                <div class="card-body py-2">
+                                    <div class="d-flex align-items-center small">
+                                        <span>Jarak lurus (</span>
+                                        <select id="c2_ditanya" class="form-select form-select-sm text-center border-warning fw-bold text-dark mx-2" style="width:80px;">
+                                            <option value=""></option>
+                                            <option value="MN">MN</option>
+                                            <option value="NO">NO</option>
+                                            <option value="MO">MO</option>
+                                        </select>
+                                        <span>) = ...?</span>
+                                    </div>
+                                </div>
+                                
+                            </div>
+                        </div>
+
+                        <!-- Kolom Kanan: Langkah Penyelesaian -->
+                        <div class="col-md-7 mt-4 mt-md-0">
+                            <div class="card h-100 border shadow-sm">
+                                <div class="card-header bg-light py-2">
+                                    <h6 class="fw-bold mb-0 small text-dark"><i class="fas fa-calculator me-2"></i>Langkah Penyelesaian</h6>
+                                </div>
+                                <div class="card-body bg-light">
+                                    
+                                    <!-- Langkah 1: Interaktif dengan Dropdown -->
+                                    <div class="p-3 mb-3 bg-white border border-success rounded-3 shadow-sm text-center small">
+                                        <span class="d-block fw-bold text-dark mb-2 border-bottom pb-2">1. Pilih Rumus Pythagoras</span>
+                                        <div class="d-flex justify-content-center align-items-center gap-2 mt-2">
+                                            <select id="c2_rumus" class="form-select form-select-sm text-center fw-bold w-auto cursor-pointer">
+                                                <option value="">-- Pilih Rumus --</option>
+                                                <option value="MO">MO² = MN² + NO²</option>
+                                                <option value="MN">MN² = MO² - NO²</option>
+                                                <option value="NO">NO² = MO² - MN²</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <!-- Langkah 2: Substitusi, Hasil Pangkat, dan Penjumlahan -->
+                                    <div class="p-3 mb-3 bg-white border border-success rounded-3 shadow-sm text-center small">
+                                        <span class="d-block fw-bold text-dark mb-2 border-bottom pb-2">2. Substitusi & Hitung Nilai MO²</span>
+                                        
+                                        <!-- Tahap 2A: Masukkan nilai awal (15 dan 20) -->
+                                        <div class="d-flex flex-wrap align-items-center justify-content-center gap-2 mt-3">
+                                            <span class="fw-bold">MO² =</span>
+                                            <input type="number" id="c2_mn" class="form-control form-control-sm text-center" style="width:70px;" placeholder="...">
+                                            <span class="fw-bold">² +</span>
+                                            <input type="number" id="c2_no" class="form-control form-control-sm text-center" style="width:70px;" placeholder="...">
+                                            <span class="fw-bold">²</span>
+                                        </div>
+
+                                        <!-- Tahap 2B: Masukkan hasil pangkat (225 dan 400) -->
+                                        <div class="d-flex flex-wrap align-items-center justify-content-center gap-2 mt-2">
+                                            <span class="fw-bold">MO² =</span>
+                                            <input type="number" id="c2_mn_kuadrat" class="form-control form-control-sm text-center" style="width:80px;" placeholder="...">
+                                            <span class="fw-bold">+</span>
+                                            <input type="number" id="c2_no_kuadrat" class="form-control form-control-sm text-center" style="width:80px;" placeholder="...">
+                                        </div>
+
+                                        <!-- Tahap 2C: Masukkan hasil penjumlahan akhir (625) -->
+                                        <div class="d-flex flex-wrap align-items-center justify-content-center gap-2 mt-2">
+                                            <span class="fw-bold">MO² =</span>
+                                            <input type="number" id="c2_mo2" class="form-control form-control-sm text-center fw-bold text-primary" style="width:100px;" placeholder="...">
+                                        </div>
+                                    </div>
+
+                                    <!-- Langkah 3: Akar interaktif -->
+                                    <div class="p-3 mb-3 bg-white border border-success rounded-3 shadow-sm text-center small">
+                                        <span class="d-block fw-bold text-dark mb-2 border-bottom pb-2">3. Hitung Jarak Lurus (MO)</span>
+                                        <div class="d-flex align-items-center justify-content-center gap-2 mt-3">
+                                            <span class="fw-bold">MO =</span>
+                                            <span class="fs-5 fw-bold">√</span>
+                                            <input type="number" id="c2_akar_val" class="form-control form-control-sm text-center" style="width:80px;" placeholder="...">
+                                            <span class="fw-bold">=</span>
+                                            <input type="number" id="c2_mo" class="form-control form-control-sm text-center fw-bold text-success" style="width:80px;" placeholder="...">
+                                            <span class="fw-bold">km</span>
+                                        </div>
+                                    </div>
+
+                                    <!-- Footer / Tombol -->
+                                    <div class="mt-4 d-flex flex-column flex-xl-row justify-content-between align-items-center border-top pt-3">
+                                        <div id="c2_feedback" class="small fw-bold mb-3 mb-xl-0"></div>
+                                        <button class="btn btn-success px-4 fw-bold shadow-sm" onclick="cekContoh2Penerapan()">
+                                            Cek Jawaban
+                                        </button>
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="mb-4">
+            <div class="card shadow-sm">
+                <div class="card-header text-center bg-light">
+                    <h4 class="mb-0">Contoh 3</h4>
+                </div>
+                <div class="card-body">
+                    <div class="alert alert-light shadow-sm border-start border-success border-4" role="alert">
+                        <div class="small">
+                            <strong>Petunjuk:</strong> Perhatikan soal dan ilustrasi di bawah. Lengkapi data yang diketahui dan selesaikan langkah perhitungannya.
+                        </div>
+                    </div>
+                    <div class="row mt-4">
+                        
+                        <!-- Kolom Kiri: Soal, Diketahui, Ditanya -->
+                        <div class="col-md-5 mb-4 mb-md-0">
+                            <p class="small text-justify">
+                                Seorang pengamat berada di puncak mercusuar (titik D) yang tingginya <strong>15 meter</strong>. Ia melihat dua buah perahu, Perahu A dan Perahu B, yang berlayar sebaris lurus di laut. Jarak pandang garis lurus dari pengamat ke Perahu A adalah <strong>25 meter</strong>, dan ke Perahu B adalah <strong>17 meter</strong>. Berapakah jarak antara Perahu A dan Perahu B?
+                            </p>
+                            <div class="bg-white rounded-3 shadow-sm border p-3 d-flex justify-content-center align-items-center mb-4 overflow-hidden">
+                                <img src="{{ asset('images/contoh_3_penerapan.png') }}" class="img-fluid" style="max-height:220px;" alt="Ilustrasi Mercusuar">
+                            </div>
+                            
+                            <!-- Bagian Diketahui -->
+                            <div class="card border mb-3 shadow-sm">
+                                <div class="card-header border-bottom bg-light py-2">
+                                    <h6 class="fw-bold mb-0 small text-success">Diketahui</h6>
+                                </div>
+                                <div class="card-body small py-2">
+                                    <div class="d-flex align-items-center mb-2">
+                                        <span style="width: 220px;">Tinggi mercusuar (DC) :</span>
+                                        <select id="c3_dik_dc" class="form-select form-select-sm text-center border-secondary mx-2" style="width:80px;">
+                                            <option value=""></option>
+                                            <option value="15">15</option>
+                                            <option value="17">17</option>
+                                            <option value="25">25</option>
+                                        </select>
+                                        <span>m</span>
+                                    </div>
+                                    <div class="d-flex align-items-center mb-2">
+                                        <span style="width: 220px;">Jarak pandang ke A (DA) :</span>
+                                        <select id="c3_dik_da" class="form-select form-select-sm text-center border-secondary mx-2" style="width:80px;">
+                                            <option value=""></option>
+                                            <option value="15">15</option>
+                                            <option value="17">17</option>
+                                            <option value="25">25</option>
+                                        </select>
+                                        <span>m</span>
+                                    </div>
+                                    <div class="d-flex align-items-center">
+                                        <span style="width: 220px;">Jarak pandang ke B (DB) :</span>
+                                        <select id="c3_dik_db" class="form-select form-select-sm text-center border-secondary mx-2" style="width:80px;">
+                                            <option value=""></option>
+                                            <option value="15">15</option>
+                                            <option value="17">17</option>
+                                            <option value="25">25</option>
+                                        </select>
+                                        <span>m</span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Bagian Ditanya -->
+                            <div class="card border shadow-sm">
+                                <div class="card-header border-bottom bg-light py-2">
+                                    <h6 class="fw-bold mb-0 small text-warning">Ditanya</h6>
+                                </div>
+                                <div class="card-body py-2">
+                                    <div class="d-flex align-items-center small ">
+                                        <span>Jarak antara perahu (</span>
+                                        <select id="c3_ditanya" class="form-select form-select-sm text-center border-warning fw-bold text-dark mx-2" style="width:70px;">
+                                            <option value=""></option>
+                                            <option value="AC">AC</option>
+                                            <option value="BC">BC</option>
+                                            <option value="AB">AB</option>
+                                        </select>
+                                        <span>) = ...?</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Kolom Kanan: Langkah Penyelesaian -->
+                        <div class="col-md-7">
+                            <div class="card h-100 border shadow-sm">
+                                <div class="card-header bg-light py-2">
+                                    <h6 class="fw-bold mb-0 small text-dark"><i class="fas fa-calculator me-2"></i>Langkah Penyelesaian</h6>
+                                </div>
+                                <div class="card-body bg-light">
+                                    
+                                    <!-- Langkah 1: Hitung AC (Segitiga ACD) -->
+                                    <div class="p-3 mb-3 bg-white border border-success rounded-3 shadow-sm text-center small">
+                                        <span class="d-block fw-bold text-dark mb-2 border-bottom pb-2">1. Hitung jarak mercusuar ke perahu A (AC)</span>
+                                        <div class="fst-italic text-muted mb-2">Fokus pada segitiga siku-siku ACD (siku di C).</div>
+                                        
+                                        <div class="d-flex flex-wrap align-items-center justify-content-center gap-2 mt-2">
+                                            <span class="fw-bold">AC² = DA² - DC²</span>
+                                        </div>
+                                        
+                                        <div class="d-flex flex-wrap align-items-center justify-content-center gap-2 mt-2">
+                                            <span class="fw-bold">AC² =</span>
+                                            <input type="number" id="c3_da" class="form-control form-control-sm text-center" style="width:60px;" placeholder="...">
+                                            <span class="fw-bold">² -</span>
+                                            <input type="number" id="c3_dc1" class="form-control form-control-sm text-center" style="width:60px;" placeholder="...">
+                                            <span class="fw-bold">²</span>
+                                        </div>
+
+                                        <div class="d-flex flex-wrap align-items-center justify-content-center gap-2 mt-2">
+                                            <span class="fw-bold">AC² =</span>
+                                            <input type="number" id="c3_da_kuadrat" class="form-control form-control-sm text-center" style="width:70px;" placeholder="...">
+                                            <span class="fw-bold">-</span>
+                                            <input type="number" id="c3_dc1_kuadrat" class="form-control form-control-sm text-center" style="width:70px;" placeholder="...">
+                                        </div>
+
+                                        <div class="d-flex flex-wrap align-items-center justify-content-center gap-2 mt-2">
+                                            <span class="fw-bold">AC = √</span>
+                                            <input type="number" id="c3_ac2_val" class="form-control form-control-sm text-center" style="width:70px;" placeholder="...">
+                                            <span class="fw-bold">=</span>
+                                            <input type="number" id="c3_ac" class="form-control form-control-sm text-center fw-bold text-success" style="width:60px;" placeholder="...">
+                                            <span class="fw-bold">m</span>
+                                        </div>
+                                    </div>
+
+                                    <!-- Langkah 2: Hitung BC (Segitiga BCD) -->
+                                    <div class="p-3 mb-3 bg-white border border-success rounded-3 shadow-sm text-center small">
+                                        <span class="d-block fw-bold text-dark mb-2 border-bottom pb-2">2. Hitung jarak mercusuar ke perahu B (BC)</span>
+                                        <div class="fst-italic text-muted mb-2">Fokus pada segitiga siku-siku BCD (siku di C).</div>
+                                        
+                                        <div class="d-flex flex-wrap align-items-center justify-content-center gap-2 mt-2">
+                                            <span class="fw-bold">BC² = DB² - DC²</span>
+                                        </div>
+                                        
+                                        <div class="d-flex flex-wrap align-items-center justify-content-center gap-2 mt-2">
+                                            <span class="fw-bold">BC² =</span>
+                                            <input type="number" id="c3_db" class="form-control form-control-sm text-center" style="width:60px;" placeholder="...">
+                                            <span class="fw-bold">² -</span>
+                                            <input type="number" id="c3_dc2" class="form-control form-control-sm text-center" style="width:60px;" placeholder="...">
+                                            <span class="fw-bold">²</span>
+                                        </div>
+
+                                        <div class="d-flex flex-wrap align-items-center justify-content-center gap-2 mt-2">
+                                            <span class="fw-bold">BC² =</span>
+                                            <input type="number" id="c3_db_kuadrat" class="form-control form-control-sm text-center" style="width:70px;" placeholder="...">
+                                            <span class="fw-bold">-</span>
+                                            <input type="number" id="c3_dc2_kuadrat" class="form-control form-control-sm text-center" style="width:70px;" placeholder="...">
+                                        </div>
+
+                                        <div class="d-flex flex-wrap align-items-center justify-content-center gap-2 mt-2">
+                                            <span class="fw-bold">BC = √</span>
+                                            <input type="number" id="c3_bc2_val" class="form-control form-control-sm text-center" style="width:70px;" placeholder="...">
+                                            <span class="fw-bold">=</span>
+                                            <input type="number" id="c3_bc" class="form-control form-control-sm text-center fw-bold text-success" style="width:60px;" placeholder="...">
+                                            <span class="fw-bold">m</span>
+                                        </div>
+                                    </div>
+
+                                    <!-- Langkah 3: Jarak AB -->
+                                    <div class="p-3 mb-3 bg-white border border-primary rounded-3 shadow-sm text-center small">
+                                        <span class="d-block fw-bold text-dark mb-2 border-bottom pb-2">3. Tentukan jarak AB</span>
+                                        <div class="d-flex flex-wrap align-items-center justify-content-center gap-2 mt-2">
+                                            <span class="fw-bold">AB = AC - BC</span>
+                                        </div>
+                                        <div class="d-flex flex-wrap align-items-center justify-content-center gap-2 mt-2">
+                                            <span class="fw-bold">AB =</span>
+                                            <input type="number" id="c3_ac_final" class="form-control form-control-sm text-center" style="width:60px;" placeholder="...">
+                                            <span class="fw-bold">-</span>
+                                            <input type="number" id="c3_bc_final" class="form-control form-control-sm text-center" style="width:60px;" placeholder="...">
+                                            <span class="fw-bold">=</span>
+                                            <input type="number" id="c3_ab" class="form-control form-control-sm text-center fw-bold text-primary" style="width:70px;" placeholder="...">
+                                            <span class="fw-bold">m</span>
+                                        </div>
+                                    </div>
+
+                                    <!-- Footer / Tombol -->
+                                    <div class="mt-4 d-flex flex-column flex-xl-row justify-content-between align-items-center border-top pt-3">
+                                        <div id="c3_feedback" class="small fw-bold mb-3 mb-xl-0"></div>
+                                        <button class="btn btn-success px-4 fw-bold shadow-sm" onclick="cekContoh3Penerapan()">
+                                            Cek Jawaban
+                                        </button>
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </section>
     </section>
 
-    <!-- ================= HALAMAN 3 ================= -->
+    <!-- ================= HALAMAN 3 (PAGE 2) ================= -->
     <section class="materi-page d-none" data-page="2">
-        <!-- Rangkuman -->
-        <div class="row justify-content-center">
-            <div class="col-md-12 mb-4">
-                <div class="card shadow-sm">
-                    <div class="card-header text-center">
-                        <h4>Rangkuman</h4>
+        <div class="card shadow-sm mb-4 border-1">
+            <div class="card-header text-center bg-light">
+                <h4>Ayo Berlatih</h4>
+            </div>
+            <div class="card-body bg-white">
+                <!-- Petunjuk -->
+                <div class="alert alert-light shadow-sm border-start border-success border-4 mb-4">
+                    <h6 class="fw-bold">Petunjuk Pengerjaan:</h6>
+                    <ul class="mb-0 small">
+                        <li>Perhatikan gambar dan angka yang diketahui di sebelah kiri.</li>
+                        <li>Lengkapi data pada bagian <strong>Diketahui</strong> dan <strong>Ditanya</strong>.</li>
+                        <li>Isi kotak-kotak kosong pada langkah penyelesaian di sebelah kanan.</li>
+                        <li>Klik tombol <strong>Cek Jawaban</strong> di setiap nomor untuk memeriksa hasilmu.</li>
+                    </ul>
+                </div>
+
+                <!-- Soal 1 (Klotok) -->
+                <div class="card border-1 shadow-sm mb-4 border-top border-success border-3">
+                    <div class="card-header bg-white">
+                        <h5 class="mb-0 fw-bold text-success">Soal 1: Klotok di Sungai Barito</h5>
                     </div>
-                    <div class="card-body">
-                        <ul class="mb-0">
-                            <li>Teorema Pythagoras: pada segitiga siku-siku, kuadrat sisi miring sama dengan jumlah kuadrat sisi siku-sikunya.</li>
-                            <li>Penerapan dalam kehidupan sehari-hari: menghitung jarak, tinggi, atau panjang lintasan yang tidak dapat diukur langsung.</li>
-                            <li>Dalam soal-soal ini, kita menggunakan rumus Pythagoras untuk mencari jarak lurus (hipotenusa) atau salah satu sisi siku-siku.</li>
-                        </ul>
+                    <div class="card-body bg-light">
+                        <div class="row">
+                            <!-- Kolom Kiri: Soal, Diketahui, Ditanya -->
+                            <div class="col-md-5 mb-4 mb-md-0">
+                                <p class="fw-bold mb-2 small">Perhatikan gambar di bawah ini:</p>
+                                <div class="bg-white rounded-3 shadow-sm border p-3 d-flex justify-content-center align-items-center mb-4 overflow-hidden">
+                                    <img src="{{ asset('images/ilustrasi_soal1.png') }}" class="img-fluid p-2" style="max-height:220px;" alt="Soal 1">
+                                </div>
+                                <p class="small text-justify mb-4">Pak Rahman mengemudikan klotok. Ia menyeberang ke arah timur <strong>40 m</strong> dan terbawa arus ke arah selatan <strong>30 m</strong>. Tentukan jarak lurus dari titik awal ke titik akhir.</p>
+                                
+                                <div class="card border mb-3 shadow-sm">
+                                    <div class="card-header border-bottom bg-light py-2">
+                                        <h6 class="fw-bold mb-0 small text-success">Diketahui</h6>
+                                    </div>
+                                    <div class="card-body small py-2">
+                                        <div class="d-flex align-items-center mb-2">
+                                            <span style="width: 140px;">Gerak timur (AB) :</span>
+                                            <select id="s1_dik_ab" class="form-select form-select-sm text-center border-secondary mx-2" style="width:80px;">
+                                                <option value=""></option>
+                                                <option value="30">30</option>
+                                                <option value="40">40</option>
+                                                <option value="50">50</option>
+                                            </select>
+                                            <span>m</span>
+                                        </div>
+                                        <div class="d-flex align-items-center">
+                                            <span style="width: 140px;">Gerak selatan (BC) :</span>
+                                            <select id="s1_dik_bc" class="form-select form-select-sm text-center border-secondary mx-2" style="width:80px;">
+                                                <option value=""></option>
+                                                <option value="30">30</option>
+                                                <option value="40">40</option>
+                                                <option value="50">50</option>
+                                            </select>
+                                            <span>m</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="card border shadow-sm">
+                                    <div class="card-header border-bottom bg-light py-2">
+                                        <h6 class="fw-bold mb-0 small text-warning">Ditanya</h6>
+                                    </div>
+                                    <div class="card-body py-2">
+                                        <div class="d-flex align-items-center small">
+                                            <span style="width: 140px;">Jarak lurus (</span>
+                                            <select id="s1_ditanya" class="form-select form-select-sm text-center border-warning fw-bold text-dark mx-2" style="width:80px;">
+                                                <option value=""></option>
+                                                <option value="AB">AB</option>
+                                                <option value="BC">BC</option>
+                                                <option value="AC">AC</option>
+                                            </select>
+                                            <span>) = ...?</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Kolom Kanan: Langkah Penyelesaian -->
+                            <div class="col-md-7 mt-4 mt-md-0">
+                                <div class="card h-100 border shadow-sm">
+                                    <div class="card-header bg-light py-2 border-bottom">
+                                        <h6 class="fw-bold mb-0 small text-dark"><i class="fas fa-calculator me-2"></i>Langkah Penyelesaian</h6>
+                                    </div>
+                                    <div class="card-body bg-light">
+                                        <div class="p-3 mb-3 bg-white border border-success rounded-3 shadow-sm text-center small">
+                                            <span class="d-block fw-bold text-dark mb-2 border-bottom pb-2">1. Pilih Rumus Pythagoras</span>
+                                            <div class="d-flex justify-content-center align-items-center gap-2 mt-2">
+                                                <select id="s1_rumus" class="form-select form-select-sm text-center fw-bold w-auto cursor-pointer">
+                                                    <option value="">-- Pilih Rumus --</option>
+                                                    <option value="AC">AC² = AB² + BC²</option>
+                                                    <option value="AB">AB² = AC² - BC²</option>
+                                                    <option value="BC">BC² = AC² - AB²</option>
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        <div class="p-3 mb-3 bg-white border border-success rounded-3 shadow-sm text-center small">
+                                            <span class="d-block fw-bold text-dark mb-2 border-bottom pb-2">2. Substitusi & Hitung Nilai AC²</span>
+                                            <div class="d-flex flex-wrap align-items-center justify-content-center gap-2 mt-3">
+                                                <span class="fw-bold">AC² =</span>
+                                                <input type="number" id="s1_ab" class="form-control form-control-sm text-center" style="width:70px;" placeholder="...">
+                                                <span class="fw-bold">² +</span>
+                                                <input type="number" id="s1_bc" class="form-control form-control-sm text-center" style="width:70px;" placeholder="...">
+                                                <span class="fw-bold">²</span>
+                                            </div>
+                                            <div class="d-flex flex-wrap align-items-center justify-content-center gap-2 mt-2">
+                                                <span class="fw-bold">AC² =</span>
+                                                <input type="number" id="s1_ab_kuadrat" class="form-control form-control-sm text-center" style="width:80px;" placeholder="...">
+                                                <span class="fw-bold">+</span>
+                                                <input type="number" id="s1_bc_kuadrat" class="form-control form-control-sm text-center" style="width:80px;" placeholder="...">
+                                            </div>
+                                            <div class="d-flex flex-wrap align-items-center justify-content-center gap-2 mt-2">
+                                                <span class="fw-bold">AC² =</span>
+                                                <input type="number" id="s1_ac2" class="form-control form-control-sm text-center fw-bold text-primary" style="width:100px;" placeholder="...">
+                                            </div>
+                                        </div>
+
+                                        <div class="p-3 mb-3 bg-white border border-success rounded-3 shadow-sm text-center small">
+                                            <span class="d-block fw-bold text-dark mb-2 border-bottom pb-2">3. Hitung Jarak Lurus (AC)</span>
+                                            <div class="d-flex align-items-center justify-content-center gap-2 mt-3">
+                                                <span class="fw-bold">AC =</span>
+                                                <span class="fs-5 fw-bold">√</span>
+                                                <input type="number" id="s1_akar_val" class="form-control form-control-sm text-center" style="width:80px;" placeholder="...">
+                                                <span class="fw-bold">=</span>
+                                                <input type="number" id="s1_ac" class="form-control form-control-sm text-center fw-bold text-success" style="width:80px;" placeholder="...">
+                                                <span class="fw-bold">m</span>
+                                            </div>
+                                        </div>
+
+                                        <div class="mt-4 d-flex flex-column flex-xl-row justify-content-between align-items-center border-top pt-3">
+                                            <div id="s1_feedback" class="small fw-bold mb-3 mb-xl-0"></div>
+                                            <button class="btn btn-success px-4 fw-bold shadow-sm" onclick="cekSoal1()">
+                                                <i class="fas fa-check-circle me-1"></i> Cek Jawaban
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
-            </div>
 
-            <!-- Refleksi -->
-            <div class="col-md-12 mb-4">
-                <div class="card shadow-sm">
-                    <div class="card-header text-center">
-                        <h4 class="mb-0">Refleksi</h4>
-                        <small class="text-muted">Jawablah berdasarkan pemahamanmu</small>
+                <!-- Soal 2 (Menara) -->
+                <div class="card border-1 shadow-sm mb-4 border-top border-success border-3">
+                    <div class="card-header bg-white">
+                        <h5 class="mb-0 fw-bold text-success">Soal 2</h5>
                     </div>
-                    <div class="card-body">
-                        <div class="mb-4">
-                            <label class="fw-semibold mb-2">1. Sebutkan contoh lain dalam kehidupan sehari-hari yang dapat diselesaikan dengan Teorema Pythagoras!</label>
-                            <textarea class="form-control" rows="3" id="ref_1" placeholder="Tulis contohmu..."></textarea>
+                    <div class="card-body bg-light">
+                        <div class="row">
+                            <!-- Kolom Kiri: Soal, Diketahui, Ditanya -->
+                            <div class="col-md-5 mb-4 mb-md-0">
+                                <p class="fw-bold mb-2 small">Perhatikan gambar di bawah ini:</p>
+                                <div class="bg-white rounded-3 shadow-sm border p-3 d-flex justify-content-center align-items-center mb-4 overflow-hidden">
+                                    <img src="{{ '/images/ilustrasi_soal2.png' }}" class="img-fluid p-2" style="max-height:220px;" alt="Soal 2">
+                                </div>
+                                <p class="small text-justify mb-4">Seorang siswa melihat puncak menara dengan jarak mendatar <strong>24 m</strong> dan jarak pandang <strong>25 m</strong>. Tentukan tinggi menara tersebut.</p>
+                                
+                                <div class="card border mb-3 shadow-sm">
+                                    <div class="card-header border-bottom bg-light py-2">
+                                        <h6 class="fw-bold mb-0 small text-success">Diketahui</h6>
+                                    </div>
+                                    <div class="card-body small py-2">
+                                        <div class="d-flex align-items-center mb-2">
+                                            <span style="width: 140px;">Jarak mendatar (AB) :</span>
+                                            <select id="s2_dik_ab" class="form-select form-select-sm text-center border-secondary mx-2" style="width:80px;">
+                                                <option value=""></option>
+                                                <option value="24">24</option>
+                                                <option value="25">25</option>
+                                                <option value="7">7</option>
+                                            </select>
+                                            <span>m</span>
+                                        </div>
+                                        <div class="d-flex align-items-center">
+                                            <span style="width: 140px;">Garis pandang (AC) :</span>
+                                            <select id="s2_dik_ac" class="form-select form-select-sm text-center border-secondary mx-2" style="width:80px;">
+                                                <option value=""></option>
+                                                <option value="24">24</option>
+                                                <option value="25">25</option>
+                                                <option value="7">7</option>
+                                            </select>
+                                            <span>m</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="card border shadow-sm">
+                                    <div class="card-header border-bottom bg-light py-2">
+                                        <h6 class="fw-bold mb-0 small text-warning">Ditanya</h6>
+                                    </div>
+                                    <div class="card-body py-2">
+                                        <div class="d-flex align-items-center small">
+                                            <span style="width: 140px;">Tinggi menara (</span>
+                                            <select id="s2_ditanya" class="form-select form-select-sm text-center border-warning fw-bold text-dark mx-2" style="width:80px;">
+                                                <option value=""></option>
+                                                <option value="AB">AB</option>
+                                                <option value="BC">BC</option>
+                                                <option value="AC">AC</option>
+                                            </select>
+                                            <span>) = ...?</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Kolom Kanan: Langkah Penyelesaian -->
+                            <div class="col-md-7 mt-4 mt-md-0">
+                                <div class="card h-100 border shadow-sm">
+                                    <div class="card-header bg-light py-2 border-bottom">
+                                        <h6 class="fw-bold mb-0 small text-dark"><i class="fas fa-calculator me-2"></i>Langkah Penyelesaian</h6>
+                                    </div>
+                                    <div class="card-body bg-light">
+                                        <div class="p-3 mb-3 bg-white border border-success rounded-3 shadow-sm text-center small">
+                                            <span class="d-block fw-bold text-dark mb-2 border-bottom pb-2">1. Pilih Rumus Pythagoras</span>
+                                            <div class="d-flex justify-content-center align-items-center gap-2 mt-2">
+                                                <select id="s2_rumus" class="form-select form-select-sm text-center fw-bold w-auto cursor-pointer">
+                                                    <option value="">-- Pilih Rumus --</option>
+                                                    <option value="AC">AC² = AB² + BC²</option>
+                                                    <option value="AB">AB² = AC² - BC²</option>
+                                                    <option value="BC">BC² = AC² - AB²</option>
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        <div class="p-3 mb-3 bg-white border border-success rounded-3 shadow-sm text-center small">
+                                            <span class="d-block fw-bold text-dark mb-2 border-bottom pb-2">2. Substitusi & Hitung Nilai BC²</span>
+                                            <div class="d-flex flex-wrap align-items-center justify-content-center gap-2 mt-3">
+                                                <span class="fw-bold">BC² =</span>
+                                                <input type="number" id="s2_ac" class="form-control form-control-sm text-center" style="width:70px;" placeholder="...">
+                                                <span class="fw-bold">² -</span>
+                                                <input type="number" id="s2_ab" class="form-control form-control-sm text-center" style="width:70px;" placeholder="...">
+                                                <span class="fw-bold">²</span>
+                                            </div>
+                                            <div class="d-flex flex-wrap align-items-center justify-content-center gap-2 mt-2">
+                                                <span class="fw-bold">BC² =</span>
+                                                <input type="number" id="s2_ac_kuadrat" class="form-control form-control-sm text-center" style="width:80px;" placeholder="...">
+                                                <span class="fw-bold">-</span>
+                                                <input type="number" id="s2_ab_kuadrat" class="form-control form-control-sm text-center" style="width:80px;" placeholder="...">
+                                            </div>
+                                            <div class="d-flex flex-wrap align-items-center justify-content-center gap-2 mt-2">
+                                                <span class="fw-bold">BC² =</span>
+                                                <input type="number" id="s2_bc2" class="form-control form-control-sm text-center fw-bold text-primary" style="width:100px;" placeholder="...">
+                                            </div>
+                                        </div>
+
+                                        <div class="p-3 mb-3 bg-white border border-success rounded-3 shadow-sm text-center small">
+                                            <span class="d-block fw-bold text-dark mb-2 border-bottom pb-2">3. Hitung Tinggi Menara (BC)</span>
+                                            <div class="d-flex align-items-center justify-content-center gap-2 mt-3">
+                                                <span class="fw-bold">BC =</span>
+                                                <span class="fs-5 fw-bold">√</span>
+                                                <input type="number" id="s2_akar_val" class="form-control form-control-sm text-center" style="width:80px;" placeholder="...">
+                                                <span class="fw-bold">=</span>
+                                                <input type="number" id="s2_bc" class="form-control form-control-sm text-center fw-bold text-success" style="width:80px;" placeholder="...">
+                                                <span class="fw-bold">m</span>
+                                            </div>
+                                        </div>
+
+                                        <div class="mt-4 d-flex flex-column flex-xl-row justify-content-between align-items-center border-top pt-3">
+                                            <div id="s2_feedback" class="small fw-bold mb-3 mb-xl-0"></div>
+                                            <button class="btn btn-success px-4 fw-bold shadow-sm" onclick="cekSoal2()">
+                                                <i class="fas fa-check-circle me-1"></i> Cek Jawaban
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                        <div class="mb-4">
-                            <label class="fw-semibold mb-2">2. Menurutmu, apa manfaat mempelajari Teorema Pythagoras di luar sekolah?</label>
-                            <textarea class="form-control" rows="3" id="ref_2" placeholder="Tulis pendapatmu..."></textarea>
-                        </div>
-                        <div class="text-center mt-4">
-                            <button class="btn btn-success fw-bold px-5 rounded-pill" onclick="simpanRefleksi()">Simpan Refleksi</button>
+                    </div>
+                </div>
+
+                <!-- Soal 3 (Drone) -->
+                <div class="card border-1 shadow-sm border-top border-success border-3">
+                    <div class="card-header bg-white">
+                        <h5 class="mb-0 fw-bold text-success">Soal 3</h5>
+                    </div>
+                    <div class="card-body bg-light">
+                        <div class="row">
+                            <!-- Kolom Kiri: Soal, Diketahui, Ditanya -->
+                            <div class="col-md-5 mb-4 mb-md-0">
+                                <p class="fw-bold mb-2 small">Perhatikan gambar di bawah ini:</p>
+                                <div class="bg-white rounded-3 shadow-sm border p-3 d-flex justify-content-center align-items-center mb-4 overflow-hidden">
+                                    <img src="{{ asset('/images/ilustrasi_soal3.png') }}" class="img-fluid p-2" style="max-height:350px;" alt="Soal 3">
+                                </div>
+                                <p class="small text-justify mb-4">Sebuah drone (titik D) melihat tenda A dengan jarak pandang lurus <strong>20 m</strong> dan jarak mendatar <strong>16 m</strong>. Di arah yang sama, drone juga melihat tenda B dengan jarak pandang lurus <strong>15 m</strong>. Tentukan jarak mendatar dari titik tepat di bawah drone ke tenda B (panjang BC).</p>
+                                
+                                <div class="card border mb-3 shadow-sm">
+                                    <div class="card-header border-bottom bg-light py-2">
+                                        <h6 class="fw-bold mb-0 small text-success">Diketahui</h6>
+                                    </div>
+                                    <div class="card-body small py-2">
+                                        <div class="d-flex align-items-center mb-2">
+                                            <span style="width: 150px;">Jarak pandang A (DA) :</span>
+                                            <select id="s3_dik_da" class="form-select form-select-sm text-center border-secondary mx-2" style="width:80px;">
+                                                <option value=""></option>
+                                                <option value="15">15</option>
+                                                <option value="16">16</option>
+                                                <option value="20">20</option>
+                                            </select>
+                                            <span>m</span>
+                                        </div>
+                                        <div class="d-flex align-items-center mb-2">
+                                            <span style="width: 150px;">Jarak mendatar A (AC) :</span>
+                                            <select id="s3_dik_ac" class="form-select form-select-sm text-center border-secondary mx-2" style="width:80px;">
+                                                <option value=""></option>
+                                                <option value="15">15</option>
+                                                <option value="16">16</option>
+                                                <option value="20">20</option>
+                                            </select>
+                                            <span>m</span>
+                                        </div>
+                                        <div class="d-flex align-items-center">
+                                            <span style="width: 150px;">Jarak pandang B (DB) :</span>
+                                            <select id="s3_dik_db" class="form-select form-select-sm text-center border-secondary mx-2" style="width:80px;">
+                                                <option value=""></option>
+                                                <option value="15">15</option>
+                                                <option value="16">16</option>
+                                                <option value="20">20</option>
+                                            </select>
+                                            <span>m</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="card border shadow-sm">
+                                    <div class="card-header border-bottom bg-light py-2">
+                                        <h6 class="fw-bold mb-0 small text-warning">Ditanya</h6>
+                                    </div>
+                                    <div class="card-body py-2">
+                                        <div class="d-flex align-items-center small">
+                                            <span>Jarak mendatar B (</span>
+                                            <select id="s3_ditanya" class="form-select form-select-sm text-center border-warning fw-bold text-dark mx-2" style="width:80px;">
+                                                <option value=""></option>
+                                                <option value="DC">DC</option>
+                                                <option value="BC">BC</option>
+                                                <option value="AB">AB</option>
+                                            </select>
+                                            <span>) = ...?</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Kolom Kanan: Langkah Penyelesaian -->
+                            <div class="col-md-7 mt-4 mt-md-0">
+                                <div class="card h-100 border shadow-sm">
+                                    <div class="card-header bg-light py-2 border-bottom">
+                                        <h6 class="fw-bold mb-0 small text-dark"><i class="fas fa-calculator me-2"></i>Langkah Penyelesaian</h6>
+                                    </div>
+                                    <div class="card-body bg-light">
+                                        
+                                        <!-- Langkah 1: Hitung DC -->
+                                        <div class="p-3 mb-3 bg-white border border-success rounded-3 shadow-sm text-center small">
+                                            <span class="d-block fw-bold text-dark mb-2 border-bottom pb-2">1. Hitung tinggi drone (DC)</span>
+                                            <div class="fst-italic text-muted mb-2">Fokus pada segitiga siku-siku ACD (siku di C).</div>
+                                            <div class="d-flex flex-wrap align-items-center justify-content-center gap-2 mt-2">
+                                                <span class="fw-bold">DC² = DA² - AC²</span>
+                                            </div>
+                                            <div class="d-flex flex-wrap align-items-center justify-content-center gap-2 mt-2">
+                                                <span class="fw-bold">DC² =</span>
+                                                <input type="number" id="s3_da" class="form-control form-control-sm text-center" style="width:60px;" placeholder="...">
+                                                <span class="fw-bold">² -</span>
+                                                <input type="number" id="s3_ac1" class="form-control form-control-sm text-center" style="width:60px;" placeholder="...">
+                                                <span class="fw-bold">²</span>
+                                            </div>
+                                            <div class="d-flex flex-wrap align-items-center justify-content-center gap-2 mt-2">
+                                                <span class="fw-bold">DC² =</span>
+                                                <input type="number" id="s3_da_kuadrat" class="form-control form-control-sm text-center" style="width:70px;" placeholder="...">
+                                                <span class="fw-bold">-</span>
+                                                <input type="number" id="s3_ac1_kuadrat" class="form-control form-control-sm text-center" style="width:70px;" placeholder="...">
+                                            </div>
+                                            <div class="d-flex flex-wrap align-items-center justify-content-center gap-2 mt-2">
+                                                <span class="fw-bold">DC = √</span>
+                                                <input type="number" id="s3_dc2_val" class="form-control form-control-sm text-center" style="width:70px;" placeholder="...">
+                                                <span class="fw-bold">=</span>
+                                                <input type="number" id="s3_dc" class="form-control form-control-sm text-center fw-bold text-success" style="width:60px;" placeholder="...">
+                                                <span class="fw-bold">m</span>
+                                            </div>
+                                        </div>
+
+                                        <!-- Langkah 2: Hitung BC -->
+                                        <div class="p-3 mb-3 bg-white border border-success rounded-3 shadow-sm text-center small">
+                                            <span class="d-block fw-bold text-dark mb-2 border-bottom pb-2">2. Hitung jarak mendatar tenda B (BC)</span>
+                                            <div class="fst-italic text-muted mb-2">Fokus pada segitiga siku-siku BCD (siku di C).</div>
+                                            <div class="d-flex flex-wrap align-items-center justify-content-center gap-2 mt-2">
+                                                <span class="fw-bold">BC² = DB² - DC²</span>
+                                            </div>
+                                            <div class="d-flex flex-wrap align-items-center justify-content-center gap-2 mt-2">
+                                                <span class="fw-bold">BC² =</span>
+                                                <input type="number" id="s3_db" class="form-control form-control-sm text-center" style="width:60px;" placeholder="...">
+                                                <span class="fw-bold">² -</span>
+                                                <input type="number" id="s3_dc2" class="form-control form-control-sm text-center" style="width:60px;" placeholder="...">
+                                                <span class="fw-bold">²</span>
+                                            </div>
+                                            <div class="d-flex flex-wrap align-items-center justify-content-center gap-2 mt-2">
+                                                <span class="fw-bold">BC² =</span>
+                                                <input type="number" id="s3_db_kuadrat" class="form-control form-control-sm text-center" style="width:70px;" placeholder="...">
+                                                <span class="fw-bold">-</span>
+                                                <input type="number" id="s3_dc2_kuadrat" class="form-control form-control-sm text-center" style="width:70px;" placeholder="...">
+                                            </div>
+                                            <div class="d-flex flex-wrap align-items-center justify-content-center gap-2 mt-2">
+                                                <span class="fw-bold">BC = √</span>
+                                                <input type="number" id="s3_bc2_val" class="form-control form-control-sm text-center" style="width:70px;" placeholder="...">
+                                                <span class="fw-bold">=</span>
+                                                <input type="number" id="s3_bc" class="form-control form-control-sm text-center fw-bold text-primary" style="width:60px;" placeholder="...">
+                                                <span class="fw-bold">m</span>
+                                            </div>
+                                        </div>
+
+                                        <div class="mt-4 d-flex flex-column flex-xl-row justify-content-between align-items-center border-top pt-3">
+                                            <div id="s3_feedback" class="small fw-bold mb-3 mb-xl-0"></div>
+                                            <button class="btn btn-success px-4 fw-bold shadow-sm" onclick="cekSoal3()">
+                                                <i class="fas fa-check-circle me-1"></i> Cek Jawaban
+                                            </button>
+                                        </div>
+                                        
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </section>
+
+    <!-- ================= HALAMAN 4 (PAGE 3) ================= -->
+    <section class="materi-page d-none" data-page="3">
+    <div class="row justify-content-center">
+        <div class="col-md-12 mb-4">
+            <div class="card shadow-sm border-1">
+                <div class="card-header text-center bg-light">
+                    <h4>Rangkuman Materi</h4>
+                </div>
+                
+                <div class="card-body p-4 bg-white">
+                    <div class="d-flex align-items-start mb-3">
+                        <div class="bg-success text-white rounded-circle d-flex align-items-center justify-content-center flex-shrink-0 mt-1 fw-bold" style="width: 30px; height: 30px;">1</div>
+                        <div class="ms-3">
+                            <p class="text-muted mb-0" style="line-height: 1.6;">
+                                <strong>Teorema Pythagoras</strong>: Pada setiap segitiga siku-siku, kuadrat sisi miring (hipotenusa) selalu sama dengan jumlah kuadrat sisi siku-sikunya. Teorema ini hanya berlaku untuk bangun segitiga siku-siku.
+                            </p>
+                        </div>
+                    </div>
+
+                    <hr class="border-secondary opacity-10 my-3">
+
+                    <div class="d-flex align-items-start mb-3">
+                        <div class="bg-success text-white rounded-circle d-flex align-items-center justify-content-center flex-shrink-0 mt-1 fw-bold" style="width: 30px; height: 30px;">2</div>
+                        <div class="ms-3">
+                            <p class="text-muted mb-2" style="line-height: 1.6;">
+                                <strong>Penerapan dalam Kehidupan Sehari-hari</strong>: Teorema Pythagoras digunakan untuk memecahkan masalah kontekstual yang tidak dapat diukur secara langsung. Kegunaan utamanya antara lain:
+                            </p>
+                            <ul class="text-muted mb-0 ps-3" style="line-height: 1.6;">
+                                <li class="mb-1">Menghitung jarak terdekat atau jarak lurus antara dua titik/tempat.</li>
+                                <li class="mb-1">Menentukan tinggi bangunan, menara, atau pohon.</li>
+                                <li>Menghitung panjang kabel penahan, panjang lintasan miring, maupun tangga yang bersandar.</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <hr class="border-secondary opacity-10 my-3">
+
+                    <div class="d-flex align-items-start mb-3">
+                        <div class="bg-success text-white rounded-circle d-flex align-items-center justify-content-center flex-shrink-0 mt-1 fw-bold" style="width: 30px; height: 30px;">3</div>
+                        <div class="ms-3">
+                            <p class="text-muted mb-0" style="line-height: 1.6;">
+                                <strong>Langkah Penyelesaian Masalah Kontekstual</strong>: <br>
+                                1. Membaca dan memahami inti masalah.<br>
+                                2. Membuat sketsa gambar atau memodelkan masalah menjadi bentuk segitiga siku-siku.<br>
+                                3. Menentukan sisi-sisi yang diketahui dan sisi yang ditanyakan.<br>
+                                4. Menerapkan rumus Teorema Pythagoras untuk menyelesaikan perhitungan.<br>
+                                5. Menafsirkan hasil perhitungan kembali ke dalam konteks masalah awal.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-12 mb-2">
+            <div class="card shadow-sm border-1">
+                <div class="card-header text-center bg-light">
+                    <h4>Refleksi</h4>
+                    <small class="text-muted">
+                        Jawablah berdasarkan pemahamanmu terkait penerapan Teorema Pythagoras
+                    </small>
+                </div>
+        
+                <div class="card-body p-4 bg-white">
+        
+                    <div class="mb-4">
+                        <label class="fw-semibold mb-2 text-dark">
+                            1. Setelah mempelajari berbagai contoh penerapan, apakah menurutmu pembuatan sketsa (gambar) segitiga siku-siku sangat penting sebelum melakukan perhitungan? Jelaskan alasannya.
+                        </label>
+        
+                        <div class="mb-2">
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="ref_penerapan_1" id="ref_penerapan_1_ya" value="ya">
+                                <label class="form-check-label" for="ref_penerapan_1_ya">Sangat Penting</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="ref_penerapan_1" id="ref_penerapan_1_tidak" value="tidak">
+                                <label class="form-check-label" for="ref_penerapan_1_tidak">Tidak Terlalu Penting</label>
+                            </div>
+                        </div>
+        
+                        <textarea class="form-control border-success shadow-sm" rows="3" id="ref_penerapan_1_text" placeholder="Berikan penjelasanmu di sini..."></textarea>
+                    </div>
+        
+                    <div class="mb-4">
+                        <label class="fw-semibold mb-2 text-dark">
+                            2. Coba perhatikan lingkungan di sekitarmu (rumah, sekolah, atau jalanan). Sebutkan satu masalah atau situasi nyata yang bisa kamu selesaikan menggunakan Teorema Pythagoras!
+                        </label>
+                        <textarea class="form-control border-success shadow-sm" rows="3" id="ref_penerapan_2_text" placeholder="Tuliskan situasi yang kamu temukan..."></textarea>
+                    </div>
+        
+                    <div class="text-center mt-4 border-top pt-4">
+                        <button class="btn btn-success fw-bold shadow-sm px-4" onclick="cekRefleksiPenerapan()">Simpan Refleksi</button>
+                    </div>
+        
+                    <div class="text-center mt-4">
+                        <p class="text-muted small">Setelah merefleksikan materi ini, silakan bersiap untuk mengerjakan kuis guna menguji pemahamanmu tentang Teorema Pythagoras.</p>
+                    </div>
+        
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
 
     <!-- Pagination Navigasi Bawah -->
     <nav class="mt-4 mb-5">
@@ -345,340 +1220,13 @@
                 <button class="page-link page-btn" data-page="2">3</button>
             </li>
             <li class="page-item">
+                <button class="page-link page-btn" data-page="3">4</button>
+            </li>
+            <li class="page-item">
                 <button class="page-link next-btn">›</button>
             </li>
         </ul>
     </nav>
 </div>
-
-<!-- Script untuk interaktivitas -->
-<script>
-    // Variabel penghitung percobaan per soal
-    let attemptSoal1 = 0;
-    let attemptSoal2 = 0;
-    let attemptSoal3 = 0;
-    const maxAttempts = 3;
-
-    // Fungsi bantu: cek apakah ada input kosong
-    function cekAdaKosong(inputs) {
-        return inputs.some(input => input.value.trim() === "");
-    }
-
-    // Fungsi bantu: set warna input (hijau jika benar, merah jika salah)
-    function setWarnaInput(input, isCorrect) {
-        input.classList.remove("border-success", "text-success", "border-danger", "text-danger");
-        if (isCorrect) {
-            input.classList.add("border-success", "text-success");
-        } else {
-            input.classList.add("border-danger", "text-danger");
-        }
-    }
-
-    // ===== SOAL 1 =====
-    function cekSoal1() {
-        const ab = document.getElementById('s1_ab');
-        const bc = document.getElementById('s1_bc');
-        const ac = document.getElementById('s1_ac');
-        const ac2 = document.getElementById('s1_ac2');
-
-        // Hitung otomatis AC²
-        let abVal = parseFloat(ab.value) || 0;
-        let bcVal = parseFloat(bc.value) || 0;
-        ac2.value = (abVal * abVal + bcVal * bcVal);
-
-        const inputs = [ab, bc, ac];
-
-        if (cekAdaKosong(inputs)) {
-            Swal.fire({
-                title: 'Perhatian!',
-                text: 'Harap lengkapi semua kotak jawaban.',
-                icon: 'warning',
-                confirmButtonColor: '#198754'
-            });
-            return;
-        }
-
-        attemptSoal1++;
-        const kunci = { ab: '40', bc: '30', ac: '50' };
-        let semuaBenar = true;
-
-        if (ab.value.trim() !== kunci.ab) { setWarnaInput(ab, false); semuaBenar = false; } else setWarnaInput(ab, true);
-        if (bc.value.trim() !== kunci.bc) { setWarnaInput(bc, false); semuaBenar = false; } else setWarnaInput(bc, true);
-        if (ac.value.trim() !== kunci.ac) { setWarnaInput(ac, false); semuaBenar = false; } else setWarnaInput(ac, true);
-
-        if (semuaBenar) {
-            Swal.fire({
-                title: 'Benar!',
-                text: 'Jawaban soal 1 tepat.',
-                icon: 'success',
-                confirmButtonColor: '#198754'
-            });
-            document.getElementById('s1_feedback').innerText = '✔️ Jawaban benar';
-        } else {
-            if (attemptSoal1 >= maxAttempts) {
-                Swal.fire({
-                    title: 'Kesempatan habis',
-                    text: 'Ingin melihat jawaban yang benar?',
-                    icon: 'error',
-                    showCancelButton: true,
-                    confirmButtonText: 'Tampilkan',
-                    cancelButtonText: 'Tutup',
-                    confirmButtonColor: '#198754'
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        ab.value = kunci.ab; setWarnaInput(ab, true);
-                        bc.value = kunci.bc; setWarnaInput(bc, true);
-                        ac.value = kunci.ac; setWarnaInput(ac, true);
-                        ac2.value = 2500;
-                        document.getElementById('s1_feedback').innerText = 'Jawaban ditampilkan.';
-                    }
-                });
-            } else {
-                let sisa = maxAttempts - attemptSoal1;
-                Swal.fire({
-                    title: 'Kurang tepat',
-                    text: `Masih ada kesalahan. Sisa percobaan: ${sisa}`,
-                    icon: 'error',
-                    confirmButtonColor: '#dc3545'
-                });
-            }
-        }
-    }
-
-    // ===== SOAL 2 =====
-    function cekSoal2() {
-        const ab = document.getElementById('s2_ab');
-        const ac = document.getElementById('s2_ac');
-        const bc = document.getElementById('s2_bc');
-        const bc2 = document.getElementById('s2_bc2');
-
-        let abVal = parseFloat(ab.value) || 0;
-        let acVal = parseFloat(ac.value) || 0;
-        bc2.value = (acVal * acVal - abVal * abVal);
-
-        const inputs = [ab, ac, bc];
-
-        if (cekAdaKosong(inputs)) {
-            Swal.fire({
-                title: 'Perhatian!',
-                text: 'Harap lengkapi semua kotak jawaban.',
-                icon: 'warning',
-                confirmButtonColor: '#198754'
-            });
-            return;
-        }
-
-        attemptSoal2++;
-        const kunci = { ab: '24', ac: '25', bc: '7' };
-        let semuaBenar = true;
-
-        if (ab.value.trim() !== kunci.ab) { setWarnaInput(ab, false); semuaBenar = false; } else setWarnaInput(ab, true);
-        if (ac.value.trim() !== kunci.ac) { setWarnaInput(ac, false); semuaBenar = false; } else setWarnaInput(ac, true);
-        if (bc.value.trim() !== kunci.bc) { setWarnaInput(bc, false); semuaBenar = false; } else setWarnaInput(bc, true);
-
-        if (semuaBenar) {
-            Swal.fire({
-                title: 'Benar!',
-                text: 'Jawaban soal 2 tepat.',
-                icon: 'success',
-                confirmButtonColor: '#198754'
-            });
-            document.getElementById('s2_feedback').innerText = '✔️ Jawaban benar';
-        } else {
-            if (attemptSoal2 >= maxAttempts) {
-                Swal.fire({
-                    title: 'Kesempatan habis',
-                    text: 'Ingin melihat jawaban yang benar?',
-                    icon: 'error',
-                    showCancelButton: true,
-                    confirmButtonText: 'Tampilkan',
-                    cancelButtonText: 'Tutup',
-                    confirmButtonColor: '#198754'
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        ab.value = kunci.ab; setWarnaInput(ab, true);
-                        ac.value = kunci.ac; setWarnaInput(ac, true);
-                        bc.value = kunci.bc; setWarnaInput(bc, true);
-                        bc2.value = 49;
-                        document.getElementById('s2_feedback').innerText = 'Jawaban ditampilkan.';
-                    }
-                });
-            } else {
-                let sisa = maxAttempts - attemptSoal2;
-                Swal.fire({
-                    title: 'Kurang tepat',
-                    text: `Masih ada kesalahan. Sisa percobaan: ${sisa}`,
-                    icon: 'error',
-                    confirmButtonColor: '#dc3545'
-                });
-            }
-        }
-    }
-
-    // ===== SOAL 3 =====
-    function cekSoal3() {
-        const oa = document.getElementById('s3_oa');
-        const ob = document.getElementById('s3_ob');
-        const ab = document.getElementById('s3_ab');
-
-        const inputs = [oa, ob, ab];
-
-        if (cekAdaKosong(inputs)) {
-            Swal.fire({
-                title: 'Perhatian!',
-                text: 'Harap lengkapi semua kotak jawaban.',
-                icon: 'warning',
-                confirmButtonColor: '#198754'
-            });
-            return;
-        }
-
-        attemptSoal3++;
-        const kunci = { oa: '20', ob: '8', ab: '12' };
-        let semuaBenar = true;
-
-        if (oa.value.trim() !== kunci.oa) { setWarnaInput(oa, false); semuaBenar = false; } else setWarnaInput(oa, true);
-        if (ob.value.trim() !== kunci.ob) { setWarnaInput(ob, false); semuaBenar = false; } else setWarnaInput(ob, true);
-        if (ab.value.trim() !== kunci.ab) { setWarnaInput(ab, false); semuaBenar = false; } else setWarnaInput(ab, true);
-
-        if (semuaBenar) {
-            Swal.fire({
-                title: 'Benar!',
-                text: 'Jawaban soal 3 tepat.',
-                icon: 'success',
-                confirmButtonColor: '#198754'
-            });
-            document.getElementById('s3_feedback').innerText = '✔️ Jawaban benar';
-        } else {
-            if (attemptSoal3 >= maxAttempts) {
-                Swal.fire({
-                    title: 'Kesempatan habis',
-                    text: 'Ingin melihat jawaban yang benar?',
-                    icon: 'error',
-                    showCancelButton: true,
-                    confirmButtonText: 'Tampilkan',
-                    cancelButtonText: 'Tutup',
-                    confirmButtonColor: '#198754'
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        oa.value = kunci.oa; setWarnaInput(oa, true);
-                        ob.value = kunci.ob; setWarnaInput(ob, true);
-                        ab.value = kunci.ab; setWarnaInput(ab, true);
-                        document.getElementById('s3_feedback').innerText = 'Jawaban ditampilkan.';
-                    }
-                });
-            } else {
-                let sisa = maxAttempts - attemptSoal3;
-                Swal.fire({
-                    title: 'Kurang tepat',
-                    text: `Masih ada kesalahan. Sisa percobaan: ${sisa}`,
-                    icon: 'error',
-                    confirmButtonColor: '#dc3545'
-                });
-            }
-        }
-    }
-
-    // ===== REFLEKSI =====
-    function simpanRefleksi() {
-        const ref1 = document.getElementById('ref_1').value.trim();
-        const ref2 = document.getElementById('ref_2').value.trim();
-        if (ref1 === '' || ref2 === '') {
-            Swal.fire({
-                title: 'Perhatian',
-                text: 'Harap isi kedua kolom refleksi.',
-                icon: 'warning',
-                confirmButtonColor: '#198754'
-            });
-        } else {
-            Swal.fire({
-                title: 'Terima kasih!',
-                text: 'Refleksi berhasil disimpan.',
-                icon: 'success',
-                confirmButtonColor: '#198754'
-            });
-        }
-    }
-
-    // ===== AUTO HITUNG UNTUK SOAL 1 & 2 =====
-    document.getElementById('s1_ab')?.addEventListener('input', function() {
-        let ab = parseFloat(document.getElementById('s1_ab').value) || 0;
-        let bc = parseFloat(document.getElementById('s1_bc').value) || 0;
-        document.getElementById('s1_ac2').value = (ab * ab + bc * bc);
-    });
-    document.getElementById('s1_bc')?.addEventListener('input', function() {
-        let ab = parseFloat(document.getElementById('s1_ab').value) || 0;
-        let bc = parseFloat(document.getElementById('s1_bc').value) || 0;
-        document.getElementById('s1_ac2').value = (ab * ab + bc * bc);
-    });
-
-    document.getElementById('s2_ab')?.addEventListener('input', function() {
-        let ab = parseFloat(document.getElementById('s2_ab').value) || 0;
-        let ac = parseFloat(document.getElementById('s2_ac').value) || 0;
-        document.getElementById('s2_bc2').value = (ac * ac - ab * ab);
-    });
-    document.getElementById('s2_ac')?.addEventListener('input', function() {
-        let ab = parseFloat(document.getElementById('s2_ab').value) || 0;
-        let ac = parseFloat(document.getElementById('s2_ac').value) || 0;
-        document.getElementById('s2_bc2').value = (ac * ac - ab * ab);
-    });
-
-    // ===== PAGINATION =====
-    document.addEventListener('DOMContentLoaded', function () {
-        const pages = document.querySelectorAll('.materi-page');
-        const prevBtns = document.querySelectorAll('.prev-btn');
-        const nextBtns = document.querySelectorAll('.next-btn');
-        const pageBtns = document.querySelectorAll('.page-btn');
-        const savedPage = localStorage.getItem('penerapanPage');
-
-        let currentPage = 0;
-        const totalPages = pages.length;
-
-        function showPage(index) {
-            if (index < 0 || index >= totalPages) return;
-
-            pages.forEach(p => p.classList.add('d-none'));
-            pages[index].classList.remove('d-none');
-
-            currentPage = index;
-            localStorage.setItem('penerapanPage', index);
-
-            pageBtns.forEach(btn => {
-                btn.parentElement.classList.remove('active');
-                if (parseInt(btn.dataset.page) === index) {
-                    btn.parentElement.classList.add('active');
-                }
-            });
-
-            prevBtns.forEach(btn => {
-                btn.disabled = (index === 0);
-                btn.parentElement.classList.toggle('disabled', index === 0);
-            });
-
-            nextBtns.forEach(btn => {
-                btn.disabled = (index === totalPages - 1);
-                btn.parentElement.classList.toggle('disabled', index === totalPages - 1);
-            });
-
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        }
-
-        pageBtns.forEach(btn => {
-            btn.addEventListener('click', () => {
-                showPage(parseInt(btn.dataset.page));
-            });
-        });
-
-        prevBtns.forEach(btn => {
-            btn.addEventListener('click', () => showPage(currentPage - 1));
-        });
-
-        nextBtns.forEach(btn => {
-            btn.addEventListener('click', () => showPage(currentPage + 1));
-        });
-
-        showPage(savedPage ? parseInt(savedPage) : 0);
-    });
-</script>
 
 @endsection
