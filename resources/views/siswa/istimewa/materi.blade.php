@@ -78,554 +78,607 @@
         
 
         <section class="mb-4">
-    <div class="card shadow-sm">
+            <div class="card shadow-sm">
 
-        <div class="card-header bg-light text-center">
-            <h4 class="mb-0">Segitiga Istimewa 45°, 45°, 90°</h4>
-        </div>
+                <div class="card-header bg-light text-center">
+                    <h4 class="mb-0">Segitiga Istimewa 45°, 45°, 90°</h4>
+                </div>
 
-        <div class="card-body">
+                <div class="card-body">
 
-            <div class="row">
-                <div class="col-md-12">
-                    <p>
-                        Segitiga siku-siku sama kaki adalah segitiga istimewa yang memiliki besar sudut 45°, 45°, dan 90°. 
-                        Pada segitiga \(ABC\), sisi \(AB\) dan \(BC\) merupakan sisi siku-siku dengan panjang yang sama, misalnya \(a\).
-                        Panjang sisi miring \(AC\) dapat ditentukan menggunakan Teorema Pythagoras sebagai berikut:
+                    <div class="row">
+                        <div class="col-md-12">
+                            <p>
+                                Segitiga siku-siku sama kaki adalah segitiga istimewa yang memiliki besar sudut 45°, 45°, dan 90°. 
+                                Pada segitiga \(ABC\), sisi \(AB\) dan \(BC\) merupakan sisi siku-siku dengan panjang yang sama, misalnya \(a\).
+                                Panjang sisi miring \(AC\) dapat ditentukan menggunakan Teorema Pythagoras sebagai berikut:
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="row justify-content-center align-items-center">
+                        <div class="col-md-4 text-md-end pe-md-4">
+                            <img src="/images/segitiga_istimewa_1.png" 
+                                class="img-fluid" 
+                                style="max-height: 240px; object-fit: contain;">
+                        </div>
+
+                        <div class="col-md-4 text-center text-md-start ps-md-4">
+                            $$
+                            \begin{aligned}
+                            a^2 + b^2 &= c^2 \\
+                            a^2 + a^2 &= c^2 \\
+                            2a^2 &= c^2 \\
+                            c &= a\sqrt{2}
+                            \end{aligned}
+                            $$
+                        </div>
+
+                        <div class="col-md-12 text-center">
+                            <p class="mb-2">Maka perbandingan yang memenuhi sisi segitiga istimewa 45°, 45°, 90°:</p>
+                            
+                            <div class="bg-light border rounded py-3 mx-auto" style="max-width: 500px;">
+                                <div class="fw-bold text-center">
+                                    $$
+                                    \begin{matrix}
+                                    \text{sisi di hadapan } 45^\circ & : & \text{sisi di hadapan } 45^\circ & : & \text{sisi miring} \\
+                                    a & : & a & : & a\sqrt{2} \\
+                                    1 & : & 1 & : & \sqrt{2}
+                                    \end{matrix}
+                                    $$
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    
+                    <p class="mb-3 mt-3 text-dark">
+                        Berdasarkan penjelasan sebelumnya tentang segitiga istimewa 45°, 45°, 90°, diketahui bahwa panjang sisi miring (hipotenusa) memiliki hubungan tertentu dengan panjang sisi siku-sikunya.
+                        Untuk memahami pola tersebut, lakukan aktivitas <strong>Ayo Mengamati</strong> berikut.
                     </p>
-                </div>
-            </div>
-
-            <div class="row justify-content-center align-items-center">
-                <div class="col-md-4 text-md-end pe-md-4">
-                    <img src="/images/segitiga_istimewa_1.png" 
-                         class="img-fluid" 
-                         style="max-height: 240px; object-fit: contain;">
-                </div>
-
-                <div class="col-md-4 text-center text-md-start ps-md-4">
-                    $$
-                    \begin{aligned}
-                    a^2 + b^2 &= c^2 \\
-                    a^2 + a^2 &= c^2 \\
-                    2a^2 &= c^2 \\
-                    c &= a\sqrt{2}
-                    \end{aligned}
-                    $$
-                </div>
-
-                <div class="col-md-12 text-center">
-                    <p class="mb-2">Maka perbandingan yang memenuhi sisi segitiga istimewa 45°, 45°, 90°:</p>
                     
-                    <div class="bg-light border rounded py-3 mx-auto" style="max-width: 500px;">
-                        <div class="fw-bold text-center">
-                            $$
-                            \begin{matrix}
-                            \text{sisi di hadapan } 45^\circ & : & \text{sisi di hadapan } 45^\circ & : & \text{sisi miring} \\
-                            a & : & a & : & a\sqrt{2} \\
-                            1 & : & 1 & : & \sqrt{2}
-                            \end{matrix}
-                            $$
-                        </div>
+                    <hr class="my-4">
+
+                    <div class="text-center mb-2">
+                        <h5 class="fw-bold text-success">Ayo Mengamati</h5>
                     </div>
-                </div>
-            </div>
 
-            
-            <p class="mb-3 mt-3 text-dark">
-                Berdasarkan penjelasan sebelumnya tentang segitiga istimewa 45°, 45°, 90°, diketahui bahwa panjang sisi miring (hipotenusa) memiliki hubungan tertentu dengan panjang sisi siku-sikunya.
-                Untuk memahami pola tersebut, lakukan aktivitas <strong>Ayo Mengamati</strong> berikut.
-            </p>
-            
-            <hr class="my-4">
-
-            <div class="text-center mb-2">
-                <h5 class="fw-bold text-success">Ayo Mengamati</h5>
-            </div>
-
-            <div class="alert alert-light shadow-sm border-start border-success border-4">
-                <div class="small">
-                    <strong>Petunjuk Pengerjaan:</strong> 
-                    Lengkapi nilai pada tabel berikut dengan mengisi panjang sisi siku-siku dan sisi miring sesuai dengan hubungan yang berlaku pada segitiga siku-siku.
-                </div>
-            </div>
-
-            <div class="text-center mb-3">
-                <img src="/images/segitiga_istimewa_mengamati.png" 
-                     class="img-fluid" 
-                     style="max-height: 200px;">
-            </div>
-
-            <div class="table-responsive mt-3">
-                <table class="table table-bordered text-center align-middle table-sm">
-                    
-                    <thead class="table-light">
-                        <tr>
-                            <th class="bg-light" style="width: 220px;">Sisi Siku-siku 1</th>
-
-                            <td class="bg-light">1</td>
-                            <td class="bg-light">2</td>
-                            <td class="bg-light">3</td>
-                            <td class="bg-light">4</td>
-                            <td class="bg-light">5</td>
-                            <td class="bg-light">6</td>
-                            <td class="bg-light">p</td>
-                        </tr>
-                    </thead>
-
-                    <tbody>
-
-                        <tr>
-                            <th class="bg-light">Sisi Siku-siku 2</th>
-
-                            <td class="bg-light">1</td>
-
-                            <td><input type="number" id="bc2" class="form-control form-control-sm text-center" style="width:70px; margin:auto;"></td>
-                            <td><input type="number" id="bc3" class="form-control form-control-sm text-center" style="width:70px; margin:auto;"></td>
-                            <td><input type="number" id="bc4" class="form-control form-control-sm text-center" style="width:70px; margin:auto;"></td>
-                            <td><input type="number" id="bc5" class="form-control form-control-sm text-center" style="width:70px; margin:auto;"></td>
-                            <td><input type="number" id="bc6" class="form-control form-control-sm text-center" style="width:70px; margin:auto;"></td>
-                            <td><input type="text" id="bcp" class="form-control form-control-sm text-center" style="width:70px; margin:auto;"></td>
-                        </tr>
-
-                        <tr>
-                            <th class="bg-light">Sisi Miring (Hipotenusa)</th>
-
-                            <td class="bg-light">
-                                <div class="d-flex justify-content-center align-items-center gap-1">
-                                    <span class="fw-bold">&radic;</span>
-                                    <span class="fw-bold">2</span>
-                                </div>
-                            </td>
-
-                            <td>
-                                <div class="d-flex justify-content-center align-items-center gap-1">
-                                    <input type="number" id="h2_a" class="form-control form-control-sm text-center" style="width:55px;">
-                                    <span class="fw-bold">&radic;</span>
-                                    <input type="number" id="h2_b" class="form-control form-control-sm text-center" style="width:55px;">
-                                </div>
-                            </td>
-
-                            <td>
-                                <div class="d-flex justify-content-center align-items-center gap-1">
-                                    <input type="number" id="h3_a" class="form-control form-control-sm text-center" style="width:55px;">
-                                    <span class="fw-bold">&radic;</span>
-                                    <input type="number" id="h3_b" class="form-control form-control-sm text-center" style="width:55px;">
-                                </div>
-                            </td>
-
-                            <td>
-                                <div class="d-flex justify-content-center align-items-center gap-1">
-                                    <input type="number" id="h4_a" class="form-control form-control-sm text-center" style="width:55px;">
-                                    <span class="fw-bold">&radic;</span>
-                                    <input type="number" id="h4_b" class="form-control form-control-sm text-center" style="width:55px;">
-                                </div>
-                            </td>
-
-                            <td>
-                                <div class="d-flex justify-content-center align-items-center gap-1">
-                                    <input type="number" id="h5_a" class="form-control form-control-sm text-center" style="width:55px;">
-                                    <span class="fw-bold">&radic;</span>
-                                    <input type="number" id="h5_b" class="form-control form-control-sm text-center" style="width:55px;">
-                                </div>
-                            </td>
-
-                            <td>
-                                <div class="d-flex justify-content-center align-items-center gap-1">
-                                    <input type="number" id="h6_a" class="form-control form-control-sm text-center" style="width:55px;">
-                                    <span class="fw-bold">&radic;</span>
-                                    <input type="number" id="h6_b" class="form-control form-control-sm text-center" style="width:55px;">
-                                </div>
-                            </td>
-                            
-                            <td>
-                                <div class="d-flex justify-content-center align-items-center gap-1">
-                                    <input type="text" id="h7_a" class="form-control form-control-sm text-center" style="width:55px;">
-                                    <span class="fw-bold">&radic;</span>
-                                    <input type="number" id="h7_b" class="form-control form-control-sm text-center" style="width:55px;">
-                                </div>
-                            </td>
-                        </tr>
-
-                    </tbody>
-                </table>
-            </div>
-
-                        <div class="mt-1 d-flex flex-column flex-md-row justify-content-between align-items-center border-top pt-3">
-                            <div id="tab45_feedback" class="small fw-bold mb-3 mb-md-0"></div>
-                            <div>
-                                <button class="btn btn-success px-4 fw-bold shadow-sm me-2" onclick="cekTab45()">
-                                    Cek Jawaban
-                                </button>
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
-            </section>
-
-            <section class="mb-4">
-    <div class="row">
-        <div class="col-sm-12">
-            <div class="card shadow-sm">
-                <div class="card-header text-center bg-light">
-                    <h4 class="mb-0">Contoh 1</h4>
-                </div>
-                
-                <div class="card-body">
-                    <div class="alert alert-light shadow-sm border-start border-success border-4" role="alert">
+                    <div class="alert alert-light shadow-sm border-start border-success border-4">
                         <div class="small">
-                            <strong>Petunjuk:</strong> Perhatikan soal dan ilustrasi gambar di bawah ini, kemudian lengkapi data yang diketahui dan selesaikan langkah perhitungannya dengan mengisi kotak yang kosong.
+                            <strong>Petunjuk Pengerjaan:</strong> 
+                            Lengkapi nilai pada tabel berikut dengan mengisi panjang sisi siku-siku dan sisi miring sesuai dengan hubungan yang berlaku pada segitiga siku-siku.
                         </div>
                     </div>
 
-                    <div class="row mt-4">
-                        
-                        <div class="col-md-5 mb-4 mb-md-0">
-                            <div class="text-justify mb-3">
-                                <p class="text-dark mb-0">
-                                    Diketahui suatu segitiga siku-siku sama kaki \(\triangle ABC\) dengan \(\angle C = 90&deg\) dan panjang hipotenusa \(AB = 15{\sqrt2}\) cm. Hitunglah panjang sisi siku-siku AC.
-                                </p>
-                            </div>
+                    <div class="text-center mb-3">
+                        <img src="/images/segitiga_istimewa_mengamati.png" 
+                            class="img-fluid" 
+                            style="max-height: 200px;">
+                    </div>
 
-                            <div class="bg-white rounded-3 shadow-sm border p-3 d-flex justify-content-center align-items-center mb-4 overflow-hidden">
-                                <img src="{{ asset('images/contoh_soal_istimewa_1_454590.png') }}" class="img-fluid w-75" alt="Segitiga 45-45-90">
-                            </div>
+                    <div class="table-responsive mt-3">
+                        <table class="table table-bordered text-center align-middle table-sm">
                             
-                            <div class="card border mb-4 shadow-sm">
-                                <div class="card-header border-bottom bg-light">
-                                    <h6 class="fw-bold mb-0 small text-dark">Diketahui</h6>
-                                </div>
-                                <div class="card-body small">
-                                    <div class="d-flex align-items-center mb-3">
-                                        <span style="width: 150px;">Panjang Hipotenusa (AB):</span>
-                                        <input type="text" id="c1i_dik_ab" class="form-control form-control-sm text-center border-secondary mx-2" style="width: 100px;" placeholder="...">
-                                        <span>cm</span>
-                                    </div>
-                                    <div class="d-flex align-items-center mb-3">
-                                        <span style="width: 150px;">Besar Sudut A & B:</span>
-                                        <select id="c1i_dik_sudut" class="form-select form-select-sm text-center border-secondary mx-2" style="width: 80px;">
-                                            <option value=""></option>
-                                            <option value="30">30&deg;</option>
-                                            <option value="45">45&deg;</option>
-                                            <option value="60">60&deg;</option>
-                                        </select>
-                                    </div>
-                                </div>
-                            </div>
-                            
-                            <div class="card border shadow-sm">
-                                <div class="card-header border-bottom bg-light">
-                                    <h6 class="fw-bold mb-0 small text-dark">Ditanya</h6>
-                                </div>
-                                <div class="card-body">
-                                    <p class="mb-0 text-muted small">
-                                        Panjang Sisi Siku-siku (AC) = ...?
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
+                            <thead class="table-light">
+                                <tr>
+                                    <th class="bg-light" style="width: 220px;">Sisi Siku-siku 1</th>
 
-                        <div class="col-md-7">
-                            <div class="card h-100 border shadow-sm">
-                                <div class="card-header bg-light py-2">
-                                    <h6 class="fw-bold mb-0 small text-dark"><i class="fas fa-calculator me-2"></i>Langkah Penyelesaian</h6>
-                                </div>
-                                <div class="card-body bg-light">
+                                    <td class="bg-light">1</td>
+                                    <td class="bg-light">2</td>
+                                    <td class="bg-light">3</td>
+                                    <td class="bg-light">4</td>
+                                    <td class="bg-light">5</td>
+                                    <td class="bg-light">6</td>
+                                    <td class="bg-light">p</td>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+
+                                <tr>
+                                    <th class="bg-light">Sisi Siku-siku 2</th>
+
+                                    <td class="bg-light">1</td>
+
+                                    <td><input type="number" id="bc2" class="form-control form-control-sm text-center" style="width:70px; margin:auto;"></td>
+                                    <td><input type="number" id="bc3" class="form-control form-control-sm text-center" style="width:70px; margin:auto;"></td>
+                                    <td><input type="number" id="bc4" class="form-control form-control-sm text-center" style="width:70px; margin:auto;"></td>
+                                    <td><input type="number" id="bc5" class="form-control form-control-sm text-center" style="width:70px; margin:auto;"></td>
+                                    <td><input type="number" id="bc6" class="form-control form-control-sm text-center" style="width:70px; margin:auto;"></td>
+                                    <td><input type="text" id="bcp" class="form-control form-control-sm text-center" style="width:70px; margin:auto;"></td>
+                                </tr>
+
+                                <tr>
+                                    <th class="bg-light">Sisi Miring (Hipotenusa)</th>
+
+                                    <td class="bg-light">
+                                        <div class="d-flex justify-content-center align-items-center gap-1">
+                                            <span class="fw-bold">&radic;</span>
+                                            <span class="fw-bold">2</span>
+                                        </div>
+                                    </td>
+
+                                    <td>
+                                        <div class="d-flex justify-content-center align-items-center gap-1">
+                                            <input type="number" id="h2_a" class="form-control form-control-sm text-center" style="width:55px;">
+                                            <span class="fw-bold">&radic;</span>
+                                            <input type="number" id="h2_b" class="form-control form-control-sm text-center" style="width:55px;">
+                                        </div>
+                                    </td>
+
+                                    <td>
+                                        <div class="d-flex justify-content-center align-items-center gap-1">
+                                            <input type="number" id="h3_a" class="form-control form-control-sm text-center" style="width:55px;">
+                                            <span class="fw-bold">&radic;</span>
+                                            <input type="number" id="h3_b" class="form-control form-control-sm text-center" style="width:55px;">
+                                        </div>
+                                    </td>
+
+                                    <td>
+                                        <div class="d-flex justify-content-center align-items-center gap-1">
+                                            <input type="number" id="h4_a" class="form-control form-control-sm text-center" style="width:55px;">
+                                            <span class="fw-bold">&radic;</span>
+                                            <input type="number" id="h4_b" class="form-control form-control-sm text-center" style="width:55px;">
+                                        </div>
+                                    </td>
+
+                                    <td>
+                                        <div class="d-flex justify-content-center align-items-center gap-1">
+                                            <input type="number" id="h5_a" class="form-control form-control-sm text-center" style="width:55px;">
+                                            <span class="fw-bold">&radic;</span>
+                                            <input type="number" id="h5_b" class="form-control form-control-sm text-center" style="width:55px;">
+                                        </div>
+                                    </td>
+
+                                    <td>
+                                        <div class="d-flex justify-content-center align-items-center gap-1">
+                                            <input type="number" id="h6_a" class="form-control form-control-sm text-center" style="width:55px;">
+                                            <span class="fw-bold">&radic;</span>
+                                            <input type="number" id="h6_b" class="form-control form-control-sm text-center" style="width:55px;">
+                                        </div>
+                                    </td>
                                     
-                                    <div class="p-3 mb-3 bg-white border border-success rounded-3 shadow-sm text-center small">
-                                        <span class="d-block fw-bold text-dark mb-2 border-bottom pb-2">1. Tentukan Perbandingan Sisi</span>
-                                        <div class="mt-2 text-muted mb-3">
-                                            Berdasarkan perbandingan segitiga istimewa 45&deg;-45&deg;-90&deg;, perbandingan sisi di depan sudut tersebut berturut-turut adalah:
+                                    <td>
+                                        <div class="d-flex justify-content-center align-items-center gap-1">
+                                            <input type="text" id="h7_a" class="form-control form-control-sm text-center" style="width:55px;">
+                                            <span class="fw-bold">&radic;</span>
+                                            <input type="number" id="h7_b" class="form-control form-control-sm text-center" style="width:55px;">
                                         </div>
-                                        <div class="d-flex justify-content-center align-items-center gap-2 mb-3">
-                                            <input type="number" id="c1i_rasio_45_1" class="form-control form-control-sm text-center border-success" style="width: 50px;" placeholder="...">
-                                            <span class="fw-bold">:</span>
-                                            <input type="number" id="c1i_rasio_45_2" class="form-control form-control-sm text-center border-success" style="width: 50px;" placeholder="...">
-                                            <span class="fw-bold">: &radic;</span>
-                                            <input type="number" id="c1i_rasio_90" class="form-control form-control-sm text-center border-success" style="width: 50px;" placeholder="...">
+                                    </td>
+                                </tr>
+
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="mt-1 d-flex flex-column flex-md-row justify-content-between align-items-center border-top pt-3">
+                        <div id="tab45_feedback" class="small fw-bold mb-3 mb-md-0"></div>
+                        <div>
+                            <button class="btn btn-success px-4 fw-bold shadow-sm me-2" onclick="cekTab45()">
+                                Cek Jawaban
+                            </button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <section class="mb-4">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="card shadow-sm">
+                        <div class="card-header text-center bg-light">
+                            <h4 class="mb-0">Contoh 1</h4>
+                        </div>
+                        
+                        <div class="card-body">
+                            <div class="alert alert-light shadow-sm border-start border-success border-4" role="alert">
+                                <div class="small">
+                                    <strong>Petunjuk:</strong> Perhatikan soal dan ilustrasi gambar di bawah ini, kemudian lengkapi data yang diketahui dan selesaikan langkah perhitungannya dengan mengisi kotak yang kosong.
+                                </div>
+                            </div>
+
+                            <div class="row mt-4">
+                                
+                                <div class="col-md-5 mb-4 mb-md-0">
+                                    <div class="text-justify mb-3">
+                                        <p class="text-dark mb-0">
+                                            Diketahui suatu segitiga siku-siku sama kaki \(\triangle ABC\) dengan \(\angle C = 90^\circ\) dan panjang hipotenusa \(AB = 15\sqrt{2}\) cm. Hitunglah panjang sisi siku-siku AC.
+                                        </p>
+                                    </div>
+
+                                    <div class="bg-white rounded-3 shadow-sm border p-3 d-flex justify-content-center align-items-center mb-4 overflow-hidden">
+                                        <img src="{{ asset('images/contoh_soal_istimewa_1_454590.png') }}" class="img-fluid w-75" alt="Segitiga 45-45-90">
+                                    </div>
+                                    
+                                    <div class="card border mb-4 shadow-sm">
+                                        <div class="card-header border-bottom bg-light">
+                                            <h6 class="fw-bold mb-0 small text-dark">Diketahui</h6>
                                         </div>
-                                        
-                                        <div class="text-muted mb-2">Sehingga perbandingan sisi AC dan AB adalah:</div>
-                                        <div class="d-flex justify-content-center align-items-center gap-3">
-                                            <div class="d-flex flex-column text-center">
-                                                <div class="border-bottom border-dark pb-1 px-2">AC</div>
-                                                <div class="pt-1">AB</div>
+                                        <div class="card-body small">
+                                            <div class="d-flex align-items-center mb-3">
+                                                <span style="width: 150px;">Panjang Hipotenusa (AB):</span>
+                                                <select id="c1i_dik_ab" class="form-select form-select-sm text-center border-secondary mx-2 text-dark" style="width: 90px;">
+                                                    <option value=""></option>
+                                                    <option value="15sqrt2">15&radic;2</option>
+                                                    <option value="20sqrt2">20&radic;2</option>
+                                                    <option value="25sqrt2">25&radic;2</option>
+                                                </select>
+                                                <span>cm</span>
                                             </div>
-                                            <span class="fw-bold">=</span>
-                                            <div class="d-flex flex-column text-center">
-                                                <div class="border-bottom border-dark pb-1">
-                                                    <input type="number" id="c1i_perbandingan_atas" class="form-control form-control-sm text-center" style="width: 50px;" placeholder="...">
-                                                </div>
-                                                <div class="pt-1 d-flex align-items-center">
-                                                    &radic;<input type="number" id="c1i_perbandingan_bawah" class="form-control form-control-sm text-center ms-1" style="width: 50px;" placeholder="...">
-                                                </div>
+                                            <div class="d-flex align-items-center mb-3">
+                                                <span style="width: 150px;">Besar Sudut A & B:</span>
+                                                <select id="c1i_dik_sudut" class="form-select form-select-sm text-center border-secondary mx-2 text-dark" style="width: 80px;">
+                                                    <option value=""></option>
+                                                    <option value="30">30&deg;</option>
+                                                    <option value="45">45&deg;</option>
+                                                    <option value="60">60&deg;</option>
+                                                </select>
                                             </div>
                                         </div>
                                     </div>
+                                    
+                                    <div class="card border shadow-sm">
+                                        <div class="card-header border-bottom bg-light">
+                                            <h6 class="fw-bold mb-0 small text-dark">Ditanya</h6>
+                                        </div>
+                                        <div class="card-body">
+                                            <p class="mb-0 text-muted small">
+                                                Panjang Sisi Siku-siku (AC) = ...?
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
 
-                                    <div class="p-3 mb-3 bg-white border border-success rounded-3 shadow-sm text-center small">
-                                        <span class="d-block fw-bold text-dark mb-2 border-bottom pb-2">2. Masukkan Nilai dan Kali Silang</span>
-                                        <div class="mt-2 d-flex flex-column align-items-center gap-2">
-                                            <div class="d-flex justify-content-center align-items-center gap-2 mb-2">
-                                                <div class="d-flex flex-column text-center">
-                                                    <div class="border-bottom border-dark pb-1 px-2">AC</div>
-                                                    <div class="pt-1 d-flex align-items-center justify-content-center">
-                                                        <input type="number" id="c1i_sub_ab_angka" class="form-control form-control-sm text-center border-primary" style="width: 60px;" placeholder="...">
-                                                        <span class="ms-1">&radic;2</span>
+                                <div class="col-md-7">
+                                    <div class="card h-100 border shadow-sm">
+                                        <div class="card-header bg-light py-2">
+                                            <h6 class="fw-bold mb-0 small text-dark"><i class="fas fa-calculator me-2"></i>Langkah Penyelesaian</h6>
+                                        </div>
+                                        <div class="card-body bg-light">
+                                            
+                                            <div class="p-3 mb-3 bg-white border border-secondary rounded-3 shadow-sm text-center small">
+                                                <span class="d-block fw-bold text-dark mb-2 border-bottom border-secondary pb-2">1. Tentukan Perbandingan Sisi</span>
+                                                <div class="mt-2 text-muted mb-3">
+                                                    Berdasarkan perbandingan segitiga istimewa 45&deg;-45&deg;-90&deg;, perbandingan sisi di depan sudut tersebut berturut-turut adalah:
+                                                </div>
+                                                <div class="d-flex justify-content-center align-items-center gap-2 mb-3">
+                                                    <input type="number" id="c1i_rasio_45_1" class="form-control form-control-sm text-center border-secondary text-dark" style="width: 80px;" placeholder="...">
+                                                    <span class="fw-bold text-dark">:</span>
+                                                    <input type="number" id="c1i_rasio_45_2" class="form-control form-control-sm text-center border-secondary text-dark" style="width: 80px;" placeholder="...">
+                                                    <span class="fw-bold text-dark">: &radic;</span>
+                                                    <input type="number" id="c1i_rasio_90" class="form-control form-control-sm text-center border-secondary text-dark" style="width: 80px;" placeholder="...">
+                                                </div>
+                                                
+                                                <div class="text-muted mb-2">Sehingga perbandingan sisi AC dan AB dapat dituliskan:</div>
+                                                <div class="d-flex justify-content-center align-items-center gap-2 mb-2">
+                                                    <span class="fw-bold text-dark">AC : AB = </span>
+                                                    <input type="number" id="c1i_perbandingan_atas" class="form-control form-control-sm text-center border-secondary text-dark" style="width: 80px;" placeholder="...">
+                                                    <span class="fw-bold text-dark"> : &radic;</span>
+                                                    <input type="number" id="c1i_perbandingan_bawah" class="form-control form-control-sm text-center border-secondary text-dark" style="width: 80px;" placeholder="...">
+                                                </div>
+                                            </div>
+
+                                            <div class="p-3 mb-3 bg-white border border-secondary rounded-3 shadow-sm text-center small">
+                                                <span class="d-block fw-bold text-dark mb-2 border-bottom border-secondary pb-2">2. Substitusi Nilai dan Kali Silang</span>
+                                                <div class="mt-2 text-muted mb-3">Masukkan nilai hipotenusa (AB) yang diketahui ke dalam perbandingan:</div>
+                                                
+                                                <div class="d-flex justify-content-center align-items-center gap-2 mb-3">
+                                                    <span class="fw-bold text-dark">AC : </span>
+                                                    <input type="number" id="c1i_sub_ab_angka" class="form-control form-control-sm text-center border-secondary text-dark" style="width: 80px;" placeholder="...">
+                                                    <span class="fw-bold text-dark">&radic;2 = </span>
+                                                    <input type="number" id="c1i_sub_rasio_ac" class="form-control form-control-sm text-center border-secondary text-dark" style="width: 80px;" placeholder="...">
+                                                    <span class="fw-bold text-dark"> : &radic;</span>
+                                                    <input type="number" id="c1i_sub_rasio_ab" class="form-control form-control-sm text-center border-secondary text-dark" style="width: 80px;" placeholder="...">
+                                                </div>
+
+                                                <div class="text-muted mb-2">Ubah bentuk perbandingan menjadi pecahan:</div>
+                                                <div class="d-flex justify-content-center align-items-center gap-3 mb-3">
+                                                    <div class="d-flex flex-column text-center">
+                                                        <div class="border-bottom border-dark pb-1 px-2 fw-bold text-dark">AC</div>
+                                                        <div class="pt-1 d-flex align-items-center justify-content-center">
+                                                            <input type="number" id="c1i_pecahan_ab_angka" class="form-control form-control-sm text-center border-secondary text-dark" style="width: 80px;" placeholder="...">
+                                                            <span class="fw-bold text-dark ms-1">&radic;2</span>
+                                                        </div>
+                                                    </div>
+                                                    <span class="fw-bold text-dark">=</span>
+                                                    <div class="d-flex flex-column text-center">
+                                                        <div class="border-bottom border-dark pb-1">
+                                                            <input type="number" id="c1i_pecahan_rasio_ac" class="form-control form-control-sm text-center border-secondary text-dark" style="width: 80px;" placeholder="...">
+                                                        </div>
+                                                        <div class="pt-1 d-flex align-items-center justify-content-center">
+                                                            <span class="fw-bold text-dark">&radic;</span>
+                                                            <input type="number" id="c1i_pecahan_rasio_ab" class="form-control form-control-sm text-center border-secondary text-dark ms-1" style="width: 80px;" placeholder="...">
+                                                        </div>
                                                     </div>
                                                 </div>
-                                                <span class="fw-bold">=</span>
-                                                <div class="d-flex flex-column text-center">
-                                                    <div class="border-bottom border-dark pb-1 px-2">1</div>
-                                                    <div class="pt-1">&radic;2</div>
+
+                                                <div class="text-muted mb-2">Selesaikan dengan perkalian silang:</div>
+                                                <div class="d-flex align-items-center justify-content-center gap-2 mb-2">
+                                                    <span class="fw-bold text-dark">AC &times; &radic;</span>
+                                                    <input type="number" id="c1i_ks_rasio_ab" class="form-control form-control-sm text-center border-secondary text-dark" style="width: 80px;" placeholder="...">
+                                                    <span class="fw-bold text-dark"> = </span>
+                                                    <input type="number" id="c1i_ks_rasio_ac" class="form-control form-control-sm text-center border-secondary text-dark" style="width: 80px;" placeholder="...">
+                                                    <span class="fw-bold text-dark"> &times; </span>
+                                                    <input type="number" id="c1i_kali_silang_angka" class="form-control form-control-sm text-center border-secondary text-dark" style="width: 80px;" placeholder="...">
+                                                    <span class="fw-bold text-dark">&radic;2</span>
                                                 </div>
                                             </div>
-                                            <div class="d-flex align-items-center gap-2">
-                                                <span class="fw-bold">AC &times; &radic;2 = 1 &times; (</span>
-                                                <input type="number" id="c1i_kali_silang_angka" class="form-control form-control-sm text-center border-primary" style="width: 60px;" placeholder="...">
-                                                <span class="fw-bold">&radic;2)</span>
-                                            </div>
-                                        </div>
-                                    </div>
 
-                                    <div class="p-3 mb-3 bg-white border border-success rounded-3 shadow-sm text-center small">
-                                        <span class="d-block fw-bold text-dark mb-2 border-bottom pb-2">3. Hitung Hasil Akhir</span>
-                                        <div class="mt-2 text-muted mb-2">Pindahkan ruas untuk mencari AC:</div>
-                                        
-                                        <div class="d-flex justify-content-center align-items-center gap-2 mb-3">
-                                            <span class="fw-bold">AC = </span>
-                                            <div class="d-flex flex-column text-center">
-                                                <div class="border-bottom border-dark pb-1 d-flex align-items-center justify-content-center px-2">
-                                                    <input type="number" id="c1i_pindah_atas" class="form-control form-control-sm text-center" style="width: 60px;" placeholder="...">
-                                                    <span class="ms-1">&radic;2</span>
-                                                </div>
-                                                <div class="pt-1">&radic;2</div>
-                                            </div>
-                                        </div>
-
-                                        <div class="d-flex justify-content-center align-items-center gap-2">
-                                            <span class="fw-bold">AC = </span>
-                                            <input type="number" id="c1i_hasil_hitung" class="form-control form-control-sm text-center border-primary" style="width: 70px;" placeholder="...">
-                                        </div>
-                                    </div>
-
-                                    <div class="p-3 bg-white border border-success rounded-3 shadow-sm text-center small">
-                                        <span class="d-block fw-bold text-dark mb-2 border-bottom pb-2">4. Kesimpulan</span>
-                                        <div class="alert alert-success d-flex flex-wrap justify-content-center align-items-center gap-2 mb-0 py-2">
-                                            <span class="text-dark">Jadi, panjang sisi AC adalah</span> 
-                                            <div class="d-flex align-items-center">
-                                                <input type="number" id="c1i_hasil_akhir" class="form-control form-control-sm text-center fw-bold text-success border-success shadow-sm" style="width: 70px;" placeholder="...">
-                                                <span class="ms-2">cm.</span>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="mt-4 d-flex flex-column flex-xl-row justify-content-between align-items-center border-top pt-3">
-                                        <div id="c1i_feedback" class="small fw-bold mb-3 mb-xl-0"></div>
-                                        <button class="btn btn-success px-4 fw-bold shadow-sm" onclick="cekContoh1Interaktif()">
-                                            Cek Jawaban
-                                        </button>
-                                    </div>
-
-                                </div>
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-
-
-<section class="mb-4">
-    <div class="row">
-        <div class="col-sm-12">
-            <div class="card shadow-sm">
-                <div class="card-header text-center bg-light">
-                    <h4 class="mb-0">Contoh 2</h4>
-                </div>
-                
-                <div class="card-body">
-                    <div class="alert alert-light shadow-sm border-start border-success border-4" role="alert">
-                        <div class="small">
-                            <strong>Petunjuk:</strong> Perhatikan soal dan ilustrasi gambar di bawah ini, kemudian lengkapi data yang diketahui dan selesaikan langkah perhitungannya dengan mengisi kotak yang kosong.
-                        </div>
-                    </div>
-
-                    <div class="row mt-4">
-                        
-                        <div class="col-md-5 mb-4 mb-md-0">
-                            <div class="text-justify mb-3">
-                                <p class="text-dark mb-0">
-                                    Perhatikan gambar segitiga siku-siku di bawah ini! Tentukan panjang AB, apabila diketahui panjang AC = 20 cm.
-                                </p>
-                            </div>
-
-                            <div class="bg-white rounded-3 shadow-sm border p-3 d-flex justify-content-center align-items-center mb-4 overflow-hidden">
-                                <img src="/images/contoh_soal_istimewa_1.png" class="img-fluid w-75" alt="Contoh 2">
-                            </div>
-                            
-                            <div class="card border mb-4 shadow-sm">
-                                <div class="card-header border-bottom bg-light">
-                                    <h6 class="fw-bold mb-0 small text-dark">Diketahui</h6>
-                                </div>
-                                <div class="card-body small">
-                                    <div class="d-flex align-items-center mb-3">
-                                        <span style="width: 120px;">Panjang Sisi AC:</span>
-                                        <select id="c2_dik_ac" class="form-select form-select-sm text-center border-secondary mx-2" style="width: 80px;">
-                                            <option value=""></option>
-                                            <option value="10">10</option>
-                                            <option value="20">20</option>
-                                            <option value="30">30</option>
-                                        </select>
-                                        <span>cm</span>
-                                    </div>
-                                    <div class="d-flex align-items-center mb-3">
-                                        <span style="width: 120px;">Besar Sudut A & C:</span>
-                                        <select id="c2_dik_sudut" class="form-select form-select-sm text-center border-secondary mx-2" style="width: 80px;">
-                                            <option value=""></option>
-                                            <option value="30">30&deg;</option>
-                                            <option value="45">45&deg;</option>
-                                            <option value="60">60&deg;</option>
-                                        </select>
-                                    </div>
-                                </div>
-                            </div>
-                            
-                            <div class="card border shadow-sm">
-                                <div class="card-header border-bottom bg-light">
-                                    <h6 class="fw-bold mb-0 small text-dark">Ditanya</h6>
-                                </div>
-                                <div class="card-body">
-                                    <p class="mb-0 text-muted small">
-                                        Panjang AB = ...?
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-md-7">
-                            <div class="card h-100 border shadow-sm">
-                                <div class="card-header bg-light py-2">
-                                    <h6 class="fw-bold mb-0 small text-dark"><i class="fas fa-calculator me-2"></i>Langkah Penyelesaian</h6>
-                                </div>
-                                <div class="card-body bg-light">
-                                    
-                                    <div class="p-3 mb-3 bg-white border border-success rounded-3 shadow-sm text-center small">
-                                        <span class="d-block fw-bold text-dark mb-2 border-bottom pb-2">1. Tentukan Perbandingan Sisi</span>
-                                        <div class="mt-2 text-muted mb-3">
-                                            Berdasarkan perbandingan segitiga istimewa 45&deg;-45&deg;-90&deg;, perbandingan sisi di depan sudut tersebut berturut-turut adalah:
-                                        </div>
-                                        <div class="d-flex justify-content-center align-items-center gap-2 mb-3">
-                                            <input type="number" id="c2_rasio_45_1" class="form-control form-control-sm text-center border-success" style="width: 50px;" placeholder="...">
-                                            <span class="fw-bold">:</span>
-                                            <input type="number" id="c2_rasio_45_2" class="form-control form-control-sm text-center border-success" style="width: 50px;" placeholder="...">
-                                            <span class="fw-bold">: &radic;</span>
-                                            <input type="number" id="c2_rasio_90" class="form-control form-control-sm text-center border-success" style="width: 50px;" placeholder="...">
-                                        </div>
-                                        
-                                        <div class="text-muted mb-2">Sehingga perbandingan sisi AC dan AB adalah:</div>
-                                        <div class="d-flex justify-content-center align-items-center gap-3">
-                                            <div class="d-flex flex-column text-center">
-                                                <div class="border-bottom border-dark pb-1 px-2">AC</div>
-                                                <div class="pt-1">AB</div>
-                                            </div>
-                                            <span class="fw-bold">=</span>
-                                            <div class="d-flex flex-column text-center">
-                                                <div class="border-bottom border-dark pb-1 d-flex align-items-center justify-content-center">
-                                                    &radic;<input type="number" id="c2_perbandingan_atas" class="form-control form-control-sm text-center ms-1" style="width: 50px;" placeholder="...">
-                                                </div>
-                                                <div class="pt-1">
-                                                    <input type="number" id="c2_perbandingan_bawah" class="form-control form-control-sm text-center" style="width: 50px;" placeholder="...">
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="p-3 mb-3 bg-white border border-success rounded-3 shadow-sm text-center small">
-                                        <span class="d-block fw-bold text-dark mb-2 border-bottom pb-2">2. Masukkan Nilai dan Pindah Ruas</span>
-                                        <div class="mt-2 d-flex flex-column align-items-center gap-2">
-                                            <div class="d-flex align-items-center gap-2 mb-2">
-                                                <input type="number" id="c2_sub_ac" class="form-control form-control-sm text-center border-primary" style="width: 70px;" placeholder="...">
-                                                <span class="fw-bold"> = AB &times; &radic;2</span>
-                                            </div>
-                                            <div class="d-flex align-items-center gap-2">
-                                                <span class="fw-bold">AB = </span>
-                                                <div class="d-flex flex-column text-center">
-                                                    <div class="border-bottom border-dark pb-1">
-                                                        <input type="number" id="c2_pindah_atas" class="form-control form-control-sm text-center" style="width: 70px;" placeholder="...">
+                                            <div class="p-3 mb-3 bg-white border border-secondary rounded-3 shadow-sm text-center small">
+                                                <span class="d-block fw-bold text-dark mb-2 border-bottom border-secondary pb-2">3. Hitung Hasil Akhir</span>
+                                                <div class="mt-2 text-muted mb-3">Pindahkan ruas untuk mencari panjang AC:</div>
+                                                
+                                                <div class="d-flex justify-content-center align-items-center gap-2 mb-3">
+                                                    <span class="fw-bold text-dark">AC = </span>
+                                                    <div class="d-flex flex-column text-center">
+                                                        <div class="border-bottom border-dark pb-1 d-flex align-items-center justify-content-center px-2">
+                                                            <input type="number" id="c1i_pindah_atas" class="form-control form-control-sm text-center border-secondary text-dark" style="width: 80px;" placeholder="...">
+                                                            <span class="ms-1 fw-bold text-dark">&radic;2</span>
+                                                        </div>
+                                                        <div class="pt-1 d-flex align-items-center justify-content-center">
+                                                            <span class="fw-bold text-dark">&radic;</span>
+                                                            <input type="number" id="c1i_pindah_bawah" class="form-control form-control-sm text-center border-secondary text-dark ms-1" style="width: 80px;" placeholder="...">
+                                                        </div>
                                                     </div>
-                                                    <div class="pt-1 fw-bold">&radic;2</div>
+                                                </div>
+
+                                                <div class="d-flex justify-content-center align-items-center gap-2">
+                                                    <span class="fw-bold text-dark">AC = </span>
+                                                    <input type="number" id="c1i_hasil_hitung" class="form-control form-control-sm text-center border-secondary text-dark" style="width: 80px;" placeholder="...">
                                                 </div>
                                             </div>
-                                        </div>
-                                    </div>
 
-                                    <div class="p-3 mb-3 bg-white border border-success rounded-3 shadow-sm text-center small">
-                                        <span class="d-block fw-bold text-dark mb-2 border-bottom pb-2">3. Rasionalkan Bentuk Akar</span>
-                                        <div class="mt-2 text-muted mb-2">Kalikan pembilang dan penyebut dengan sekawannya:</div>
-                                        
-                                        <div class="d-flex justify-content-center align-items-center gap-3">
-                                            <span class="fw-bold">AB = </span>
-                                            <div class="d-flex flex-column text-center">
-                                                <div class="border-bottom border-dark pb-1 px-2">20</div>
-                                                <div class="pt-1">&radic;2</div>
-                                            </div>
-                                            <span class="fw-bold">&times;</span>
-                                            <div class="d-flex flex-column text-center">
-                                                <div class="border-bottom border-dark pb-1 d-flex align-items-center">
-                                                    &radic;<input type="number" id="c2_rasionalkan_atas" class="form-control form-control-sm text-center ms-1" style="width: 50px;" placeholder="...">
-                                                </div>
-                                                <div class="pt-1 d-flex align-items-center">
-                                                    &radic;<input type="number" id="c2_rasionalkan_bawah" class="form-control form-control-sm text-center ms-1" style="width: 50px;" placeholder="...">
+                                            <div class="p-3 bg-white border border-secondary rounded-3 shadow-sm text-center small">
+                                                <span class="d-block fw-bold text-dark mb-2 border-bottom border-secondary pb-2">4. Kesimpulan</span>
+                                                <div class="alert alert-light border border-secondary d-flex flex-wrap justify-content-center align-items-center gap-2 mb-0 py-2">
+                                                    <span class="text-dark">Jadi, panjang sisi AC adalah</span> 
+                                                    <div class="d-flex align-items-center">
+                                                        <input type="number" id="c1i_hasil_akhir" class="form-control form-control-sm text-center fw-bold text-dark border-secondary shadow-sm" style="width: 80px;" placeholder="...">
+                                                        <span class="ms-2 text-dark">cm.</span>
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>
 
-                                        <div class="d-flex justify-content-center align-items-center gap-2 mt-3">
-                                            <span class="fw-bold">AB = </span>
-                                            <div class="d-flex flex-column text-center">
-                                                <div class="border-bottom border-dark pb-1 px-2">20&radic;2</div>
-                                                <div class="pt-1">
-                                                    <input type="number" id="c2_hasil_penyebut" class="form-control form-control-sm text-center" style="width: 60px;" placeholder="...">
-                                                </div>
+                                            <div class="mt-4 d-flex flex-column flex-xl-row justify-content-between align-items-center border-top pt-3">
+                                                <div id="c1i_feedback" class="small fw-bold mb-3 mb-xl-0"></div>
+                                                <button class="btn btn-success px-4 fw-bold shadow-sm" onclick="cekContoh1Interaktif()">
+                                                    Cek Jawaban
+                                                </button>
                                             </div>
+
                                         </div>
                                     </div>
-
-                                    <div class="p-3 bg-white border border-success rounded-3 shadow-sm text-center small">
-                                        <span class="d-block fw-bold text-dark mb-2 border-bottom pb-2">4. Hasil Akhir</span>
-                                        <div class="alert alert-success d-flex flex-wrap justify-content-center align-items-center gap-2 mb-0 py-2">
-                                            <span class="text-dark">Jadi, panjang AB adalah</span> 
-                                            <div class="d-flex align-items-center">
-                                                <input type="number" id="c2_hasil_akhir_angka" class="form-control form-control-sm text-center fw-bold text-success border-success shadow-sm" style="width: 60px;" placeholder="...">
-                                                <span class="fw-bold ms-1 me-1">&radic;</span>
-                                                <input type="number" id="c2_hasil_akhir_akar" class="form-control form-control-sm text-center fw-bold text-success border-success shadow-sm" style="width: 50px;" placeholder="...">
-                                                <span class="ms-2">cm.</span>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="mt-4 d-flex flex-column flex-xl-row justify-content-between align-items-center border-top pt-3">
-                                        <div id="c2_feedback" class="small fw-bold mb-3 mb-xl-0"></div>
-                                        <button class="btn btn-success px-4 fw-bold shadow-sm" onclick="cekContoh2Istimewa()">
-                                            Cek Jawaban
-                                        </button>
-                                    </div>
-
                                 </div>
+
                             </div>
                         </div>
-
                     </div>
                 </div>
             </div>
-        </div>
-    </div>
-</section>
+        </section>
+
+
+        <section class="mb-4">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="card shadow-sm">
+                        <div class="card-header text-center bg-light">
+                            <h4 class="mb-0">Contoh 2</h4>
+                        </div>
+                        
+                        <div class="card-body">
+                            <div class="alert alert-light shadow-sm border-start border-success border-4" role="alert">
+                                <div class="small">
+                                    <strong>Petunjuk:</strong> Perhatikan soal dan ilustrasi gambar di bawah ini, kemudian lengkapi data yang diketahui dan selesaikan langkah perhitungannya dengan mengisi kotak yang kosong.
+                                </div>
+                            </div>
+
+                            <div class="row mt-4">
+                                
+                                <div class="col-md-5 mb-4 mb-md-0">
+                                    <div class="text-justify mb-3">
+                                        <p class="text-dark mb-0">
+                                            Perhatikan gambar segitiga siku-siku di bawah ini! Tentukan panjang AB, apabila diketahui panjang AC = 20 cm.
+                                        </p>
+                                    </div>
+
+                                    <div class="bg-white rounded-3 shadow-sm border p-3 d-flex justify-content-center align-items-center mb-4 overflow-hidden">
+                                        <img src="/images/contoh_soal_istimewa_1.png" class="img-fluid w-75" alt="Contoh 2">
+                                    </div>
+                                    
+                                    <div class="card border mb-4 shadow-sm">
+                                        <div class="card-header border-bottom bg-light">
+                                            <h6 class="fw-bold mb-0 small text-dark">Diketahui</h6>
+                                        </div>
+                                        <div class="card-body small">
+                                            <div class="d-flex align-items-center mb-3">
+                                                <span style="width: 120px;">Panjang Sisi AC:</span>
+                                                <select id="c2_dik_ac" class="form-select form-select-sm text-center border-secondary mx-2 text-dark" style="width: 80px;">
+                                                    <option value=""></option>
+                                                    <option value="10">10</option>
+                                                    <option value="20">20</option>
+                                                    <option value="30">30</option>
+                                                </select>
+                                                <span>cm</span>
+                                            </div>
+                                            <div class="d-flex align-items-center mb-3">
+                                                <span style="width: 120px;">Besar Sudut A & C:</span>
+                                                <select id="c2_dik_sudut" class="form-select form-select-sm text-center border-secondary mx-2 text-dark" style="width: 80px;">
+                                                    <option value=""></option>
+                                                    <option value="30">30&deg;</option>
+                                                    <option value="45">45&deg;</option>
+                                                    <option value="60">60&deg;</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="card border shadow-sm">
+                                        <div class="card-header border-bottom bg-light">
+                                            <h6 class="fw-bold mb-0 small text-dark">Ditanya</h6>
+                                        </div>
+                                        <div class="card-body">
+                                            <p class="mb-0 text-muted small">
+                                                Panjang AB = ...?
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-7">
+                                    <div class="card h-100 border shadow-sm">
+                                        <div class="card-header bg-light py-2">
+                                            <h6 class="fw-bold mb-0 small text-dark"><i class="fas fa-calculator me-2"></i>Langkah Penyelesaian</h6>
+                                        </div>
+                                        <div class="card-body bg-light">
+                                            
+                                            <div class="p-3 mb-3 bg-white border border-secondary rounded-3 shadow-sm text-center small">
+                                                <span class="d-block fw-bold text-dark mb-2 border-bottom border-secondary pb-2">1. Tentukan Perbandingan Sisi</span>
+                                                <div class="mt-2 text-muted mb-3">
+                                                    Berdasarkan perbandingan segitiga istimewa 45&deg;-45&deg;-90&deg;, perbandingan sisi di depan sudut tersebut berturut-turut adalah:
+                                                </div>
+                                                <div class="d-flex justify-content-center align-items-center gap-2 mb-3">
+                                                    <input type="number" id="c2_rasio_45_1" class="form-control form-control-sm text-center border-secondary text-dark" style="width: 80px;" placeholder="...">
+                                                    <span class="fw-bold text-dark">:</span>
+                                                    <input type="number" id="c2_rasio_45_2" class="form-control form-control-sm text-center border-secondary text-dark" style="width: 80px;" placeholder="...">
+                                                    <span class="fw-bold text-dark">: &radic;</span>
+                                                    <input type="number" id="c2_rasio_90" class="form-control form-control-sm text-center border-secondary text-dark" style="width: 80px;" placeholder="...">
+                                                </div>
+                                                
+                                                <div class="text-muted mb-2">Sehingga perbandingan sisi AB dan AC dapat dituliskan:</div>
+                                                <div class="d-flex justify-content-center align-items-center gap-2 mb-2">
+                                                    <span class="fw-bold text-dark">AB : AC = &radic;</span>
+                                                    <input type="number" id="c2_perbandingan_atas" class="form-control form-control-sm text-center border-secondary text-dark" style="width: 80px;" placeholder="...">
+                                                    <span class="fw-bold text-dark"> : </span>
+                                                    <input type="number" id="c2_perbandingan_bawah" class="form-control form-control-sm text-center border-secondary text-dark" style="width: 80px;" placeholder="...">
+                                                </div>
+                                            </div>
+
+                                            <div class="p-3 mb-3 bg-white border border-secondary rounded-3 shadow-sm text-center small">
+                                                <span class="d-block fw-bold text-dark mb-2 border-bottom border-secondary pb-2">2. Substitusi Nilai dan Pindah Ruas</span>
+                                                <div class="mt-2 text-muted mb-3">Masukkan nilai sisi (AC) yang diketahui ke dalam perbandingan:</div>
+                                                
+                                                <div class="d-flex justify-content-center align-items-center gap-2 mb-3">
+                                                    <span class="fw-bold text-dark">AB : </span>
+                                                    <input type="number" id="c2_sub_ac" class="form-control form-control-sm text-center border-secondary text-dark" style="width: 80px;" placeholder="...">
+                                                    <span class="fw-bold text-dark"> = &radic;</span>
+                                                    <input type="number" id="c2_sub_rasio_ab" class="form-control form-control-sm text-center border-secondary text-dark" style="width: 80px;" placeholder="...">
+                                                    <span class="fw-bold text-dark"> : </span>
+                                                    <input type="number" id="c2_sub_rasio_ac" class="form-control form-control-sm text-center border-secondary text-dark" style="width: 80px;" placeholder="...">
+                                                </div>
+
+                                                <div class="text-muted mb-2">Ubah bentuk perbandingan menjadi pecahan:</div>
+                                                <div class="d-flex justify-content-center align-items-center gap-3 mb-3">
+                                                    <div class="d-flex flex-column text-center">
+                                                        <div class="border-bottom border-dark pb-1 px-2 fw-bold text-dark">AB</div>
+                                                        <div class="pt-1">
+                                                            <input type="number" id="c2_pecahan_ac" class="form-control form-control-sm text-center border-secondary text-dark" style="width: 80px;" placeholder="...">
+                                                        </div>
+                                                    </div>
+                                                    <span class="fw-bold text-dark">=</span>
+                                                    <div class="d-flex flex-column text-center">
+                                                        <div class="border-bottom border-dark pb-1 d-flex align-items-center justify-content-center">
+                                                            <span class="fw-bold text-dark">&radic;</span>
+                                                            <input type="number" id="c2_pecahan_rasio_ab" class="form-control form-control-sm text-center border-secondary text-dark ms-1" style="width: 80px;" placeholder="...">
+                                                        </div>
+                                                        <div class="pt-1">
+                                                            <input type="number" id="c2_pecahan_rasio_ac" class="form-control form-control-sm text-center border-secondary text-dark" style="width: 80px;" placeholder="...">
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="text-muted mb-2">Pindahkan ruas untuk mencari nilai sisi AB:</div>
+                                                <div class="d-flex justify-content-center align-items-center gap-2 mb-2">
+                                                    <span class="fw-bold text-dark">AB = </span>
+                                                    <div class="d-flex flex-column text-center">
+                                                        <div class="border-bottom border-dark pb-1 px-2 d-flex align-items-center justify-content-center gap-1">
+                                                            <span class="fw-bold text-dark">&radic;</span>
+                                                            <input type="number" id="c2_pindah_rasio_ab" class="form-control form-control-sm text-center border-secondary text-dark" style="width: 80px;" placeholder="...">
+                                                            <span class="fw-bold text-dark">&times;</span>
+                                                            <input type="number" id="c2_pindah_angka_ac" class="form-control form-control-sm text-center border-secondary text-dark" style="width: 80px;" placeholder="...">
+                                                        </div>
+                                                        <div class="pt-1 d-flex align-items-center justify-content-center">
+                                                            <input type="number" id="c2_pindah_rasio_ac" class="form-control form-control-sm text-center border-secondary text-dark" style="width: 80px;" placeholder="...">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="p-3 mb-3 bg-white border border-secondary rounded-3 shadow-sm text-center small">
+                                                <span class="d-block fw-bold text-dark mb-2 border-bottom border-secondary pb-2">3. Rasionalkan Bentuk Akar (Opsional)</span>
+                                                <div class="mt-2 text-muted mb-3">Jika perlu, kalikan pembilang dan penyebut dengan sekawannya:</div>
+                                                
+                                                <div class="d-flex justify-content-center align-items-center gap-3">
+                                                    <span class="fw-bold text-dark">AB = </span>
+                                                    <div class="d-flex flex-column text-center">
+                                                        <div class="border-bottom border-dark pb-1 px-2">
+                                                            <input type="number" id="c2_ras_val_atas" class="form-control form-control-sm text-center border-secondary text-dark" style="width: 80px;" placeholder="...">
+                                                        </div>
+                                                        <div class="pt-1 d-flex align-items-center justify-content-center">
+                                                            <span class="fw-bold text-dark">&radic;</span>
+                                                            <input type="number" id="c2_ras_val_bawah" class="form-control form-control-sm text-center border-secondary text-dark ms-1" style="width: 80px;" placeholder="...">
+                                                        </div>
+                                                    </div>
+                                                    <span class="fw-bold text-dark">&times;</span>
+                                                    <div class="d-flex flex-column text-center">
+                                                        <div class="border-bottom border-dark pb-1 d-flex align-items-center justify-content-center">
+                                                            <span class="fw-bold text-dark">&radic;</span>
+                                                            <input type="number" id="c2_rasionalkan_atas" class="form-control form-control-sm text-center border-secondary text-dark ms-1" style="width: 80px;" placeholder="...">
+                                                        </div>
+                                                        <div class="pt-1 d-flex align-items-center justify-content-center">
+                                                            <span class="fw-bold text-dark">&radic;</span>
+                                                            <input type="number" id="c2_rasionalkan_bawah" class="form-control form-control-sm text-center border-secondary text-dark ms-1" style="width: 80px;" placeholder="...">
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="d-flex justify-content-center align-items-center gap-2 mt-4">
+                                                    <span class="fw-bold text-dark">AB = </span>
+                                                    <div class="d-flex flex-column text-center">
+                                                        <div class="border-bottom border-dark pb-1 px-2 d-flex align-items-center justify-content-center gap-1">
+                                                            <input type="number" id="c2_hasil_pembilang_angka" class="form-control form-control-sm text-center border-secondary text-dark" style="width: 80px;" placeholder="...">
+                                                            <span class="fw-bold text-dark">&radic;</span>
+                                                            <input type="number" id="c2_hasil_pembilang_akar" class="form-control form-control-sm text-center border-secondary text-dark" style="width: 80px;" placeholder="...">
+                                                        </div>
+                                                        <div class="pt-1">
+                                                            <input type="number" id="c2_hasil_penyebut" class="form-control form-control-sm text-center border-secondary text-dark mx-auto" style="width: 80px;" placeholder="...">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="p-3 bg-white border border-secondary rounded-3 shadow-sm text-center small">
+                                                <span class="d-block fw-bold text-dark mb-2 border-bottom border-secondary pb-2">4. Hasil Akhir</span>
+                                                <div class="alert alert-light border border-secondary d-flex flex-wrap justify-content-center align-items-center gap-2 mb-0 py-2">
+                                                    <span class="text-dark">Jadi, panjang AB adalah</span> 
+                                                    <div class="d-flex align-items-center">
+                                                        <input type="number" id="c2_hasil_akhir_angka" class="form-control form-control-sm text-center fw-bold text-dark border-secondary shadow-sm" style="width: 80px;" placeholder="...">
+                                                        <span class="fw-bold text-dark ms-1 me-1">&radic;</span>
+                                                        <input type="number" id="c2_hasil_akhir_akar" class="form-control form-control-sm text-center fw-bold text-dark border-secondary shadow-sm" style="width: 80px;" placeholder="...">
+                                                        <span class="ms-2 text-dark">cm.</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="mt-4 d-flex flex-column flex-xl-row justify-content-between align-items-center border-top pt-3">
+                                                <div id="c2_feedback" class="small fw-bold mb-3 mb-xl-0"></div>
+                                                <button class="btn btn-success px-4 fw-bold shadow-sm" onclick="cekContoh2Istimewa()">
+                                                    Cek Jawaban
+                                                </button>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
     </section>
 
     <!-- Halaman 2 -->
@@ -693,504 +746,629 @@
         </section>
 
         <section class="mb-4">
-            <div class="row">
-                <div class="col-sm-12">
-                    <div class="card shadow-sm">
-                        <div class="card-header text-center bg-light">
-                            <h4 class="mb-0">Contoh 1</h4>
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card shadow-sm">
+                <div class="card-header text-center bg-light">
+                    <h4 class="mb-0">Contoh 1</h4>
+                </div>
+                
+                <div class="card-body">
+                    <div class="alert alert-light shadow-sm border-start border-success border-4" role="alert">
+                        <div class="small">
+                            <strong>Petunjuk:</strong> Perhatikan soal dan ilustrasi gambar di bawah ini, kemudian lengkapi data yang diketahui dan selesaikan langkah perhitungannya dengan mengisi kotak yang kosong.
                         </div>
+                    </div>
+
+                    <div class="row mt-4">
                         
-                        <div class="card-body">
-                            <div class="alert alert-light shadow-sm border-start border-success border-4" role="alert">
-                                <div class="small">
-                                    <strong>Petunjuk:</strong> Perhatikan soal dan ilustrasi gambar di bawah ini, kemudian lengkapi data yang diketahui dan selesaikan langkah perhitungannya dengan mengisi kotak yang kosong.
+                        <div class="col-md-5 mb-4 mb-md-0">
+                            
+                            <div class="text-justify mb-3">
+                                <p class="text-dark mb-0">
+                                    Perhatikan soal berikut! Diketahui \(\Delta ABC\) siku-siku di \(C\) dengan \(\angle ABC = 30^\circ\) dan panjang \(BC = 15 \text{ cm}\). Tentukan panjang AC!
+                                </p>
+                            </div>
+
+                            <div class="bg-white rounded-3 shadow-sm border p-3 d-flex justify-content-center align-items-center mb-4 overflow-hidden">
+                                <img src="/images/contoh_soal_istimewa_2.png" class="img-fluid w-50" alt="Contoh 1">
+                            </div>
+                            
+                            <div class="card border mb-4 shadow-sm">
+                                <div class="card-header border-bottom bg-light">
+                                    <h6 class="fw-bold mb-0 small text-dark">Diketahui</h6>
+                                </div>
+                                <div class="card-body small">
+                                    <div class="d-flex align-items-center mb-3">
+                                        <span style="width: 130px;">Panjang Sisi BC:</span>
+                                        <select id="c2_dik_bc" class="form-select form-select-sm text-center border-secondary mx-2 text-dark" style="width: 80px;">
+                                            <option value=""></option>
+                                            <option value="10">10</option>
+                                            <option value="15">15</option>
+                                            <option value="20">20</option>
+                                        </select>
+                                        <span>cm</span>
+                                    </div>
+                                    <div class="d-flex align-items-center mb-3">
+                                        <span style="width: 130px;">Besar \(\angle ABC\):</span>
+                                        <select id="c2_dik_sudut" class="form-select form-select-sm text-center border-secondary mx-2 text-dark" style="width: 80px;">
+                                            <option value=""></option>
+                                            <option value="30">30&deg;</option>
+                                            <option value="45">45&deg;</option>
+                                            <option value="60">60&deg;</option>
+                                        </select>
+                                    </div>
+                                    <div class="d-flex align-items-center">
+                                        <span style="width: 130px;">Siku-siku di titik:</span>
+                                        <select id="c2_dik_siku" class="form-select form-select-sm text-center border-secondary mx-2 text-dark" style="width: 80px;">
+                                            <option value=""></option>
+                                            <option value="A">A</option>
+                                            <option value="B">B</option>
+                                            <option value="C">C</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="card border shadow-sm">
+                                <div class="card-header border-bottom bg-light">
+                                    <h6 class="fw-bold mb-0 small text-dark">Ditanya</h6>
+                                </div>
+                                <div class="card-body">
+                                    <p class="mb-0 text-muted small">
+                                        Panjang AC = ...?
+                                    </p>
                                 </div>
                             </div>
 
-                            <div class="row mt-4">
-                                
-                                <div class="col-md-5 mb-4 mb-md-0">
+                        </div>
+
+                        <div class="col-md-7">
+                            <div class="card h-100 border shadow-sm">
+                                <div class="card-header bg-light py-2">
+                                    <h6 class="fw-bold mb-0 small text-dark"><i class="fas fa-calculator me-2"></i>Langkah Penyelesaian</h6>
+                                </div>
+                                <div class="card-body bg-light">
                                     
-                                    <div class="text-justify mb-3">
-                                        <p class="text-dark mb-0">
-                                            Perhatikan soal berikut! Diketahui \(\Delta ABC\) siku-siku di \(C\) dengan \(\angle ABC = 30^\circ\) dan panjang \(BC = 15 \text{ cm}\). Tentukan panjang AC!
-                                        </p>
+                                    <div class="p-3 mb-3 bg-white border border-secondary rounded-3 shadow-sm text-center small">
+                                        <span class="d-block fw-bold text-dark mb-2 border-bottom border-secondary pb-2">1. Tentukan Perbandingan Sisi</span>
+                                        <div class="mt-2 text-muted mb-3">
+                                            Berdasarkan perbandingan segitiga istimewa 30&deg;-60&deg;-90&deg;, perbandingan sisi di depan sudut tersebut berturut-turut adalah:
+                                        </div>
+                                        <div class="d-flex justify-content-center align-items-center gap-2 mb-3">
+                                            <input type="number" id="c2_rasio_30" class="form-control form-control-sm text-center border-secondary text-dark" style="width: 80px;" placeholder="...">
+                                            <span class="fw-bold text-dark">: &radic;</span>
+                                            <input type="number" id="c2_rasio_60" class="form-control form-control-sm text-center border-secondary text-dark" style="width: 80px;" placeholder="...">
+                                            <span class="fw-bold text-dark">:</span>
+                                            <input type="number" id="c2_rasio_90" class="form-control form-control-sm text-center border-secondary text-dark" style="width: 80px;" placeholder="...">
+                                        </div>
+                                        
+                                        <div class="text-muted mb-2">Sehingga perbandingan sisi AC dan BC dapat dituliskan:</div>
+                                        <div class="d-flex justify-content-center align-items-center gap-2 mb-2">
+                                            <span class="fw-bold text-dark">AC : BC = </span>
+                                            <input type="number" id="c2_perbandingan_atas" class="form-control form-control-sm text-center border-secondary text-dark" style="width: 80px;" placeholder="...">
+                                            <span class="fw-bold text-dark"> : &radic;</span>
+                                            <input type="number" id="c2_perbandingan_bawah" class="form-control form-control-sm text-center border-secondary text-dark" style="width: 80px;" placeholder="...">
+                                        </div>
                                     </div>
 
-                                    <div class="bg-white rounded-3 shadow-sm border p-3 d-flex justify-content-center align-items-center mb-4 overflow-hidden">
-                                        <img src="/images/contoh_soal_istimewa_2.png" class="img-fluid w-50" alt="Contoh 1">
-                                    </div>
-                                    
-                                    <div class="card border mb-4 shadow-sm">
-                                        <div class="card-header border-bottom bg-light">
-                                            <h6 class="fw-bold mb-0 small text-dark">Diketahui</h6>
+                                    <div class="p-3 mb-3 bg-white border border-secondary rounded-3 shadow-sm text-center small">
+                                        <span class="d-block fw-bold text-dark mb-2 border-bottom border-secondary pb-2">2. Substitusi Nilai dan Pindah Ruas</span>
+                                        <div class="mt-2 text-muted mb-3">Masukkan nilai sisi (BC) yang diketahui ke dalam perbandingan:</div>
+                                        
+                                        <div class="d-flex justify-content-center align-items-center gap-2 mb-3">
+                                            <span class="fw-bold text-dark">AC : </span>
+                                            <input type="number" id="c2_sub_bc" class="form-control form-control-sm text-center border-secondary text-dark" style="width: 80px;" placeholder="...">
+                                            <span class="fw-bold text-dark"> = </span>
+                                            <input type="number" id="c2_sub_rasio_ac" class="form-control form-control-sm text-center border-secondary text-dark" style="width: 80px;" placeholder="...">
+                                            <span class="fw-bold text-dark"> : &radic;</span>
+                                            <input type="number" id="c2_sub_rasio_bc" class="form-control form-control-sm text-center border-secondary text-dark" style="width: 80px;" placeholder="...">
                                         </div>
-                                        <div class="card-body small">
-                                            <div class="d-flex align-items-center mb-3">
-                                                <span style="width: 130px;">Panjang Sisi BC:</span>
-                                                <select id="c2_dik_bc" class="form-select form-select-sm text-center border-secondary mx-2" style="width: 80px;">
-                                                    <option value=""></option>
-                                                    <option value="10">10</option>
-                                                    <option value="15">15</option>
-                                                    <option value="20">20</option>
-                                                </select>
-                                                <span>cm</span>
+
+                                        <div class="text-muted mb-2">Ubah bentuk perbandingan menjadi pecahan:</div>
+                                        <div class="d-flex justify-content-center align-items-center gap-3 mb-3">
+                                            <div class="d-flex flex-column text-center">
+                                                <div class="border-bottom border-dark pb-1 px-2 fw-bold text-dark">AC</div>
+                                                <div class="pt-1">
+                                                    <input type="number" id="c2_pecahan_bc" class="form-control form-control-sm text-center border-secondary text-dark" style="width: 80px;" placeholder="...">
+                                                </div>
                                             </div>
-                                            <div class="d-flex align-items-center mb-3">
-                                                <span style="width: 130px;">Besar \(\angle ABC\):</span>
-                                                <select id="c2_dik_sudut" class="form-select form-select-sm text-center border-secondary mx-2" style="width: 80px;">
-                                                    <option value=""></option>
-                                                    <option value="30">30&deg;</option>
-                                                    <option value="45">45&deg;</option>
-                                                    <option value="60">60&deg;</option>
-                                                </select>
+                                            <span class="fw-bold text-dark">=</span>
+                                            <div class="d-flex flex-column text-center">
+                                                <div class="border-bottom border-dark pb-1 d-flex align-items-center justify-content-center">
+                                                    <input type="number" id="c2_pecahan_rasio_ac" class="form-control form-control-sm text-center border-secondary text-dark" style="width: 80px;" placeholder="...">
+                                                </div>
+                                                <div class="pt-1 d-flex align-items-center justify-content-center">
+                                                    <span class="fw-bold text-dark">&radic;</span>
+                                                    <input type="number" id="c2_pecahan_rasio_bc" class="form-control form-control-sm text-center border-secondary text-dark ms-1" style="width: 80px;" placeholder="...">
+                                                </div>
                                             </div>
+                                        </div>
+
+                                        <div class="text-muted mb-2">Pindahkan ruas untuk mencari nilai sisi AC:</div>
+                                        <div class="d-flex justify-content-center align-items-center gap-2 mb-2">
+                                            <span class="fw-bold text-dark">AC = </span>
+                                            <div class="d-flex flex-column text-center">
+                                                <div class="border-bottom border-dark pb-1 px-2 d-flex align-items-center justify-content-center gap-1">
+                                                    <input type="number" id="c2_pindah_rasio_ac" class="form-control form-control-sm text-center border-secondary text-dark" style="width: 80px;" placeholder="...">
+                                                    <span class="fw-bold text-dark">&times;</span>
+                                                    <input type="number" id="c2_pindah_angka_bc" class="form-control form-control-sm text-center border-secondary text-dark" style="width: 80px;" placeholder="...">
+                                                </div>
+                                                <div class="pt-1 d-flex align-items-center justify-content-center">
+                                                    <span class="fw-bold text-dark">&radic;</span>
+                                                    <input type="number" id="c2_pindah_rasio_bc" class="form-control form-control-sm text-center border-secondary text-dark ms-1" style="width: 80px;" placeholder="...">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="p-3 mb-3 bg-white border border-secondary rounded-3 shadow-sm text-center small">
+                                        <span class="d-block fw-bold text-dark mb-2 border-bottom border-secondary pb-2">3. Rasionalkan Bentuk Akar</span>
+                                        <div class="mt-2 text-muted mb-3">Kalikan pembilang dan penyebut dengan sekawannya:</div>
+                                        
+                                        <div class="d-flex justify-content-center align-items-center gap-3">
+                                            <span class="fw-bold text-dark">AC =</span>
+                                            <div class="d-flex flex-column text-center">
+                                                <div class="border-bottom border-dark pb-1 px-2 fw-bold text-dark">15</div>
+                                                <div class="pt-1 d-flex align-items-center justify-content-center">
+                                                    <span class="fw-bold text-dark">&radic;</span>
+                                                    <span class="fw-bold text-dark ms-1">3</span>
+                                                </div>
+                                            </div>
+                                            <span class="fw-bold text-dark px-1">&times;</span>
+                                            <div class="d-flex flex-column text-center">
+                                                <div class="border-bottom border-dark pb-1 d-flex align-items-center">
+                                                    <span class="fw-bold text-dark">&radic;</span>
+                                                    <input type="number" id="c2_rasional_atas" class="form-control form-control-sm text-center border-secondary text-dark ms-1" style="width: 80px;" placeholder="...">
+                                                </div>
+                                                <div class="pt-1 d-flex align-items-center">
+                                                    <span class="fw-bold text-dark">&radic;</span>
+                                                    <input type="number" id="c2_rasional_bawah" class="form-control form-control-sm text-center border-secondary text-dark ms-1" style="width: 80px;" placeholder="...">
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="d-flex justify-content-center align-items-center gap-2 mt-4">
+                                            <span class="fw-bold text-dark">AC =</span>
+                                            <div class="d-flex flex-column text-center">
+                                                <div class="border-bottom border-dark pb-1 px-2 fw-bold text-dark">15&radic;3</div>
+                                                <div class="pt-1">
+                                                    <input type="number" id="c2_hasil_bagi" class="form-control form-control-sm text-center border-secondary text-dark mx-auto" style="width: 80px;" placeholder="...">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="p-3 bg-white border border-secondary rounded-3 shadow-sm text-center small">
+                                        <span class="d-block fw-bold text-dark mb-2 border-bottom border-secondary pb-2">4. Hasil Akhir</span>
+                                        <div class="alert alert-light border border-secondary d-flex flex-wrap justify-content-center align-items-center gap-2 mb-0 py-2">
+                                            <span class="text-dark">Jadi, panjang AC adalah</span> 
                                             <div class="d-flex align-items-center">
-                                                <span style="width: 130px;">Siku-siku di titik:</span>
-                                                <select id="c2_dik_siku" class="form-select form-select-sm text-center border-secondary mx-2" style="width: 80px;">
-                                                    <option value=""></option>
-                                                    <option value="A">A</option>
-                                                    <option value="B">B</option>
-                                                    <option value="C">C</option>
-                                                </select>
+                                                <input type="number" id="c2_hasil_akhir_angka" class="form-control form-control-sm text-center fw-bold text-dark border-secondary shadow-sm" style="width: 80px;" placeholder="...">
+                                                <span class="fw-bold text-dark ms-1 me-1">&radic;</span>
+                                                <input type="number" id="c2_hasil_akhir_akar" class="form-control form-control-sm text-center fw-bold text-dark border-secondary shadow-sm" style="width: 80px;" placeholder="...">
+                                                <span class="ms-2 text-dark">cm.</span>
                                             </div>
                                         </div>
                                     </div>
-                                    
-                                    <div class="card border shadow-sm">
-                                        <div class="card-header border-bottom bg-light">
-                                            <h6 class="fw-bold mb-0 small text-dark">Ditanya</h6>
-                                        </div>
-                                        <div class="card-body">
-                                            <p class="mb-0 text-muted small">
-                                                Panjang AC = ...?
-                                            </p>
-                                        </div>
+
+                                    <div class="mt-4 d-flex flex-column flex-xl-row justify-content-between align-items-center border-top pt-3">
+                                        <div id="c2_feedback" class="small fw-bold mb-3 mb-xl-0"></div>
+                                        <button class="btn btn-success px-4 fw-bold shadow-sm" onclick="cekContoh2Istimewa()">
+                                            Cek Jawaban
+                                        </button>
                                     </div>
 
                                 </div>
-
-                                <div class="col-md-7">
-                                    <div class="card h-100 border shadow-sm">
-                                        <div class="card-header bg-light py-2">
-                                            <h6 class="fw-bold mb-0 small text-dark"><i class="fas fa-calculator me-2"></i>Langkah Penyelesaian</h6>
-                                        </div>
-                                        <div class="card-body bg-light">
-                                            
-                                            <div class="p-3 mb-3 bg-white border border-success rounded-3 shadow-sm text-center small">
-                                                <span class="d-block fw-bold text-dark mb-2 border-bottom pb-2">1. Tentukan Perbandingan Sisi</span>
-                                                <div class="mt-2 text-muted mb-3">
-                                                    Berdasarkan perbandingan segitiga istimewa 30&deg;-60&deg;-90&deg;, perbandingan sisi di depan sudut tersebut berturut-turut adalah:
-                                                </div>
-                                                <div class="d-flex justify-content-center align-items-center gap-2 mb-3">
-                                                    <input type="number" id="c2_rasio_30" class="form-control form-control-sm text-center border-success" style="width: 50px;" placeholder="...">
-                                                    <span class="fw-bold">: &radic;</span>
-                                                    <input type="number" id="c2_rasio_60" class="form-control form-control-sm text-center border-success" style="width: 50px;" placeholder="...">
-                                                    <span class="fw-bold">:</span>
-                                                    <input type="number" id="c2_rasio_90" class="form-control form-control-sm text-center border-success" style="width: 50px;" placeholder="...">
-                                                </div>
-                                                
-                                                <div class="text-muted mb-2">Sehingga perbandingan sisi AC dan BC adalah:</div>
-                                                <div class="d-flex justify-content-center align-items-center gap-3">
-                                                    <div class="d-flex flex-column text-center">
-                                                        <div class="border-bottom border-dark pb-1 px-2">AC</div>
-                                                        <div class="pt-1">BC</div>
-                                                    </div>
-                                                    <span class="fw-bold">=</span>
-                                                    <div class="d-flex flex-column text-center">
-                                                        <div class="border-bottom border-dark pb-1">
-                                                            <input type="number" id="c2_perbandingan_atas" class="form-control form-control-sm text-center" style="width: 50px;" placeholder="...">
-                                                        </div>
-                                                        <div class="pt-1 d-flex align-items-center">
-                                                            &radic;<input type="number" id="c2_perbandingan_bawah" class="form-control form-control-sm text-center ms-1" style="width: 50px;" placeholder="...">
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <div class="p-3 mb-3 bg-white border border-success rounded-3 shadow-sm text-center small">
-                                                <span class="d-block fw-bold text-dark mb-2 border-bottom pb-2">2. Masukkan Nilai dan Pindah Ruas</span>
-                                                
-                                                <div class="d-flex justify-content-center align-items-center gap-3 mb-3">
-                                                    <span class="fw-bold">AC =</span>
-                                                    <div class="d-flex flex-column text-center">
-                                                        <div class="border-bottom border-dark pb-1">
-                                                            <input type="number" id="c2_sub_bc" class="form-control form-control-sm text-center" style="width: 60px;" placeholder="BC">
-                                                        </div>
-                                                        <div class="pt-1">&radic;3</div>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <div class="p-3 mb-3 bg-white border border-success rounded-3 shadow-sm text-center small">
-                                                <span class="d-block fw-bold text-dark mb-2 border-bottom pb-2">3. Rasionalkan Bentuk Akar</span>
-                                                <div class="mt-2 text-muted mb-2">Kalikan pembilang dan penyebut dengan sekawannya:</div>
-                                                
-                                                <div class="d-flex justify-content-center align-items-center gap-2 mb-3">
-                                                    <span class="fw-bold">AC =</span>
-                                                    <div class="d-flex flex-column text-center">
-                                                        <div class="border-bottom border-dark pb-1 px-2">15</div>
-                                                        <div class="pt-1">&radic;3</div>
-                                                    </div>
-                                                    <span class="fw-bold px-1">&times;</span>
-                                                    <div class="d-flex flex-column text-center">
-                                                        <div class="border-bottom border-dark pb-1 d-flex align-items-center">
-                                                            &radic;<input type="number" id="c2_rasional_atas" class="form-control form-control-sm text-center ms-1" style="width: 50px;" placeholder="...">
-                                                        </div>
-                                                        <div class="pt-1 d-flex align-items-center">
-                                                            &radic;<input type="number" id="c2_rasional_bawah" class="form-control form-control-sm text-center ms-1" style="width: 50px;" placeholder="...">
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                                <div class="d-flex justify-content-center align-items-center gap-2">
-                                                    <span class="fw-bold">AC =</span>
-                                                    <div class="d-flex flex-column text-center">
-                                                        <div class="border-bottom border-dark pb-1 px-2">15&radic;3</div>
-                                                        <div class="pt-1">
-                                                            <input type="number" id="c2_hasil_bagi" class="form-control form-control-sm text-center" style="width: 50px;" placeholder="...">
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <div class="p-3 bg-white border border-success rounded-3 shadow-sm text-center small">
-                                                <span class="d-block fw-bold text-dark mb-2 border-bottom pb-2">4. Hasil Akhir</span>
-                                                <div class="alert alert-success d-flex flex-wrap justify-content-center align-items-center gap-2 mb-0 py-2">
-                                                    <span class="text-dark">Jadi, panjang AC adalah</span> 
-                                                    <div class="d-flex align-items-center">
-                                                        <input type="number" id="c2_hasil_akhir_angka" class="form-control form-control-sm text-center fw-bold text-success border-success shadow-sm" style="width: 60px;" placeholder="...">
-                                                        <span class="fw-bold ms-1 me-1">&radic;</span>
-                                                        <input type="number" id="c2_hasil_akhir_akar" class="form-control form-control-sm text-center fw-bold text-success border-success shadow-sm" style="width: 50px;" placeholder="...">
-                                                        <span class="ms-2">cm.</span>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <div class="mt-4 d-flex flex-column flex-xl-row justify-content-between align-items-center border-top pt-3">
-                                                <div id="c2_feedback" class="small fw-bold mb-3 mb-xl-0"></div>
-                                                <button class="btn btn-success px-4 fw-bold shadow-sm" onclick="cekContoh2Istimewa()">
-                                                    Cek Jawaban
-                                                </button>
-                                            </div>
-
-                                        </div>
-                                    </div>
-                                </div>
-
                             </div>
                         </div>
+
                     </div>
                 </div>
             </div>
-        </section>
+        </div>
+    </div>
+</section>
     </section>
 
     <section class="materi-page d-none" data-page="2">
-        <div class="card shadow-sm mb-4 border-1">
-            <div class="card-header text-center bg-light">
-                <h4>Ayo Berlatih</h4>
-            </div>
-            <div class="card-body bg-white">
-                
-                <div class="alert alert-light shadow-sm border-start border-success border-4 mb-4">
-                    <h6 class="fw-bold">Petunjuk Pengerjaan:</h6>
-                    <ul class="mb-0 small text-muted">
-                        <li>Perhatikan gambar dan angka yang diketahui di sebelah kiri.</li>
-                        <li>Lengkapi data pada bagian <strong>Diketahui</strong> dan <strong>Ditanya</strong>.</li>
-                        <li>Isi kotak-kotak kosong pada langkah penyelesaian di sebelah kanan.</li>
-                        <li>Klik tombol <strong>Cek Jawaban</strong> di setiap nomor untuk memeriksa hasilmu.</li>
-                    </ul>
-                </div>
-
-                <div class="card border-1 shadow-sm mb-4 border-top border-success border-3">
-                    <div class="card-header bg-white">
-                        <h5 class="mb-0 fw-bold text-success">Soal 1</h5>
-                    </div>
-                    <div class="card-body bg-light">
-                        <div class="row">
-                            <div class="col-lg-5 mb-4">
-                                <p class="text-muted fw-bold mb-2 small">Perhatikan gambar di bawah ini:</p>
-                                <div class="bg-white rounded-3 border mb-3 d-flex justify-content-center overflow-hidden shadow-sm">
-                                    <img src="/images/latihan_istimewa_1.png" class="img-fluid p-2" style="max-height: 200px;" alt="Soal 1">
-                                </div>
-                                <p class="small text-justify mb-4">Segitiga siku-siku &Delta;ABC memiliki sudut siku-siku di C. Jika panjang salah satu sisi siku-siku AC = 10 cm, tentukan panjang sisi miring AB!</p>
-                                
-                                <div class="card border mb-3 shadow-sm">
-                                    <div class="card-header border-bottom bg-light py-2">
-                                        <h6 class="fw-bold mb-0 small text-success">Diketahui</h6>
-                                    </div>
-                                    <div class="card-body small py-2">
-                                        <div class="d-flex align-items-center mb-2">
-                                            <span style="width: 100px;">Besar &ang;C:</span>
-                                            <select id="s1_dik_c" class="form-select form-select-sm text-center border-secondary mx-2" style="width: 80px;">
-                                                <option value=""></option>
-                                                <option value="45">45&deg;</option>
-                                                <option value="60">60&deg;</option>
-                                                <option value="90">90&deg;</option>
-                                            </select>
-                                        </div>
-                                        <div class="d-flex align-items-center mb-2">
-                                            <span style="width: 100px;">Besar &ang;A:</span>
-                                            <select id="s1_dik_a" class="form-select form-select-sm text-center border-secondary mx-2" style="width: 80px;">
-                                                <option value=""></option>
-                                                <option value="30">30&deg;</option>
-                                                <option value="45">45&deg;</option>
-                                                <option value="60">60&deg;</option>
-                                            </select>
-                                        </div>
-                                        <div class="d-flex align-items-center">
-                                            <span style="width: 100px;">Panjang AC:</span>
-                                            <select id="s1_dik_ac" class="form-select form-select-sm text-center border-secondary mx-2" style="width: 80px;">
-                                                <option value=""></option>
-                                                <option value="5">5</option>
-                                                <option value="10">10</option>
-                                                <option value="15">15</option>
-                                            </select>
-                                            <span>cm</span>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="card border shadow-sm">
-                                    <div class="card-header border-bottom bg-light py-2">
-                                        <h6 class="fw-bold mb-0 small text-warning">Ditanya</h6>
-                                    </div>
-                                    <div class="card-body py-2">
-                                        <div class="d-flex align-items-center small text-muted">
-                                            <span>Panjang sisi miring </span>
-                                            <select id="s1_ditanya" class="form-select form-select-sm text-center border-warning fw-bold text-dark mx-2" style="width: 70px;">
-                                                <option value=""></option>
-                                                <option value="AB">AB</option>
-                                                <option value="AC">AC</option>
-                                                <option value="BC">BC</option>
-                                            </select>
-                                            <span> = ...?</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="col-lg-7">
-                                <div class="card bg-light border shadow-sm rounded-3 h-100">
-                                    <div class="card-header bg-light py-2 border-bottom">
-                                        <h6 class="fw-bold mb-0 small text-dark"><i class="fas fa-calculator me-2"></i>Langkah Penyelesaian:</h6>
-                                    </div>
-                                    <div class="card-body d-flex flex-column bg-light">
-                                        
-                                        <div class="p-3 mb-3 bg-white border border-success rounded-3 shadow-sm text-center small">
-                                            <span class="d-block fw-bold text-dark mb-2 border-bottom pb-2">1. Tentukan Perbandingan</span>
-                                            <p class="text-muted mb-3 mt-2">
-                                                Pada segitiga siku-siku 45&deg; &ndash; 45&deg; &ndash; 90&deg;, perbandingan panjang sisi-sisinya adalah:
-                                            </p>
-                                            <div class="d-flex align-items-center justify-content-center gap-2 mb-2">
-                                                <span class="text-dark">sisi siku-siku : sisi miring = </span>
-                                                <input type="number" id="s1_rasio_1" class="form-control form-control-sm text-center border-success" style="width:50px;" placeholder="...">
-                                                <span class="fw-bold text-dark">: &radic;</span>
-                                                <input type="number" id="s1_rasio_2" class="form-control form-control-sm text-center border-success" style="width:50px;" placeholder="...">
-                                            </div>
-                                        </div>
-                                        
-                                        <div class="p-3 mb-3 bg-white border border-success rounded-3 shadow-sm text-center small">
-                                            <span class="d-block fw-bold text-dark mb-2 border-bottom pb-2">2. Hitung Sisi Miring</span>
-                                            <div class="d-flex flex-column align-items-center gap-2 mt-3">
-                                                <div class="d-flex align-items-center gap-2 mb-2">
-                                                    <span class="fw-bold text-dark">AB = AC &times; &radic;2</span>
-                                                </div>
-                                                <div class="d-flex align-items-center justify-content-center gap-2 mb-2">
-                                                    <span class="text-dark">AB =</span>
-                                                    <input type="number" id="s1_inp_ac" class="form-control form-control-sm text-center border-primary" style="width:60px;" placeholder="AC">
-                                                    <span class="fw-bold text-dark">&times; &radic;</span>
-                                                    <input type="number" id="s1_inp_akar" class="form-control form-control-sm text-center border-primary" style="width:50px;" placeholder="...">
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="p-3 bg-white border border-success rounded-3 shadow-sm text-center small">
-                                            <span class="d-block fw-bold text-dark mb-2 border-bottom pb-2">3. Hasil Akhir</span>
-                                            <div class="alert alert-success d-flex flex-wrap justify-content-center align-items-center gap-2 mb-0 py-2">
-                                                <span class="text-dark">Jadi, panjang sisi AB adalah</span>
-                                                <div class="d-flex align-items-center">
-                                                    <input type="number" id="s1_final_angka" class="form-control form-control-sm text-center fw-bold text-success border-success shadow-sm" style="width:60px;" placeholder="...">
-                                                    <span class="fw-bold text-success ms-1 me-1">&radic;</span>
-                                                    <input type="number" id="s1_final_akar" class="form-control form-control-sm text-center fw-bold text-success border-success shadow-sm" style="width:50px;" placeholder="...">
-                                                    <span class="fw-bold text-dark ms-2">cm.</span>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="mt-auto pt-3 border-top d-flex flex-column flex-sm-row justify-content-between align-items-center gap-3">
-                                            <div id="s1_feedback" class="small fw-bold"></div>
-                                            <button class="btn btn-success btn-sm px-4 fw-bold shadow-sm" onclick="cekSoal1()">
-                                                <i class="fas fa-check-circle me-1"></i> Cek Jawaban
-                                            </button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="card border-1 shadow-sm border-top border-success border-3">
-                    <div class="card-header bg-white">
-                        <h5 class="mb-0 fw-bold text-success">Soal 2</h5>
-                    </div>
-                    <div class="card-body bg-light">
-                        <div class="row">
-                            <div class="col-lg-5 mb-4">
-                                <p class="text-muted fw-bold mb-2 small">Perhatikan gambar di bawah ini:</p>
-                                <div class="bg-white rounded-3 border mb-3 d-flex justify-content-center overflow-hidden shadow-sm">
-                                    <img src="/images/latihan_istimewa_2.png" class="img-fluid p-2" style="max-height:200px;" alt="Soal 2">
-                                </div>
-                                <p class="small text-justify mb-4">Segitiga &Delta;EFG di bawah ini dengan siku-siku di G, &ang;E = 60&deg; dan EF = 25 cm. Tentukan Panjang EG!</p>
-
-                                <div class="card border mb-3 shadow-sm">
-                                    <div class="card-header border-bottom bg-light py-2">
-                                        <h6 class="fw-bold mb-0 small text-success">Diketahui</h6>
-                                    </div>
-                                    <div class="card-body small py-2">
-                                        <div class="d-flex align-items-center mb-2">
-                                            <span style="width: 100px;">Panjang EF:</span>
-                                            <select id="s2_dik_ef" class="form-select form-select-sm text-center border-secondary mx-2" style="width: 80px;">
-                                                <option value=""></option>
-                                                <option value="15">15</option>
-                                                <option value="20">20</option>
-                                                <option value="25">25</option>
-                                            </select>
-                                            <span>cm</span>
-                                        </div>
-                                        <div class="d-flex align-items-center mb-2">
-                                            <span style="width: 100px;">Besar &ang;E:</span>
-                                            <select id="s2_dik_e" class="form-select form-select-sm text-center border-secondary mx-2" style="width: 80px;">
-                                                <option value=""></option>
-                                                <option value="30">30&deg;</option>
-                                                <option value="45">45&deg;</option>
-                                                <option value="60">60&deg;</option>
-                                            </select>
-                                        </div>
-                                        <div class="d-flex align-items-center">
-                                            <span style="width: 100px;">Siku-siku di:</span>
-                                            <select id="s2_dik_siku" class="form-select form-select-sm text-center border-secondary mx-2" style="width: 80px;">
-                                                <option value=""></option>
-                                                <option value="E">Titik E</option>
-                                                <option value="F">Titik F</option>
-                                                <option value="G">Titik G</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="card border shadow-sm">
-                                    <div class="card-header border-bottom bg-light py-2">
-                                        <h6 class="fw-bold mb-0 small text-warning">Ditanya</h6>
-                                    </div>
-                                    <div class="card-body py-2">
-                                        <div class="d-flex align-items-center small text-muted">
-                                            <span>Panjang sisi </span>
-                                            <select id="s2_ditanya" class="form-select form-select-sm text-center border-warning fw-bold text-dark mx-2" style="width: 70px;">
-                                                <option value=""></option>
-                                                <option value="EF">EF</option>
-                                                <option value="EG">EG</option>
-                                                <option value="FG">FG</option>
-                                            </select>
-                                            <span> = ...?</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="col-lg-7">
-                                <div class="card bg-light border shadow-sm rounded-3 h-100">
-                                    <div class="card-header bg-light py-2 border-bottom">
-                                        <h6 class="fw-bold mb-0 small text-dark"><i class="fas fa-calculator me-2"></i>Langkah Penyelesaian:</h6>
-                                    </div>
-                                    <div class="card-body d-flex flex-column bg-light">
-                                        
-                                        <div class="p-3 mb-3 bg-white border border-success rounded-3 shadow-sm text-center small">
-                                            <span class="d-block fw-bold text-dark mb-2 border-bottom pb-2">1. Analisis Sudut dan Perbandingan</span>
-                                            <p class="text-muted mb-2 mt-2">
-                                                Karena &ang;E = 60&deg; dan &ang;G = 90&deg;, maka &ang;F = 30&deg;. Sisi <strong>EG</strong> berada di depan sudut <strong>30&deg;</strong>. Perbandingan sisinya adalah:
-                                            </p>
-                                            <div class="bg-light p-2 rounded border text-center mb-3">
-                                                <strong>sisi depan 30&deg; : sisi depan 60&deg; : sisi miring = 1 : &radic;3 : 2</strong>
-                                            </div>
-                                            
-                                            <div class="d-flex justify-content-center align-items-center gap-3">
-                                                <div class="d-flex flex-column text-center">
-                                                    <div class="border-bottom border-dark pb-1 px-2 fw-bold text-primary">EG (depan 30&deg;)</div>
-                                                    <div class="pt-1 px-2 fw-bold text-primary">EF (miring)</div>
-                                                </div>
-                                                <span class="fw-bold text-dark">=</span>
-                                                <div class="d-flex flex-column text-center">
-                                                    <div class="border-bottom border-dark pb-1">
-                                                        <input type="number" id="s2_r1_top" class="form-control form-control-sm text-center border-primary" style="width: 50px;" placeholder="...">
-                                                    </div>
-                                                    <div class="pt-1">
-                                                        <input type="number" id="s2_r1_bot" class="form-control form-control-sm text-center border-primary" style="width: 50px;" placeholder="...">
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="p-3 mb-3 bg-white border border-success rounded-3 shadow-sm text-center small">
-                                            <span class="d-block fw-bold text-dark mb-2 border-bottom pb-2">2. Substitusi Nilai</span>
-                                            <div class="d-flex flex-column align-items-center gap-3 mt-3">
-                                                <div class="d-flex align-items-center justify-content-center gap-3">
-                                                    <span class="text-dark fw-bold">EG = EF &times;</span>
-                                                    <div class="d-flex flex-column text-center">
-                                                        <div class="border-bottom border-dark pb-1">
-                                                            <input type="number" id="s2_r2_top" class="form-control form-control-sm text-center" style="width: 50px;" placeholder="...">
-                                                        </div>
-                                                        <div class="pt-1">
-                                                            <input type="number" id="s2_r2_bot" class="form-control form-control-sm text-center" style="width: 50px;" placeholder="...">
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                                <div class="d-flex align-items-center justify-content-center gap-3">
-                                                    <span class="text-dark fw-bold">EG =</span>
-                                                    <input type="number" id="s2_inp_ef" class="form-control form-control-sm text-center border-primary" style="width:60px;" placeholder="EF">
-                                                    <span class="fw-bold text-dark">&times;</span>
-                                                    <div class="d-flex flex-column text-center">
-                                                        <div class="border-bottom border-dark pb-1">
-                                                            <input type="number" id="s2_r3_top" class="form-control form-control-sm text-center" style="width: 50px;" placeholder="...">
-                                                        </div>
-                                                        <div class="pt-1">
-                                                            <input type="number" id="s2_r3_bot" class="form-control form-control-sm text-center" style="width: 50px;" placeholder="...">
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="p-3 bg-white border border-success rounded-3 shadow-sm text-center small">
-                                            <span class="d-block fw-bold text-dark mb-2 border-bottom pb-2">3. Hasil Akhir</span>
-                                            <div class="alert alert-success d-flex flex-wrap justify-content-center align-items-center gap-2 mb-0 py-2">
-                                                <span class="text-dark">Jadi, panjang sisi EG adalah</span>
-                                                <div class="d-flex align-items-center">
-                                                    <input type="number" step="any" id="s2_final" class="form-control form-control-sm text-center bg-white fw-bold text-success border-success shadow-sm" style="width:80px;" placeholder="...">
-                                                    <span class="fw-bold text-dark ms-2">cm.</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        
-                                        <div class="mt-auto pt-3 border-top d-flex flex-column flex-sm-row justify-content-between align-items-center gap-3">
-                                            <div id="s2_feedback" class="small fw-bold"></div>
-                                            <button class="btn btn-success btn-sm px-4 fw-bold shadow-sm" onclick="cekSoal2()">
-                                                <i class="fas fa-check-circle me-1"></i> Cek Jawaban
-                                            </button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
+    <div class="card shadow-sm mb-4 border-1">
+        <div class="card-header text-center bg-light">
+            <h4>Ayo Berlatih</h4>
         </div>
-    </section>
+        <div class="card-body bg-white">
+            
+            <div class="alert alert-light shadow-sm border-start border-success border-4 mb-4">
+                <h6 class="fw-bold">Petunjuk Pengerjaan:</h6>
+                <ul class="mb-0 small text-muted">
+                    <li>Perhatikan gambar dan angka yang diketahui di sebelah kiri.</li>
+                    <li>Lengkapi data pada bagian <strong>Diketahui</strong> dan <strong>Ditanya</strong>.</li>
+                    <li>Isi kotak-kotak kosong pada langkah penyelesaian di sebelah kanan.</li>
+                    <li>Klik tombol <strong>Cek Jawaban</strong> di setiap nomor untuk memeriksa hasilmu.</li>
+                </ul>
+            </div>
+
+            <div class="card border-1 shadow-sm mb-4 border-top border-success border-3">
+                <div class="card-header bg-white">
+                    <h5 class="mb-0 fw-bold text-success">Soal 1</h5>
+                </div>
+                <div class="card-body bg-light">
+                    <div class="row">
+                        <div class="col-lg-5 mb-4">
+                            <p class="text-muted fw-bold mb-2 small">Perhatikan gambar di bawah ini:</p>
+                            <div class="bg-white rounded-3 border mb-3 d-flex justify-content-center overflow-hidden shadow-sm">
+                                <img src="/images/latihan_istimewa_1.png" class="img-fluid p-2" style="max-height: 200px;" alt="Soal 1">
+                            </div>
+                            <p class="small text-justify mb-4">Segitiga siku-siku \(\triangle ABC\) memiliki sudut siku-siku di \(C\). Jika panjang salah satu sisi siku-siku \(AC = 10\) cm, tentukan panjang sisi miring \(AB\)!</p>
+                            
+                            <div class="card border mb-3 shadow-sm">
+                                <div class="card-header border-bottom bg-light py-2">
+                                    <h6 class="fw-bold mb-0 small text-success">Diketahui</h6>
+                                </div>
+                                <div class="card-body small py-2">
+                                    <div class="d-flex align-items-center mb-2">
+                                        <span style="width: 100px;">Besar \(\angle C\):</span>
+                                        <select id="s1_dik_c" class="form-select form-select-sm text-center border-secondary mx-2 text-dark" style="width: 80px;">
+                                            <option value=""></option>
+                                            <option value="45">45&deg;</option>
+                                            <option value="60">60&deg;</option>
+                                            <option value="90">90&deg;</option>
+                                        </select>
+                                    </div>
+                                    <div class="d-flex align-items-center mb-2">
+                                        <span style="width: 100px;">Besar \(\angle A\):</span>
+                                        <select id="s1_dik_a" class="form-select form-select-sm text-center border-secondary mx-2 text-dark" style="width: 80px;">
+                                            <option value=""></option>
+                                            <option value="30">30&deg;</option>
+                                            <option value="45">45&deg;</option>
+                                            <option value="60">60&deg;</option>
+                                        </select>
+                                    </div>
+                                    <div class="d-flex align-items-center">
+                                        <span style="width: 100px;">Panjang \(AC\):</span>
+                                        <select id="s1_dik_ac" class="form-select form-select-sm text-center border-secondary mx-2 text-dark" style="width: 80px;">
+                                            <option value=""></option>
+                                            <option value="5">5</option>
+                                            <option value="10">10</option>
+                                            <option value="15">15</option>
+                                        </select>
+                                        <span>cm</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="card border shadow-sm">
+                                <div class="card-header border-bottom bg-light py-2">
+                                    <h6 class="fw-bold mb-0 small text-warning">Ditanya</h6>
+                                </div>
+                                <div class="card-body py-2">
+                                    <div class="d-flex align-items-center small text-muted">
+                                        <span>Panjang sisi miring </span>
+                                        <select id="s1_ditanya" class="form-select form-select-sm text-center border-warning fw-bold text-dark mx-2" style="width: 80px;">
+                                            <option value=""></option>
+                                            <option value="AB">AB</option>
+                                            <option value="AC">AC</option>
+                                            <option value="BC">BC</option>
+                                        </select>
+                                        <span> = ...?</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-7">
+                            <div class="card h-100 border shadow-sm">
+                                <div class="card-header bg-light py-2 border-bottom">
+                                    <h6 class="fw-bold mb-0 small text-dark"><i class="fas fa-calculator me-2"></i>Langkah Penyelesaian</h6>
+                                </div>
+                                <div class="card-body d-flex flex-column bg-light">
+                                    
+                                    <div class="p-3 mb-3 bg-white border border-secondary rounded-3 shadow-sm text-center small">
+                                        <span class="d-block fw-bold text-dark mb-3 border-bottom border-secondary pb-2">1. Tentukan Perbandingan Sisi</span>
+                                        
+                                        <div class="d-flex justify-content-center align-items-center gap-2 mb-3">
+                                            <input type="number" id="s1_rasio_45_1" class="form-control form-control-sm text-center border-secondary text-dark" style="width: 80px;" placeholder="...">
+                                            <span class="fw-bold text-dark">:</span>
+                                            <input type="number" id="s1_rasio_45_2" class="form-control form-control-sm text-center border-secondary text-dark" style="width: 80px;" placeholder="...">
+                                            <span class="fw-bold text-dark">: &radic;</span>
+                                            <input type="number" id="s1_rasio_90" class="form-control form-control-sm text-center border-secondary text-dark" style="width: 80px;" placeholder="...">
+                                        </div>
+                                        
+                                        <div class="d-flex justify-content-center align-items-center gap-2 mb-3">
+                                            <span class="fw-bold text-dark">AB : AC = </span>
+                                            <div class="d-flex align-items-center justify-content-center gap-1">
+                                                <span class="fw-bold text-dark">&radic;</span>
+                                                <input type="number" id="s1_perbandingan_atas" class="form-control form-control-sm text-center border-secondary text-dark" style="width: 80px;" placeholder="...">
+                                            </div>
+                                            <span class="fw-bold text-dark"> : </span>
+                                            <input type="number" id="s1_perbandingan_bawah" class="form-control form-control-sm text-center border-secondary text-dark" style="width: 80px;" placeholder="...">
+                                        </div>
+
+                                        <div class="d-flex justify-content-center align-items-center gap-3">
+                                            <div class="d-flex flex-column text-center">
+                                                <div class="border-bottom border-dark pb-1 px-2 fw-bold text-dark">AB</div>
+                                                <div class="pt-1 fw-bold text-dark">AC</div>
+                                            </div>
+                                            <span class="fw-bold text-dark">=</span>
+                                            <div class="d-flex flex-column text-center">
+                                                <div class="border-bottom border-dark pb-1 d-flex align-items-center justify-content-center">
+                                                    <span class="fw-bold text-dark">&radic;</span>
+                                                    <input type="number" id="s1_pecahan_rasio_ab" class="form-control form-control-sm text-center border-secondary text-dark ms-1" style="width: 80px;" placeholder="...">
+                                                </div>
+                                                <div class="pt-1">
+                                                    <input type="number" id="s1_pecahan_rasio_ac" class="form-control form-control-sm text-center border-secondary text-dark" style="width: 80px;" placeholder="...">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="p-3 mb-3 bg-white border border-secondary rounded-3 shadow-sm text-center small">
+                                        <span class="d-block fw-bold text-dark mb-3 border-bottom border-secondary pb-2">2. Substitusi Nilai dan Pindah Ruas</span>
+                                        
+                                        <div class="d-flex justify-content-center align-items-center gap-3 mb-4">
+                                            <div class="d-flex flex-column text-center">
+                                                <div class="border-bottom border-dark pb-1 px-2 fw-bold text-dark">AB</div>
+                                                <div class="pt-1">
+                                                    <input type="number" id="s1_pecahan_ac" class="form-control form-control-sm text-center border-secondary text-dark" style="width: 80px;" placeholder="...">
+                                                </div>
+                                            </div>
+                                            <span class="fw-bold text-dark">=</span>
+                                            <div class="d-flex flex-column text-center">
+                                                <div class="border-bottom border-dark pb-1 d-flex align-items-center justify-content-center">
+                                                    <span class="fw-bold text-dark">&radic;</span>
+                                                    <input type="number" id="s1_pecahan_rasio_ab" class="form-control form-control-sm text-center border-secondary text-dark ms-1" style="width: 80px;" placeholder="...">
+                                                </div>
+                                                <div class="pt-1">
+                                                    <input type="number" id="s1_pecahan_rasio_ac" class="form-control form-control-sm text-center border-secondary text-dark" style="width: 80px;" placeholder="...">
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="d-flex align-items-center justify-content-center gap-2">
+                                            <span class="fw-bold text-dark">AB = </span>
+                                            <div class="d-flex flex-column text-center">
+                                                <div class="border-bottom border-dark pb-1 px-2 d-flex align-items-center justify-content-center gap-1">
+                                                    <span class="fw-bold text-dark">&radic;</span>
+                                                    <input type="number" id="s1_pindah_rasio_ab" class="form-control form-control-sm text-center border-secondary text-dark" style="width: 80px;" placeholder="...">
+                                                    <span class="fw-bold text-dark">&times;</span>
+                                                    <input type="number" id="s1_pindah_angka_ac" class="form-control form-control-sm text-center border-secondary text-dark" style="width: 80px;" placeholder="...">
+                                                </div>
+                                                <div class="pt-1 d-flex align-items-center justify-content-center">
+                                                    <input type="number" id="s1_pindah_rasio_ac" class="form-control form-control-sm text-center border-secondary text-dark" style="width: 80px;" placeholder="...">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="p-3 mb-3 bg-white border border-secondary rounded-3 shadow-sm text-center small">
+                                        <span class="d-block fw-bold text-dark mb-3 border-bottom border-secondary pb-2">3. Hitung Hasil Akhir</span>
+                                        
+                                        <div class="d-flex justify-content-center align-items-center gap-2">
+                                            <span class="fw-bold text-dark">AB = </span>
+                                            <input type="number" id="s1_hasil_hitung_angka" class="form-control form-control-sm text-center border-secondary text-dark" style="width: 80px;" placeholder="...">
+                                            <span class="fw-bold text-dark">&radic;</span>
+                                            <input type="number" id="s1_hasil_hitung_akar" class="form-control form-control-sm text-center border-secondary text-dark" style="width: 80px;" placeholder="...">
+                                        </div>
+                                    </div>
+
+                                    <div class="p-3 bg-white border border-secondary rounded-3 shadow-sm text-center small">
+                                        <span class="d-block fw-bold text-dark mb-2 border-bottom border-secondary pb-2">4. Kesimpulan</span>
+                                        <div class="alert alert-light border border-secondary d-flex flex-wrap justify-content-center align-items-center gap-2 mb-0 py-2">
+                                            <span class="text-dark">Jadi, panjang sisi AB adalah</span> 
+                                            <div class="d-flex align-items-center">
+                                                <input type="number" id="s1_final_angka" class="form-control form-control-sm text-center fw-bold text-dark border-secondary shadow-sm" style="width: 80px;" placeholder="...">
+                                                <span class="fw-bold text-dark ms-1 me-1">&radic;</span>
+                                                <input type="number" id="s1_final_akar" class="form-control form-control-sm text-center fw-bold text-dark border-secondary shadow-sm" style="width: 80px;" placeholder="...">
+                                                <span class="ms-2 text-dark">cm.</span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="mt-auto pt-3 border-top d-flex flex-column flex-sm-row justify-content-between align-items-center gap-3">
+                                        <div id="s1_feedback" class="small fw-bold"></div>
+                                        <button class="btn btn-success btn-sm px-4 fw-bold shadow-sm" onclick="cekSoal1()">
+                                            <i class="fas fa-check-circle me-1"></i> Cek Jawaban
+                                        </button>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="card border-1 shadow-sm border-top border-success border-3">
+                <div class="card-header bg-white">
+                    <h5 class="mb-0 fw-bold text-success">Soal 2</h5>
+                </div>
+                <div class="card-body bg-light">
+                    <div class="row">
+                        <div class="col-lg-5 mb-4">
+                            <p class="text-muted fw-bold mb-2 small">Perhatikan gambar di bawah ini:</p>
+                            <div class="bg-white rounded-3 border mb-3 d-flex justify-content-center overflow-hidden shadow-sm">
+                                <img src="/images/latihan_istimewa_2.png" class="img-fluid p-2" style="max-height:200px;" alt="Soal 2">
+                            </div>
+                            <p class="small text-justify mb-4">Segitiga \(\Delta EFG\) di bawah ini dengan siku-siku di \(G\), \(\angle E = 60^\circ\) dan \(EF = 25\) cm. Tentukan Panjang \(EG\)!</p>
+
+                            <div class="card border mb-3 shadow-sm">
+                                <div class="card-header border-bottom bg-light py-2">
+                                    <h6 class="fw-bold mb-0 small text-success">Diketahui</h6>
+                                </div>
+                                <div class="card-body small py-2">
+                                    <div class="d-flex align-items-center mb-2">
+                                        <span style="width: 100px;">Panjang \(EF\):</span>
+                                        <select id="s2_dik_ef" class="form-select form-select-sm text-center border-secondary mx-2 text-dark" style="width: 80px;">
+                                            <option value=""></option>
+                                            <option value="15">15</option>
+                                            <option value="20">20</option>
+                                            <option value="25">25</option>
+                                        </select>
+                                        <span>cm</span>
+                                    </div>
+                                    <div class="d-flex align-items-center mb-2">
+                                        <span style="width: 100px;">Besar \(\angle E\):</span>
+                                        <select id="s2_dik_e" class="form-select form-select-sm text-center border-secondary mx-2 text-dark" style="width: 80px;">
+                                            <option value=""></option>
+                                            <option value="30">30&deg;</option>
+                                            <option value="45">45&deg;</option>
+                                            <option value="60">60&deg;</option>
+                                        </select>
+                                    </div>
+                                    <div class="d-flex align-items-center">
+                                        <span style="width: 100px;">Siku-siku di:</span>
+                                        <select id="s2_dik_siku" class="form-select form-select-sm text-center border-secondary mx-2 text-dark" style="width: 80px;">
+                                            <option value=""></option>
+                                            <option value="E">Titik E</option>
+                                            <option value="F">Titik F</option>
+                                            <option value="G">Titik G</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="card border shadow-sm">
+                                <div class="card-header border-bottom bg-light py-2">
+                                    <h6 class="fw-bold mb-0 small text-warning">Ditanya</h6>
+                                </div>
+                                <div class="card-body py-2">
+                                    <div class="d-flex align-items-center small text-muted">
+                                        <span>Panjang sisi </span>
+                                        <select id="s2_ditanya" class="form-select form-select-sm text-center border-warning fw-bold text-dark mx-2" style="width: 80px;">
+                                            <option value=""></option>
+                                            <option value="EF">EF</option>
+                                            <option value="EG">EG</option>
+                                            <option value="FG">FG</option>
+                                        </select>
+                                        <span> = ...?</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-7">
+                            <div class="card h-100 border shadow-sm">
+                                <div class="card-header bg-light py-2 border-bottom">
+                                    <h6 class="fw-bold mb-0 small text-dark"><i class="fas fa-calculator me-2"></i>Langkah Penyelesaian</h6>
+                                </div>
+                                <div class="card-body d-flex flex-column bg-light">
+                                    
+                                    <div class="p-3 mb-3 bg-white border border-secondary rounded-3 shadow-sm text-center small">
+                                        <span class="d-block fw-bold text-dark mb-3 border-bottom border-secondary pb-2">1. Analisis Sudut dan Perbandingan Sisi</span>
+                                        
+                                        <div class="d-flex justify-content-center align-items-center gap-2 mb-3">
+                                            <input type="number" id="s2_rasio_30" class="form-control form-control-sm text-center border-secondary text-dark" style="width: 80px;" placeholder="...">
+                                            <span class="fw-bold text-dark">: &radic;</span>
+                                            <input type="number" id="s2_rasio_60" class="form-control form-control-sm text-center border-secondary text-dark" style="width: 80px;" placeholder="...">
+                                            <span class="fw-bold text-dark">:</span>
+                                            <input type="number" id="s2_rasio_90" class="form-control form-control-sm text-center border-secondary text-dark" style="width: 80px;" placeholder="...">
+                                        </div>
+                                        
+                                        <div class="d-flex justify-content-center align-items-center gap-2 mb-3">
+                                            <span class="fw-bold text-dark">EG : EF = </span>
+                                            <input type="number" id="s2_perbandingan_atas" class="form-control form-control-sm text-center border-secondary text-dark" style="width: 80px;" placeholder="...">
+                                            <span class="fw-bold text-dark"> : </span>
+                                            <input type="number" id="s2_perbandingan_bawah" class="form-control form-control-sm text-center border-secondary text-dark" style="width: 80px;" placeholder="...">
+                                        </div>
+
+                                        <div class="d-flex justify-content-center align-items-center gap-3">
+                                            <div class="d-flex flex-column text-center">
+                                                <div class="border-bottom border-dark pb-1 px-2 fw-bold text-dark">EG</div>
+                                                <div class="pt-1 fw-bold text-dark">EF</div>
+                                            </div>
+                                            <span class="fw-bold text-dark">=</span>
+                                            <div class="d-flex flex-column text-center">
+                                                <div class="border-bottom border-dark pb-1">
+                                                    <input type="number" id="s2_pecahan_rasio_eg" class="form-control form-control-sm text-center border-secondary text-dark" style="width: 80px;" placeholder="...">
+                                                </div>
+                                                <div class="pt-1">
+                                                    <input type="number" id="s2_pecahan_rasio_ef" class="form-control form-control-sm text-center border-secondary text-dark" style="width: 80px;" placeholder="...">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="p-3 mb-3 bg-white border border-secondary rounded-3 shadow-sm text-center small">
+                                        <span class="d-block fw-bold text-dark mb-3 border-bottom border-secondary pb-2">2. Substitusi Nilai dan Pindah Ruas</span>
+                                        
+                                        <div class="d-flex justify-content-center align-items-center gap-3 mb-4">
+                                            <div class="d-flex flex-column text-center">
+                                                <div class="border-bottom border-dark pb-1 px-2 fw-bold text-dark">EG</div>
+                                                <div class="pt-1">
+                                                    <input type="number" id="s2_pecahan_ef" class="form-control form-control-sm text-center border-secondary text-dark" style="width: 80px;" placeholder="...">
+                                                </div>
+                                            </div>
+                                            <span class="fw-bold text-dark">=</span>
+                                            <div class="d-flex flex-column text-center">
+                                                <div class="border-bottom border-dark pb-1">
+                                                    <input type="number" id="s2_pecahan_rasio_eg" class="form-control form-control-sm text-center border-secondary text-dark" style="width: 80px;" placeholder="...">
+                                                </div>
+                                                <div class="pt-1">
+                                                    <input type="number" id="s2_pecahan_rasio_ef" class="form-control form-control-sm text-center border-secondary text-dark" style="width: 80px;" placeholder="...">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="d-flex align-items-center justify-content-center gap-2">
+                                            <span class="fw-bold text-dark">EG = </span>
+                                            <div class="d-flex flex-column text-center">
+                                                <div class="border-bottom border-dark pb-1 px-2 d-flex align-items-center justify-content-center gap-1">
+                                                    <input type="number" id="s2_pindah_rasio_eg" class="form-control form-control-sm text-center border-secondary text-dark" style="width: 80px;" placeholder="...">
+                                                    <span class="fw-bold text-dark">&times;</span>
+                                                    <input type="number" id="s2_pindah_ef" class="form-control form-control-sm text-center border-secondary text-dark" style="width: 80px;" placeholder="...">
+                                                </div>
+                                                <div class="pt-1 d-flex align-items-center justify-content-center">
+                                                    <input type="number" id="s2_pindah_rasio_ef" class="form-control form-control-sm text-center border-secondary text-dark" style="width: 80px;" placeholder="...">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="p-3 mb-3 bg-white border border-secondary rounded-3 shadow-sm text-center small">
+                                        <span class="d-block fw-bold text-dark mb-3 border-bottom border-secondary pb-2">3. Hitung Hasil Akhir</span>
+                                        
+                                        <div class="d-flex justify-content-center align-items-center gap-2">
+                                            <span class="fw-bold text-dark">EG = </span>
+                                            <div class="d-flex flex-column text-center">
+                                                <div class="border-bottom border-dark pb-1">
+                                                    <input type="number" id="s2_hasil_hitung_atas" class="form-control form-control-sm text-center border-secondary text-dark" style="width: 80px;" placeholder="...">
+                                                </div>
+                                                <div class="pt-1">
+                                                    <input type="number" id="s2_hasil_hitung_bawah" class="form-control form-control-sm text-center border-secondary text-dark" style="width: 80px;" placeholder="...">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="p-3 bg-white border border-secondary rounded-3 shadow-sm text-center small">
+                                        <span class="d-block fw-bold text-dark mb-2 border-bottom border-secondary pb-2">4. Kesimpulan</span>
+                                        <div class="alert alert-light border border-secondary d-flex flex-wrap justify-content-center align-items-center gap-2 mb-0 py-2">
+                                            <span class="text-dark">Jadi, panjang sisi EG adalah</span> 
+                                            <div class="d-flex align-items-center">
+                                                <input type="number" step="any" id="s2_final" class="form-control form-control-sm text-center fw-bold text-dark border-secondary shadow-sm" style="width: 80px;" placeholder="...">
+                                                <span class="ms-2 text-dark">cm.</span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="mt-auto pt-3 border-top d-flex flex-column flex-sm-row justify-content-between align-items-center gap-3">
+                                        <div id="s2_feedback" class="small fw-bold mb-3 mb-xl-0"></div>
+                                        <button class="btn btn-success px-4 fw-bold shadow-sm" onclick="cekSoal2()">
+                                            <i class="fas fa-check-circle me-1"></i> Cek Jawaban
+                                        </button>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
 
     <section class="materi-page d-none" data-page="3">
         <div class="row justify-content-center">

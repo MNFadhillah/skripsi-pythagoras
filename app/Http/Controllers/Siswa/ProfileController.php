@@ -55,9 +55,9 @@ class ProfileController extends Controller
     private function hitungTotalProgress($userId)
     {
         $totalCheckpoint = [
-            'materi_1_konsep_pythagoras'    => 16,
-            'materi_2_tripel_pythagoras'    => 7,
-            'materi_3_segitiga_istimewa'    => 7,
+            'materi_1_konsep_pythagoras'   => 16,
+            'materi_2_tripel_pythagoras'   => 8,
+            'materi_3_segitiga_istimewa'   => 10,
             'materi_4_penerapan_pythagoras' => 8,
         ];
 

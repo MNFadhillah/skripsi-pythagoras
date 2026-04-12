@@ -236,7 +236,7 @@ class ProgressController extends Controller
     {
         return [
             'materi_1_konsep_pythagoras'   => 16,
-            'materi_2_tripel_pythagoras'   => 7,
+            'materi_2_tripel_pythagoras'   => 8,
             'materi_3_segitiga_istimewa'   => 10,
             'materi_4_penerapan_pythagoras' => 8,
         ];

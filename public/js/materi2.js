@@ -2,7 +2,7 @@
    SUBBAB 2 : TRIPEL PYTHAGORAS
 ===================================================== */
 const MAX_ATTEMPTS = 3;
-let attemptMM = 0, attemptC1 = 0, attemptC2 = 0;
+let attemptMM = 0, attemptC1 = 0;
 let attemptTP1 = 0, attemptTP2 = 0, attemptLat = 0;
 
 function setValidasiElTripel(idOrEl, isValid) {
@@ -28,6 +28,99 @@ function disableSemua(ids) {
 /* =====================================================
    HALAMAN 1: MARI MENGINGAT
 ===================================================== */
+let sisaKesempatanDasar = 3;
+
+function cekRumusDasar() {
+    // Jika kesempatan sudah habis, hentikan fungsi
+    if (sisaKesempatanDasar <= 0) {
+        Swal.fire({
+            icon: 'info',
+            title: 'Kesempatan Habis',
+            text: 'Kamu sudah mencoba 3 kali. Jawaban yang benar sudah ditampilkan di layar.',
+            confirmButtonColor: '#3085d6'
+        });
+        return;
+    }
+
+    let r1 = document.getElementById("rumusDasar_1").value;
+    let r2 = document.getElementById("rumusDasar_2").value;
+    let r3 = document.getElementById("rumusDasar_3").value;
+    let feedback = document.getElementById("feedbackDasar");
+
+    // Validasi jika ada yang kosong
+    if (r1 === "" || r2 === "" || r3 === "") {
+        Swal.fire({
+            icon: 'warning',
+            title: 'Belum Lengkap',
+            text: 'Isi semua kotak pada rumus terlebih dahulu!',
+            confirmButtonColor: '#3085d6'
+        });
+        return;
+    }
+
+    // Karena c adalah sisi miring, maka c² = a² + b² ATAU c² = b² + a²
+    if (r1 === "c" && ((r2 === "a" && r3 === "b") || (r2 === "b" && r3 === "a"))) {
+        Swal.fire({
+            icon: 'success',
+            title: 'Tepat Sekali!',
+            text: 'Rumus Pythagoras yang berlaku adalah: c² = a² + b²',
+            confirmButtonColor: '#28a745'
+        }).then(() => {
+            if(typeof updateProgress === 'function') updateProgress('materi_2_tripel_pythagoras', 'm2_cp1_rumus_dasar');
+        });
+        
+        feedback.innerHTML = "<span class='text-success'>Tepat sekali! rumus Pythagoras yang berlaku pada segitiga di samping adalah c² = a² + b²</span>";
+        
+        // Kunci input
+        kunciInputDasar();
+        
+    } else {
+        // Kurangi kesempatan jika salah
+        sisaKesempatanDasar--; 
+
+        if (sisaKesempatanDasar > 0) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Kurang Tepat',
+                text: `Ingat, perhatikan kembali sisi-sisi pada segitiga siku-siku dan masukkan sisi yang benar! Sisa kesempatanmu: ${sisaKesempatanDasar} kali.`,
+                confirmButtonColor: '#d33'
+            });
+            feedback.innerHTML = `<span class='text-danger'>Masih kurang tepat, Kesempatan mencoba: ${sisaKesempatanDasar}</span>`;
+        } else {
+            // Kondisi saat kesempatan mencapai 0
+            Swal.fire({
+                icon: 'error',
+                title: 'Kesempatan Habis!',
+                text: 'Kamu sudah mencoba 3 kali. Klik tombol di bawah untuk melihat jawaban yang benar.',
+                confirmButtonText: 'Tampilkan Jawaban',
+                confirmButtonColor: '#17a2b8', // Warna info/teal agar beda dari tombol biasa
+                allowOutsideClick: false // Mencegah user menutup pop-up tanpa klik tombol
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // Eksekusi ini saat tombol "Tampilkan Jawaban" di Swal diklik
+                    document.getElementById("rumusDasar_1").value = "c";
+                    document.getElementById("rumusDasar_2").value = "a";
+                    document.getElementById("rumusDasar_3").value = "b";
+                    
+                    feedback.innerHTML = "<span class='text-danger'>Kesempatan habis. Jawaban benar: c² = a² + b²</span>";
+                    if(typeof updateProgress === 'function') updateProgress('materi_2_tripel_pythagoras', 'm2_cp1_rumus_dasar');
+                }
+            });
+            
+            // Kunci input agar tidak bisa diubah-ubah lagi
+            kunciInputDasar();
+        }
+    }
+}
+
+// Fungsi pembantu untuk mengunci input
+function kunciInputDasar() {
+    document.getElementById("rumusDasar_1").disabled = true;
+    document.getElementById("rumusDasar_2").disabled = true;
+    document.getElementById("rumusDasar_3").disabled = true;
+}
+
+// (Fungsi updateUserProgress dan saveUserReview tetap sama seperti sebelumnya)
 const idsMM = ['rumusA_1', 'rumusA_2', 'rumusA_3', 'rumusB_1', 'rumusB_2', 'rumusB_3'];
 
 function showAnswerMariMengingat() {
@@ -51,7 +144,7 @@ function showAnswerMariMengingat() {
     document.getElementById('feedbackB').innerHTML = '';
     
     // Update progress jika ditampikan jawaban
-    if(typeof updateProgress === 'function') updateProgress('materi_2_tripel_pythagoras', 'm2_cp1_mari_mengingat');
+    if(typeof updateProgress === 'function') updateProgress('materi_2_tripel_pythagoras', 'm2_cp2_mari_mengingat');
 }
 
 function cekMariMengingatTripel() {
@@ -116,7 +209,7 @@ function cekMariMengingatTripel() {
             text: 'Kamu berhasil merumuskan Kebalikan Teorema Pythagoras berdasarkan urutan panjang sisi-sisinya!', 
             confirmButtonColor: '#198754' 
         }).then(() => {
-            if(typeof updateProgress === 'function') updateProgress('materi_2_tripel_pythagoras', 'm2_cp1_mari_mengingat');
+            if(typeof updateProgress === 'function') updateProgress('materi_2_tripel_pythagoras', 'm2_cp2_mari_mengingat');
         });
         
     } else {
@@ -145,9 +238,215 @@ function cekMariMengingatTripel() {
         }
     }
 }
+
+/* =====================================================
+   HALAMAN 2: AYO MENCOBA
+===================================================== */
+// Variabel global untuk menyimpan sisa kesempatan
+let kesempatanAyoMencoba = 3;
+
+function cekPenyelidikanSegitiga() {
+    // 1. KUNCI JAWABAN
+    const kunci = {
+        segitiga1: { c: 9, c2: 81, a: 6, b: 7, a2: 36, b2: 49, ab2: 85, sign: "<", nama: "lancip" },
+        segitiga2: { c: 10, c2: 100, a: 6, b: 8, a2: 36, b2: 64, ab2: 100, sign: "=", nama: "siku" },
+        segitiga3: { c: 13, c2: 169, a: 8, b: 9, a2: 64, b2: 81, ab2: 145, sign: ">", nama: "tumpul" }
+    };
+
+    // Daftar semua ID input
+    const ids = [
+        "c_1", "c2_1", "a_1", "b_1", "a2_1", "b2_1", "ab2_1", "sign_1", "nama_1",
+        "c_2", "c2_2", "a_2", "b_2", "a2_2", "b2_2", "ab2_2", "sign_2", "nama_2",
+        "c_3", "c2_3", "a_3", "b_3", "a2_3", "b2_3", "ab2_3", "sign_3", "nama_3"
+    ];
+
+    // 2. CEK KELENGKAPAN INPUT (Sebelum memvalidasi benar/salah)
+    let emptyCount = 0;
+    ids.forEach(id => {
+        let el = document.getElementById(id);
+        if (el && el.value.trim() === "") {
+            emptyCount++;
+        }
+    });
+
+    if (emptyCount === ids.length) {
+        Swal.fire({
+            icon: 'warning',
+            title: 'Belum Ada Jawaban!',
+            text: 'Kamu belum mengisi satupun kotak jawaban. Silakan isi terlebih dahulu!',
+            confirmButtonColor: '#ffc107'
+        });
+        return; // Hentikan eksekusi, kesempatan tidak berkurang
+    } else if (emptyCount > 0) {
+        Swal.fire({
+            icon: 'info',
+            title: 'Belum Lengkap!',
+            text: 'Masih ada kotak yang kosong. Silakan lengkapi semua isian terlebih dahulu sebelum mengecek jawaban.',
+            confirmButtonColor: '#ffc107'
+        });
+        return; // Hentikan eksekusi, kesempatan tidak berkurang
+    }
+
+    // Jika sudah lengkap semua, baru kita periksa benar atau salah
+    let semuaBenar = true;
+
+    // Fungsi helper untuk mewarnai input
+    function setMark(id, isCorrect) {
+        let el = document.getElementById(id);
+        el.style.borderWidth = "2px";
+        if (isCorrect) {
+            el.style.borderColor = "#198754"; // Hijau
+        } else {
+            el.style.borderColor = "#dc3545"; // Merah
+            semuaBenar = false;
+        }
+    }
+
+    // Fungsi helper untuk mengambil nilai integer
+    function getVal(id) { 
+        return document.getElementById(id).value.trim(); 
+    }
+
+    // 3. PROSES VALIDASI
+    // Validasi Segitiga 1
+    setMark("c_1", parseInt(getVal("c_1")) === kunci.segitiga1.c);
+    setMark("c2_1", parseInt(getVal("c2_1")) === kunci.segitiga1.c2);
+    let s1_a = parseInt(getVal("a_1")), s1_b = parseInt(getVal("b_1"));
+    let s1_ab_valid = (s1_a === 6 && s1_b === 7) || (s1_a === 7 && s1_b === 6); // Bebas bolak-balik
+    setMark("a_1", s1_ab_valid);
+    setMark("b_1", s1_ab_valid);
+    let s1_a2 = parseInt(getVal("a2_1")), s1_b2 = parseInt(getVal("b2_1"));
+    let s1_a2b2_valid = (s1_a2 === 36 && s1_b2 === 49) || (s1_a2 === 49 && s1_b2 === 36);
+    setMark("a2_1", s1_a2b2_valid);
+    setMark("b2_1", s1_a2b2_valid);
+    setMark("ab2_1", parseInt(getVal("ab2_1")) === kunci.segitiga1.ab2);
+    setMark("sign_1", getVal("sign_1") === kunci.segitiga1.sign);
+    setMark("nama_1", getVal("nama_1") === kunci.segitiga1.nama);
+
+    // Validasi Segitiga 2
+    setMark("c_2", parseInt(getVal("c_2")) === kunci.segitiga2.c);
+    setMark("c2_2", parseInt(getVal("c2_2")) === kunci.segitiga2.c2);
+    let s2_a = parseInt(getVal("a_2")), s2_b = parseInt(getVal("b_2"));
+    let s2_ab_valid = (s2_a === 6 && s2_b === 8) || (s2_a === 8 && s2_b === 6);
+    setMark("a_2", s2_ab_valid);
+    setMark("b_2", s2_ab_valid);
+    let s2_a2 = parseInt(getVal("a2_2")), s2_b2 = parseInt(getVal("b2_2"));
+    let s2_a2b2_valid = (s2_a2 === 36 && s2_b2 === 64) || (s2_a2 === 64 && s2_b2 === 36);
+    setMark("a2_2", s2_a2b2_valid);
+    setMark("b2_2", s2_a2b2_valid);
+    setMark("ab2_2", parseInt(getVal("ab2_2")) === kunci.segitiga2.ab2);
+    setMark("sign_2", getVal("sign_2") === kunci.segitiga2.sign);
+    setMark("nama_2", getVal("nama_2") === kunci.segitiga2.nama);
+
+    // Validasi Segitiga 3
+    setMark("c_3", parseInt(getVal("c_3")) === kunci.segitiga3.c);
+    setMark("c2_3", parseInt(getVal("c2_3")) === kunci.segitiga3.c2);
+    let s3_a = parseInt(getVal("a_3")), s3_b = parseInt(getVal("b_3"));
+    let s3_ab_valid = (s3_a === 8 && s3_b === 9) || (s3_a === 9 && s3_b === 8);
+    setMark("a_3", s3_ab_valid);
+    setMark("b_3", s3_ab_valid);
+    let s3_a2 = parseInt(getVal("a2_3")), s3_b2 = parseInt(getVal("b2_3"));
+    let s3_a2b2_valid = (s3_a2 === 64 && s3_b2 === 81) || (s3_a2 === 81 && s3_b2 === 64);
+    setMark("a2_3", s3_a2b2_valid);
+    setMark("b2_3", s3_a2b2_valid);
+    setMark("ab2_3", parseInt(getVal("ab2_3")) === kunci.segitiga3.ab2);
+    setMark("sign_3", getVal("sign_3") === kunci.segitiga3.sign);
+    setMark("nama_3", getVal("nama_3") === kunci.segitiga3.nama);
+
+    // 4. FEEDBACK HASIL & NYAWA
+    if (semuaBenar) {
+        Swal.fire({
+            icon: 'success',
+            title: 'Luar Biasa!',
+            text: 'Semua jawaban dan hasil penyelidikanmu sudah tepat.',
+            confirmButtonColor: '#198754'
+        }).then(() => {
+            document.getElementById('kesimpulan_penyelidikan').classList.remove('d-none');
+            // PERBAIKAN DI SINI: Cek dulu apakah fungsi ada sebelum dijalankan
+            if (typeof updateProgress === 'function') {
+                updateProgress('materi_2_tripel_pythagoras', 'm2_cp3_ayo_mencoba');
+            } else {
+                console.warn("Peringatan: Fungsi updateProgress belum dibuat atau belum diload.");
+            }
+        });
+        
+    } else {
+        kesempatanAyoMencoba--; // Kurangi kesempatan jika ada yang salah
+        
+        if (kesempatanAyoMencoba > 0) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Masih Ada yang Salah',
+                html: `Periksa kembali jawabanmu. Kotak dengan garis tepi warna <b>merah</b> adalah jawaban yang belum tepat.<br><br><b>Sisa kesempatan: ${kesempatanAyoMencoba} kali</b>`,
+                confirmButtonColor: '#dc3545'
+            });
+        } else {
+            // Kesempatan habis
+            Swal.fire({
+                icon: 'warning',
+                title: 'Kesempatan Habis!',
+                text: 'Kamu sudah mencoba 3 kali namun masih ada jawaban yang belum tepat. Ingin melihat kunci jawabannya?',
+                showCancelButton: true,
+                confirmButtonText: 'Tampilkan Jawaban',
+                cancelButtonText: 'Tutup',
+                confirmButtonColor: '#198754',
+                cancelButtonColor: '#6c757d',
+                allowOutsideClick: false
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    tampilkanJawabanPenyelidikan(kunci);
+                }
+            });
+        }
+    }
+}
+
+// Fungsi untuk otomatis menampilkan kunci jawaban
+function tampilkanJawabanPenyelidikan(kunci) {
+    function setAns(id, val) {
+        let el = document.getElementById(id);
+        el.value = val;
+        el.style.borderColor = "#198754";
+        el.style.borderWidth = "2px";
+    }
+
+    // Isi Segitiga 1
+    setAns("c_1", kunci.segitiga1.c); setAns("c2_1", kunci.segitiga1.c2);
+    setAns("a_1", kunci.segitiga1.a); setAns("b_1", kunci.segitiga1.b);
+    setAns("a2_1", kunci.segitiga1.a2); setAns("b2_1", kunci.segitiga1.b2);
+    setAns("ab2_1", kunci.segitiga1.ab2);
+    setAns("sign_1", kunci.segitiga1.sign); setAns("nama_1", kunci.segitiga1.nama);
+
+    // Isi Segitiga 2
+    setAns("c_2", kunci.segitiga2.c); setAns("c2_2", kunci.segitiga2.c2);
+    setAns("a_2", kunci.segitiga2.a); setAns("b_2", kunci.segitiga2.b);
+    setAns("a2_2", kunci.segitiga2.a2); setAns("b2_2", kunci.segitiga2.b2);
+    setAns("ab2_2", kunci.segitiga2.ab2);
+    setAns("sign_2", kunci.segitiga2.sign); setAns("nama_2", kunci.segitiga2.nama);
+
+    // Isi Segitiga 3
+    setAns("c_3", kunci.segitiga3.c); setAns("c2_3", kunci.segitiga3.c2);
+    setAns("a_3", kunci.segitiga3.a); setAns("b_3", kunci.segitiga3.b);
+    setAns("a2_3", kunci.segitiga3.a2); setAns("b2_3", kunci.segitiga3.b2);
+    setAns("ab2_3", kunci.segitiga3.ab2);
+    setAns("sign_3", kunci.segitiga3.sign); setAns("nama_3", kunci.segitiga3.nama);
+
+    Swal.fire({
+        icon: 'info',
+        title: 'Kunci Jawaban Ditampilkan',
+        text: 'Ini adalah langkah-langkah dan jawaban yang tepat untuk penyelidikan segitiga tersebut.',
+        confirmButtonColor: '#3085d6'
+    }).then(() => {
+        document.getElementById('kesimpulan_penyelidikan').classList.remove('d-none');
+        if(typeof updateProgress === 'function') updateProgress('materi_2_tripel_pythagoras', 'm2_cp3_ayo_mencoba');
+
+    });
+}
+
 /* =====================================================
    HALAMAN 2: CONTOH 1 (TUMPUL)
 ===================================================== */
+
 const idsC1 = [
     'c1_dik_a', 'c1_dik_b', 'c1_dik_c', 'c1_sisi_c',
     'c1_c2_awal', 'c1_c2_hasil', 'c1_a2_awal', 'c1_b2_awal',
@@ -177,7 +476,7 @@ function showAnswerContoh1() {
     }
     disableSemua(idsC1);
     document.getElementById('c1_feedback').innerHTML = '<span class="text-primary">Ini adalah penyelesaian yang benar.</span>';
-    updateProgress('materi_2_tripel_pythagoras', 'm2_cp2_jenis_segitiga_1');
+    if(typeof updateProgress === 'function') updateProgress('materi_2_tripel_pythagoras', 'm2_cp4_jenis_segitiga_1');
 }
 
 function cekContoh1Tripel() {
@@ -228,7 +527,7 @@ function cekContoh1Tripel() {
         }).then(() => {
             // PERBAIKAN DI SINI: Cek dulu apakah fungsi ada sebelum dijalankan
             if (typeof updateProgress === 'function') {
-                updateProgress('materi_2_tripel_pythagoras', 'm2_cp2_jenis_segitiga_1');
+                updateProgress('materi_2_tripel_pythagoras', 'm2_cp4_jenis_segitiga_1');
             } else {
                 console.warn("Peringatan: Fungsi updateProgress belum dibuat atau belum diload.");
             }
@@ -256,86 +555,126 @@ function cekContoh1Tripel() {
 }
 
 /* =====================================================
-   HALAMAN 2: CONTOH 2 (LANCIP)
+   AKTIVITAS BARU: POLA TRIPEL PYTHAGORAS
 ===================================================== */
-const idsC2 = [
-    'c2_dik_a', 'c2_dik_b', 'c2_dik_c', 'c2_sisi_c',
-    'c2_c2_awal', 'c2_c2_hasil', 'c2_a2_awal', 'c2_b2_awal',
-    'c2_a2_hasil', 'c2_b2_hasil', 'c2_ab_total', 'c2_banding',
-    'c2_kesimpulan'
+let attemptPola = 0;
+const idsPola = [
+    'pola2_h1', 'pola2_h2', 'pola2_h3', 'pola2_c', 'pola2_a', 'pola2_b', 'pola2_c2', 'pola2_a2', 'pola2_b2', 'pola2_tot_kiri', 'pola2_tot_kanan',
+    'pola3_h1', 'pola3_h2', 'pola3_h3', 'pola3_c', 'pola3_a', 'pola3_b', 'pola3_c2', 'pola3_a2', 'pola3_b2', 'pola3_tot_kiri', 'pola3_tot_kanan'
 ];
 
-function showAnswerContoh2() {
-    const ans = {
-        'c2_dik_a': '11',
-        'c2_dik_b': '13',
-        'c2_dik_c': '15',
-        'c2_sisi_c': '15',
-        'c2_c2_awal': '15',
-        'c2_c2_hasil': '225',
-        'c2_a2_awal': '11',
-        'c2_b2_awal': '13',
-        'c2_a2_hasil': '121',
-        'c2_b2_hasil': '169',
-        'c2_ab_total': '290',
-        'c2_banding': '<',
-        'c2_kesimpulan': 'lancip'
+function showAnswerPolaTripel() {
+    const ansPola = {
+        // Jawaban Pola 2
+        'pola2_h1': 6, 'pola2_h2': 8, 'pola2_h3': 10,
+        'pola2_c': 10, 'pola2_a': 6, 'pola2_b': 8, 'pola2_c2': 100, 'pola2_a2': 36, 'pola2_b2': 64, 'pola2_tot_kiri': 100, 'pola2_tot_kanan': 100,
+        // Jawaban Pola 3
+        'pola3_h1': 9, 'pola3_h2': 12, 'pola3_h3': 15,
+        'pola3_c': 15, 'pola3_a': 9, 'pola3_b': 12, 'pola3_c2': 225, 'pola3_a2': 81, 'pola3_b2': 144, 'pola3_tot_kiri': 225, 'pola3_tot_kanan': 225
     };
-    for (let id in ans) {
-        document.getElementById(id).value = ans[id];
-        setValidasiElTripel(id, true);
+    
+    for (let id in ansPola) {
+        const el = document.getElementById(id);
+        if (el) {
+            el.value = ansPola[id];
+            if (typeof setValidasiElTripel === 'function') setValidasiElTripel(id, true);
+        }
     }
-    disableSemua(idsC2);
-    document.getElementById('c2_feedback').innerHTML = '<span class="text-primary">Ini adalah penyelesaian yang benar.</span>';
-    updateProgress('materi_2_tripel_pythagoras', 'm2_cp3_jenis_segitiga_2');
+    
+    if (typeof disableSemua === 'function') disableSemua(idsPola);
+    
+    // Update progress jika ditampilkan jawaban
+    if (typeof updateProgress === 'function') updateProgress('materi_2_tripel_pythagoras', 'm2_cp7_pola_tripel');
 }
 
-function cekContoh2Tripel() {
-    if (cekKosong(idsC2)) {
-        Swal.fire({ icon: 'warning', title: 'Belum Lengkap', text: 'Lengkapi bagian yang masih kosong.', confirmButtonColor: '#ffc107' });
+function cekPolaTripel() {
+    if (typeof cekKosong === 'function' && cekKosong(idsPola)) {
+        Swal.fire({
+            icon: 'warning',
+            title: 'Belum Lengkap',
+            text: 'Isi semua tabel dan kolom pembuktian terlebih dahulu!',
+            confirmButtonColor: '#ffc107'
+        });
         return;
     }
 
     let benar = true;
+    
     const check = (id, val) => {
-        const isCor = document.getElementById(id).value === val;
-        setValidasiElTripel(id, isCor);
+        const el = document.getElementById(id);
+        const isCor = parseInt(el.value) === val;
+        if (typeof setValidasiElTripel === 'function') setValidasiElTripel(id, isCor);
         if (!isCor) benar = false;
     };
 
-    check('c2_dik_a', '11');
-    check('c2_dik_b', '13');
-    check('c2_dik_c', '15');
-    check('c2_sisi_c', '15');
-    check('c2_c2_awal', '15');
-    check('c2_c2_hasil', '225');
+    // --- Validasi Pola Dikali 2 ---
+    check('pola2_h1', 6); check('pola2_h2', 8); check('pola2_h3', 10);
+    check('pola2_c', 10);
+    
+    const p2_a = parseInt(document.getElementById('pola2_a').value);
+    const p2_b = parseInt(document.getElementById('pola2_b').value);
+    const p2_abCor = (p2_a === 6 && p2_b === 8) || (p2_a === 8 && p2_b === 6);
+    if (typeof setValidasiElTripel === 'function') {
+        setValidasiElTripel('pola2_a', p2_abCor);
+        setValidasiElTripel('pola2_b', p2_abCor);
+    }
+    if (!p2_abCor) benar = false;
 
-    const a2a = document.getElementById('c2_a2_awal').value;
-    const b2a = document.getElementById('c2_b2_awal').value;
-    const a2aCor = (a2a === '11' && b2a === '13') || (a2a === '13' && b2a === '11');
-    setValidasiElTripel('c2_a2_awal', a2aCor);
-    setValidasiElTripel('c2_b2_awal', a2aCor);
-    if (!a2aCor) benar = false;
+    check('pola2_c2', 100);
+    
+    const p2_a2 = parseInt(document.getElementById('pola2_a2').value);
+    const p2_b2 = parseInt(document.getElementById('pola2_b2').value);
+    const p2_a2b2Cor = (p2_a2 === 36 && p2_b2 === 64) || (p2_a2 === 64 && p2_b2 === 36);
+    if (typeof setValidasiElTripel === 'function') {
+        setValidasiElTripel('pola2_a2', p2_a2b2Cor);
+        setValidasiElTripel('pola2_b2', p2_a2b2Cor);
+    }
+    if (!p2_a2b2Cor) benar = false;
 
-    const a2h = document.getElementById('c2_a2_hasil').value;
-    const b2h = document.getElementById('c2_b2_hasil').value;
-    const a2hCor = (a2h === '121' && b2h === '169') || (a2h === '169' && b2h === '121');
-    setValidasiElTripel('c2_a2_hasil', a2hCor);
-    setValidasiElTripel('c2_b2_hasil', a2hCor);
-    if (!a2hCor) benar = false;
+    check('pola2_tot_kiri', 100); check('pola2_tot_kanan', 100);
 
-    check('c2_ab_total', '290');
-    check('c2_banding', '<');
-    check('c2_kesimpulan', 'lancip');
+    // --- Validasi Pola Dikali 3 ---
+    check('pola3_h1', 9); check('pola3_h2', 12); check('pola3_h3', 15);
+    check('pola3_c', 15);
+    
+    const p3_a = parseInt(document.getElementById('pola3_a').value);
+    const p3_b = parseInt(document.getElementById('pola3_b').value);
+    const p3_abCor = (p3_a === 9 && p3_b === 12) || (p3_a === 12 && p3_b === 9);
+    if (typeof setValidasiElTripel === 'function') {
+        setValidasiElTripel('pola3_a', p3_abCor);
+        setValidasiElTripel('pola3_b', p3_abCor);
+    }
+    if (!p3_abCor) benar = false;
 
+    check('pola3_c2', 225);
+    
+    const p3_a2 = parseInt(document.getElementById('pola3_a2').value);
+    const p3_b2 = parseInt(document.getElementById('pola3_b2').value);
+    const p3_a2b2Cor = (p3_a2 === 81 && p3_b2 === 144) || (p3_a2 === 144 && p3_b2 === 81);
+    if (typeof setValidasiElTripel === 'function') {
+        setValidasiElTripel('pola3_a2', p3_a2b2Cor);
+        setValidasiElTripel('pola3_b2', p3_a2b2Cor);
+    }
+    if (!p3_a2b2Cor) benar = false;
+
+    check('pola3_tot_kiri', 225); check('pola3_tot_kanan', 225);
+
+    // --- Hasil Akhir ---
     if (benar) {
-        disableSemua(idsC2);
-        Swal.fire({ icon: 'success', title: 'Jawaban Benar Semua!', text: 'Langkah penyelesaian Contoh 2 benar.', confirmButtonColor: '#198754' }).then(() => {
-            updateProgress('materi_2_tripel_pythagoras', 'm2_cp3_jenis_segitiga_2');
+        if (typeof disableSemua === 'function') disableSemua(idsPola);
+        Swal.fire({
+            icon: 'success',
+            title: 'Luar Biasa!',
+            text: 'Kamu berhasil membuktikan bahwa kelipatan dari Tripel Pythagoras juga merupakan Tripel Pythagoras!',
+            confirmButtonColor: '#198754'
+        }).then(() => {
+            if (typeof updateProgress === 'function') updateProgress('materi_2_tripel_pythagoras', 'm2_cp7_pola_tripel');
         });
     } else {
-        attemptC2++;
-        if (attemptC2 >= MAX_ATTEMPTS) {
+        attemptPola++;
+        let maxAtt = typeof MAX_ATTEMPTS !== 'undefined' ? MAX_ATTEMPTS : 3;
+        
+        if (attemptPola >= maxAtt) {
             Swal.fire({
                 icon: 'info',
                 title: 'Kesempatan Habis',
@@ -343,21 +682,24 @@ function cekContoh2Tripel() {
                 confirmButtonText: 'Tampilkan Jawaban',
                 confirmButtonColor: '#0d6efd',
                 allowOutsideClick: false
-            }).then(() => showAnswerContoh2());
+            }).then(() => {
+                showAnswerPolaTripel();
+                // Perekaman data evaluasi saat salah 3x
+                if(typeof updateUserProgress === 'function') updateUserProgress('m2_cp7_pola_tripel', false);
+                if(typeof saveUserReview === 'function') saveUserReview('m2_cp7_pola_tripel', 0, false);
+            });
         } else {
             Swal.fire({
                 icon: 'error',
                 title: 'Kurang Tepat',
-                text: `Jawaban anda masih ada yang kurang tepat. Sisa kesempatan: ${MAX_ATTEMPTS - attemptC2}`,
+                text: `Masih ada kotak yang berwarna merah. Coba hitung lagi dengan teliti! Sisa kesempatan: ${maxAtt - attemptPola}`,
                 confirmButtonColor: '#dc3545'
             });
         }
     }
 }
 
-/* =====================================================
-   HALAMAN 3: CONTOH TRIPEL 1 & 2
-===================================================== */
+
 const idsTP1 = [
     'tp1_sisi_c', 'tp1_step1_c', 'tp1_step1_b', 'tp1_step1_a',
     'tp1_step2_c2', 'tp1_step2_b2', 'tp1_step2_a2',
@@ -385,7 +727,7 @@ function showAnswerTripel1() {
     }
     disableSemua(idsTP1);
     document.getElementById('tp1_feedback').innerHTML = '<span class="text-primary">Ini adalah penyelesaian yang benar.</span>';
-    updateProgress('materi_2_tripel_pythagoras', 'm2_cp4_contoh_tripel_1');
+    if(typeof updateProgress === 'function') updateProgress('materi_2_tripel_pythagoras', 'm2_cp5_contoh_tripel_1');
 }
 
 function cekTripel1() {
@@ -428,7 +770,7 @@ function cekTripel1() {
     if (benar) {
         disableSemua(idsTP1);
         Swal.fire({ icon: 'success', title: 'Jawaban Benar Semua!', text: 'BUKAN Tripel Pythagoras.', confirmButtonColor: '#198754' }).then(() => {
-            updateProgress('materi_2_tripel_pythagoras', 'm2_cp4_contoh_tripel_1');
+            if(typeof updateProgress === 'function') updateProgress('materi_2_tripel_pythagoras', 'm2_cp5_contoh_tripel_1');
         });
     } else {
         attemptTP1++;
@@ -452,102 +794,6 @@ function cekTripel1() {
     }
 }
 
-const idsTP2 = [
-    'tp2_sisi_c', 'tp2_step1_c', 'tp2_step1_b', 'tp2_step1_a',
-    'tp2_step2_c2', 'tp2_step2_b2', 'tp2_step2_a2',
-    'tp2_step3_c2_tot', 'tp2_sign', 'tp2_step3_ab_tot',
-    'tp2_kesimpulan'
-];
-
-function showAnswerTripel2() {
-    const ans = {
-        'tp2_sisi_c': '26',
-        'tp2_step1_c': '26',
-        'tp2_step1_b': '24',
-        'tp2_step1_a': '10',
-        'tp2_step2_c2': '676',
-        'tp2_step2_b2': '576',
-        'tp2_step2_a2': '100',
-        'tp2_step3_c2_tot': '676',
-        'tp2_sign': '=',
-        'tp2_step3_ab_tot': '676',
-        'tp2_kesimpulan': 'ya'
-    };
-    for (let id in ans) {
-        document.getElementById(id).value = ans[id];
-        setValidasiElTripel(id, true);
-    }
-    disableSemua(idsTP2);
-    document.getElementById('tp2_feedback').innerHTML = '<span class="text-primary">Ini adalah penyelesaian yang benar.</span>';
-    updateProgress('materi_2_tripel_pythagoras', 'm2_cp5_contoh_tripel_2');
-}
-
-function cekTripel2() {
-    if (cekKosong(idsTP2)) {
-        Swal.fire({ icon: 'warning', title: 'Belum Lengkap', text: 'Lengkapi bagian yang masih kosong.', confirmButtonColor: '#ffc107' });
-        return;
-    }
-
-    let benar = true;
-    const check = (id, val) => {
-        const isCor = document.getElementById(id).value === val;
-        setValidasiElTripel(id, isCor);
-        if (!isCor) benar = false;
-    };
-
-    check('tp2_sisi_c', '26');
-    check('tp2_step1_c', '26');
-
-    const a1 = document.getElementById('tp2_step1_a').value;
-    const b1 = document.getElementById('tp2_step1_b').value;
-    const s1Cor = (a1 === '10' && b1 === '24') || (a1 === '24' && b1 === '10');
-    setValidasiElTripel('tp2_step1_a', s1Cor);
-    setValidasiElTripel('tp2_step1_b', s1Cor);
-    if (!s1Cor) benar = false;
-
-    check('tp2_step2_c2', '676');
-
-    const a2 = document.getElementById('tp2_step2_a2').value;
-    const b2 = document.getElementById('tp2_step2_b2').value;
-    const s2Cor = (a2 === '100' && b2 === '576') || (a2 === '576' && b2 === '100');
-    setValidasiElTripel('tp2_step2_a2', s2Cor);
-    setValidasiElTripel('tp2_step2_b2', s2Cor);
-    if (!s2Cor) benar = false;
-
-    check('tp2_step3_c2_tot', '676');
-    check('tp2_sign', '=');
-    check('tp2_step3_ab_tot', '676');
-    check('tp2_kesimpulan', 'ya');
-
-    if (benar) {
-        disableSemua(idsTP2);
-        Swal.fire({ icon: 'success', title: 'Jawaban Benar Semua!', text: 'ADALAH Tripel Pythagoras.', confirmButtonColor: '#198754' }).then(() => {
-            updateProgress('materi_2_tripel_pythagoras', 'm2_cp5_contoh_tripel_2');
-        });
-    } else {
-        attemptTP2++;
-        if (attemptTP2 >= MAX_ATTEMPTS) {
-            Swal.fire({
-                icon: 'info',
-                title: 'Kesempatan Habis',
-                text: 'Mari kita lihat jawaban yang benar.',
-                confirmButtonText: 'Tampilkan Jawaban',
-                confirmButtonColor: '#0d6efd',
-                allowOutsideClick: false
-            }).then(() => showAnswerTripel2());
-        } else {
-            Swal.fire({
-                icon: 'error',
-                title: 'Kurang Tepat',
-                text: `Jawaban anda masih ada yang kurang tepat. Sisa kesempatan: ${MAX_ATTEMPTS - attemptTP2}`,
-                confirmButtonColor: '#dc3545'
-            });
-        }
-    }
-}
-/* =====================================================
-   HALAMAN 4: AYO BERLATIH (LATIHAN KOMPLEKS)
-===================================================== */
 function showAnswerLatihan() {
     // Kunci Soal 1 (Siku-siku)
     const ans1 = [15, 15, 225, 9, 12, 81, 144, 225];
@@ -752,6 +998,7 @@ function cekRefleksiTripel() {
     }
 }
 
+
 /* =====================================================
    AKTIFASI MODE REVIEW UNTUK MATERI 2 (FULL)
 ===================================================== */
@@ -760,7 +1007,38 @@ document.addEventListener('DOMContentLoaded', function () {
     if (typeof window.setupReviewMode === 'function') {
 
         // 1. Mari Mengingat
-        window.setupReviewMode('m2_cp1_mari_mengingat', 'button[onclick="cekMariMengingatTripel()"]',
+        window.setupReviewMode('m2_cp1_rumus_dasar', 'button[onclick="cekRumusDasar()"]',
+            function() {
+                const ans = { 'rumusDasar_1': 'c', 'rumusDasar_2': 'a', 'rumusDasar_3': 'b' };
+                for (let id in ans) { 
+                    let el = document.getElementById(id); 
+                    if (el) { 
+                        el.value = ans[id]; 
+                        el.classList.add('is-valid'); 
+                        el.disabled = true; 
+                    } 
+                }
+                if(document.getElementById('feedbackDasar')) {
+                    document.getElementById('feedbackDasar').innerHTML = "<span class='text-success fw-bold'>Tepat sekali! rumus Pythagoras yang berlaku pada segitiga di samping adalah c² = a² + b²</span>";
+                }
+            },
+            function() {
+                ['rumusDasar_1', 'rumusDasar_2', 'rumusDasar_3'].forEach(id => {
+                    let el = document.getElementById(id); 
+                    if (el) { 
+                        el.value = ''; 
+                        el.classList.remove('is-valid', 'is-invalid'); 
+                        el.disabled = false; 
+                    }
+                });
+                if(document.getElementById('feedbackDasar')) {
+                    document.getElementById('feedbackDasar').innerHTML = '';
+                }
+            }
+        );
+
+        // 2. Mari Mengingat (Lanjutan)
+        window.setupReviewMode('m2_cp2_mari_mengingat', 'button[onclick="cekMariMengingatTripel()"]',
             function() {
                 const ans = { 'rumusA_1': 'a', 'rumusA_2': 'b', 'rumusA_3': 'c', 'rumusB_1': 'b', 'rumusB_2': 'a', 'rumusB_3': 'c' };
                 for (let id in ans) { let el = document.getElementById(id); if (el) { el.value = ans[id]; el.classList.add('is-valid'); el.disabled = true; } }
@@ -779,8 +1057,61 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         );
 
-        // 2. Contoh 1 (Tumpul)
-        window.setupReviewMode('m2_cp2_jenis_segitiga_1', 'button[onclick="cekContoh1Tripel()"]',
+        // 3. Ayo Mencoba (Interaktif Penyelidikan Segitiga) -> BARU DITAMBAHKAN
+        window.setupReviewMode('m2_cp3_ayo_mencoba', 'button[onclick="cekPenyelidikanSegitiga()"]',
+            function() {
+                // Memanggil fungsi tampil jawaban yang ada di logika utama
+                if (typeof tampilkanJawabanPenyelidikan === 'function') {
+                    const kunci = {
+                        segitiga1: { c: 9, c2: 81, a: 6, b: 7, a2: 36, b2: 49, ab2: 85, sign: "<", nama: "lancip" },
+                        segitiga2: { c: 10, c2: 100, a: 6, b: 8, a2: 36, b2: 64, ab2: 100, sign: "=", nama: "siku" },
+                        segitiga3: { c: 13, c2: 169, a: 8, b: 9, a2: 64, b2: 81, ab2: 145, sign: ">", nama: "tumpul" }
+                    };
+                    tampilkanJawabanPenyelidikan(kunci);
+                    
+                    // Kunci semua input agar tidak bisa diedit
+                    const ids = [
+                        "c_1", "c2_1", "a_1", "b_1", "a2_1", "b2_1", "ab2_1", "sign_1", "nama_1",
+                        "c_2", "c2_2", "a_2", "b_2", "a2_2", "b2_2", "ab2_2", "sign_2", "nama_2",
+                        "c_3", "c2_3", "a_3", "b_3", "a2_3", "b2_3", "ab2_3", "sign_3", "nama_3"
+                    ];
+                    ids.forEach(id => {
+                        let el = document.getElementById(id);
+                        if(el) { el.disabled = true; }
+                    });
+
+                    // Munculkan kotak kesimpulan
+                    if(document.getElementById('kesimpulan_penyelidikan')) {
+                        document.getElementById('kesimpulan_penyelidikan').classList.remove('d-none');
+                    }
+                }
+            },
+            function() {
+                // Reset semua isian saat review ditutup
+                const ids = [
+                    "c_1", "c2_1", "a_1", "b_1", "a2_1", "b2_1", "ab2_1", "sign_1", "nama_1",
+                    "c_2", "c2_2", "a_2", "b_2", "a2_2", "b2_2", "ab2_2", "sign_2", "nama_2",
+                    "c_3", "c2_3", "a_3", "b_3", "a2_3", "b2_3", "ab2_3", "sign_3", "nama_3"
+                ];
+                ids.forEach(id => {
+                    let el = document.getElementById(id);
+                    if(el) { 
+                        el.value = ''; 
+                        el.disabled = false; 
+                        el.style.borderColor = ''; 
+                        el.style.borderWidth = '';
+                    }
+                });
+                
+                // Sembunyikan kesimpulan lagi
+                if(document.getElementById('kesimpulan_penyelidikan')) {
+                    document.getElementById('kesimpulan_penyelidikan').classList.add('d-none');
+                }
+            }
+        );
+
+        // 4. Contoh 1 (Tumpul)
+        window.setupReviewMode('m2_cp4_jenis_segitiga_1', 'button[onclick="cekContoh1Tripel()"]',
             function() {
                 const ans = { 'c1_dik_a': '17', 'c1_dik_b': '25', 'c1_dik_c': '38', 'c1_sisi_c': '38', 'c1_c2_awal': '38', 'c1_c2_hasil': '1444', 'c1_a2_awal': '17', 'c1_b2_awal': '25', 'c1_a2_hasil': '289', 'c1_b2_hasil': '625', 'c1_ab_total': '914', 'c1_banding': '>', 'c1_kesimpulan': 'tumpul' };
                 for (let id in ans) { let el = document.getElementById(id); if (el) { el.value = ans[id]; el.classList.add('is-valid'); el.disabled = true; } }
@@ -794,23 +1125,36 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         );
 
-        // 3. Contoh 2 (Lancip)
-        window.setupReviewMode('m2_cp3_jenis_segitiga_2', 'button[onclick="cekContoh2Tripel()"]',
+        // ========================================================
+        // CONTOH 2 (LANCIP) DIHAPUS KARENA CONTOH 1 SUDAH CUKUP
+        // ========================================================
+
+        // 5. Pola Tripel Pythagoras
+        window.setupReviewMode('m2_cp7_pola_tripel', 'button[onclick="cekPolaTripel()"]',
             function() {
-                const ans = { 'c2_dik_a': '11', 'c2_dik_b': '13', 'c2_dik_c': '15', 'c2_sisi_c': '15', 'c2_c2_awal': '15', 'c2_c2_hasil': '225', 'c2_a2_awal': '11', 'c2_b2_awal': '13', 'c2_a2_hasil': '121', 'c2_b2_hasil': '169', 'c2_ab_total': '290', 'c2_banding': '<', 'c2_kesimpulan': 'lancip' };
-                for (let id in ans) { let el = document.getElementById(id); if (el) { el.value = ans[id]; el.classList.add('is-valid'); el.disabled = true; } }
-                if(document.getElementById('c2_feedback')) document.getElementById('c2_feedback').innerHTML = '<span class="text-primary fw-bold">Ini adalah penyelesaian yang benar.</span>';
+                if (typeof showAnswerPolaTripel === 'function') {
+                    showAnswerPolaTripel();
+                }
             },
             function() {
-                ['c2_dik_a', 'c2_dik_b', 'c2_dik_c', 'c2_sisi_c', 'c2_c2_awal', 'c2_c2_hasil', 'c2_a2_awal', 'c2_b2_awal', 'c2_a2_hasil', 'c2_b2_hasil', 'c2_ab_total', 'c2_banding', 'c2_kesimpulan'].forEach(id => {
-                    let el = document.getElementById(id); if (el) { el.value = ''; el.classList.remove('is-valid', 'is-invalid'); el.disabled = false; }
+                const idsPolaReset = [
+                    'pola2_h1', 'pola2_h2', 'pola2_h3', 'pola2_c', 'pola2_a', 'pola2_b', 'pola2_c2', 'pola2_a2', 'pola2_b2', 'pola2_tot_kiri', 'pola2_tot_kanan',
+                    'pola3_h1', 'pola3_h2', 'pola3_h3', 'pola3_c', 'pola3_a', 'pola3_b', 'pola3_c2', 'pola3_a2', 'pola3_b2', 'pola3_tot_kiri', 'pola3_tot_kanan'
+                ];
+                
+                idsPolaReset.forEach(id => {
+                    let el = document.getElementById(id); 
+                    if (el) { 
+                        el.value = ''; 
+                        el.classList.remove('is-valid', 'is-invalid'); 
+                        el.disabled = false; 
+                    }
                 });
-                if(document.getElementById('c2_feedback')) document.getElementById('c2_feedback').innerHTML = '';
             }
         );
 
-        // 4. Contoh Tripel 1
-        window.setupReviewMode('m2_cp4_contoh_tripel_1', 'button[onclick="cekTripel1()"]',
+        // 6. Contoh Tripel 1
+        window.setupReviewMode('m2_cp5_contoh_tripel_1', 'button[onclick="cekTripel1()"]',
             function() {
                 const ans = { 'tp1_sisi_c': '17', 'tp1_step1_c': '17', 'tp1_step1_b': '16', 'tp1_step1_a': '8', 'tp1_step2_c2': '289', 'tp1_step2_b2': '256', 'tp1_step2_a2': '64', 'tp1_step3_c2_tot': '289', 'tp1_sign': '!=', 'tp1_step3_ab_tot': '320', 'tp1_kesimpulan': 'tidak' };
                 for (let id in ans) { let el = document.getElementById(id); if (el) { el.value = ans[id]; el.classList.add('is-valid'); el.disabled = true; } }
@@ -824,34 +1168,15 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         );
 
-        // 5. Contoh Tripel 2
-        window.setupReviewMode('m2_cp5_contoh_tripel_2', 'button[onclick="cekTripel2()"]',
-            function() {
-                const ans = { 'tp2_sisi_c': '26', 'tp2_step1_c': '26', 'tp2_step1_b': '24', 'tp2_step1_a': '10', 'tp2_step2_c2': '676', 'tp2_step2_b2': '576', 'tp2_step2_a2': '100', 'tp2_step3_c2_tot': '676', 'tp2_sign': '=', 'tp2_step3_ab_tot': '676', 'tp2_kesimpulan': 'ya' };
-                for (let id in ans) { let el = document.getElementById(id); if (el) { el.value = ans[id]; el.classList.add('is-valid'); el.disabled = true; } }
-                if(document.getElementById('tp2_feedback')) document.getElementById('tp2_feedback').innerHTML = '<span class="text-primary fw-bold">Ini adalah penyelesaian yang benar.</span>';
-            },
-            function() {
-                ['tp2_sisi_c', 'tp2_step1_c', 'tp2_step1_b', 'tp2_step1_a', 'tp2_step2_c2', 'tp2_step2_b2', 'tp2_step2_a2', 'tp2_step3_c2_tot', 'tp2_sign', 'tp2_step3_ab_tot', 'tp2_kesimpulan'].forEach(id => {
-                    let el = document.getElementById(id); if (el) { el.value = ''; el.classList.remove('is-valid', 'is-invalid'); el.disabled = false; }
-                });
-                if(document.getElementById('tp2_feedback')) document.getElementById('tp2_feedback').innerHTML = '';
-            }
-        );
-
-        // 6. Ayo Berlatih
+        // 7. Ayo Berlatih
         window.setupReviewMode('m2_cp6_ayo_berlatih', 'button[onclick="cekLatihanTripel()"]',
             function() {
-                // Saat mode review diaktifkan, kita cukup memanggil fungsi showAnswerLatihan 
-                // yang sudah kita buat sebelumnya untuk mengisi semua jawaban yang benar otomatis.
                 if (typeof showAnswerLatihan === 'function') {
                     showAnswerLatihan();
                 }
             },
             function() {
-                // Fungsi Reset: Mengosongkan form jika mode review ditutup
-                
-                // 1. Reset Soal 1 & 2 (Isian Jenis Segitiga)
+                // Reset Soal 1 & 2
                 document.querySelectorAll('.input-soal1, .input-soal2').forEach(inp => { 
                     inp.value = ''; 
                     inp.disabled = false; 
@@ -871,7 +1196,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     } 
                 });
                 
-                // 2. Reset Soal 3, 4, 5 (Radio Ya/Tidak)
+                // Reset Soal 3, 4, 5 
                 ['soal3', 'soal4', 'soal5'].forEach(name => {
                     document.querySelectorAll(`input[name="${name}"]`).forEach(r => { 
                         r.disabled = false; 
@@ -880,14 +1205,13 @@ document.addEventListener('DOMContentLoaded', function () {
                     });
                 });
                 
-                // 3. Reset Soal 6, 7, 8 (Pilihan Ganda A/B/C)
+                // Reset Soal 6, 7, 8 
                 ['soal6', 'soal7', 'soal8'].forEach(name => {
                     document.querySelectorAll(`input[name="${name}"]`).forEach(r => { 
                         r.disabled = false; 
                         r.checked = false; 
                     });
                     
-                    // JURUS PAMUNGKAS: Bersihkan total sisa warna merah/putih dari sesi sebelumnya
                     document.querySelectorAll(`input[name="${name}"] + label`).forEach(lbl => { 
                         lbl.className = 'btn btn-outline-success w-100 py-2 fw-bold'; 
                     });
@@ -895,7 +1219,7 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         );
 
-        // 7. Refleksi
+        // 8. Refleksi
         window.setupReviewMode('m2_cp7_refleksi', 'button[onclick="cekRefleksiTripel()"]',
             function() {
                 ['ref_tri_1_ya', 'ref_tri_1_tidak', 'ref_tri_1_text', 'ref_tri_2_text'].forEach(id => {

@@ -131,7 +131,7 @@
         
         {{-- Kartu Poin (BARU: Disisipkan di tengah) --}}
         <div class="col-md-4">
-            <div class="card border-success border-2 h-100 position-relative badge-card-hover" style="background: linear-gradient(to right, #fff, #fffdf2);">
+            <div class="card border-success border-2 h-100 position-relative badge-card-hover">
                 <div class="card-body d-flex justify-content-between align-items-center">
                     <div>
                         <h5 class="text-muted mb-1 fs-6">Total Poin</h5>

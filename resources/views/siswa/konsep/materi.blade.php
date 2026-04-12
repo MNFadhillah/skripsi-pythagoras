@@ -4,7 +4,7 @@
 
 @push('scripts')
     <script>
-        window.completedCheckpoints = JSON.parse('{!! json_encode($completedCheckpoints ?? []) !!}');
+        window.completedCheckpoints = <?php echo json_encode($completedCheckpoints ?? []); ?>;
     </script>
 
     <script src="{{ asset('js/materi1.js') }}"></script>

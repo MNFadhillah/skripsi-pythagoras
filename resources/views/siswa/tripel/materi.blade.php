@@ -7,8 +7,6 @@
         window.completedCheckpoints = <?php echo json_encode($completedCheckpoints ?? []); ?>;
     </script>
 
-    <script src="{{ asset('js/script.js') }}"></script>
-
     <script src="{{ asset('js/materi2.js') }}"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 @endpush
@@ -65,34 +63,51 @@
         <section class="mb-4">
             <div class="card shadow-sm">
                 <div class="card-header bg-light">
-                    <h4 class="text-center mb-0">Mari Mengingat</h4>
+                    <h4 class="text-center mb-0">Ayo Mengingat</h4>
                 </div>
                 <div class="card-body">
                     
                     <p class="text-justify mb-4">
-                        Ingatkah kamu dengan Teorema Pythagoras yang telah dipelajari sebelumnya? Teorema Pythagoras menyatakan bahwa pada sebuah segitiga siku-siku, jumlah kuadrat dari dua sisi penyikunya sama dengan kuadrat dari sisi miring. Mari amati kembali rumusnya di bawah ini:
+                        Ingatkah kamu dengan Teorema Pythagoras yang telah dipelajari sebelumnya? Teorema Pythagoras menyatakan bahwa jumlah dari kuadrat kedua sisi siku-siku segitiga pada segitiga siku-siku sama dengan kuadrat panjang sisi miringnya (hipotenusa). Perhatikan gambar segitiga siku-siku di bawah dan tentukan rumus yang berlaku!
                     </p>
 
-                    <div class="border rounded p-4 mb-4">
+                    <div class="border rounded p-4 mb-4 border-success">
                         <div class="row align-items-center">
                             <div class="col-md-6 text-center mb-4 mb-md-0">
                                 <img src="{{ asset('images/segitiga_sikusiku_contoh.png') }}" alt="Segitiga Pythagoras" class="img-fluid" style="max-width: 350px; width: 100%;">
                             </div>
                             <div class="col-md-6 text-md-start text-center">
-                                <h5 class="fw-bold">Teorema Pythagoras</h5>
-                                <p class="mb-1">menyatakan:</p>
-                                <p class="mb-2">Pada &Delta;ABC jika siku-siku di C dan AB = c, BC = a, AC = b</p>
+                                <p class="mb-3">Pada &Delta;ABC di samping jika siku-siku di C, maka AB = c, BC = a, AC = b sehingga</p>
                                 
-                                <p class="mb-3 small">
+                                <p class="mb-3">
                                     sisi siku-siku (BC) &lt; sisi siku-siku (AC) &lt; sisi miring (AB)<br>
+                                </p>
+                                <p class="mb-3">
+                                    
                                     <strong>a &lt; b &lt; c</strong>
                                 </p>
-                                
-                                <div class="mt-3">
-                                    <span class="fs-5">sehingga, <strong>AB² = BC² + AC²</strong></span><br>
-                                    <span class="fs-5">atau <strong>c² = a² + b²</strong></span>
+                                <div class="mt-3 p-3 bg-light border border-success rounded shadow-sm">
+                                    <p class="mb-2 fw-bold text-success text-center">Tentukan rumus Pythagoras yang berlaku di bawah ini!</p>
+                                    <div class="d-flex justify-content-center gap-1 my-2 fw-bold align-items-center">
+                                        <select id="rumusDasar_1" class="form-select form-select-sm text-center border-success" style="width:100px">
+                                            <option value=""></option><option>a</option><option>b</option><option>c</option>
+                                        </select>
+                                        <span>² =</span>
+                                        <select id="rumusDasar_2" class="form-select form-select-sm text-center border-success" style="width:100px">
+                                            <option value=""></option><option>a</option><option>b</option><option>c</option>
+                                        </select>
+                                        <span>² +</span>
+                                        <select id="rumusDasar_3" class="form-select form-select-sm text-center border-success" style="width:100px">
+                                            <option value=""></option><option>a</option><option>b</option><option>c</option>
+                                        </select>
+                                        <span>²</span>
+                                    </div>
+                                    <div id="feedbackDasar" class="small fw-bold text-center mt-2"></div>
+                                    <div class="text-center mt-4">
+                                        <button class="btn btn-sm btn-success px-4" onclick="cekRumusDasar()">Cek Jawaban</button>
+                                    </div>
                                 </div>
-                            </div>
+                                </div>
                         </div>
                     </div>
 
@@ -199,102 +214,244 @@
                     </div>
 
                     <div class="card-body">
-                        <p class="text-justify">
-                            Setelah memahami <strong>kebalikan Teorema Pythagoras</strong>,
-                            kita dapat menggunakannya untuk
-                            <strong>menentukan jenis segitiga</strong>.
-                            Caranya adalah dengan membandingkan
-                            nilai \(a^2 + b^2\) dengan \(c^2\).
-                            Dari hasil perbandingan tersebut,
-                            kita dapat mengetahui apakah segitiga termasuk
-                            segitiga <strong>siku-siku</strong>, <strong>lancip</strong>,
-                            atau <strong>tumpul</strong>.
-                        </p>
+                        <div class="mb-4">
+                            <p class="text-justify text-dark">
+                                Ingatkah kamu tentang materi Perbandingan Sudut pada Segitiga? Berdasarkan sudutnya, segitiga dapat dikelompokkan menjadi:
+                            </p>
 
-                        <div class="alert alert-light border-success">
-                            <h5 class="fw-bold text-center mb-4">
-                                Jenis Segitiga Berdasarkan Besar Sudutnya
+                            <div class="row">
+                                <div class="col-md-4 mb-3">
+                                    <div class="card h-100 shadow-sm border-1 bg-light">
+                                        <img src="/images/segitiga_sikusiku_contoh.png" class="card-img-top p-3" style="height: 200px; object-fit: contain; width: 100%;" alt="Gambar Segitiga Siku-siku">
+                                        <div class="card-body d-flex flex-column text-center text-dark">
+                                            <h5 class="card-title fw-bold">Segitiga Siku-siku</h5>
+                                            <p class="card-text mt-auto">Salah satu sudutnya tepat 90°.</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4 mb-3">
+                                    <div class="card h-100 shadow-sm border-1 bg-light">
+                                        <img src="/images/segitiga_lancip.png" class="card-img-top p-3" style="height: 200px; object-fit: contain; width: 100%;" alt="Gambar Segitiga Lancip">
+                                        <div class="card-body d-flex flex-column text-center text-dark">
+                                            <h5 class="card-title fw-bold">Segitiga Lancip</h5>
+                                            <p class="card-text mt-auto">Ketiga sudutnya kurang dari 90°.</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4 mb-3">
+                                    <div class="card h-100 shadow-sm border-1 bg-light">
+                                        <img src="/images/segitiga_tumpul.png" class="card-img-top p-3" style="height: 200px; object-fit: contain; width: 100%;" alt="Gambar Segitiga Tumpul">
+                                        <div class="card-body d-flex flex-column text-center text-dark">
+                                            <h5 class="card-title fw-bold">Segitiga Tumpul</h5>
+                                            <p class="card-text mt-auto">Salah satu sudutnya lebih dari 90°.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <p class="text-justify text-dark mt-3">
+                                Namun, bagaimana jika kita <strong>hanya mengetahui panjang ketiga sisinya</strong> tanpa memiliki alat pengukur sudut? Di sinilah Kebalikan Teorema Pythagoras dapat digunakan untuk menyelidiki jenis segitiga tersebut.
+                            </p>
+                        </div>
+
+                        <div class="bg-light p-3 border border-dark rounded">
+                            <h5 class="fw-bold text-center mb-2 text-dark">
+                                Ayo Mencoba
                             </h5>
+                            
+                            <div class="alert alert-light border border-success border-1 shadow-sm mb-4 text-justify">
+                                <strong>Petunjuk Pengerjaan:</strong> Tentukan jenis segitiga yang paling tepat berdasarkan panjang ketiga sisinya dengan mengikuti langkah-langkah dan mengisi pada kolom yang tersedia di bawah ini!
+                            </div>
 
-                            <div class="row g-4">
-
+                            <div class="row g-4 justify-content-center">
+                                
                                 <div class="col-md-4">
-                                    <div class="card h-100 border-success shadow-sm">
-                                        <div class="card-body text-center p-3">
-                                            <img src="/images/segitiga_tumpul.png" 
-                                                class="img-fluid mb-3"
-                                                style="max-height: 140px;"
-                                                alt="Segitiga Tumpul">
-
-                                            <p class="fw-semibold mb-2">(i)</p>
-
-                                            <div class="my-2">
-                                                <p class="mb-1">
-                                                    Pada segitiga di atas jika <br> <strong>\(c^2 > a^2 + b^2\)</strong>,
+                                    <div class="card h-100 border-dark shadow-sm">
+                                        <div class="card-header bg-white border-bottom border-dark text-center">
+                                            <span class="fw-bold text-dark">Segitiga Pertama</span>
+                                        </div>
+                                        <div class="card-body d-flex flex-column align-items-center">
+                                            
+                                            <div class="mb-3 text-center w-100">
+                                                <img src="{{ asset('images/AyoMencoba_Tripel2.png') }}" class="img-fluid mb-2" style="height: 200px; object-fit: contain;" alt="Gambar Segitiga 1">
+                                            </div>
+                                            
+                                            <div class="bg-white border border-secondary p-2 rounded w-100 text-center mb-3">
+                                                <p class="small text-dark mb-0">
+                                                    Panjang sisi segitiga pada gambar di atas adalah <strong>6 cm, 7 cm, dan 9 cm</strong>. Tentukan jenis segitiga yang terbentuk!
                                                 </p>
-                                                <p class="mb-0">
-                                                    maka ∆ACB merupakan <br>
-                                                    <div class="alert alert-success py-1 small mb-0 fw-bold">
-                                                        Segitiga Tumpul
+                                            </div>
+                                            
+                                            <div class="text-center small text-dark w-100 mt-auto">
+                                                <div class="mb-3">
+                                                    <strong>1. Kuadrat sisi terpanjang:</strong><br>
+                                                    \(c^2\) = <input type="number" id="c_1" class="form-control form-control-sm d-inline-block text-center border-dark mt-1" style="width: 100px;" placeholder="...">\(^2\) = <input type="number" id="c2_1" class="form-control form-control-sm d-inline-block text-center border-dark mt-1" style="width: 100px;" placeholder="...">
+                                                </div>
+                                                <div class="mb-3">
+                                                    <strong>2. Jumlah kuadrat sisi lainnya:</strong><br>
+                                                    \(a^2 + b^2\) <br> = <input type="number" id="a_1" class="form-control form-control-sm d-inline-block text-center border-dark mt-1" style="width: 100px;" placeholder="...">\(^2\) + <input type="number" id="b_1" class="form-control form-control-sm d-inline-block text-center border-dark mt-1" style="width: 100px;" placeholder="...">\(^2\)<br>
+                                                    = <input type="number" id="a2_1" class="form-control form-control-sm d-inline-block text-center border-dark mt-1" style="width: 100px;" placeholder="..."> + <input type="number" id="b2_1" class="form-control form-control-sm d-inline-block text-center border-dark mt-1" style="width: 100px;" placeholder="..."><br>
+                                                    = <input type="number" id="ab2_1" class="form-control form-control-sm d-inline-block text-center border-dark mt-1" style="width: 100px;" placeholder="...">
+                                                </div>
+                                                <div class="mb-3">
+                                                    <strong>3. Bandingkan nilai kuadrat sisi terpanjang dengan sisi-sisi lainnya:</strong><br>
+                                                    <div class="d-flex justify-content-center align-items-center mt-1">
+                                                        <span class="fw-bold me-2">\(c^2\)</span>
+                                                        <select id="sign_1" class="form-select form-select-sm d-inline-block text-center border-dark fw-bold" style="width: 100px;">
+                                                            <option value=""></option>
+                                                            <option value="<">&lt;</option>
+                                                            <option value="=">=</option>
+                                                            <option value=">">&gt;</option>
+                                                        </select>
+                                                        <span class="fw-bold ms-2">\(a^2 + b^2\)</span>
                                                     </div>
-                                                </p>
+                                                </div>
+                                                <div class="bg-light p-2 border border-secondary rounded">
+                                                    <strong>4. Maka segitiga yang terbentuk adalah ...</strong><br>
+                                                    <select id="nama_1" class="form-select form-select-sm border-dark mt-2 text-center fw-bold mx-auto" style="width: 150px;">
+                                                        <option value="">-- Pilih Jenis --</option>
+                                                        <option value="lancip">Segitiga Lancip</option>
+                                                        <option value="siku">Segitiga Siku-siku</option>
+                                                        <option value="tumpul">Segitiga Tumpul</option>
+                                                    </select>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
 
                                 <div class="col-md-4">
-                                    <div class="card h-100 border-success shadow-sm">
-                                        <div class="card-body text-center p-3">
-                                            <img src="/images/segitiga_sikusiku_contoh.png" 
-                                                class="img-fluid mb-3" 
-                                                style="max-height: 140px;" 
-                                                alt="Segitiga Siku-siku">
-
-                                            <p class="fw-semibold mb-2">(ii)</p>
-
-                                            <div class="my-2">
-                                                <p class="mb-1">
-                                                    Pada segitiga di atas jika <br> <strong>\(c^2 = a^2 + b^2\)</strong>,
-                                                </p>
-                                                <p class="mb-0">
-                                                    maka ∆ACB merupakan <br>
-                                                    <div class="alert alert-success py-1 small mb-0 fw-bold">
-                                                        Segitiga Siku-siku
-                                                    </div>
+                                    <div class="card h-100 border-dark shadow-sm">
+                                        <div class="card-header bg-white border-bottom border-dark text-center">
+                                            <span class="fw-bold text-dark">Segitiga Kedua</span>
+                                        </div>
+                                        <div class="card-body d-flex flex-column align-items-center">
+                                            
+                                            <div class="mb-3 text-center w-100">
+                                                <img src="{{ asset('images/AyoMencoba_Tripel1.png') }}" class="img-fluid mb-2" style="height: 200px; object-fit: contain;" alt="Gambar Segitiga 2">
+                                            </div>
+                                            
+                                            <div class="bg-white border border-secondary p-2 rounded w-100 text-center mb-3">
+                                                <p class="small text-dark mb-0">
+                                                    Panjang sisi segitiga pada gambar di atas adalah <strong>6 cm, 8 cm, dan 10 cm</strong>. Tentukan jenis segitiga yang terbentuk!
                                                 </p>
                                             </div>
-
+                                            
+                                            <div class="text-center small text-dark w-100 mt-auto">
+                                                <div class="mb-3">
+                                                    <strong>1. Kuadrat sisi terpanjang:</strong><br>
+                                                    \(c^2\) = <input type="number" id="c_2" class="form-control form-control-sm d-inline-block text-center border-dark mt-1" style="width: 100px;" placeholder="...">\(^2\) = <input type="number" id="c2_2" class="form-control form-control-sm d-inline-block text-center border-dark mt-1" style="width: 100px;" placeholder="...">
+                                                </div>
+                                                <div class="mb-3">
+                                                    <strong>2. Jumlah kuadrat sisi lainnya:</strong><br>
+                                                    \(a^2 + b^2\) <br> = <input type="number" id="a_2" class="form-control form-control-sm d-inline-block text-center border-dark mt-1" style="width: 100px;" placeholder="...">\(^2\) + <input type="number" id="b_2" class="form-control form-control-sm d-inline-block text-center border-dark mt-1" style="width: 100px;" placeholder="...">\(^2\)<br>
+                                                    = <input type="number" id="a2_2" class="form-control form-control-sm d-inline-block text-center border-dark mt-1" style="width: 100px;" placeholder="..."> + <input type="number" id="b2_2" class="form-control form-control-sm d-inline-block text-center border-dark mt-1" style="width: 100px;" placeholder="..."><br>
+                                                    = <input type="number" id="ab2_2" class="form-control form-control-sm d-inline-block text-center border-dark mt-1" style="width: 100px;" placeholder="...">
+                                                </div>
+                                                <div class="mb-3">
+                                                    <strong>3. Bandingkan nilai kuadrat sisi terpanjang dengan sisi-sisi lainnya:</strong><br>
+                                                    <div class="d-flex justify-content-center align-items-center mt-1">
+                                                        <span class="fw-bold me-2">\(c^2\)</span>
+                                                        <select id="sign_2" class="form-select form-select-sm d-inline-block text-center border-dark fw-bold" style="width: 100px;">
+                                                            <option value=""></option>
+                                                            <option value="<">&lt;</option>
+                                                            <option value="=">=</option>
+                                                            <option value=">">&gt;</option>
+                                                        </select>
+                                                        <span class="fw-bold ms-2">\(a^2 + b^2\)</span>
+                                                    </div>
+                                                </div>
+                                                <div class="bg-light p-2 border border-secondary rounded">
+                                                    <strong>4. Maka segitiga yang terbentuk adalah ...</strong><br>
+                                                    <select id="nama_2" class="form-select form-select-sm border-dark mt-2 text-center fw-bold mx-auto" style="width: 150px;">
+                                                        <option value="">-- Pilih Jenis --</option>
+                                                        <option value="lancip">Segitiga Lancip</option>
+                                                        <option value="siku">Segitiga Siku-siku</option>
+                                                        <option value="tumpul">Segitiga Tumpul</option>
+                                                    </select>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
 
                                 <div class="col-md-4">
-                                    <div class="card h-100 border-success shadow-sm">
-                                        <div class="card-body text-center p-3">
-                                            <img src="/images/segitiga_lancip.png" 
-                                                class="img-fluid mb-3"
-                                                style="max-height: 140px;"
-                                                alt="Segitiga Lancip">
-
-                                            <p class="fw-semibold mb-2">(iii)</p>
-
-                                            <div class="my-2">
-                                                <p class="mb-1">
-                                                    Pada segitiga di atas jika <br> <strong>\(c^2 < a^2 + b^2\)</strong>,
+                                    <div class="card h-100 border-dark shadow-sm">
+                                        <div class="card-header bg-white border-bottom border-dark text-center">
+                                            <span class="fw-bold text-dark">Segitiga Ketiga</span>
+                                        </div>
+                                        <div class="card-body d-flex flex-column align-items-center">
+                                            
+                                            <div class="mb-3 text-center w-100">
+                                                <img src="{{ asset('images/AyoMencoba_Tripel3.png') }}" class="img-fluid mb-2" style="height: 200px; object-fit: contain;" alt="Gambar Segitiga 3">
+                                            </div>
+                                            
+                                            <div class="bg-white border border-secondary p-2 rounded w-100 text-center mb-3">
+                                                <p class="small text-dark mb-0">
+                                                    Panjang sisi segitiga pada gambar di atas adalah <strong>8 cm, 9 cm, dan 13 cm</strong>. Tentukan jenis segitiga yang terbentuk!
                                                 </p>
-                                                <p class="mb-0">
-                                                    maka ∆ACB merupakan <br>
-                                                    <div class="alert alert-success py-1 small mb-0 fw-bold">
-                                                        Segitiga Lancip
+                                            </div>
+                                            
+                                            <div class="text-center small text-dark w-100 mt-auto">
+                                                <div class="mb-3">
+                                                    <strong>1. Kuadrat sisi terpanjang:</strong><br>
+                                                    \(c^2\) = <input type="number" id="c_3" class="form-control form-control-sm d-inline-block text-center border-dark mt-1" style="width: 100px;" placeholder="...">\(^2\) = <input type="number" id="c2_3" class="form-control form-control-sm d-inline-block text-center border-dark mt-1" style="width: 100px;" placeholder="...">
+                                                </div>
+                                                <div class="mb-3">
+                                                    <strong>2. Jumlah kuadrat sisi lainnya:</strong><br>
+                                                    \(a^2 + b^2\) <br> = <input type="number" id="a_3" class="form-control form-control-sm d-inline-block text-center border-dark mt-1" style="width: 100px;" placeholder="...">\(^2\) + <input type="number" id="b_3" class="form-control form-control-sm d-inline-block text-center border-dark mt-1" style="width: 100px;" placeholder="...">\(^2\)<br>
+                                                    = <input type="number" id="a2_3" class="form-control form-control-sm d-inline-block text-center border-dark mt-1" style="width: 100px;" placeholder="..."> + <input type="number" id="b2_3" class="form-control form-control-sm d-inline-block text-center border-dark mt-1" style="width: 100px;" placeholder="..."><br>
+                                                    = <input type="number" id="ab2_3" class="form-control form-control-sm d-inline-block text-center border-dark mt-1" style="width: 100px;" placeholder="...">
+                                                </div>
+                                                <div class="mb-3">
+                                                    <strong>3. Bandingkan nilai kuadrat sisi terpanjang dengan sisi-sisi lainnya:</strong><br>
+                                                    <div class="d-flex justify-content-center align-items-center mt-1">
+                                                        <span class="fw-bold me-2">\(c^2\)</span>
+                                                        <select id="sign_3" class="form-select form-select-sm d-inline-block text-center border-dark fw-bold" style="width: 100px;">
+                                                            <option value=""></option>
+                                                            <option value="<">&lt;</option>
+                                                            <option value="=">=</option>
+                                                            <option value=">">&gt;</option>
+                                                        </select>
+                                                        <span class="fw-bold ms-2">\(a^2 + b^2\)</span>
                                                     </div>
-                                                </p>
+                                                </div>
+                                                <div class="bg-light p-2 border border-secondary rounded">
+                                                    <strong>4. Maka segitiga yang terbentuk adalah ...</strong><br>
+                                                    <select id="nama_3" class="form-select form-select-sm border-dark mt-2 text-center fw-bold mx-auto" style="width: 150px;">
+                                                        <option value="">-- Pilih Jenis --</option>
+                                                        <option value="lancip">Segitiga Lancip</option>
+                                                        <option value="siku">Segitiga Siku-siku</option>
+                                                        <option value="tumpul">Segitiga Tumpul</option>
+                                                    </select>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
 
                             </div>
+                            
+                            <div class="col-12 text-center mt-3">
+                                <button class="btn btn-success fw-bold px-5 py-2 shadow" onclick="cekPenyelidikanSegitiga()">
+                                    <i class="fas fa-check-circle me-2"></i>Cek Jawaban
+                                </button>
+                            </div>
+                            <div id="kesimpulan_penyelidikan" class="col-12 mt-5 d-none">
+                                <div class="alert shadow-sm border-1 border-success border-1">
+                                    <p class="text-dark mb-2">
+                                        Berdasarkan jenis segitiga yang baru saja kamu temukan, kita dapat menyimpulkan bahwa Jika \(c\) adalah sisi terpanjang, serta \(a\) dan \(b\) adalah dua sisi lainnya, maka berlaku aturan berikut:
+                                    </p>
+                                    <ul class="text-dark mb-0">
+                                        <li>Jika <strong>\(c^2 < a^2 + b^2\)</strong>, maka segitiga tersebut adalah <strong>Segitiga Lancip</strong>.</li>
+                                        <li>Jika <strong>\(c^2 = a^2 + b^2\)</strong>, maka segitiga tersebut adalah <strong>Segitiga Siku-siku</strong>.</li>
+                                        <li>Jika <strong>\(c^2 > a^2 + b^2\)</strong>, maka segitiga tersebut adalah <strong>Segitiga Tumpul</strong>.</li>
+                                    </ul>
+                                </div>
+                            </div>
+
                         </div>
                     </div>
                 </div>
@@ -408,7 +565,7 @@
                                                         <span class="input-group-text">²</span>
                                                     </div>
                                                     <span class="fw-bold">=</span>
-                                                    <input type="number" id="c1_c2_hasil" class="form-control form-control-sm text-center" style="width: 90px;" placeholder="Hasil">
+                                                    <input type="number" id="c1_c2_hasil" class="form-control form-control-sm text-center" style="width: 90px;" placeholder="...">
                                                 </div>
                                             </div>
 
@@ -435,7 +592,7 @@
                                                     </div>
                                                     <div class="d-flex justify-content-center align-items-center gap-2">
                                                         <span class="fw-bold ms-4">=</span>
-                                                        <input type="number" id="c1_ab_total" class="form-control form-control-sm text-center fw-bold text-primary" style="width: 100px;" placeholder="Total">
+                                                        <input type="number" id="c1_ab_total" class="form-control form-control-sm text-center fw-bold text-primary" style="width: 100px;" placeholder="...">
                                                     </div>
                                                 </div>
                                             </div>
@@ -479,190 +636,12 @@
                     </div>
                 </div>
             </div>
-
-            <div class="col-sm-12">
-                <div class="card shadow-sm">
-                    <div class="card-header text-center bg-light">
-                        <h4 class="mb-0">Contoh 2</h4>
-                    </div>
-                    
-                    <div class="card-body">
-                        <div class="alert alert-light shadow-sm border-start border-success border-4" role="alert">
-                            <div class="small">
-                                <strong>Petunjuk:</strong> Perhatikan soal dan ilustrasi gambar di bawah ini, kemudian lengkapi data yang diketahui dan selesaikan langkah perhitungannya.
-                            </div>
-                        </div>
-
-                        <div class="row mt-4">
-                            
-                            <div class="col-md-5 mb-4 mb-md-0">
-                                
-                                <div class="text-justify mb-3">
-                                    <p class="text-dark mb-0">
-                                        Diketahui sebuah segitiga dengan panjang sisi-sisinya masing-masing sisi a = 11 cm, sisi b = 13 cm, dan sisi c = 15 cm. Tentukan jenis segitiga tersebut berdasarkan panjang sisi-sisinya!
-                                    </p>
-                                </div>
-
-                                <div class="bg-white rounded-3 shadow-sm border p-3 d-flex justify-content-center align-items-center mb-4">
-                                    <img src="/images/segitiga_ayomencoba_materi2.png" class="img-fluid" style="max-height: 200px;" alt="Ilustrasi Segitiga">
-                                </div>
-                                
-                                <div class="card border mb-4 shadow-sm">
-                                    <div class="card-header border-bottom bg-light">
-                                        <h6 class="fw-bold mb-0 small text-dark">Diketahui</h6>
-                                    </div>
-                                    <div class="card-body">
-                                        <div class="d-flex align-items-center mb-3">
-                                            <span style="width: 60px;">Sisi a:</span>
-                                            <select id="c2_dik_a" class="form-select form-select-sm text-center border-secondary mx-2" style="width: 80px;">
-                                                <option value=""></option>
-                                                <option value="11">11</option>
-                                                <option value="13">13</option>
-                                                <option value="15">15</option>
-                                            </select>
-                                            <span>cm</span>
-                                        </div>
-                                        <div class="d-flex align-items-center mb-3">
-                                            <span style="width: 60px;">Sisi b:</span>
-                                            <select id="c2_dik_b" class="form-select form-select-sm text-center border-secondary mx-2" style="width: 80px;">
-                                                <option value=""></option>
-                                                <option value="11">11</option>
-                                                <option value="13">13</option>
-                                                <option value="15">15</option>
-                                            </select>
-                                            <span>cm</span>
-                                        </div>
-                                        <div class="d-flex align-items-center">
-                                            <span style="width: 60px;">Sisi c:</span>
-                                            <select id="c2_dik_c" class="form-select form-select-sm text-center border-secondary mx-2" style="width: 80px;">
-                                                <option value=""></option>
-                                                <option value="11">11</option>
-                                                <option value="13">13</option>
-                                                <option value="15">15</option>
-                                            </select>
-                                            <span>cm</span>
-                                        </div>
-                                    </div>
-                                </div>
-                                
-                                <div class="card border shadow-sm">
-                                    <div class="card-header border-bottom bg-light">
-                                        <h6 class="fw-bold mb-0 small text-dark">Ditanya</h6>
-                                    </div>
-                                    <div class="card-body">
-                                        <p class="mb-0 text-muted small">
-                                            Jenis segitiga berdasarkan panjang sisi-sisinya = ...?
-                                        </p>
-                                    </div>
-                                </div>
-
-                            </div>
-
-                            <div class="col-md-7">
-                                <div class="card h-100 border shadow-sm">
-                                    <div class="card-header bg-light py-2">
-                                        <h6 class="fw-bold mb-0 small text-dark"><i class="fas fa-calculator me-2"></i>Langkah Penyelesaian</h6>
-                                    </div>
-                                    <div class="card-body bg-light">
-                                        
-                                        <div class="p-3 mb-3 bg-white border border-success rounded-3 shadow-sm text-center">
-                                            <span class="d-block fw-bold text-dark mb-2 border-bottom pb-2">Tentukan sisi terpanjang (sisi c)</span>
-                                            <div class="mt-2">
-                                                Sisi terpanjang adalah 
-                                                <select id="c2_sisi_c" class="form-select form-select-sm d-inline-block fw-bold text-center border-success text-success" style="width: 80px;">
-                                                    <option value=""></option>
-                                                    <option value="11">11</option>
-                                                    <option value="13">13</option>
-                                                    <option value="15">15</option>
-                                                </select> cm.
-                                            </div>
-                                        </div>
-
-                                        <div class="p-3 mb-3 bg-white border border-success rounded-3 shadow-sm text-center">
-                                            <span class="d-block fw-bold text-dark mb-2 border-bottom pb-2">Hitung kuadrat sisi terpanjang (c²)</span>
-                                            <div class="mt-2 d-flex justify-content-center align-items-center gap-2">
-                                                <span class="fw-bold">c² =</span>
-                                                <div class="input-group input-group-sm" style="width: 80px;">
-                                                    <input type="number" id="c2_c2_awal" class="form-control text-center" placeholder="...">
-                                                    <span class="input-group-text">²</span>
-                                                </div>
-                                                <span class="fw-bold">=</span>
-                                                <input type="number" id="c2_c2_hasil" class="form-control form-control-sm text-center" style="width: 90px;" placeholder="Hasil">
-                                            </div>
-                                        </div>
-
-                                        <div class="p-3 mb-3 bg-white border border-success rounded-3 shadow-sm text-center">
-                                            <span class="d-block fw-bold text-dark mb-2 border-bottom pb-2">Hitung jumlah kuadrat dua sisi lainnya (a² + b²)</span>
-                                            <div class="mt-2 text-center">
-                                                <div class="d-flex justify-content-center align-items-center gap-2 mb-2">
-                                                    <span class="fw-bold">a² + b² =</span>
-                                                    <div class="input-group input-group-sm" style="width: 80px;">
-                                                        <input type="number" id="c2_a2_awal" class="form-control text-center" placeholder="...">
-                                                        <span class="input-group-text">²</span>
-                                                    </div>
-                                                    <span class="fw-bold">+</span>
-                                                    <div class="input-group input-group-sm" style="width: 80px;">
-                                                        <input type="number" id="c2_b2_awal" class="form-control text-center" placeholder="...">
-                                                        <span class="input-group-text">²</span>
-                                                    </div>
-                                                </div>
-                                                <div class="d-flex justify-content-center align-items-center gap-2 mb-2">
-                                                    <span class="fw-bold ms-4">=</span>
-                                                    <input type="number" id="c2_a2_hasil" class="form-control form-control-sm text-center" style="width: 80px;" placeholder="...">
-                                                    <span class="fw-bold">+</span>
-                                                    <input type="number" id="c2_b2_hasil" class="form-control form-control-sm text-center" style="width: 80px;" placeholder="...">
-                                                </div>
-                                                <div class="d-flex justify-content-center align-items-center gap-2">
-                                                    <span class="fw-bold ms-4">=</span>
-                                                    <input type="number" id="c2_ab_total" class="form-control form-control-sm text-center fw-bold text-primary" style="width: 100px;" placeholder="Total">
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="p-3 bg-white border border-success rounded-3 shadow-sm text-center">
-                                            <span class="d-block fw-bold text-dark mb-2 border-bottom pb-2">Bandingkan dan Simpulkan</span>
-                                            <div class="d-flex justify-content-center align-items-center gap-3 mt-3 mb-3">
-                                                <span class="fw-bold fs-5">c²</span> 
-                                                <select id="c2_banding" class="form-select text-center fw-bold text-primary border-primary shadow-sm" style="width: 80px;">
-                                                    <option value="">?</option>
-                                                    <option value="<">&lt;</option>
-                                                    <option value="=">=</option>
-                                                    <option value=">">&gt;</option>
-                                                </select> 
-                                                <span class="fw-bold fs-5">a² + b²</span>
-                                            </div>
-                                            <div class="alert alert-success d-flex flex-wrap justify-content-center align-items-center gap-2 mb-0 py-2">
-                                                <span class="small text-dark">Jadi, segitiga tersebut adalah</span> 
-                                                <select id="c2_kesimpulan" class="form-select form-select-sm d-inline-block fw-bold text-success border-success shadow-sm" style="width: 150px;">
-                                                    <option value="">Pilih Jenis...</option>
-                                                    <option value="lancip">segitiga lancip</option>
-                                                    <option value="siku-siku">segitiga siku-siku</option>
-                                                    <option value="tumpul">segitiga tumpul</option>
-                                                </select>
-                                            </div>
-                                        </div>
-
-                                        <div class="mt-4 d-flex flex-column flex-xl-row justify-content-between align-items-center border-top pt-3">
-                                            <div id="c2_feedback" class="small fw-bold mb-3 mb-xl-0"></div>
-                                            <button class="btn btn-success px-4 fw-bold shadow-sm" onclick="cekContoh2Tripel()">
-                                                Cek Jawaban
-                                            </button>
-                                        </div>
-
-                                    </div>
-                                </div>
-                            </div>
-
-                        </div>
-                    </div>
-                </div>
-            </div>
         </div>
     </section>
 
     <section class="materi-page d-none" data-page="2">
         <div class="row">
-            <div class="col-12">
+            <div class="col-12 mb-4">
                 
                 <div class="card shadow-sm">
                     <div class="card-header">
@@ -687,74 +666,128 @@
                         </div>
 
                         <div class="row">
-                            <div class="col-md-6 mb-3">
-                                <div class="card h-100 bg-success">
-                                    <div class="card-header bg-light text-center fw-bold">
+                            <div class="col-md-6 mb-4">
+                                <div class="card h-100 shadow-sm border-dark">
+                                    <div class="card-header bg-light text-center fw-bold border-bottom border-dark">
                                         Dikali dengan 2
                                     </div>
-                                    <div class="card-body bg-light">
-                                        <p>Sisi awal: 3, 4, 5. <br>Kalikan semua dengan 2:</p>
-                                        <ul>
-                                            <li>3 x 2 = <strong>6</strong></li>
-                                            <li>4 x 2 = <strong>8</strong></li>
-                                            <li>5 x 2 = <strong>10</strong></li>
-                                        </ul>
-                                        <hr>
-                                        <p class="fw-bold mb-1">Pembuktian:</p>
+                                    <div class="card-body">
+                                        <p class="text-center mb-2">Kalikan sisi awal (3, 4, 5) dengan 2:</p>
+                                        <div class="table-responsive">
+                                            <table class="table table-bordered text-center align-middle border-dark">
+                                                <thead class="bg-light">
+                                                    <tr>
+                                                        <th class="fw-bold">Sisi Awal</th>
+                                                        <th class="fw-bold">Pengali</th>
+                                                        <th class="fw-bold">Sisi Baru</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td>3</td>
+                                                        <td>x 2</td>
+                                                        <td><input type="number" id="pola2_h1" class="form-control text-center mx-auto border-dark" style="width: 80px;" placeholder="..."></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>4</td>
+                                                        <td>x 2</td>
+                                                        <td><input type="number" id="pola2_h2" class="form-control text-center mx-auto border-dark" style="width: 80px;" placeholder="..."></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>5</td>
+                                                        <td>x 2</td>
+                                                        <td><input type="number" id="pola2_h3" class="form-control text-center mx-auto border-dark" style="width: 80px;" placeholder="..."></td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+
+                                        <hr class="border-dark">
+                                        <p class="fw-bold mb-2 text-center">Buktikan sisi baru yang terbentuk ke dalam rumus Pythagoras</p>
                                         <div class="text-center">
-                                            <p class="mb-1">
-                                                \(c^2 = a^2 + b^2\)
+                                            <p class="mb-2">\(c^2 = a^2 + b^2\)</p>
+                                            <p class="mb-2">
+                                                <input type="number" id="pola2_c" class="form-control text-center d-inline-block border-dark" style="width: 70px;" placeholder="...">\(^2\) = 
+                                                <input type="number" id="pola2_a" class="form-control text-center d-inline-block border-dark" style="width: 70px;" placeholder="...">\(^2\) + 
+                                                <input type="number" id="pola2_b" class="form-control text-center d-inline-block border-dark" style="width: 70px;" placeholder="...">\(^2\)
                                             </p>
-                                            <p class="mb-1">
-                                                \(10^2 = 6^2 + 8^2\)
+                                            <p class="mb-2">
+                                                <input type="number" id="pola2_c2" class="form-control text-center d-inline-block border-dark" style="width: 80px;" placeholder="..."> = 
+                                                <input type="number" id="pola2_a2" class="form-control text-center d-inline-block border-dark" style="width: 80px;" placeholder="..."> + 
+                                                <input type="number" id="pola2_b2" class="form-control text-center d-inline-block border-dark" style="width: 80px;" placeholder="...">
                                             </p>
-                                            <p class="mb-1">
-                                                \( 100 = 36 + 64\)
-                                            </p>
-                                            <p class="mb-1">
-                                                \( 100 = 100\)
-                                            </p>
-                                            <p class="mt-2">
-                                                Sehingga, terbukti bahwa 6, 8, dan 10 merupakan <strong>Tripel Pythagoras</strong>
+                                            <p class="mb-2">
+                                                <input type="number" id="pola2_tot_kiri" class="form-control text-center d-inline-block border-dark fw-bold" style="width: 90px;" placeholder="..."> = 
+                                                <input type="number" id="pola2_tot_kanan" class="form-control text-center d-inline-block border-dark fw-bold" style="width: 90px;" placeholder="...">
                                             </p>
                                         </div>
                                     </div>
                                 </div>
                             </div>
 
-                            <div class="col-md-6 mb-3">
-                                <div class="card h-100 border-success">
-                                    <div class="card-header text-center fw-bold">
+                            <div class="col-md-6 mb-4">
+                                <div class="card h-100 shadow-sm border-dark">
+                                    <div class="card-header bg-light text-center fw-bold border-bottom border-dark">
                                         Dikali dengan 3
                                     </div>
-                                    <div class="card-body bg-light">
-                                        <p>Sisi awal: 3, 4, 5. <br>Kalikan semua dengan 3:</p>
-                                        <ul>
-                                            <li>3 x 3 = <strong>9</strong></li>
-                                            <li>4 x 3 = <strong>12</strong></li>
-                                            <li>5 x 3 = <strong>15</strong></li>
-                                        </ul>
-                                        <hr>
-                                        <p class="fw-bold mb-1">Pembuktian:</p>
+                                    <div class="card-body">
+                                        <p class="text-center mb-2">Kalikan sisi awal (3, 4, 5) dengan 3:</p>
+                                        <div class="table-responsive">
+                                            <table class="table table-bordered text-center align-middle border-dark">
+                                                <thead class="bg-light">
+                                                    <tr>
+                                                        <th class="fw-bold">Sisi Awal</th>
+                                                        <th class="fw-bold">Pengali</th>
+                                                        <th class="fw-bold">Sisi Baru</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td>3</td>
+                                                        <td>x 3</td>
+                                                        <td><input type="number" id="pola3_h1" class="form-control text-center mx-auto border-dark" style="width: 80px;" placeholder="..."></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>4</td>
+                                                        <td>x 3</td>
+                                                        <td><input type="number" id="pola3_h2" class="form-control text-center mx-auto border-dark" style="width: 80px;" placeholder="..."></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>5</td>
+                                                        <td>x 3</td>
+                                                        <td><input type="number" id="pola3_h3" class="form-control text-center mx-auto border-dark" style="width: 80px;" placeholder="..."></td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+
+                                        <hr class="border-dark">
+                                        <p class="fw-bold mb-2 text-center">Buktikan sisi baru yang terbentuk ke dalam rumus Pythagoras</p>
                                         <div class="text-center">
-                                            <p class="mb-1">
-                                                \(c^2 = a^2 + b^2\)
+                                            <p class="mb-2">\(c^2 = a^2 + b^2\)</p>
+                                            <p class="mb-2">
+                                                <input type="number" id="pola3_c" class="form-control text-center d-inline-block border-dark" style="width: 70px;" placeholder="...">\(^2\) = 
+                                                <input type="number" id="pola3_a" class="form-control text-center d-inline-block border-dark" style="width: 70px;" placeholder="...">\(^2\) + 
+                                                <input type="number" id="pola3_b" class="form-control text-center d-inline-block border-dark" style="width: 70px;" placeholder="...">\(^2\)
                                             </p>
-                                            <p class="mb-1">
-                                                \(15^2 = 9^2 + 12^2\)
+                                            <p class="mb-2">
+                                                <input type="number" id="pola3_c2" class="form-control text-center d-inline-block border-dark" style="width: 80px;" placeholder="..."> = 
+                                                <input type="number" id="pola3_a2" class="form-control text-center d-inline-block border-dark" style="width: 80px;" placeholder="..."> + 
+                                                <input type="number" id="pola3_b2" class="form-control text-center d-inline-block border-dark" style="width: 80px;" placeholder="...">
                                             </p>
-                                            <p class="mb-1">
-                                                \( 225 = 81 + 144\)
-                                            </p>
-                                            <p class="mb-1">
-                                                \( 225 = 225\)
-                                            </p>
-                                            <p class="mt-2">
-                                                Sehingga, terbukti bahwa 9, 12, dan 15 merupakan <strong>Tripel Pythagoras</strong>
+                                            <p class="mb-2">
+                                                <input type="number" id="pola3_tot_kiri" class="form-control text-center d-inline-block border-dark fw-bold" style="width: 90px;" placeholder="..."> = 
+                                                <input type="number" id="pola3_tot_kanan" class="form-control text-center d-inline-block border-dark fw-bold" style="width: 90px;" placeholder="...">
                                             </p>
                                         </div>
                                     </div>
                                 </div>
+                            </div>
+                            
+                            <div class="col-12 text-center">
+                                <button class="btn btn-success fw-bold px-4 py-2" onclick="cekPolaTripel()">
+                                    Cek Jawaban
+                                </button>
                             </div>
                         </div>
 
@@ -814,14 +847,26 @@
                                                 <input type="number" id="tp1_step2_a2" class="form-control form-control-sm text-center" style="width: 70px;" placeholder="...">
                                             </div>
                                             
-                                            <div class="d-flex justify-content-center align-items-center gap-2 mt-3 pt-2 border-top">
-                                                <input type="number" id="tp1_step3_c2_tot" class="form-control form-control-sm text-center fw-bold" style="width: 80px;" placeholder="Hasil c²"> 
-                                                <select id="tp1_sign" class="form-select form-select-sm text-center fw-bold text-primary border-primary shadow-sm" style="width: 65px;">
-                                                    <option value="">?</option>
-                                                    <option value="=">=</option>
-                                                    <option value="!=">&ne;</option>
-                                                </select>
-                                                <input type="number" id="tp1_step3_ab_tot" class="form-control form-control-sm text-center fw-bold" style="width: 80px;" placeholder="Hasil a²+b²">
+                                            <div class="d-flex justify-content-center align-items-end gap-3 mt-3 pt-3 border-top">
+                                                
+                                                <div class="text-center">
+                                                    <span class="d-block small text-muted fw-bold mb-1">\(c^2\)</span>
+                                                    <input type="number" id="tp1_step3_c2_tot" class="form-control form-control-sm text-center fw-bold mx-auto" style="width: 80px;" placeholder="..."> 
+                                                </div>
+                                                
+                                                <div>
+                                                    <select id="tp1_sign" class="form-select form-select-sm text-center fw-bold text-primary border-primary shadow-sm" style="width: 65px;">
+                                                        <option value="">?</option>
+                                                        <option value="=">=</option>
+                                                        <option value="!=">&ne;</option>
+                                                    </select>
+                                                </div>
+                                                
+                                                <div class="text-center">
+                                                    <span class="d-block small text-muted fw-bold mb-1">\(a^2 + b^2\)</span>
+                                                    <input type="number" id="tp1_step3_ab_tot" class="form-control form-control-sm text-center fw-bold mx-auto" style="width: 80px;" placeholder="...">
+                                                </div>
+
                                             </div>
                                         </div>
 
@@ -880,14 +925,26 @@
                                                 <input type="number" id="tp2_step2_a2" class="form-control form-control-sm text-center" style="width: 70px;" placeholder="...">
                                             </div>
                                             
-                                            <div class="d-flex justify-content-center align-items-center gap-2 mt-3 pt-2 border-top">
-                                                <input type="number" id="tp2_step3_c2_tot" class="form-control form-control-sm text-center fw-bold" style="width: 80px;" placeholder="Hasil c²"> 
-                                                <select id="tp2_sign" class="form-select form-select-sm text-center fw-bold text-primary border-primary shadow-sm" style="width: 65px;">
-                                                    <option value="">?</option>
-                                                    <option value="=">=</option>
-                                                    <option value="!=">&ne;</option>
-                                                </select>
-                                                <input type="number" id="tp2_step3_ab_tot" class="form-control form-control-sm text-center fw-bold" style="width: 80px;" placeholder="Hasil a²+b²">
+                                            <div class="d-flex justify-content-center align-items-end gap-3 mt-3 pt-3 border-top">
+    
+                                                <div class="text-center">
+                                                    <span class="d-block small text-muted fw-bold mb-1">\(c^2\)</span>
+                                                    <input type="number" id="tp2_step3_c2_tot" class="form-control form-control-sm text-center fw-bold mx-auto" style="width: 80px;" placeholder="..."> 
+                                                </div>
+                                                
+                                                <div>
+                                                    <select id="tp2_sign" class="form-select form-select-sm text-center fw-bold text-primary border-primary shadow-sm" style="width: 65px;">
+                                                        <option value="">?</option>
+                                                        <option value="=">=</option>
+                                                        <option value="!=">&ne;</option>
+                                                    </select>
+                                                </div>
+                                                
+                                                <div class="text-center">
+                                                    <span class="d-block small text-muted fw-bold mb-1">\(a^2 + b^2\)</span>
+                                                    <input type="number" id="tp2_step3_ab_tot" class="form-control form-control-sm text-center fw-bold mx-auto" style="width: 80px;" placeholder="...">
+                                                </div>
+
                                             </div>
                                         </div>
 
@@ -1193,9 +1250,9 @@
                                 </div>
                             </div>
                             
-                            <div class="d-grid gap-2 col-md-4 mx-auto mt-5">
+                            <div class="d-grid gap-2 col-md-4 mx-auto mt-2">
                                 <button type="button" class="btn btn-success btn-lg fw-bold shadow-sm" onclick="cekLatihanTripel()">
-                                    <i class="fas fa-check-circle me-2"></i> Cek Semua Jawaban
+                                    <i class="fas fa-check-circle me-2"></i> Cek Jawaban
                                 </button>
                             </div>
                             

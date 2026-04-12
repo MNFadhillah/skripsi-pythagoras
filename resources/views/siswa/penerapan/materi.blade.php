@@ -97,7 +97,7 @@
                             </p>
                             
                             <div class="mb-4" id="box_step1">
-                                <label class="fw-bold small mb-2 text-dark">1. Berdasarkan gambar dan cerita, Bagian jembatan apa yang akan kita cari panjangnya?</label>
+                                <label class="fw-bold small mb-2 text-dark">1. Berdasarkan gambar dan cerita, Bagian jembatan apa yang akan kita cari panjangnya adalah ....</label>
                                 <select id="ap_step1" class="form-select border-success">
                                     <option value="" selected disabled>-- Pilih Sisi --</option>
                                     <option value="tiang">Tinggi Tiang</option>
@@ -107,7 +107,7 @@
                             </div>
 
                             <div class="mb-4" id="box_step2">
-                                <label class="fw-bold small mb-2 text-dark">2. Berdasarkan sisi yang kita cari, operator apa yang harus digunakan pada rumus Teorema Pythagoras?</label>
+                                <label class="fw-bold small mb-2 text-dark">2.	Berdasarkan sisi yang kita cari, operator apa yang harus digunakan pada rumus Teorema Pythagoras adalah ....</label>
                                 <div class="row g-2">
                                     <div class="col-6">
                                         <button type="button" class="btn btn-outline-success w-100 btn-operator" data-val="tambah">Ditambah (+)</button>
@@ -120,7 +120,7 @@
                             </div>
 
                             <div class="mb-4" id="box_step3">
-                                <label class="fw-bold small mb-2 text-dark">3. Berdasarkan analisis di atas, rumus mana yang paling tepat digunakan?</label>
+                                <label class="fw-bold small mb-2 text-dark">3.	Berdasarkan analisis di atas, rumus mana yang paling tepat digunakan adalah ....</label>
                                 <div class="row g-2">
                                     <div class="col-md-6">
                                         <button type="button" class="btn btn-outline-success w-100 btn-rumus" data-val="benar">Kabel² = Tiang² + Jalan²</button>
