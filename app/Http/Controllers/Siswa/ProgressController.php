@@ -70,6 +70,7 @@ class ProgressController extends Controller
             'progress_percentage' => $totalProgress,
             'total_points'        => $user->points, // Mengirim total poin terbaru ke frontend
             'badge_earned'        => $badgeEarned,
+            'points_earned'       => $earnedPoints,
             'badge_data'          => $badgeData
         ]);
     }
@@ -237,7 +238,7 @@ class ProgressController extends Controller
         return [
             'materi_1_konsep_pythagoras'   => 16,
             'materi_2_tripel_pythagoras'   => 8,
-            'materi_3_segitiga_istimewa'   => 10,
+            'materi_3_segitiga_istimewa'   => 6,
             'materi_4_penerapan_pythagoras' => 8,
         ];
     }

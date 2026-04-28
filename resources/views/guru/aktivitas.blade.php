@@ -4,14 +4,36 @@
 
 @section('content')
 <div class="container-fluid">
+    {{-- Header --}}
     <div class="card border-0 shadow-sm mb-4">
         <div class="card-body d-flex justify-content-between align-items-center">
-            <h4 class="mb-0 fw-bold">Aktivitas Siswa</h4>
-        <button class="btn btn-primary shadow-sm" id="btnTambah">
-            <i class="bi bi-plus-lg me-1"></i>Tambah Aktivitas
-        </button>
+            <h4 class="fw-bold mb-0">Aktivitas Belajar Siswa</h4>
+
+            {{-- SEMBUNYIKAN TOMBOL TAMBAH JIKA GURU BELUM PUNYA KELAS --}}
+            @if($hasClass)
+            <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#modalTambahAktivitas">
+                <i class="bi bi-plus-lg me-1"></i> Tambah Aktivitas
+            </button>
+            @endif
         </div>
     </div>
+
+    {{-- LOGIKA PEMBATASAN AKSES --}}
+    @if(!$hasClass)
+    {{-- EMPTY STATE: GURU BELUM PUNYA KELAS --}}
+    <div class="card shadow-sm border-0 bg-white rounded-3 mt-4">
+        <div class="card-body text-center py-5">
+            <div class="mb-4">
+                <div class="d-inline-flex align-items-center justify-content-center bg-light rounded-circle" style="width: 100px; height: 100px;">
+                    <i class="bi bi-person-workspace text-muted" style="font-size: 3rem;"></i>
+                </div>
+            </div>
+            <h5 class="fw-bold text-dark">Akses Terbatas</h5>
+            <p class="text-muted mb-0">Anda belum ditugaskan untuk mengampu kelas manapun.<br>Fitur pembuatan aktivitas belajar akan terbuka setelah Administrator menautkan akun Anda dengan sebuah kelas.</p>
+        </div>
+    </div>
+
+    @else
 
     <div class="card shadow-sm border-1 rounded">
         <div class="card-body">
@@ -50,11 +72,11 @@
                             </td>
                             <td>
                                 @if($item->tipe == 'streak')
-                                    <span class="badge bg-danger mb-1">Streak</span>
+                                <span class="badge bg-danger mb-1">Streak</span>
                                 @elseif($item->tipe == 'evaluasi')
-                                    <span class="badge bg-warning text-dark mb-1">Evaluasi</span>
+                                <span class="badge bg-warning text-dark mb-1">Evaluasi</span>
                                 @else
-                                    <span class="badge bg-info mb-1">Kuis</span>
+                                <span class="badge bg-info mb-1">Kuis</span>
                                 @endif
                                 <br>
                             </td>
@@ -65,24 +87,24 @@
                                     <span class="text-secondary" title="Selesai"><i class="bi bi-stop-fill"></i> {{ $item->waktu_selesai ? $item->waktu_selesai->format('d M, H:i') : '-' }}</span>
                                 </div>
                                 @if($item->token)
-                                    <code class="text-primary fw-bold mt-1 d-inline-block">{{ $item->token }}</code>
+                                <code class="text-primary fw-bold mt-1 d-inline-block">{{ $item->token }}</code>
                                 @endif
                             </td>
                             <td class="text-center">
                                 @php
-                                    $now = now();
-                                    $isTimeValid = $item->waktu_mulai && $item->waktu_selesai && $now->between($item->waktu_mulai, $item->waktu_selesai);
-                                    $isRealActive = $item->status == 1 && $isTimeValid;
-                                    $isExpired = $item->waktu_selesai && \Carbon\Carbon::parse($item->waktu_selesai)->isPast();
+                                $now = now();
+                                $isTimeValid = $item->waktu_mulai && $item->waktu_selesai && $now->between($item->waktu_mulai, $item->waktu_selesai);
+                                $isRealActive = $item->status == 1 && $isTimeValid;
+                                $isExpired = $item->waktu_selesai && \Carbon\Carbon::parse($item->waktu_selesai)->isPast();
                                 @endphp
 
                                 @if($isRealActive)
-                                    <span class="badge bg-success rounded-pill px-3">AKTIF</span>
+                                <span class="badge bg-success rounded-pill px-3">AKTIF</span>
                                 @elseif($item->status == 1 && $isExpired)
-                                    {{-- Jika toggle nyala tapi waktu habis, sebut Kadaluarsa --}}
-                                    <span class="badge bg-danger rounded-pill px-3" title="Waktu Habis">KADALUARSA</span>
+                                {{-- Jika toggle nyala tapi waktu habis, sebut Kadaluarsa --}}
+                                <span class="badge bg-danger rounded-pill px-3" title="Waktu Habis">KADALUARSA</span>
                                 @else
-                                    <span class="badge bg-secondary rounded-pill px-3">TIDAK AKTIF</span>
+                                <span class="badge bg-secondary rounded-pill px-3">TIDAK AKTIF</span>
                                 @endif
                             </td>
                             <td class="text-center">
@@ -104,8 +126,9 @@
 </div>
 
 <div class="modal fade" id="modalForm" tabindex="-1" data-bs-backdrop="static">
-    <div class="modal-dialog modal-dialog-centered modal-xl"> <div class="modal-content border-0 shadow-lg rounded overflow-hidden">
-            
+    <div class="modal-dialog modal-dialog-centered modal-xl">
+        <div class="modal-content border-0 shadow-lg rounded overflow-hidden">
+
             <div class="modal-header bg-success text-white px-4 py-3">
                 <div class="d-flex align-items-center gap-2">
                     <div>
@@ -114,7 +137,7 @@
                 </div>
                 <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
             </div>
-            
+
             <form id="formAktivitas">
                 @csrf
                 <input type="hidden" name="id" id="id">
@@ -122,7 +145,7 @@
 
                 <div class="modal-body p-0">
                     <div class="row g-0">
-                        
+
                         <div class="col-lg-7 p-4 border-end">
                             <h6 class="text-success fw-bold mb-3 d-flex align-items-center gap-2">
                                 <i class="bi bi-journal-text"></i> Informasi Utama
@@ -140,9 +163,9 @@
                                 <select class="form-select bg-light border-0 py-2" name="kelas_id" id="kelas_id" required>
                                     <option value="">-- Pilih Kelas --</option>
                                     @foreach($listKelas as $kelas)
-                                        <option value="{{ $kelas->id }}">
-                                            {{ $kelas->nama_kelas }}
-                                        </option>
+                                    <option value="{{ $kelas->id }}">
+                                        {{ $kelas->nama_kelas }}
+                                    </option>
                                     @endforeach
                                 </select>
                             </div>
@@ -183,7 +206,7 @@
                                 <select class="form-select bg-light border-0 py-2" name="paket_soal_id" id="paket_soal_id">
                                     <option value="">-- Pilih Paket Soal --</option>
                                     @foreach($listPaket as $paket)
-                                        <option value="{{ $paket->id }}">{{ $paket->judul }}</option>
+                                    <option value="{{ $paket->id }}">{{ $paket->judul }}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -234,7 +257,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="mb-2">                                
+                            <div class="mb-2">
                                 <button type="submit" class="btn btn-success rounded-3 px-5 shadow fw-bold">
                                     <i class="bi bi-save me-1"></i> Simpan
                                 </button>
@@ -246,196 +269,214 @@
             </form>
         </div>
     </div>
+    @endif
 </div>
 @endsection
 
 @push('styles')
 <style>
     /* Styling tambahan agar input lebih cantik */
-    .form-control:focus, .form-select:focus {
+    .form-control:focus,
+    .form-select:focus {
         border-color: #198754;
         box-shadow: 0 0 0 0.25rem rgba(25, 135, 84, 0.1);
-        background-color: #fff !important; /* Jadi putih saat diketik */
+        background-color: #fff !important;
+        /* Jadi putih saat diketik */
     }
-    
+
     /* Style khusus untuk input token */
     #token::placeholder {
         letter-spacing: normal;
         font-weight: normal;
         font-size: 0.9rem;
     }
-    .bg-light-subtle { background-color: #f8f9fa !important; }
+
+    .bg-light-subtle {
+        background-color: #f8f9fa !important;
+    }
 </style>
 @endpush
 
 @push('scripts')
 <script>
-$(document).ready(function() {
-    // 1. Setup DataTable (Kode lama Anda)
-    $('#tabelAktivitas').DataTable({
-        language: { search: "Cari:", lengthMenu: "Lihat _MENU_", info: "Total _TOTAL_ aktivitas" },
-        responsive: true
-    });
-
-    // === TAMBAHAN BARU: Cek apakah ada kiriman ID Kelas dari URL ===
-    const urlParams = new URLSearchParams(window.location.search);
-    const triggerKelasId = urlParams.get('trigger_kelas_id');
-
-    if (triggerKelasId) {
-        // Reset form dulu
-        $('#formAktivitas')[0].reset();
-        $('#id').val('');
-        $('#_method').val('POST');
-        $('#modalTitle').text('Buat Aktivitas Baru');
-        $('#status').prop('checked', true);
-        
-        // Isi Kelas ID secara otomatis
-        $('#input_kelas_id').val(triggerKelasId);
-        
-        // Buka Modal
-        $('#modalForm').modal('show');
-    }
-
-    // 2. Tombol Tambah
-    $('#btnTambah').click(function() {
-        $('#formAktivitas')[0].reset();
-        $('#id').val('');
-        $('#_method').val('POST');
-        $('#modalTitle').text('Buat Aktivitas Baru');
-        $('#status').prop('checked', true); // Default aktif
-        $('#modalForm').modal('show');
-    });
-
-    // 3. Tombol Edit (Load Data)
-    $(document).on('click', '.btn-edit', function() {
-        let id = $(this).data('id');
-        let url = `/guru/aktivitas/${id}/edit`;
-
-        Swal.fire({ title: 'Memuat...', didOpen: () => Swal.showLoading() });
-
-        $.get(url, function(res) {
-            Swal.close();
-            if(res.success) {
-                let d = res.data;
-                $('#id').val(d.id);
-                $('#judul').val(d.judul);
-                $('#kelas_id').val(d.kelas_id);
-                $('#kategori').val(d.kategori);
-                $('#tipe').val(d.tipe);
-                $('#poin_didapat').val(d.poin_didapat);
-                $('#paket_soal_id').val(d.paket_soal_id);
-                
-                // Format tanggal untuk input datetime-local (YYYY-MM-DDTHH:mm)
-                if(d.waktu_mulai) $('#waktu_mulai').val(d.waktu_mulai.replace(' ', 'T').slice(0, 16));
-                if(d.waktu_selesai) $('#waktu_selesai').val(d.waktu_selesai.replace(' ', 'T').slice(0, 16));
-                
-                $('#durasi_menit').val(d.durasi_menit);
-                $('#token').val(d.token);
-                $('#instruksi').val(d.instruksi);
-                $('#status').prop('checked', d.is_currently_active === true);   
-
-                $('#_method').val('PUT');
-                $('#modalTitle').text('Edit Aktivitas');
-                $('#modalForm').modal('show');
-            }
-        }).fail(function() {
-            Swal.close();
-            Swal.fire('Error', 'Gagal memuat data', 'error');
-        });
-    });
-
-    // 4. Submit Form
-    $('#formAktivitas').on('submit', function(e) {
-        e.preventDefault();
-        let id = $('#id').val();
-        let method = $('#_method').val(); // POST atau PUT
-        let url = (method === 'POST') ? '/guru/aktivitas' : `/guru/aktivitas/${id}`;
-        
-        let formData = $(this).serialize();
-
-        Swal.fire({ title: 'Menyimpan...', didOpen: () => Swal.showLoading() });
-
-        $.ajax({
-            url: url,
-            type: 'POST', // Browser form submit selalu POST
-            data: formData,
-            success: function(res) {
-                if(res.success) {
-                    $('#modalForm').modal('hide');
-                    Swal.fire({
-                        icon: 'success', 
-                        title: 'Berhasil', 
-                        text: res.message,
-                        showConfirmButton: false,
-                        timer: 1500
-                    }).then(() => location.reload());
-                }
+    $(document).ready(function() {
+        // 1. Setup DataTable (Kode lama Anda)
+        $('#tabelAktivitas').DataTable({
+            language: {
+                search: "Cari:",
+                lengthMenu: "Lihat _MENU_",
+                info: "Total _TOTAL_ aktivitas"
             },
-            error: function(xhr) {
-                let msg = 'Gagal menyimpan data';
-                if(xhr.responseJSON && xhr.responseJSON.message) {
-                    msg = xhr.responseJSON.message;
+            responsive: true
+        });
+
+        // === TAMBAHAN BARU: Cek apakah ada kiriman ID Kelas dari URL ===
+        const urlParams = new URLSearchParams(window.location.search);
+        const triggerKelasId = urlParams.get('trigger_kelas_id');
+
+        if (triggerKelasId) {
+            // Reset form dulu
+            $('#formAktivitas')[0].reset();
+            $('#id').val('');
+            $('#_method').val('POST');
+            $('#modalTitle').text('Buat Aktivitas Baru');
+            $('#status').prop('checked', true);
+
+            // Isi Kelas ID secara otomatis
+            $('#input_kelas_id').val(triggerKelasId);
+
+            // Buka Modal
+            $('#modalForm').modal('show');
+        }
+
+        // 2. Tombol Tambah
+        $('#btnTambah').click(function() {
+            $('#formAktivitas')[0].reset();
+            $('#id').val('');
+            $('#_method').val('POST');
+            $('#modalTitle').text('Buat Aktivitas Baru');
+            $('#status').prop('checked', true); // Default aktif
+            $('#modalForm').modal('show');
+        });
+
+        // 3. Tombol Edit (Load Data)
+        $(document).on('click', '.btn-edit', function() {
+            let id = $(this).data('id');
+            let url = `/guru/aktivitas/${id}/edit`;
+
+            Swal.fire({
+                title: 'Memuat...',
+                didOpen: () => Swal.showLoading()
+            });
+
+            $.get(url, function(res) {
+                Swal.close();
+                if (res.success) {
+                    let d = res.data;
+                    $('#id').val(d.id);
+                    $('#judul').val(d.judul);
+                    $('#kelas_id').val(d.kelas_id);
+                    $('#kategori').val(d.kategori);
+                    $('#tipe').val(d.tipe);
+                    $('#poin_didapat').val(d.poin_didapat);
+                    $('#paket_soal_id').val(d.paket_soal_id);
+
+                    // Format tanggal untuk input datetime-local (YYYY-MM-DDTHH:mm)
+                    if (d.waktu_mulai) $('#waktu_mulai').val(d.waktu_mulai.replace(' ', 'T').slice(0, 16));
+                    if (d.waktu_selesai) $('#waktu_selesai').val(d.waktu_selesai.replace(' ', 'T').slice(0, 16));
+
+                    $('#durasi_menit').val(d.durasi_menit);
+                    $('#token').val(d.token);
+                    $('#instruksi').val(d.instruksi);
+                    $('#status').prop('checked', d.is_currently_active === true);
+
+                    $('#_method').val('PUT');
+                    $('#modalTitle').text('Edit Aktivitas');
+                    $('#modalForm').modal('show');
                 }
-                Swal.fire('Gagal', msg, 'error');
-            }
+            }).fail(function() {
+                Swal.close();
+                Swal.fire('Error', 'Gagal memuat data', 'error');
+            });
         });
-    });
 
-    // 5. Hapus Data
-    $(document).on('click', '.btn-hapus', function() {
-        let id = $(this).data('id');
-        Swal.fire({
-            title: 'Hapus Aktivitas?',
-            text: "Data ini akan dihapus secara permanen.",
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#dc3545',
-            confirmButtonText: 'Ya, Hapus'
-        }).then((result) => {
-            if (result.isConfirmed) {
-                $.ajax({
-                    url: `/guru/aktivitas/${id}`,
-                    type: 'DELETE',
-                    headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
-                    success: function(res) {
-                        Swal.fire('Terhapus!', res.message, 'success').then(() => location.reload());
-                    },
-                    error: function() {
-                        Swal.fire('Error', 'Gagal menghapus data', 'error');
+        // 4. Submit Form
+        $('#formAktivitas').on('submit', function(e) {
+            e.preventDefault();
+            let id = $('#id').val();
+            let method = $('#_method').val(); // POST atau PUT
+            let url = (method === 'POST') ? '/guru/aktivitas' : `/guru/aktivitas/${id}`;
+
+            let formData = $(this).serialize();
+
+            Swal.fire({
+                title: 'Menyimpan...',
+                didOpen: () => Swal.showLoading()
+            });
+
+            $.ajax({
+                url: url,
+                type: 'POST', // Browser form submit selalu POST
+                data: formData,
+                success: function(res) {
+                    if (res.success) {
+                        $('#modalForm').modal('hide');
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Berhasil',
+                            text: res.message,
+                            showConfirmButton: false,
+                            timer: 1500
+                        }).then(() => location.reload());
                     }
-                });
+                },
+                error: function(xhr) {
+                    let msg = 'Gagal menyimpan data';
+                    if (xhr.responseJSON && xhr.responseJSON.message) {
+                        msg = xhr.responseJSON.message;
+                    }
+                    Swal.fire('Gagal', msg, 'error');
+                }
+            });
+        });
+
+        // 5. Hapus Data
+        $(document).on('click', '.btn-hapus', function() {
+            let id = $(this).data('id');
+            Swal.fire({
+                title: 'Hapus Aktivitas?',
+                text: "Data ini akan dihapus secara permanen.",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#dc3545',
+                confirmButtonText: 'Ya, Hapus'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        url: `/guru/aktivitas/${id}`,
+                        type: 'DELETE',
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        },
+                        success: function(res) {
+                            Swal.fire('Terhapus!', res.message, 'success').then(() => location.reload());
+                        },
+                        error: function() {
+                            Swal.fire('Error', 'Gagal menghapus data', 'error');
+                        }
+                    });
+                }
+            });
+        });
+
+        // 6. Fitur Auto-Update Waktu saat Toggle "Buka Akses" ditekan
+        $('#status').change(function() {
+            if ($(this).is(':checked')) {
+                let durasi = parseInt($('#durasi_menit').val()) || 60;
+                let now = new Date();
+
+                // Mengakali Timezone lokal laptop guru agar formatnya YYYY-MM-DDTHH:mm
+                now.setMinutes(now.getMinutes() - now.getTimezoneOffset());
+                $('#waktu_mulai').val(now.toISOString().slice(0, 16));
+
+                // Set waktu selesai berdasarkan durasi
+                let selesai = new Date(now.getTime() + durasi * 60000);
+                $('#waktu_selesai').val(selesai.toISOString().slice(0, 16));
+            }
+        });
+
+        // 7. Auto-Update Waktu Selesai jika Durasi Menit diketik ulang
+        $('#durasi_menit').on('input', function() {
+            let mulai = $('#waktu_mulai').val();
+            if (mulai && $('#status').is(':checked')) {
+                let durasi = parseInt($(this).val()) || 0;
+                let start = new Date(mulai);
+                let selesai = new Date(start.getTime() + durasi * 60000);
+
+                selesai.setMinutes(selesai.getMinutes() - selesai.getTimezoneOffset());
+                $('#waktu_selesai').val(selesai.toISOString().slice(0, 16));
             }
         });
     });
-
-    // 6. Fitur Auto-Update Waktu saat Toggle "Buka Akses" ditekan
-    $('#status').change(function() {
-        if ($(this).is(':checked')) {
-            let durasi = parseInt($('#durasi_menit').val()) || 60;
-            let now = new Date();
-            
-            // Mengakali Timezone lokal laptop guru agar formatnya YYYY-MM-DDTHH:mm
-            now.setMinutes(now.getMinutes() - now.getTimezoneOffset());
-            $('#waktu_mulai').val(now.toISOString().slice(0, 16));
-
-            // Set waktu selesai berdasarkan durasi
-            let selesai = new Date(now.getTime() + durasi * 60000);
-            $('#waktu_selesai').val(selesai.toISOString().slice(0, 16));
-        }
-    });
-
-    // 7. Auto-Update Waktu Selesai jika Durasi Menit diketik ulang
-    $('#durasi_menit').on('input', function() {
-        let mulai = $('#waktu_mulai').val();
-        if (mulai && $('#status').is(':checked')) {
-            let durasi = parseInt($(this).val()) || 0;
-            let start = new Date(mulai);
-            let selesai = new Date(start.getTime() + durasi * 60000);
-            
-            selesai.setMinutes(selesai.getMinutes() - selesai.getTimezoneOffset());
-            $('#waktu_selesai').val(selesai.toISOString().slice(0, 16));
-        }
-    });
-});
 </script>
 @endpush

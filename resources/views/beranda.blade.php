@@ -164,17 +164,24 @@
                                 PythaLearn : Media Pembelajaran Interaktif Teorema Pythagoras
                             </h1>
                             <p class="lead text-white text-justify">
-                                Media pembelajaran ini dirancang untuk membantu siswa membangun pemahaman mendalam tentang Teorema Pythagoras melalui latihan bertahap, yang diperkuat dengan fitur streak untuk mendorong siswa belajar secara konsisten dan merasakan tantangan harian yang menarik.
+                                Media pembelajaran ini dirancang untuk meningkatkan pemahaman konsep Teorema Pythagoras melalui penerapan metode drill and practice yang dipadukan dengan gamifikasi, sehingga mendorong keterlibatan aktif siswa dan memperkuat pemahaman konsep.
                             </p>
 
                             @auth
-                                <a href="{{ auth()->user()->role === 'guru'
-                                    ? route('guru.dashboard')
-                                    : route('siswa.menu.dashboard') }}"
-                                   class="btn btn-start py-2 px-4">
-                                    <i class="bi bi-rocket-takeoff-fill me-2"></i>
-                                    Ayo Mulai!
-                                </a>
+                                {{-- TOMBOL SESUAI ROLE --}}
+                                @if(auth()->user()->role === 'guru')
+                                    <a href="{{ route('guru.dashboard') }}" 
+                                       class="btn btn-start py-2 px-4">
+                                        <i class="bi bi-person-badge me-2"></i>
+                                        Halaman Guru
+                                    </a>
+                                @else
+                                    <a href="{{ route('siswa.menu.dashboard') }}" 
+                                       class="btn btn-start py-2 px-4">
+                                        <i class="bi bi-rocket-takeoff-fill me-2"></i>
+                                        Ayo Mulai!
+                                    </a>
+                                @endif
                             @else
                                 <a href="{{ route('login') }}" class="btn btn-start py-2 px-4">
                                     Masuk untuk Mulai
@@ -215,21 +222,47 @@
                     </div>
                 </a>
             </div>
-            <div class="col-md-4">
-                <a href="{{ route('siswa.menu.dashboard') }}" class="info-box-link text-decoration-none">
-                    <div class="card feature-card p-3 h-100 rounded-3 d-flex flex-row align-items-center gap-3">
-                        <div class="rounded-3 p-3" style="min-width:64px; min-height:64px; display:flex; align-items:center; justify-content:center;">
-                            <i class="bi bi-journal-bookmark fs-2" style="color:var(--primary)"></i>
+                        <div class="col-md-4">
+                @auth
+                    @if(auth()->user()->role === 'guru')
+                        <a href="{{ route('guru.dashboard') }}" class="info-box-link text-decoration-none">
+                            <div class="card feature-card p-3 h-100 rounded-3 d-flex flex-row align-items-center gap-3">
+                                <div class="rounded-3 p-3" style="min-width:64px;min-height:64px;display:flex;align-items:center;justify-content:center;">
+                                    <i class="bi bi-person-badge fs-2" style="color:var(--primary)"></i>
+                                </div>
+                                <div>
+                                    <h5>Halaman Guru</h5>
+                                </div>
+                            </div>
+                        </a>
+                    @else
+                        <a href="{{ route('siswa.menu.dashboard') }}" class="info-box-link text-decoration-none">
+                            <div class="card feature-card p-3 h-100 rounded-3 d-flex flex-row align-items-center gap-3">
+                                <div class="rounded-3 p-3" style="min-width:64px;min-height:64px;display:flex;align-items:center;justify-content:center;">
+                                    <i class="bi bi-journal-bookmark fs-2" style="color:var(--primary)"></i>
+                                </div>
+                                <div>
+                                    <h5>Materi Belajar</h5>
+                                </div>
+                            </div>
+                        </a>
+                    @endif
+                @else
+                    {{-- Belum login: arahkan ke halaman login --}}
+                    <a href="{{ route('login') }}" class="info-box-link text-decoration-none">
+                        <div class="card feature-card p-3 h-100 rounded-3 d-flex flex-row align-items-center gap-3">
+                            <div class="rounded-3 p-3" style="min-width:64px;min-height:64px;display:flex;align-items:center;justify-content:center;">
+                                <i class="bi bi-journal-bookmark fs-2" style="color:var(--primary)"></i>
+                            </div>
+                            <div>
+                                <h5>Materi Belajar</h5>
+                            </div>
                         </div>
-                        <div>
-                            <h5>Materi Belajar</h5>
-                        </div>
-
-                    </div>
-                </a>
+                    </a>
+                @endauth
             </div>
             <div class="col-md-4">
-                <a href="#" class="info-box-link text-decoration-none">
+                <a href="{{ route('petunjuk') }}" class="info-box-link text-decoration-none">
                     <div class="card feature-card p-3 h-100 rounded-3 d-flex flex-row align-items-center gap-3">
                         <div class="rounded-3 p-3" style="min-width:64px;min-height:64px;display:flex;align-items:center;justify-content:center;">
                             <i class="bi bi-list fs-2" style="color:var(--primary)"></i>

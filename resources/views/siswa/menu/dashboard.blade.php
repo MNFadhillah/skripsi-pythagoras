@@ -21,7 +21,7 @@
     @endif
 
     {{-- === BAGIAN HEADER DASHBOARD === --}}
-    <div class="row mb-4">
+    <div class="row mb-3">
         <div class="col-12">
             
             @if(auth()->user()->kelas_id)
@@ -100,7 +100,7 @@
 
 
     {{-- STAT KARTU RINGKAS --}}
-    <div class="row g-3 mb-4">  
+    <div class="row g-3 mb-3">  
         
         {{-- Kartu Progress (Ubah jadi col-md-4) --}}
         <div class="col-md-4">
@@ -173,7 +173,7 @@
     </div>
 
     {{-- PROFIL & AKTIVITAS --}}
-    <div class="row g-3 mb-4">
+    <div class="row g-3 mb-3">
         <div class="col-lg-6">
             {{-- Profil Siswa --}}
             <div class="card mb-3 h-100 shadow-sm border-0">

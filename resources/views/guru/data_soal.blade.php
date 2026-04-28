@@ -79,7 +79,7 @@
                 
                 <div class="mb-3">
                     <label class="form-label">Pertanyaan</label>
-                    <textarea name="pertanyaan" class="form-control" rows="4"placeholder="Tuliskan pertanyaan..." required></textarea>
+                    <textarea id="summernote_tambah" name="pertanyaan" class="form-control" rows="4" required></textarea>
                 </div>
 
                 <div class="mb-3">
@@ -277,32 +277,13 @@
                                 {{-- KOLOM PERTANYAAN (TEXT SAJA) --}}
                                 <td>
                                     @php
-                                        $pertanyaanText = '';
-                                        $hasImage = false; // Flag untuk cek gambar
-
-                                        // LOGIKA CEK GAMBAR & BERSIHKAN TEKS
-                                        if (is_array($item->pertanyaan)) {
-                                            $pertanyaanText = $item->pertanyaan['text'] ?? '';
-                                            if (!empty($item->pertanyaan['image']) || !empty($item->pertanyaan['gambar'])) {
-                                                $hasImage = true;
-                                            }
-                                        } 
-                                        elseif (is_string($item->pertanyaan)) {
-                                            if (str_contains($item->pertanyaan, '[GAMBAR:') || preg_match('/\/storage\/soal\/[^\s"]+\./', $item->pertanyaan)) {
-                                                $hasImage = true;
-                                            }
-                                            
-                                            // Bersihkan teks untuk display
-                                            if (str_contains($item->pertanyaan, '[GAMBAR:')) {
-                                                $pertanyaanText = preg_replace('/\[GAMBAR:.*?\]/', '', $item->pertanyaan);
-                                            } else {
-                                                $pertanyaanText = preg_replace('/\/storage\/[^\s]+(\.(jpg|jpeg|png|gif|webp))/i', '', $item->pertanyaan);
-                                            }
-                                        }
-                                        $pertanyaanText = preg_replace('/https?:\/\/[^\s]+/', '', $pertanyaanText);
+                                        $pertanyaanText = is_array($item->pertanyaan) ? ($item->pertanyaan['text'] ?? '') : '';
+                                        $hasImage = is_array($item->pertanyaan) && !empty($item->pertanyaan['image']);
+                                        // Bersihkan tag HTML dan decode HTML entities
+                                        $plainText = html_entity_decode(strip_tags($pertanyaanText));
                                     @endphp
 
-                                    {{ \Illuminate\Support\Str::limit(trim($pertanyaanText), 80) }}
+                                    {{ \Illuminate\Support\Str::limit($plainText, 80) }}
                 
                                 </td>
 
@@ -357,6 +338,7 @@
                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body bg-light" id="detailSoalContent"></div>
+                
             </div>
         </div>
     </div>
@@ -388,8 +370,6 @@ $(document).ready(function() {
                 { orderable: false, targets: [3, 5] }
             ]
         });
-
-
     } catch (error) { console.error('Error DataTables:', error); }
 
     // ==========================================
@@ -397,20 +377,13 @@ $(document).ready(function() {
     // ==========================================
     $('#tipe_soal_tambah').on('change', function() {
         if($(this).val() == 'isian') {
-            // Mode Isian
             $('#wrapper_opsi_tambah').slideUp(); 
-            $('.input-opsi-tambah').prop('required', false); // Matikan required opsi
-            
-            // Switch Kunci Jawaban
+            $('.input-opsi-tambah').prop('required', false);
             $('#kunci_pg_tambah').addClass('d-none').prop('disabled', true);
             $('#kunci_isian_tambah').removeClass('d-none').prop('disabled', false);
-
         } else {
-            // Mode PG
             $('#wrapper_opsi_tambah').slideDown();
-            $('.input-opsi-tambah').prop('required', true); // Nyalakan required opsi
-            
-            // Switch Kunci Jawaban
+            $('.input-opsi-tambah').prop('required', true);
             $('#kunci_pg_tambah').removeClass('d-none').prop('disabled', false);
             $('#kunci_isian_tambah').addClass('d-none').prop('disabled', true);
         }
@@ -421,17 +394,13 @@ $(document).ready(function() {
     // ==========================================
     $('#edit_tipe_soal').on('change', function() {
         if($(this).val() == 'isian') {
-            // Mode Isian
             $('#wrapper_opsi_edit').slideUp(); 
             $('.input-opsi-edit').prop('required', false);
-            
             $('#edit_kunci_pg').addClass('d-none').prop('disabled', true);
             $('#edit_kunci_isian').removeClass('d-none').prop('disabled', false);
         } else {
-            // Mode PG
             $('#wrapper_opsi_edit').slideDown();
             $('.input-opsi-edit').prop('required', true);
-            
             $('#edit_kunci_pg').removeClass('d-none').prop('disabled', false);
             $('#edit_kunci_isian').addClass('d-none').prop('disabled', true);
         }
@@ -516,7 +485,7 @@ $(document).ready(function() {
         });
     });
 
-    // Helper Extrac Image
+    // Helper Extract Image
     function extractAndDisplayImages(text) {
         let imagesHTML = '';
         let processedText = text;
@@ -546,7 +515,6 @@ $(document).ready(function() {
             url: `/guru/data_soal/${id}/json`, type: 'GET', dataType: 'json',
             success: function(data) {
                 let pertanyaan = '', imagesHTML = '';
-                // Handle Pertanyaan
                 if (typeof data.pertanyaan === 'string') {
                     const processed = extractAndDisplayImages(data.pertanyaan);
                     pertanyaan = processed.text; imagesHTML = processed.images;
@@ -559,7 +527,6 @@ $(document).ready(function() {
                     }
                 }
                 
-                // Handle Opsi (Cek jika null maka Isian)
                 let opsiHTML = '';
                 if(!data.opsi_jawaban || Object.keys(data.opsi_jawaban).length === 0){
                      opsiHTML = `<div class="alert alert-info border-0 shadow-sm"><i class="bi bi-pencil me-2"></i>Jenis Soal: <strong>Isian Singkat</strong></div>`;
@@ -621,7 +588,6 @@ $(document).ready(function() {
 
                     ${bottomSection}
                 `);
-
             },
             error: function() { modalBody.html('<div class="alert alert-danger">Gagal memuat data.</div>'); }
         });
@@ -656,11 +622,55 @@ $(document).ready(function() {
         });
     });
 
-    // EDIT SOAL - POPULATE DATA
+    // ==========================================
+    // INISIALISASI SUMMERNOTE
+    // ==========================================
+    // Form Tambah
+    $('#summernote_tambah').summernote({
+        placeholder: 'Tulis pertanyaan...',
+        tabsize: 2,
+        height: 180,
+        toolbar: [
+            ['style', ['bold', 'italic', 'underline', 'clear']],
+            ['font', ['strikethrough', 'superscript', 'subscript']],
+            ['para', ['ul', 'ol', 'paragraph']],
+            ['insert', ['link']],
+            ['view', ['codeview']]
+        ],
+        disableDragAndDrop: true,
+        callbacks: {
+            onImageUpload: function(files) {
+                alert('Upload gambar melalui input "Gambar Soal" di bawah.');
+            }
+        }
+    });
+
+    // Form Edit (inisialisasi sekali karena modal sudah ada di DOM)
+    $('#edit_pertanyaan_text').summernote({
+        placeholder: 'Edit pertanyaan...',
+        tabsize: 2,
+        height: 180,
+        toolbar: [
+            ['style', ['bold', 'italic', 'underline', 'clear']],
+            ['font', ['strikethrough', 'superscript', 'subscript']],
+            ['para', ['ul', 'ol', 'paragraph']],
+            ['insert', ['link']],
+            ['view', ['codeview']]
+        ],
+        disableDragAndDrop: true,
+        callbacks: {
+            onImageUpload: function(files) {
+                alert('Upload gambar melalui input file di bawah.');
+            }
+        }
+    });
+
+    // EDIT SOAL - POPULATE DATA (LENGKAP)
     $(document).on('click', '.btn-edit-soal', function () {
         const id = $(this).data('id');
         $('#editSoalForm')[0].reset();
         $('#edit_gambar_preview').html('');
+        
         Swal.fire({ title: 'Memuat...', didOpen: () => Swal.showLoading() });
 
         $.get(`/guru/data_soal/${id}/edit-json`, function (res) {
@@ -669,23 +679,19 @@ $(document).ready(function() {
             
             $('#edit_soal_id').val(res.id);
             $('#edit_paket_soal_id').val(res.paket_soal_id);
-            $('#edit_pertanyaan_text').val(res.pertanyaan);
             
-            // LOGIKA DETEKSI TIPE SOAL
-            // Jika opsi null atau kosong, berarti Isian
+            // Set isi Summernote
+            $('#edit_pertanyaan_text').summernote('code', res.pertanyaan || '');
+
+            // Deteksi tipe soal
             let isIsian = (res.opsi == null || Object.keys(res.opsi).length === 0);
 
             if(isIsian) {
-                // Set Dropdown Tipe
                 $('#edit_tipe_soal').val('isian').trigger('change');
-                // Isi Kunci Jawaban Text
                 $('#edit_kunci_isian').val(res.kunci_jawaban);
             } else {
-                // Set Dropdown Tipe
                 $('#edit_tipe_soal').val('pg').trigger('change');
-                // Isi Kunci Jawaban Dropdown
                 $('#edit_kunci_pg').val(res.kunci_jawaban);
-                // Isi Opsi A-D
                 ['A','B','C','D'].forEach(key => {
                     let val = (res.opsi && res.opsi[key]) ? ((typeof res.opsi[key] === 'object') ? res.opsi[key].text : res.opsi[key]) : '';
                     $(`#edit_opsi_${key}`).val(val);
@@ -700,6 +706,8 @@ $(document).ready(function() {
             }
             
             bootstrap.Modal.getOrCreateInstance(document.getElementById('editSoalModal')).show();
+        }).fail(function() {
+            Swal.fire('Gagal', 'Tidak dapat memuat data soal', 'error');
         });
     });
 
@@ -721,6 +729,8 @@ $(document).ready(function() {
             error: function (xhr) { Swal.fire('Gagal', xhr.responseJSON?.message || 'Error', 'error'); }
         });
     });
-});     
+
+});
+
 </script>
 @endpush

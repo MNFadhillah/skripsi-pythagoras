@@ -35,11 +35,15 @@ class Kelas extends Model
     // Relasi: Kelas punya banyak Siswa
     public function siswa()
     {
-        return $this->hasMany(User::class, 'kelas_id');
+        return $this->hasMany(User::class, 'kelas_id')->where('role', 'siswa');
     }
     public function aktivitas()
     {
         // Menggunakan belongsToMany, bukan hasMany
        return $this->hasMany(AktivitasBelajar::class, 'kelas_id');
+    }
+    public function waliKelas()
+    {
+        return $this->belongsTo(User::class, 'guru_id');
     }
 }

@@ -13,7 +13,7 @@ class BadgeController extends Controller
     {
         $user = Auth::user();
         $allBadges = Badge::all();
-        
+
         // Ambil ID lencana yang sudah dimiliki user agar mudah dicek di View
         $earnedBadgeIds = $user->badges->pluck('id')->toArray();
 
@@ -31,7 +31,7 @@ class BadgeController extends Controller
             if ($kuisTipe == 'ayo_berlatih_1') {
                 $badgeId = 1; // Pastikan ID 1 adalah badge Tuntas Kuis 1 di database
             } elseif ($kuisTipe == 'ayo_berlatih_2') {
-                $badgeId = 2; 
+                $badgeId = 2;
             } // ... dan seterusnya
 
             if ($badgeId) {

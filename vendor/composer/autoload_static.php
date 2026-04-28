@@ -40,6 +40,7 @@ class ComposerStaticInit626b9e7ddd47fb7eff9aaa53cce0c9ad
         'ce9671a430e4846b44e1c68c7611f9f5' => __DIR__ . '/..' . '/mockery/mockery/library/Mockery.php',
         'a1cfe24d14977df6878b9bf804af2d1c' => __DIR__ . '/..' . '/nunomaduro/collision/src/Adapters/Phpunit/Autoload.php',
         'ec07570ca5a812141189b1fa81503674' => __DIR__ . '/..' . '/phpunit/phpunit/src/Framework/Assert/Functions.php',
+        '0b47d6d4a00ca9112ba3953b49e7c9a4' => __DIR__ . '/..' . '/yajra/laravel-datatables-oracle/src/helper.php',
     );
 
     public static $prefixLengthsPsr4 = array (
@@ -50,6 +51,10 @@ class ComposerStaticInit626b9e7ddd47fb7eff9aaa53cce0c9ad
         'Z' => 
         array (
             'ZipStream\\' => 10,
+        ),
+        'Y' => 
+        array (
+            'Yajra\\DataTables\\' => 17,
         ),
         'W' => 
         array (
@@ -196,6 +201,10 @@ class ComposerStaticInit626b9e7ddd47fb7eff9aaa53cce0c9ad
         'ZipStream\\' => 
         array (
             0 => __DIR__ . '/..' . '/maennchen/zipstream-php/src',
+        ),
+        'Yajra\\DataTables\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/yajra/laravel-datatables-oracle/src',
         ),
         'Whoops\\' => 
         array (
@@ -568,6 +577,9 @@ class ComposerStaticInit626b9e7ddd47fb7eff9aaa53cce0c9ad
     public static $classMap = array (
         'App\\Exports\\DataNilaiExport' => __DIR__ . '/../..' . '/app/Exports/DataNilaiExport.php',
         'App\\Exports\\SiswaExport' => __DIR__ . '/../..' . '/app/Exports/SiswaExport.php',
+        'App\\Http\\Controllers\\Admin\\DashboardController' => __DIR__ . '/../..' . '/app/Http/Controllers/Admin/DashboardController.php',
+        'App\\Http\\Controllers\\Admin\\KelasController' => __DIR__ . '/../..' . '/app/Http/Controllers/Admin/KelasController.php',
+        'App\\Http\\Controllers\\Admin\\UserController' => __DIR__ . '/../..' . '/app/Http/Controllers/Admin/UserController.php',
         'App\\Http\\Controllers\\AuthController' => __DIR__ . '/../..' . '/app/Http/Controllers/AuthController.php',
         'App\\Http\\Controllers\\Controller' => __DIR__ . '/../..' . '/app/Http/Controllers/Controller.php',
         'App\\Http\\Controllers\\GuruController' => __DIR__ . '/../..' . '/app/Http/Controllers/GuruController.php',
@@ -577,14 +589,19 @@ class ComposerStaticInit626b9e7ddd47fb7eff9aaa53cce0c9ad
         'App\\Http\\Controllers\\Guru\\DataSiswaController' => __DIR__ . '/../..' . '/app/Http/Controllers/Guru/DataSiswaController.php',
         'App\\Http\\Controllers\\Guru\\DataSoalController' => __DIR__ . '/../..' . '/app/Http/Controllers/Guru/DataSoalController.php',
         'App\\Http\\Controllers\\Guru\\PaketSoalController' => __DIR__ . '/../..' . '/app/Http/Controllers/Guru/PaketSoalController.php',
+        'App\\Http\\Controllers\\Guru\\PencapaianSiswaController' => __DIR__ . '/../..' . '/app/Http/Controllers/Guru/PencapaianSiswaController.php',
+        'App\\Http\\Controllers\\Guru\\ProfileGuruController' => __DIR__ . '/../..' . '/app/Http/Controllers/Guru/ProfileGuruController.php',
         'App\\Http\\Controllers\\HomeController' => __DIR__ . '/../..' . '/app/Http/Controllers/HomeController.php',
         'App\\Http\\Controllers\\InformasiController' => __DIR__ . '/../..' . '/app/Http/Controllers/InformasiController.php',
         'App\\Http\\Controllers\\Siswa\\MateriController' => __DIR__ . '/../..' . '/app/Http/Controllers/Siswa/MateriController.php',
         'App\\Http\\Controllers\\Siswa\\MenuController' => __DIR__ . '/../..' . '/app/Http/Controllers/Siswa/MenuController.php',
+        'App\\Http\\Controllers\\Siswa\\ProfileController' => __DIR__ . '/../..' . '/app/Http/Controllers/Siswa/ProfileController.php',
+        'App\\Http\\Controllers\\Siswa\\ProgressController' => __DIR__ . '/../..' . '/app/Http/Controllers/Siswa/ProgressController.php',
         'App\\Http\\Controllers\\Siswa\\QuizController' => __DIR__ . '/../..' . '/app/Http/Controllers/Siswa/QuizController.php',
         'App\\Http\\Middleware\\RoleMiddleware' => __DIR__ . '/../..' . '/app/Http/Middleware/RoleMiddleware.php',
         'App\\Imports\\SoalImport' => __DIR__ . '/../..' . '/app/Imports/SoalImport.php',
         'App\\Models\\AktivitasBelajar' => __DIR__ . '/../..' . '/app/Models/AktivitasBelajar.php',
+        'App\\Models\\Badge' => __DIR__ . '/../..' . '/app/Models/Badge.php',
         'App\\Models\\ButirSoal' => __DIR__ . '/../..' . '/app/Models/ButirSoal.php',
         'App\\Models\\HasilPengerjaan' => __DIR__ . '/../..' . '/app/Models/HasilPengerjaan.php',
         'App\\Models\\JawabanSiswa' => __DIR__ . '/../..' . '/app/Models/JawabanSiswa.php',
@@ -592,6 +609,7 @@ class ComposerStaticInit626b9e7ddd47fb7eff9aaa53cce0c9ad
         'App\\Models\\PaketSoal' => __DIR__ . '/../..' . '/app/Models/PaketSoal.php',
         'App\\Models\\Penugasan' => __DIR__ . '/../..' . '/app/Models/Penugasan.php',
         'App\\Models\\User' => __DIR__ . '/../..' . '/app/Models/User.php',
+        'App\\Models\\progres_siswa' => __DIR__ . '/../..' . '/app/Models/progres_siswa.php',
         'App\\Providers\\AppServiceProvider' => __DIR__ . '/../..' . '/app/Providers/AppServiceProvider.php',
         'Attribute' => __DIR__ . '/..' . '/symfony/polyfill-php80/Resources/stubs/Attribute.php',
         'Brick\\Math\\BigDecimal' => __DIR__ . '/..' . '/brick/math/src/BigDecimal.php',
@@ -745,6 +763,8 @@ class ComposerStaticInit626b9e7ddd47fb7eff9aaa53cce0c9ad
         'Cron\\MinutesField' => __DIR__ . '/..' . '/dragonmantank/cron-expression/src/Cron/MinutesField.php',
         'Cron\\MonthField' => __DIR__ . '/..' . '/dragonmantank/cron-expression/src/Cron/MonthField.php',
         'Database\\Factories\\UserFactory' => __DIR__ . '/../..' . '/database/factories/UserFactory.php',
+        'Database\\Seeders\\AdminUserSeeder' => __DIR__ . '/../..' . '/database/seeders/AdminUserSeeder.php',
+        'Database\\Seeders\\BadgeSeeder' => __DIR__ . '/../..' . '/database/seeders/BadgeSeeder.php',
         'Database\\Seeders\\ButirSoalSeeder' => __DIR__ . '/../..' . '/database/seeders/ButirSoalSeeder.php',
         'Database\\Seeders\\DatabaseSeeder' => __DIR__ . '/../..' . '/database/seeders/DatabaseSeeder.php',
         'Database\\Seeders\\PaketSoalSeeder' => __DIR__ . '/../..' . '/database/seeders/PaketSoalSeeder.php',
@@ -7689,6 +7709,22 @@ class ComposerStaticInit626b9e7ddd47fb7eff9aaa53cce0c9ad
         'Whoops\\Util\\Misc' => __DIR__ . '/..' . '/filp/whoops/src/Whoops/Util/Misc.php',
         'Whoops\\Util\\SystemFacade' => __DIR__ . '/..' . '/filp/whoops/src/Whoops/Util/SystemFacade.php',
         'Whoops\\Util\\TemplateHelper' => __DIR__ . '/..' . '/filp/whoops/src/Whoops/Util/TemplateHelper.php',
+        'Yajra\\DataTables\\ApiResourceDataTable' => __DIR__ . '/..' . '/yajra/laravel-datatables-oracle/src/ApiResourceDataTable.php',
+        'Yajra\\DataTables\\CollectionDataTable' => __DIR__ . '/..' . '/yajra/laravel-datatables-oracle/src/CollectionDataTable.php',
+        'Yajra\\DataTables\\Contracts\\DataTable' => __DIR__ . '/..' . '/yajra/laravel-datatables-oracle/src/Contracts/DataTable.php',
+        'Yajra\\DataTables\\Contracts\\Formatter' => __DIR__ . '/..' . '/yajra/laravel-datatables-oracle/src/Contracts/Formatter.php',
+        'Yajra\\DataTables\\DataTableAbstract' => __DIR__ . '/..' . '/yajra/laravel-datatables-oracle/src/DataTableAbstract.php',
+        'Yajra\\DataTables\\DataTables' => __DIR__ . '/..' . '/yajra/laravel-datatables-oracle/src/DataTables.php',
+        'Yajra\\DataTables\\DataTablesServiceProvider' => __DIR__ . '/..' . '/yajra/laravel-datatables-oracle/src/DataTablesServiceProvider.php',
+        'Yajra\\DataTables\\EloquentDataTable' => __DIR__ . '/..' . '/yajra/laravel-datatables-oracle/src/EloquentDataTable.php',
+        'Yajra\\DataTables\\Exceptions\\Exception' => __DIR__ . '/..' . '/yajra/laravel-datatables-oracle/src/Exceptions/Exception.php',
+        'Yajra\\DataTables\\Facades\\DataTables' => __DIR__ . '/..' . '/yajra/laravel-datatables-oracle/src/Facades/DataTables.php',
+        'Yajra\\DataTables\\Processors\\DataProcessor' => __DIR__ . '/..' . '/yajra/laravel-datatables-oracle/src/Processors/DataProcessor.php',
+        'Yajra\\DataTables\\Processors\\RowProcessor' => __DIR__ . '/..' . '/yajra/laravel-datatables-oracle/src/Processors/RowProcessor.php',
+        'Yajra\\DataTables\\QueryDataTable' => __DIR__ . '/..' . '/yajra/laravel-datatables-oracle/src/QueryDataTable.php',
+        'Yajra\\DataTables\\Utilities\\Config' => __DIR__ . '/..' . '/yajra/laravel-datatables-oracle/src/Utilities/Config.php',
+        'Yajra\\DataTables\\Utilities\\Helper' => __DIR__ . '/..' . '/yajra/laravel-datatables-oracle/src/Utilities/Helper.php',
+        'Yajra\\DataTables\\Utilities\\Request' => __DIR__ . '/..' . '/yajra/laravel-datatables-oracle/src/Utilities/Request.php',
         'ZipStream\\CentralDirectoryFileHeader' => __DIR__ . '/..' . '/maennchen/zipstream-php/src/CentralDirectoryFileHeader.php',
         'ZipStream\\CompressionMethod' => __DIR__ . '/..' . '/maennchen/zipstream-php/src/CompressionMethod.php',
         'ZipStream\\DataDescriptor' => __DIR__ . '/..' . '/maennchen/zipstream-php/src/DataDescriptor.php',

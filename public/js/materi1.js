@@ -1,3 +1,50 @@
+// =====================================================
+// CEK APAKAH SISWA SUDAH MEMILIKI KELAS
+// =====================================================
+let userHasKelas = false;
+const kelasMeta = document.querySelector('meta[name="user-kelas-id"]');
+if (kelasMeta && kelasMeta.getAttribute('content') && kelasMeta.getAttribute('content') !== '') {
+    userHasKelas = true;
+}
+
+// Bungkus / override fungsi updateProgress agar tidak menyimpan jika belum punya kelas
+if (typeof window.updateProgress === 'undefined') {
+    window.updateProgress = function (materiId, checkpointCode, earnedPoints = 0) {
+        if (!userHasKelas) {
+            Swal.fire({
+                icon: 'info',
+                title: 'Progres Tidak Tersimpan',
+                text: 'Anda belum bergabung ke kelas. Progres latihan tidak akan disimpan. Silakan hubungi guru untuk bergabung ke kelas.',
+                confirmButtonColor: '#0d6efd'
+            });
+            return Promise.resolve();
+        }
+        // Kirim request ke server jika sudah punya kelas
+        return fetch('/progress/update', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+            },
+            body: JSON.stringify({ materi_id: materiId, checkpoint: checkpointCode, points: earnedPoints })
+        }).catch(err => console.error('Error update progress:', err));
+    };
+} else {
+    const originalUpdateProgress = window.updateProgress;
+    window.updateProgress = function (materiId, checkpointCode, earnedPoints = 0) {
+        if (!userHasKelas) {
+            Swal.fire({
+                icon: 'info',
+                title: 'Progres Tidak Tersimpan',
+                text: 'Anda belum bergabung ke kelas. Progres latihan tidak akan disimpan. Silakan hubungi guru untuk bergabung ke kelas.',
+                confirmButtonColor: '#0d6efd'
+            });
+            return Promise.resolve();
+        }
+        return originalUpdateProgress(materiId, checkpointCode, earnedPoints);
+    };
+}
+
 /* =====================================================
    1. NAVIGASI HALAMAN & SIDEBAR (MATERI 1)
 ===================================================== */
@@ -119,6 +166,7 @@ document.addEventListener('DOMContentLoaded', function () {
         document.getElementById('soal3_b2_val').value = 144;
     }
 });
+
 
 /* =====================================================
    2. MATERI 1: DRAG & DROP SISI
@@ -250,8 +298,13 @@ function initDragAndDropPage1() {
         if (correctCount === dropZones.length) {
             isGameLocked = true;
             checkBtn.disabled = true;
-            if (typeof updateProgress === 'function') updateProgress('materi_1_konsep_pythagoras', 'm1_cp2_dragdrop_sisi');
-            Swal.fire({ icon: 'success', title: 'Luar Biasa!', text: 'Kamu berhasil mencocokkan sisi-sisi segitiga siku-siku!', confirmButtonColor: '#198754' }).then(() => {
+            if (typeof updateProgress === 'function') updateProgress('materi_1_konsep_pythagoras', 'm1_cp2_dragdrop_sisi', 10);
+            Swal.fire({
+                icon: 'success',
+                title: '+10 Poin!',
+                html: 'Kamu berhasil mencocokkan sisi-sisi segitiga siku-siku!<br><small class="text-muted">Terus semangat belajar!</small>',
+                confirmButtonColor: '#198754'
+            }).then(() => {
                 const penguatan = document.getElementById('penguatan-materi-dragdrop');
                 if (penguatan) {
                     penguatan.classList.remove('d-none');
@@ -359,8 +412,14 @@ function initPageKuadrat() {
 
         attemptCount++;
         if (allCorrect) {
-            if (typeof updateProgress === 'function') updateProgress('materi_1_konsep_pythagoras', 'm1_cp3_tabel_kuadrat');
-            Swal.fire({ icon: 'success', title: 'Benar Semua!', text: 'Hebat! Kamu berhasil melengkapi pola bilangan kuadrat.', confirmButtonText: 'Lihat Pembahasan', confirmButtonColor: '#198754' }).then(() => {
+            if (typeof updateProgress === 'function') updateProgress('materi_1_konsep_pythagoras', 'm1_cp3_tabel_kuadrat', 10);
+            Swal.fire({
+                icon: 'success',
+                title: '+10 Poin!',
+                html: 'Hebat! Kamu berhasil melengkapi pola bilangan kuadrat.<br><small class="text-muted">Pertahankan prestasimu!</small>',
+                confirmButtonText: 'Lihat Pembahasan',
+                confirmButtonColor: '#198754'
+            }).then(() => {
                 checkBtn.disabled = true;
                 checkBtn.innerHTML = "Selesai";
                 allInputs.forEach(el => el.disabled = true);
@@ -454,8 +513,13 @@ function initPageAkar() {
 
         attemptCount++;
         if (allCorrect) {
-            if (typeof updateProgress === 'function') updateProgress('materi_1_konsep_pythagoras', 'm1_cp4_isian_akar');
-            Swal.fire({ icon: 'success', title: 'Luar Biasa!', text: 'Semua jawaban benar.', confirmButtonColor: '#198754' }).then(() => {
+            if (typeof updateProgress === 'function') updateProgress('materi_1_konsep_pythagoras', 'm1_cp4_isian_akar', 10);
+            Swal.fire({
+                icon: 'success',
+                title: '+10 Poin!',
+                html: 'Semua jawaban benar.<br><small class="text-muted">Luar biasa, teruslah berlatih!</small>',
+                confirmButtonColor: '#198754'
+            }).then(() => {
                 checkBtn.disabled = true;
                 container.querySelectorAll('input, select').forEach(el => el.disabled = true);
             });
@@ -557,8 +621,13 @@ function cekLatihanAnalisis1() {
 
     if (benarSemua) {
         document.getElementById('s1_feedback').innerText = "Tepat sekali!";
-        if (typeof updateProgress === 'function') updateProgress('materi_1_konsep_pythagoras', 'm1_cp13_latihan_1');
-        Swal.fire({ icon: 'success', title: 'Berhasil', text: 'Semua analisismu benar.', confirmButtonColor: '#198754' });
+        if (typeof updateProgress === 'function') updateProgress('materi_1_konsep_pythagoras', 'm1_cp13_latihan_1', 20);
+        Swal.fire({
+            icon: 'success',
+            title: '+20 Poin!',
+            html: 'Semua analisismu benar.<br><small class="text-muted">Keren! Kamu sangat teliti.</small>',
+            confirmButtonColor: '#198754'
+        });
     } else if (attemptLatihan1 >= MAX_ATTEMPT_LATIHAN) {
         Swal.fire({ icon: 'info', title: 'Kesempatan Habis', text: 'Mari kita lihat jawaban yang tepat.', confirmButtonText: 'Tampilkan Jawaban', confirmButtonColor: '#0d6efd', allowOutsideClick: false }).then(() => {
             if (tanya.value !== 'miring') {
@@ -757,8 +826,13 @@ function cekLatihanAnalisis2() {
 
     if (benarSemua) {
         if (document.getElementById('s2_feedback')) document.getElementById('s2_feedback').innerText = "Perhitungan Sempurna!";
-        if (typeof updateProgress === 'function') updateProgress('materi_1_konsep_pythagoras', 'm1_cp14_latihan_2');
-        Swal.fire({ icon: 'success', title: 'Berhasil', text: 'Susunan rumus dan perhitunganmu tepat.', confirmButtonColor: '#198754' });
+        if (typeof updateProgress === 'function') updateProgress('materi_1_konsep_pythagoras', 'm1_cp14_latihan_2', 20);
+        Swal.fire({
+            icon: 'success',
+            title: '+20 Poin!',
+            html: 'Susunan rumus dan perhitunganmu tepat.<br><small class="text-muted">Luar biasa, kamu menguasai materi!</small>',
+            confirmButtonColor: '#198754'
+        });
         return;
     }
 
@@ -946,8 +1020,13 @@ function cekLatihanAnalisis3() {
 
     if (benarSemua) {
         if (document.getElementById('s3_feedback')) document.getElementById('s3_feedback').innerText = "Sempurna!";
-        if (typeof updateProgress === 'function') updateProgress('materi_1_konsep_pythagoras', 'm1_cp15_latihan_3');
-        Swal.fire({ title: 'Berhasil!', text: 'Semua jawaban benar. Luar biasa!', icon: 'success', confirmButtonColor: '#198754' });
+        if (typeof updateProgress === 'function') updateProgress('materi_1_konsep_pythagoras', 'm1_cp15_latihan_3', 20);
+        Swal.fire({
+            icon: 'success',
+            title: '+20 Poin!',
+            html: 'Semua jawaban benar. Luar biasa!<br><small class="text-muted">Selamat! Kamu sudah mahir.</small>',
+            confirmButtonColor: '#198754'
+        });
     } else {
         if (attemptLatihan3 >= MAX_ATTEMPT_LATIHAN) {
             Swal.fire({ icon: 'info', title: 'Kesempatan Habis', text: 'Mari kita lihat jawaban yang benar.', confirmButtonText: 'Tampilkan Jawaban', confirmButtonColor: '#0d6efd', allowOutsideClick: false }).then(() => {
@@ -1292,8 +1371,13 @@ function checkQuizAnswers() {
         feedback.style.display = 'block';
         feedback.className = "alert alert-success border-success mt-4 text-center animate__animated animate__fadeInUp";
         feedback.innerHTML = `<h6 class="fw-bold mb-1">Semua Jawaban Benar!</h6><p class="mb-0 small">Selanjutnya kita memahami penamaan segitiga siku-siku.</p>`;
-        if (typeof updateProgress === 'function') updateProgress('materi_1_konsep_pythagoras', 'm1_cp6_kuis_canvas');
-        Swal.fire({ icon: 'success', title: 'Luar Biasa', text: 'Semua jawaban kuis kamu benar!', confirmButtonColor: '#198754' });
+        if (typeof updateProgress === 'function') updateProgress('materi_1_konsep_pythagoras', 'm1_cp6_kuis_canvas', 15);
+        Swal.fire({
+            icon: 'success',
+            title: '+15 Poin!',
+            html: 'Semua jawaban kuis kamu benar!<br><small class="text-muted">Kamu hebat, terus asah kemampuanmu!</small>',
+            confirmButtonColor: '#198754'
+        });
     } else {
         if (attemptQuiz >= MAX_ATTEMPT_LATIHAN) {
             Swal.fire({ icon: 'info', title: 'Kesempatan Habis', text: 'Mari kita lihat jawaban yang tepat.', confirmButtonColor: '#0d6efd', allowOutsideClick: false }).then(() => {
@@ -1335,7 +1419,7 @@ function cekJawabanSikusiku() {
     if (jawabanBersih === 'b' || jawabanBersih === 'titikb') {
         feedbackBenar.classList.remove('d-none');
         feedbackBenar.querySelector('.alert div').innerHTML = '<strong>Tepat Sekali</strong>. Sudut B memiliki ukuran tepat 90° dan disebut sudut siku-siku. Oleh karena itu, segitiga tersebut merupakan <strong>segitiga siku-siku</strong>, karena memiliki salah satu sudut yang ukurannya tepat 90°.';
-        if (typeof updateProgress === 'function') updateProgress('materi_1_konsep_pythagoras', 'm1_cp5_titik_siku');
+        if (typeof updateProgress === 'function') updateProgress('materi_1_konsep_pythagoras', 'm1_cp5_titik_siku', 10);
     } else {
         feedbackSalah.classList.remove('d-none');
         feedbackSalah.querySelector('.alert').className = 'alert alert-danger d-flex align-items-center py-2 mb-0';
@@ -1400,12 +1484,17 @@ function checkAllAnswers() {
 
     let feedbackEl = document.getElementById('final-feedback');
     if (totalErrors === 0) {
-        if (typeof updateProgress === 'function') updateProgress('materi_1_konsep_pythagoras', 'm1_cp7_tabel_penamaan_sisi');
+        if (typeof updateProgress === 'function') updateProgress('materi_1_konsep_pythagoras', 'm1_cp7_tabel_penamaan_sisi', 15);
         if (feedbackEl) {
             feedbackEl.className = "mt-3 fw-bold text-success";
             feedbackEl.innerHTML = "Luar Biasa! Semua jawabanmu benar.";
         }
-        Swal.fire({ icon: 'success', title: 'Luar Biasa!', text: 'Semua penamaan sisi segitiga benar. Kerja bagus!', confirmButtonColor: '#198754' });
+        Swal.fire({
+            icon: 'success',
+            title: '+15 Poin!',
+            html: 'Semua penamaan sisi segitiga benar. Kerja bagus!<br><small class="text-muted">Selamat! Kamu semakin paham.</small>',
+            confirmButtonColor: '#198754'
+        });
     } else if (attemptSisi >= MAX_ATTEMPT_LATIHAN) {
         Swal.fire({ icon: 'info', title: 'Kesempatan Habis', text: 'Mari kita lihat jawaban yang tepat.', confirmButtonText: 'Tampilkan Jawaban', confirmButtonColor: '#0d6efd', allowOutsideClick: false }).then(() => {
             sisiInputs.forEach(input => {
@@ -1473,12 +1562,17 @@ function cekTabelGeoGebra() {
 
     const feedbackBox = document.getElementById('feedbackTabelGeoGebra');
     if (benarSemua) {
-        if (typeof updateProgress === 'function') updateProgress('materi_1_konsep_pythagoras', 'm1_cp8_tabel_luas_geogebra');
+        if (typeof updateProgress === 'function') updateProgress('materi_1_konsep_pythagoras', 'm1_cp8_tabel_luas_geogebra', 15);
         if (feedbackBox) {
             feedbackBox.className = "mt-2 fw-bold text-success animate__animated animate__fadeInUp";
             feedbackBox.innerHTML = "Luar biasa! Perhitungan luas persegimu sangat tepat.";
         }
-        Swal.fire({ icon: 'success', title: 'Sempurna!', text: 'Kamu berhasil menjabarkan perhitungan luas ketiga persegi dengan konsep kuadrat yang benar.', confirmButtonColor: '#198754' });
+        Swal.fire({
+            icon: 'success',
+            title: '+15 Poin!',
+            html: 'Kamu berhasil menjabarkan perhitungan luas ketiga persegi dengan konsep kuadrat yang benar.<br><small class="text-muted">Mantap! Lanjutkan!</small>',
+            confirmButtonColor: '#198754'
+        });
     } else if (attemptTabelGeo >= MAX_ATTEMPT_LATIHAN) {
         Swal.fire({ icon: 'info', title: 'Kesempatan Habis', text: 'Mari kita lihat jawaban yang tepat.', confirmButtonText: 'Tampilkan Jawaban', confirmButtonColor: '#0d6efd', allowOutsideClick: false }).then(() => {
             for (let id in kunci) {
@@ -1541,7 +1635,7 @@ function cekPilihan(status, btn) {
         btn.classList.add('btn-success', 'text-white');
         feedbackBenar.classList.remove('d-none');
         boxPenjelasan.classList.remove('d-none');
-        if (typeof updateProgress === 'function') updateProgress('materi_1_konsep_pythagoras', 'm1_cp9_kesimpulan_luas');
+        if (typeof updateProgress === 'function') updateProgress('materi_1_konsep_pythagoras', 'm1_cp9_kesimpulan_luas', 10);
         setTimeout(() => boxPenjelasan.scrollIntoView({ behavior: 'smooth', block: 'center' }), 300);
     } else {
         btn.classList.add('btn-danger', 'text-white');
@@ -1574,7 +1668,7 @@ function cekJawabanPembuktian() {
     if (sisiKiriBenar && sisiKananBenar) {
         feedback.className = "alert alert-success";
         feedback.innerHTML = "<strong>Tepat Sekali!</strong> Kesimpulannya adalah c² = a² + b² (Teorema Pythagoras).";
-        if (typeof updateProgress === 'function') updateProgress('materi_1_konsep_pythagoras', 'm1_cp10_pembuktian_rumus');
+        if (typeof updateProgress === 'function') updateProgress('materi_1_konsep_pythagoras', 'm1_cp10_pembuktian_rumus', 15);
     } else if (attemptBukti >= MAX_ATTEMPT_LATIHAN) {
         Swal.fire({ icon: 'info', title: 'Kesempatan Habis', text: 'Mari kita lihat kesimpulan yang tepat.', confirmButtonText: 'Tampilkan Jawaban', confirmButtonColor: '#0d6efd', allowOutsideClick: false }).then(() => {
             j1.value = 'c';
@@ -1609,7 +1703,7 @@ function setValidasiElTripel(el, condition) {
         el = document.getElementById(el);
     }
     if (!el) return;
-    
+
     if (condition) {
         el.classList.add('is-valid');
         el.classList.remove('is-invalid');
@@ -1657,8 +1751,13 @@ function cekContoh1() {
     chk('c1_final', final === 5);
 
     if (benarSemua) {
-        if (typeof updateProgress === 'function') updateProgress('materi_1_konsep_pythagoras', 'm1_cp11_contoh_soal_1');
-        Swal.fire({ icon: 'success', title: 'Luar Biasa!', text: 'Jawaban kamu benar! Jarak yang ditempuh Ahmad adalah 5 meter.', confirmButtonColor: '#198754' });
+        if (typeof updateProgress === 'function') updateProgress('materi_1_konsep_pythagoras', 'm1_cp11_contoh_soal_1', 15);
+        Swal.fire({
+            icon: 'success',
+            title: '+15 Poin!',
+            html: 'Jawaban kamu benar! Jarak yang ditempuh Ahmad adalah 5 meter.<br><small class="text-muted">Hebat, kamu jago matematika!</small>',
+            confirmButtonColor: '#198754'
+        });
     } else if (attemptContoh1 >= MAX_ATTEMPT_LATIHAN) {
         Swal.fire({ icon: 'info', title: 'Kesempatan Habis', text: 'Mari kita lihat jawaban yang tepat.', confirmButtonText: 'Tampilkan Jawaban', confirmButtonColor: '#0d6efd', allowOutsideClick: false }).then(() => {
             const ans = { 'c1_dik_a': 3, 'c1_dik_b': 4, 'c1_step1_a': 3, 'c1_step1_b': 4, 'c1_step2_a_sq': 9, 'c1_step2_b_sq': 16, 'c1_step3_sum': 25, 'c1_step4_root': 25, 'c1_final': 5 };
@@ -1707,8 +1806,13 @@ function cekContoh2() {
     chk('c2_final', parseFloat(document.getElementById('c2_final').value) === 4);
 
     if (benarSemua) {
-        if (typeof updateProgress === 'function') updateProgress('materi_1_konsep_pythagoras', 'm1_cp12_contoh_soal_2');
-        Swal.fire({ icon: 'success', title: 'Kerja Bagus!', text: 'Kamu berhasil menyelesaikan soal bertingkat ini dengan benar.', confirmButtonColor: '#198754' });
+        if (typeof updateProgress === 'function') updateProgress('materi_1_konsep_pythagoras', 'm1_cp12_contoh_soal_2', 15);
+        Swal.fire({
+            icon: 'success',
+            title: '+15 Poin!',
+            html: 'Kamu berhasil menyelesaikan soal bertingkat ini dengan benar.<br><small class="text-muted">Pertahankan semangat belajarmu!</small>',
+            confirmButtonColor: '#198754'
+        });
     } else if (attemptContoh2 >= MAX_ATTEMPT_LATIHAN) {
         Swal.fire({ icon: 'info', title: 'Kesempatan Habis', text: 'Mari kita lihat jawaban yang tepat.', confirmButtonText: 'Tampilkan Jawaban', confirmButtonColor: '#0d6efd', allowOutsideClick: false }).then(() => {
             const ans = { 'c2_dik_ab': 13, 'c2_dik_ac': 12, 'c2_dik_cd': 3, 'c2_step1_ab': 13, 'c2_step1_ac': 12, 'c2_step1_res1': 169, 'c2_step1_res2': 144, 'c2_step1_sqrt': 25, 'c2_bc_result': 5, 'c2_step2_bc': 5, 'c2_step2_cd': 3, 'c2_step2_res1': 25, 'c2_step2_res2': 9, 'c2_step2_sqrt': 16, 'c2_final': 4 };
@@ -1786,7 +1890,7 @@ function cekJawabanSegitigaSikuSiku() {
             penjelasanBox.classList.remove('d-none');
             setTimeout(() => penjelasanBox.scrollIntoView({ behavior: 'smooth', block: 'nearest' }), 300);
         }
-        if (typeof updateProgress === 'function') updateProgress('materi_1_konsep_pythagoras', 'm1_cp1_segitiga_jembatan');
+        if (typeof updateProgress === 'function') updateProgress('materi_1_konsep_pythagoras', 'm1_cp1_segitiga_jembatan', 10);
     } else {
         feedback.classList.add('text-danger');
         feedback.innerHTML = 'Kurang tepat. Coba perhatikan kembali setiap sudut yang ada pada segitiga.';
@@ -1798,52 +1902,128 @@ function handleEnter(e) {
     if (e.key === "Enter") cekJawabanSegitigaSikuSiku();
 }
 
-
-// Fungsi untuk menangani refleksi
-function cekRefleksi() {
+// Jadikan fungsi ini 'async' agar bisa menggunakan 'await' saat memanggil Fetch API
+async function cekRefleksi() {
     const ref1Ya = document.getElementById('ref1_ya').checked;
     const ref1Tidak = document.getElementById('ref1_tidak').checked;
     const ref1Text = document.getElementById('ref1_text').value.trim();
     const ref2 = document.getElementById('ref2').value.trim();
     const ref3 = document.getElementById('ref3').value.trim();
 
-    // Validasi sederhana
+    // 1. Validasi sederhana (hanya memastikan tidak kosong)
     if (!ref1Ya && !ref1Tidak) {
-        Swal.fire({ icon: 'warning', title: 'Belum Lengkap', text: 'Pilih salah satu opsi pada refleksi 1.', confirmButtonColor: '#ffc107' });
+        Swal.fire({ icon: 'warning', title: 'Belum Lengkap', text: 'Pilih salah satu opsi pada pertanyaan nomor 1.', confirmButtonColor: '#ffc107' });
         return;
     }
     if (ref1Text === '') {
-        Swal.fire({ icon: 'warning', title: 'Belum Lengkap', text: 'Isi alasan pada refleksi 1.', confirmButtonColor: '#ffc107' });
+        Swal.fire({ icon: 'warning', title: 'Belum Lengkap', text: 'Tuliskan sedikit ceritamu di kotak alasan nomor 1 ya.', confirmButtonColor: '#ffc107' });
         return;
     }
     if (ref2 === '') {
-        Swal.fire({ icon: 'warning', title: 'Belum Lengkap', text: 'Isi refleksi 2.', confirmButtonColor: '#ffc107' });
+        Swal.fire({ icon: 'warning', title: 'Belum Lengkap', text: 'Ceritakan pemahamanmu di pertanyaan nomor 2.', confirmButtonColor: '#ffc107' });
         return;
     }
     if (ref3 === '') {
-        Swal.fire({ icon: 'warning', title: 'Belum Lengkap', text: 'Isi refleksi 3.', confirmButtonColor: '#ffc107' });
+        Swal.fire({ icon: 'warning', title: 'Belum Lengkap', text: 'Bagikan caramu menjelaskan ke teman di pertanyaan nomor 3.', confirmButtonColor: '#ffc107' });
         return;
     }
 
-    // Opsional: simpan ke localStorage atau kirim ke server
-    if (typeof updateProgress === 'function') {
-        updateProgress('materi_1_konsep_pythagoras', 'm1_cp16_refleksi_akhir');
+    // 2. Siapkan data yang akan dikirim ke Controller (Format JSON)
+    const dataRefleksi = {
+        kode_materi: 'materi_1_konsep_pythagoras', // Sesuaikan dengan materi saat ini
+        kesulitan: ref1Ya ? 'ya' : 'tidak',
+        cerita_kesulitan: ref1Text,
+        kesimpulan: ref2,
+        cara_menjelaskan: ref3
+    };
+
+    try {
+        // Ambil token CSRF wajib dari Laravel (pastikan ada tag <meta name="csrf-token" ...> di layout utamamu)
+        const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+
+        // Ubah teks tombol saat sedang proses loading
+        const btnSubmit = document.querySelector('button[onclick="cekRefleksi()"]');
+        const originalText = btnSubmit.innerText;
+        btnSubmit.innerText = "Menyimpan...";
+        btnSubmit.disabled = true;
+
+        // 3. Kirim data ke backend menggunakan Fetch API
+        const response = await fetch('/siswa/refleksi/simpan', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': csrfToken,
+                'Accept': 'application/json'
+            },
+            body: JSON.stringify(dataRefleksi)
+        });
+
+        const result = await response.json();
+
+        // 4. Jika berhasil disimpan di Database
+        if (response.ok) {
+            // Update Progress (Gamifikasi)
+            if (typeof updateProgress === 'function') {
+                updateProgress('materi_1_konsep_pythagoras', 'm1_cp16_refleksi_akhir', 10);
+            }
+
+            // Tampilkan pesan sukses
+            Swal.fire({
+                icon: 'success',
+                title: '+10 Poin!',
+                html: 'Refleksimu berhasil disimpan. Terima kasih sudah berbagi!<br><small class="text-muted">Kamu hebat!</small>',
+                confirmButtonColor: '#198754'
+            }).then(() => {
+                kunciFormRefleksi();
+            });
+
+        } else {
+            // Jika ada error dari validasi server
+            Swal.fire({ icon: 'error', title: 'Gagal Menyimpan', text: result.message || 'Terjadi kesalahan pada sistem.', confirmButtonColor: '#dc3545' });
+            btnSubmit.innerText = originalText;
+            btnSubmit.disabled = false;
+        }
+
+    } catch (error) {
+        // Jika koneksi internet putus atau server mati
+        console.error('Error pengiriman refleksi:', error);
+        Swal.fire({ icon: 'error', title: 'Koneksi Terputus', text: 'Gagal terhubung ke server. Periksa jaringan internetmu dan coba lagi.', confirmButtonColor: '#dc3545' });
+
+        const btnSubmit = document.querySelector('button[onclick="cekRefleksi()"]');
+        if (btnSubmit) {
+            btnSubmit.innerText = "Simpan Refleksi";
+            btnSubmit.disabled = false;
+        }
     }
+}
 
-    // Jika semua terisi, tampilkan pesan sukses
-    Swal.fire({ icon: 'success', title: 'Refleksi Tersimpan', text: 'Terima kasih telah mengisi refleksi.', confirmButtonColor: '#198754' });
+// Memisahkan logika penguncian agar bisa dipanggil oleh cekRefleksi() dan setupReviewMode()
+function kunciFormRefleksi() {
+    ['ref1_ya', 'ref1_tidak', 'ref1_text', 'ref2', 'ref3'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) {
+            el.disabled = true;
+            // Tambahkan class is-valid agar kotak berubah hijau sebagai tanda berhasil disimpan
+            el.classList.add('is-valid');
+        }
+    });
 
-    // Opsional: simpan ke localStorage atau kirim ke server
+    // Disable tombol simpan
+    const btn = document.querySelector('button[onclick="cekRefleksi()"]');
+    if (btn) {
+        btn.disabled = true;
+        btn.innerText = "Refleksi Tersimpan";
+    }
 }
 
 /* =====================================================
    FITUR MODE REVIEW & ULANGI LATIHAN (ANTI DOBEL AMAN)
 ===================================================== */
-window.setupReviewMode = function(checkpointCode, buttonSelector, showAnswerCallback, resetCallback) {
+window.setupReviewMode = function (checkpointCode, buttonSelector, showAnswerCallback, resetCallback) {
     if (window.completedCheckpoints && window.completedCheckpoints.includes(checkpointCode)) {
-        
-        const btnCek = document.querySelector(buttonSelector); 
-        if(!btnCek) return;
+
+        const btnCek = document.querySelector(buttonSelector);
+        if (!btnCek) return;
 
         // Jika tombol sudah punya stempel, hentikan agar tidak dobel!
         // (Ini sudah cukup mengamankan tanpa perlu menghapus elemen tetangga)
@@ -1851,7 +2031,7 @@ window.setupReviewMode = function(checkpointCode, buttonSelector, showAnswerCall
         btnCek.setAttribute('data-review-setup', 'true');
 
         // Eksekusi fungsi untuk menampilkan jawaban benar
-        if(typeof showAnswerCallback === 'function') {
+        if (typeof showAnswerCallback === 'function') {
             showAnswerCallback();
         }
 
@@ -1862,14 +2042,14 @@ window.setupReviewMode = function(checkpointCode, buttonSelector, showAnswerCall
         const container = btnCek.parentElement;
         const inputEl = container.querySelector('.form-control, .form-select');
         if (inputEl) {
-            inputEl.style.maxWidth = '250px'; 
+            inputEl.style.maxWidth = '250px';
             inputEl.style.borderTopRightRadius = '0.375rem';
             inputEl.style.borderBottomRightRadius = '0.375rem';
         }
 
         // Buat UI Review Baru (Badge Selesai & Tombol Ulangi)
         const reviewUI = document.createElement('div');
-        reviewUI.className = 'review-mode-ui mt-3 animate__animated animate__fadeIn'; 
+        reviewUI.className = 'review-mode-ui mt-3 animate__animated animate__fadeIn';
         reviewUI.innerHTML = `
             <div class="d-flex flex-column align-items-start">
                 <div class="alert alert-success border-success py-2 mb-0 shadow-sm" style="border-radius: 8px;">
@@ -1880,14 +2060,14 @@ window.setupReviewMode = function(checkpointCode, buttonSelector, showAnswerCall
                 </button>
             </div>
         `;
-        
+
         // Tempelkan tepat di bawah tombol target (tanpa menghapus punya latihan lain)
         btnCek.insertAdjacentElement('afterend', reviewUI);
 
         // Aksi Tombol Ulangi
-        reviewUI.querySelector('.btn-ulangi').addEventListener('click', function(e) {
-            e.preventDefault(); 
-            
+        reviewUI.querySelector('.btn-ulangi').addEventListener('click', function (e) {
+            e.preventDefault();
+
             Swal.fire({
                 title: 'Ulangi Latihan?',
                 text: 'Mengulang latihan tidak akan mengubah nilai progresmu. Lanjut?',
@@ -1899,14 +2079,14 @@ window.setupReviewMode = function(checkpointCode, buttonSelector, showAnswerCall
                 cancelButtonText: 'Batal'
             }).then((result) => {
                 if (result.isConfirmed) {
-                    if(typeof resetCallback === 'function') resetCallback();
-                    
+                    if (typeof resetCallback === 'function') resetCallback();
+
                     if (inputEl) {
-                        inputEl.style.maxWidth = ''; 
+                        inputEl.style.maxWidth = '';
                         inputEl.style.borderTopRightRadius = '';
                         inputEl.style.borderBottomRightRadius = '';
                     }
-                    
+
                     btnCek.style.display = 'inline-block';
                     btnCek.disabled = false;
                     btnCek.removeAttribute('data-review-setup');
@@ -1921,22 +2101,22 @@ window.setupReviewMode = function(checkpointCode, buttonSelector, showAnswerCall
    AKTIFASI MODE REVIEW UNTUK SETIAP LATIHAN
 ===================================================== */
 document.addEventListener('DOMContentLoaded', function () {
-    
+
     // Pastikan fungsi setupReviewMode sudah termuat dari script.js
     if (typeof window.setupReviewMode === 'function') {
-        
+
         // ---------------------------------------------------------
         // 1. Latihan: Menebak Jenis Segitiga (Halaman 1)
         // ---------------------------------------------------------
         window.setupReviewMode(
-            'm1_cp1_segitiga_jembatan', 
-            'button[onclick="cekJawabanSegitigaSikuSiku()"]', 
+            'm1_cp1_segitiga_jembatan',
+            'button[onclick="cekJawabanSegitigaSikuSiku()"]',
             function showAnswer() {
                 const input = document.getElementById('inputJawaban');
                 const penjelasanBox = document.getElementById('penjelasan-pythagoras');
                 if (input) {
-                    input.value = 'siku-siku'; 
-                    input.disabled = true;     
+                    input.value = 'siku-siku';
+                    input.disabled = true;
                     input.classList.add('is-valid', 'border-success');
                 }
                 if (penjelasanBox) penjelasanBox.classList.remove('d-none');
@@ -1946,8 +2126,8 @@ document.addEventListener('DOMContentLoaded', function () {
                 const penjelasanBox = document.getElementById('penjelasan-pythagoras');
                 const feedback = document.getElementById('feedbackPesan');
                 if (input) {
-                    input.value = ''; 
-                    input.disabled = false; 
+                    input.value = '';
+                    input.disabled = false;
                     input.classList.remove('is-valid', 'border-success');
                 }
                 if (feedback) feedback.innerHTML = '';
@@ -1959,16 +2139,16 @@ document.addEventListener('DOMContentLoaded', function () {
         // 2. Latihan: Drag & Drop Sisi Segitiga (Halaman 1)
         // ---------------------------------------------------------
         window.setupReviewMode(
-            'm1_cp2_dragdrop_sisi', 
-            '#check-matching', 
+            'm1_cp2_dragdrop_sisi',
+            '#check-matching',
             function showAnswer() {
                 const dragSource = document.getElementById('drag-source');
                 const dropZones = document.querySelectorAll('.drop-zone[data-correct]');
                 const resetBtn = document.getElementById('reset-matching'); // Tombol ulangi bawaan drag & drop
                 const penguatan = document.getElementById('penguatan-materi-dragdrop');
 
-                if(!dragSource || dropZones.length === 0) return;
-                
+                if (!dragSource || dropZones.length === 0) return;
+
                 // Isi otomatis jawaban yang benar
                 dropZones.forEach(zone => {
                     const correctVal = zone.getAttribute('data-correct');
@@ -2015,33 +2195,33 @@ document.addEventListener('DOMContentLoaded', function () {
         // 3. Latihan: Tabel Bilangan Kuadrat (Halaman 2)
         // ---------------------------------------------------------
         window.setupReviewMode(
-            'm1_cp3_tabel_kuadrat', 
-            '#btnCekKuadrat', 
+            'm1_cp3_tabel_kuadrat',
+            '#btnCekKuadrat',
             function showAnswer() {
                 const container = document.getElementById('kuadrat-container');
                 const penguatan = document.getElementById('penguatan-materi');
-                if(!container) return;
-                
+                if (!container) return;
+
                 container.querySelectorAll('.input-kuadrat').forEach(input => {
                     input.value = input.getAttribute('data-answer');
                     input.classList.remove('is-invalid');
                     input.classList.add('is-valid');
                     input.disabled = true;
                 });
-                
+
                 if (penguatan) penguatan.classList.remove('d-none');
             },
             function resetExercise() {
                 const container = document.getElementById('kuadrat-container');
                 const penguatan = document.getElementById('penguatan-materi');
-                if(!container) return;
-                
+                if (!container) return;
+
                 container.querySelectorAll('.input-kuadrat').forEach(input => {
                     input.value = '';
                     input.classList.remove('is-valid', 'is-invalid');
                     input.disabled = false;
                 });
-                
+
                 if (penguatan) penguatan.classList.add('d-none');
             }
         );
@@ -2050,12 +2230,12 @@ document.addEventListener('DOMContentLoaded', function () {
         // 4. Latihan: Akar Kuadrat (Halaman 2)
         // ---------------------------------------------------------
         window.setupReviewMode(
-            'm1_cp4_isian_akar', 
-            '#btnCekAkar', 
+            'm1_cp4_isian_akar',
+            '#btnCekAkar',
             function showAnswer() {
                 const container = document.getElementById('akar-container');
-                if(!container) return;
-                
+                if (!container) return;
+
                 container.querySelectorAll('.input-akar').forEach(input => {
                     input.value = input.getAttribute('data-answer');
                     input.classList.remove('is-invalid');
@@ -2065,8 +2245,8 @@ document.addEventListener('DOMContentLoaded', function () {
             },
             function resetExercise() {
                 const container = document.getElementById('akar-container');
-                if(!container) return;
-                
+                if (!container) return;
+
                 container.querySelectorAll('.input-akar').forEach(input => {
                     input.value = '';
                     input.classList.remove('is-valid', 'is-invalid');
@@ -2138,8 +2318,8 @@ document.addEventListener('DOMContentLoaded', function () {
                 }
             },
             function resetExercise() {
-                if(typeof resetCanvas === 'function') resetCanvas(); // Panggil fungsi reset canvas bawaanmu
-                
+                if (typeof resetCanvas === 'function') resetCanvas(); // Panggil fungsi reset canvas bawaanmu
+
                 const q1 = document.getElementById('q1');
                 const q2 = document.getElementById('q2');
                 const q3 = document.getElementById('q3');
@@ -2165,7 +2345,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 const sisiInputs = document.querySelectorAll('.sisi-input');
                 const ruasInputs = document.querySelectorAll('.input-ruas');
                 const titikInputs = document.querySelectorAll('.input-titik');
-                
+
                 sisiInputs.forEach(input => {
                     input.value = input.getAttribute('data-answer');
                     input.classList.add('is-valid');
@@ -2241,7 +2421,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 if (feedbackBox) feedbackBox.innerHTML = '';
             }
         );
-        
+
         // ---------------------------------------------------------
         // 9. Latihan: Soal 1 (Persegi Terbesar)
         // ---------------------------------------------------------
@@ -2263,7 +2443,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     const row1 = btnSoal1.closest('.row');
                     // Matikan semua tombol
                     row1.querySelectorAll('.btn-soal1').forEach(btn => {
-                        btn.disabled = true; 
+                        btn.disabled = true;
                         btn.classList.remove('btn-success', 'text-white');
                         btn.classList.add('btn-outline-success');
                     });
@@ -2281,9 +2461,9 @@ document.addEventListener('DOMContentLoaded', function () {
                 if (btnSoal1) {
                     const row1 = btnSoal1.closest('.row');
                     row1.querySelectorAll('.btn-soal1').forEach(btn => {
-                        btn.disabled = false; 
+                        btn.disabled = false;
                         btn.classList.remove('btn-success', 'btn-danger', 'text-white');
-                        btn.classList.add('btn-outline-success'); 
+                        btn.classList.add('btn-outline-success');
                     });
                 }
                 const fbSalah1 = document.getElementById('feedbackSalah1');
@@ -2297,7 +2477,7 @@ document.addEventListener('DOMContentLoaded', function () {
         // ---------------------------------------------------------
         const boxPenjelasan = document.getElementById('boxPenjelasanAkhir');
         const fbBenar2 = document.getElementById('feedbackBenar');
-        
+
         if (boxPenjelasan && !document.getElementById('dummy-btn-s2')) {
             const dummy2 = document.createElement('button');
             dummy2.id = 'dummy-btn-s2';
@@ -2313,7 +2493,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 if (btnPilihan) {
                     const row2 = btnPilihan.closest('.row');
                     row2.querySelectorAll('.btn-pilihan').forEach(btn => {
-                        btn.disabled = true; 
+                        btn.disabled = true;
                         btn.classList.remove('btn-success', 'text-white');
                         btn.classList.add('btn-outline-success');
                     });
@@ -2332,9 +2512,9 @@ document.addEventListener('DOMContentLoaded', function () {
                 if (btnPilihan) {
                     const row2 = btnPilihan.closest('.row');
                     row2.querySelectorAll('.btn-pilihan').forEach(btn => {
-                        btn.disabled = false; 
+                        btn.disabled = false;
                         btn.classList.remove('btn-success', 'btn-danger', 'text-white');
-                        btn.classList.add('btn-outline-success'); 
+                        btn.classList.add('btn-outline-success');
                     });
                 }
                 const fbSalah2 = document.getElementById('feedbackSalah');
@@ -2352,10 +2532,10 @@ document.addEventListener('DOMContentLoaded', function () {
             'button[onclick="cekContoh1()"]',
             function showAnswer() {
                 const ans1 = {
-                    'c1_dik_a': 3, 'c1_dik_b': 4, 
-                    'c1_step1_a': 3, 'c1_step1_b': 4, 
-                    'c1_step2_a_sq': 9, 'c1_step2_b_sq': 16, 
-                    'c1_step3_sum': 25, 'c1_step4_root': 25, 
+                    'c1_dik_a': 3, 'c1_dik_b': 4,
+                    'c1_step1_a': 3, 'c1_step1_b': 4,
+                    'c1_step2_a_sq': 9, 'c1_step2_b_sq': 16,
+                    'c1_step3_sum': 25, 'c1_step4_root': 25,
                     'c1_final': 5
                 };
                 for (let id in ans1) {
@@ -2395,12 +2575,12 @@ document.addEventListener('DOMContentLoaded', function () {
             'button[onclick="cekContoh2()"]',
             function showAnswer() {
                 const ans2 = {
-                    'c2_dik_ab': 13, 'c2_dik_ac': 12, 'c2_dik_cd': 3, 
-                    'c2_step1_ab': 13, 'c2_step1_ac': 12, 
-                    'c2_step1_res1': 169, 'c2_step1_res2': 144, 'c2_step1_sqrt': 25, 
-                    'c2_bc_result': 5, 
-                    'c2_step2_bc': 5, 'c2_step2_cd': 3, 
-                    'c2_step2_res1': 25, 'c2_step2_res2': 9, 'c2_step2_sqrt': 16, 
+                    'c2_dik_ab': 13, 'c2_dik_ac': 12, 'c2_dik_cd': 3,
+                    'c2_step1_ab': 13, 'c2_step1_ac': 12,
+                    'c2_step1_res1': 169, 'c2_step1_res2': 144, 'c2_step1_sqrt': 25,
+                    'c2_bc_result': 5,
+                    'c2_step2_bc': 5, 'c2_step2_cd': 3,
+                    'c2_step2_res1': 25, 'c2_step2_res2': 9, 'c2_step2_sqrt': 16,
                     'c2_final': 4
                 };
                 for (let id in ans2) {
@@ -2442,35 +2622,35 @@ document.addEventListener('DOMContentLoaded', function () {
                 const tanya = document.getElementById('s1_tanya');
                 const diket1 = document.getElementById('s1_diketahui_1');
                 const diket2 = document.getElementById('s1_diketahui_2');
-                
-                if(tanya) { tanya.value = 'miring'; tanya.disabled = true; tanya.classList.add('is-valid', 'border-success'); }
-                if(diket1) { diket1.value = 'AB'; diket1.disabled = true; diket1.classList.add('is-valid', 'border-success'); }
-                if(diket2) { diket2.value = 'BC'; diket2.disabled = true; diket2.classList.add('is-valid', 'border-success'); }
-                
+
+                if (tanya) { tanya.value = 'miring'; tanya.disabled = true; tanya.classList.add('is-valid', 'border-success'); }
+                if (diket1) { diket1.value = 'AB'; diket1.disabled = true; diket1.classList.add('is-valid', 'border-success'); }
+                if (diket2) { diket2.value = 'BC'; diket2.disabled = true; diket2.classList.add('is-valid', 'border-success'); }
+
                 const btnGroups = document.getElementById('s1_tanya').closest('.card-body').querySelectorAll('.row.g-2, .row.g-3');
-                if(btnGroups[0]) {
+                if (btnGroups[0]) {
                     btnGroups[0].querySelectorAll('button').forEach(b => { b.disabled = true; b.classList.replace('btn-dark', 'btn-outline-dark'); });
                     const correct1 = btnGroups[0].querySelector('[onclick*="benar"]');
-                    if(correct1) { correct1.classList.replace('btn-outline-dark', 'btn-success'); correct1.classList.add('text-white'); }
+                    if (correct1) { correct1.classList.replace('btn-outline-dark', 'btn-success'); correct1.classList.add('text-white'); }
                 }
-                if(btnGroups[1]) {
+                if (btnGroups[1]) {
                     btnGroups[1].querySelectorAll('button').forEach(b => { b.disabled = true; b.classList.replace('btn-dark', 'btn-outline-dark'); });
                     const correct2 = btnGroups[1].querySelector('[onclick*="benar"]');
-                    if(correct2) { correct2.classList.replace('btn-outline-dark', 'btn-success'); correct2.classList.add('text-white'); }
+                    if (correct2) { correct2.classList.replace('btn-outline-dark', 'btn-success'); correct2.classList.add('text-white'); }
                 }
-                
+
                 const fb = document.getElementById('s1_feedback');
-                if(fb) fb.innerText = "Tepat sekali!";
+                if (fb) fb.innerText = "Tepat sekali!";
             },
             function resetExercise() {
                 const tanya = document.getElementById('s1_tanya');
                 const diket1 = document.getElementById('s1_diketahui_1');
                 const diket2 = document.getElementById('s1_diketahui_2');
-                
+
                 [tanya, diket1, diket2].forEach(el => {
                     if (el) { el.value = ''; el.disabled = false; el.classList.remove('is-valid', 'border-success'); }
                 });
-                
+
                 const btnGroups = document.getElementById('s1_tanya').closest('.card-body').querySelectorAll('.row.g-2, .row.g-3');
                 btnGroups.forEach(group => {
                     group.querySelectorAll('button').forEach(b => {
@@ -2480,9 +2660,9 @@ document.addEventListener('DOMContentLoaded', function () {
                         b.dataset.status = 'salah';
                     });
                 });
-                
+
                 const fb = document.getElementById('s1_feedback');
-                if(fb) fb.innerText = "";
+                if (fb) fb.innerText = "";
             }
         );
 
@@ -2522,9 +2702,9 @@ document.addEventListener('DOMContentLoaded', function () {
                 };
                 fillDrop('s2_diketahui_mn', '15cm'); fillDrop('s2_diketahui_no', '8cm'); fillDrop('s2_ditanya', 'tanya');
                 fillDrop('s2_rumus_miring', 'MO'); fillDrop('s2_rumus_tegak1', 'MN'); fillDrop('s2_rumus_tegak2', 'NO');
-                
+
                 const fb = document.getElementById('s2_feedback');
-                if(fb) fb.innerText = "Perhitungan Sempurna!";
+                if (fb) fb.innerText = "Perhitungan Sempurna!";
             },
             function resetExercise() {
                 const inputsText = document.querySelectorAll('#s2_inp_mo_1, #s2_inp_mo_2, #s2_inp_mo_3, #s2_inp_mo_4, #s2_inp_mn, #s2_inp_no, #s2_res_mn_sq, #s2_res_no_sq, #s2_res_sum, #s2_res_sqrt, #s2_final');
@@ -2533,7 +2713,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     el.disabled = false;
                     el.classList.remove('is-valid', 'border-success', 'text-success', 'is-invalid', 'border-danger', 'text-danger');
                 });
-                
+
                 const dragSrc = document.getElementById('drag-items-container');
                 document.querySelectorAll('[data-target^="s2_"]').forEach(zone => {
                     const item = zone.querySelector('.draggable-item');
@@ -2544,9 +2724,9 @@ document.addEventListener('DOMContentLoaded', function () {
                     zone.classList.remove('border-success', 'is-valid', 'border-danger');
                     zone.style.borderStyle = 'dashed';
                 });
-                
+
                 const fb = document.getElementById('s2_feedback');
-                if(fb) fb.innerText = "";
+                if (fb) fb.innerText = "";
             }
         );
 
@@ -2571,7 +2751,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     s3_ab_sq1: 16, s3_ab_sq2: 12, s3_ab_sum1: 256, s3_ab_sum2: 144, s3_ab_total: 400, s3_ab_sqrt_val: 400, s3_ab_final: 20,
                     s3_bc_sq1: 25, s3_bc_sq2: 20, s3_bc_diff1: 625, s3_bc_diff2: 400, s3_bc_total: 225, s3_bc_sqrt_val: 225, s3_bc_final: 15
                 };
-                for(let id in ans) checkAndFix(id, ans[id]);
+                for (let id in ans) checkAndFix(id, ans[id]);
 
                 const fillDrop = (target, correctVal) => {
                     const zone = document.querySelector(`[data-target="${target}"]`);
@@ -2589,27 +2769,24 @@ document.addEventListener('DOMContentLoaded', function () {
                 };
                 fillDrop('s3_diket_ae', '24'); fillDrop('s3_diket_ce', '7'); fillDrop('s3_diket_ad', '16'); fillDrop('s3_diket_bd', '12'); fillDrop('s3_ditanya', 'BC');
                 fillDrop('s3_ac_drop1', 'AE'); fillDrop('s3_ac_drop2', 'CE'); fillDrop('s3_ab_drop1', 'AD'); fillDrop('s3_ab_drop2', 'BD'); fillDrop('s3_bc_drop1', 'AC'); fillDrop('s3_bc_drop2', 'AB');
-                
+
                 const fb = document.getElementById('s3_feedback');
-                if(fb) fb.innerText = "Sempurna!";
+                if (fb) fb.innerText = "Sempurna!";
             },
             function resetExercise() {
                 // Beruntungnya kamu sudah bikin fungsi global resetSoal3(), tinggal panggil!
-                if(typeof resetSoal3 === 'function') resetSoal3();
+                if (typeof resetSoal3 === 'function') resetSoal3();
             }
         );
         // ---------------------------------------------------------
         // 16. Refleksi
         // ---------------------------------------------------------
-        // Catatan: Pastikan saat submit refleksi, fungsi updateProgress('materi_1_konsep_pythagoras', 'm1_cp16_refleksi') dipanggil di cekRefleksi()
         window.setupReviewMode(
-            'm1_cp16_refleksi_akhir', // Pastikan ID ini ada di database jika mau dikunci
+            'm1_cp16_refleksi_akhir',
             'button[onclick="cekRefleksi()"]',
             function showAnswer() {
-                ['ref1_ya', 'ref1_tidak', 'ref1_text', 'ref2', 'ref3'].forEach(id => {
-                    const el = document.getElementById(id);
-                    if (el) { el.disabled = true; el.classList.add('is-valid'); }
-                });
+                // Panggil fungsi kunci yang sama agar konsisten
+                kunciFormRefleksi();
             },
             function resetExercise() {
                 ['ref1_ya', 'ref1_tidak'].forEach(id => {
@@ -2620,6 +2797,12 @@ document.addEventListener('DOMContentLoaded', function () {
                     const el = document.getElementById(id);
                     if (el) { el.disabled = false; el.value = ''; el.classList.remove('is-valid'); }
                 });
+
+                const btn = document.querySelector('button[onclick="cekRefleksi()"]');
+                if (btn) {
+                    btn.disabled = false;
+                    btn.innerText = "Simpan Refleksi";
+                }
             }
         );
 

@@ -6,136 +6,42 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Kelas;
-use App\Models\progres_siswa; 
-use App\Models\HasilPengerjaan; 
-use App\Models\PaketSoal; 
-use App\Models\Badge; // PASTIKAN IMPORT MODEL BADGE
+use App\Models\progres_siswa; // Sesuaikan nama model Anda (misal: ProgresSiswa)
+use App\Models\HasilPengerjaan;
+use App\Models\PaketSoal;
+use App\Models\Badge;
+use Illuminate\Support\Facades\Auth;
 
 class PencapaianSiswaController extends Controller
 {
     public function index()
     {
-        $kelasList = Kelas::orderBy('nama_kelas', 'asc')->get();
-        // Leaderboard tidak lagi dihitung di sini, sudah pindah ke AJAX
-        $badges = Badge::withCount('users')->get(); 
+        $guruId = Auth::id();
+        // Hanya kelas yang diampu oleh guru ini
+        $kelasList = Kelas::where('guru_id', $guruId)->orderBy('nama_kelas', 'asc')->get();
+        $badges = Badge::withCount('users')->get();
 
-        return view('guru.pencapaian_siswa', compact('kelasList', 'badges')); 
-    }
-
-
-    private function hitungRataRataSiswa($siswa, $semuaPaket, $kkm)
-    {
-        $totalNilaiResmi = 0;
-        $jumlahPaketDikerjakan = 0;
-
-        foreach ($semuaPaket as $paket) {
-            $riwayat = HasilPengerjaan::where('user_id', $siswa->id)
-                        ->where('paket_soal_id', $paket->id)
-                        ->whereNotNull('waktu_selesai')
-                        ->orderBy('created_at', 'asc')
-                        ->get();
-
-            if ($riwayat->count() > 0) {
-                $skorPertama = $riwayat->first()->skor_akhir;
-                $nilaiFix = ($skorPertama >= $kkm) ? $skorPertama : min(max($riwayat->max('skor_akhir'), 0), $kkm);
-                
-                $totalNilaiResmi += $nilaiFix;
-                $jumlahPaketDikerjakan++;
-            }
-        }
-
-        return $jumlahPaketDikerjakan > 0 ? round($totalNilaiResmi / $jumlahPaketDikerjakan, 2) : 0;
-    }
-
-    private function formatPeringkat($rank)
-    {
-        if ($rank == 1) {
-            return '<span class="fs-4">🥇</span> 1';
-        } elseif ($rank == 2) {
-            return '<span class="fs-5">🥈</span> 2';
-        } elseif ($rank == 3) {
-            return '<span class="fs-5">🥉</span> 3';
-        }
-        return (string) $rank;
+        return view('guru.pencapaian_siswa', compact('kelasList', 'badges'));
     }
 
     // ==========================================
-    // FUNGSI BARU UNTUK DATATABLES LEADERBOARD
+    // DATA UNTUK TAB PROGRES (DataTables)
     // ==========================================
-    public function dataLeaderboard(Request $request)
-    {
-        // Query siswa
-        $query = User::where('role', 'siswa')->with('kelas');
-        
-        if ($request->filled('kelas_id')) {
-            $query->where('kelas_id', $request->kelas_id);
-        }
-        
-        $semuaSiswa = $query->get();
-        
-        // Kumpulkan data mentah
-        $leaderboardData = [];
-        foreach ($semuaSiswa as $siswa) {
-            $leaderboardData[] = [
-                'id' => $siswa->id,
-                'nama' => $siswa->name,
-                'kelas' => $siswa->kelas?->nama_kelas ?? 'Belum Masuk Kelas',
-                // Asumsi poin disimpan di kolom 'point' pada tabel users.
-                // Jika namanya 'points' atau 'skor', silakan disesuaikan.
-                'points' => $siswa->points ?? 0, 
-            ];
-        }
-
-        // Urutkan berdasarkan points tertinggi
-        $leaderboardSorted = collect($leaderboardData)
-            ->sortByDesc('points')
-            ->values()
-            ->toArray();
-
-        // Format untuk DataTables
-        $formattedData = [];
-        foreach ($leaderboardSorted as $index => $item) {
-            $rank = $index + 1;
-            $formattedData[] = [
-                'peringkat' => $this->formatPeringkat($rank),
-                'nama' => '<span class="fw-bold">' . e($item['nama']) . '</span>',
-                'kelas' => '<span class="badge bg-light text-dark border">' . e($item['kelas']) . '</span>',
-                // Mengubah UI rata-rata menjadi UI Point (Bisa ditambah icon bintang/koin)
-                'points' => '<span class="fw-bold fs-6">' . number_format($item['points'], 0, ',', '.') . ' Pts</span>',
-            ];
-        }
-
-        return response()->json(['data' => $formattedData]);
-    }
-
-    // ==========================================
-    // FUNGSI BARU UNTUK MODAL BADGES
-    // ==========================================
-    public function detailBadge($badge_id)
-    {
-        $badge = Badge::with(['users' => function($query) {
-            $query->select('users.id', 'users.name', 'users.kelas_id')->with('kelas');
-        }])->findOrFail($badge_id);
-
-        $peraih = $badge->users->map(function($user) {
-            return [
-                'nama' => $user->name,
-                'kelas' => $user->kelas ? $user->kelas->nama_kelas : 'Tanpa Kelas'
-            ];
-        });
-
-        return response()->json([
-            'nama_badge' => $badge->name,
-            // DI SINI KITA UBAH NAMA KOLOM DAN FOLDERNYA:
-            'gambar_badge' => $badge->image_path ? asset('images/badges/' . $badge->image_path) : null, 
-            'peraih' => $peraih
-        ]);
-    }
     public function data(Request $request)
     {
-        $query = User::with('kelas')->where('role', 'siswa');
+        $guruId = Auth::id();
+        $kelasIds = Kelas::where('guru_id', $guruId)->pluck('id')->toArray();
 
-        if ($request->has('kelas_id') && $request->kelas_id != '') {
+        // Jika guru tidak punya kelas, kembalikan data kosong
+        if (empty($kelasIds)) {
+            return response()->json(['data' => []]);
+        }
+
+        $query = User::with('kelas')
+            ->where('role', 'siswa')
+            ->whereIn('kelas_id', $kelasIds);
+
+        if ($request->filled('kelas_id') && in_array($request->kelas_id, $kelasIds)) {
             $query->where('kelas_id', $request->kelas_id);
         }
 
@@ -145,33 +51,32 @@ class PencapaianSiswaController extends Controller
         // Definisikan jumlah checkpoint per materi
         $totalCheckpoint = [
             'materi_1_konsep_pythagoras'   => 16,
-            'materi_2_tripel_pythagoras'   => 7,
-            'materi_3_segitiga_istimewa'   => 10,
+            'materi_2_tripel_pythagoras'   => 8,
+            'materi_3_segitiga_istimewa'   => 6,
             'materi_4_penerapan_pythagoras' => 8,
         ];
 
         $semuaPaket = PaketSoal::orderBy('id', 'asc')->get();
 
         foreach ($siswa as $index => $s) {
-            // --- Hitung progres setiap materi ---
+            // Hitung progres setiap materi
             $totalMateriPersen = 0;
             foreach ($totalCheckpoint as $materiId => $total) {
                 $selesai = progres_siswa::where('user_id', $s->id)
-                            ->where('materi_id', $materiId)
-                            ->count();
+                    ->where('materi_id', $materiId)
+                    ->count();
                 $persen = ($total > 0) ? round(($selesai / $total) * 100) : 0;
                 $persen = min($persen, 100);
                 $totalMateriPersen += $persen;
             }
 
-            // --- Hitung status kuis ---
-            $progKuis = [0, 0, 0, 0, 0]; // indeks 0=kuis1,1=kuis2,2=kuis3,3=kuis4,4=eval
+            // Hitung status kuis
+            $progKuis = [0, 0, 0, 0, 0];
             foreach ($semuaPaket as $paket) {
                 $namaPaket = strtolower($paket->nama_paket ?? $paket->judul);
                 $sudahMengerjakan = HasilPengerjaan::where('paket_soal_id', $paket->id)
-                                    ->where('user_id', $s->id)
-                                    ->exists();
-
+                    ->where('user_id', $s->id)
+                    ->exists();
                 if ($sudahMengerjakan) {
                     if (str_contains($namaPaket, 'kuis 1')) $progKuis[0] = 100;
                     elseif (str_contains($namaPaket, 'kuis 2')) $progKuis[1] = 100;
@@ -182,12 +87,10 @@ class PencapaianSiswaController extends Controller
             }
             $totalKuisPersen = array_sum($progKuis);
 
-            // --- Total keseluruhan (4 materi + 5 kuis) ---
             $totalSemuaPersen = $totalMateriPersen + $totalKuisPersen;
-            $jumlahKomponen = count($totalCheckpoint) + 5; // 9
+            $jumlahKomponen = count($totalCheckpoint) + 5;
             $percentage = round($totalSemuaPersen / $jumlahKomponen);
 
-            // --- Render progress bar ---
             $progressBar = '
                 <div class="d-flex align-items-center">
                     <span class="me-2 fw-bold text-dark" style="min-width:35px;">' . $percentage . '%</span>
@@ -214,24 +117,85 @@ class PencapaianSiswaController extends Controller
         return response()->json(['data' => $data]);
     }
 
+    // ==========================================
+    // DATA UNTUK TAB LEADERBOARD (DataTables)
+    // ==========================================
+    public function dataLeaderboard(Request $request)
+    {
+        $guruId = Auth::id();
+        $kelasIds = Kelas::where('guru_id', $guruId)->pluck('id')->toArray();
+
+        if (empty($kelasIds)) {
+            return response()->json(['data' => []]);
+        }
+
+        $query = User::where('role', 'siswa')->with('kelas')
+            ->whereIn('kelas_id', $kelasIds);
+
+        if ($request->filled('kelas_id') && in_array($request->kelas_id, $kelasIds)) {
+            $query->where('kelas_id', $request->kelas_id);
+        }
+
+        $semuaSiswa = $query->get();
+
+        $leaderboardData = [];
+        foreach ($semuaSiswa as $siswa) {
+            $leaderboardData[] = [
+                'id' => $siswa->id,
+                'nama' => $siswa->name,
+                'kelas' => $siswa->kelas?->nama_kelas ?? 'Belum Masuk Kelas',
+                'points' => $siswa->points ?? 0,
+            ];
+        }
+
+        // Urutkan berdasarkan points tertinggi
+        $leaderboardSorted = collect($leaderboardData)
+            ->sortByDesc('points')
+            ->values()
+            ->toArray();
+
+        $formattedData = [];
+        foreach ($leaderboardSorted as $index => $item) {
+            $rank = $index + 1;
+            $formattedData[] = [
+                'peringkat' => $this->formatPeringkat($rank),
+                'nama' => '<span class="fw-bold">' . e($item['nama']) . '</span>',
+                'kelas' => '<span class="badge bg-light text-dark border">' . e($item['kelas']) . '</span>',
+                'points' => '<span class="fw-bold fs-6">' . number_format($item['points'], 0, ',', '.') . ' Pts</span>',
+            ];
+        }
+
+        return response()->json(['data' => $formattedData]);
+    }
+
+    // ==========================================
+    // DETAIL PROGRES SISWA (Modal)
+    // ==========================================
     public function detail($user_id)
     {
+        $guruId = Auth::id();
+        $kelasIds = Kelas::where('guru_id', $guruId)->pluck('id')->toArray();
+
         $siswa = User::with('kelas')->findOrFail($user_id);
+
+        // Pastikan siswa berada di kelas yang diampu guru
+        if (!in_array($siswa->kelas_id, $kelasIds)) {
+            abort(403, 'Anda tidak berhak melihat detail siswa ini.');
+        }
 
         // Definisikan jumlah checkpoint per materi
         $totalCheckpoint = [
             'materi_1_konsep_pythagoras'   => 16,
             'materi_2_tripel_pythagoras'   => 8,
-            'materi_3_segitiga_istimewa'   => 10,
+            'materi_3_segitiga_istimewa'   => 6,
             'materi_4_penerapan_pythagoras' => 8,
         ];
 
-        // Hitung persentase setiap materi
         $persenMateri = [];
         foreach ($totalCheckpoint as $materiId => $total) {
             $selesai = progres_siswa::where('user_id', $user_id)
-                        ->where('materi_id', $materiId)
-                        ->count();
+                ->where('materi_id', $materiId)
+                ->count();
             $persen = ($total > 0) ? round(($selesai / $total) * 100) : 0;
             $persen = min($persen, 100);
             $persenMateri[$materiId] = $persen;
@@ -250,30 +214,21 @@ class PencapaianSiswaController extends Controller
         foreach ($semuaPaket as $paket) {
             $namaPaket = strtolower($paket->nama_paket ?? $paket->judul);
             $sudahMengerjakan = HasilPengerjaan::where('paket_soal_id', $paket->id)
-                                ->where('user_id', $user_id)
-                                ->exists();
-
+                ->where('user_id', $user_id)
+                ->exists();
             if ($sudahMengerjakan) {
-                if (str_contains($namaPaket, 'kuis 1')) {
-                    $progKuis['kuis1'] = 100;
-                } elseif (str_contains($namaPaket, 'kuis 2')) {
-                    $progKuis['kuis2'] = 100;
-                } elseif (str_contains($namaPaket, 'kuis 3')) {
-                    $progKuis['kuis3'] = 100;
-                } elseif (str_contains($namaPaket, 'kuis 4')) {
-                    $progKuis['kuis4'] = 100;
-                } elseif (str_contains($namaPaket, 'evaluasi')) {
-                    $progKuis['eval'] = 100;
-                }
+                if (str_contains($namaPaket, 'kuis 1')) $progKuis['kuis1'] = 100;
+                elseif (str_contains($namaPaket, 'kuis 2')) $progKuis['kuis2'] = 100;
+                elseif (str_contains($namaPaket, 'kuis 3')) $progKuis['kuis3'] = 100;
+                elseif (str_contains($namaPaket, 'kuis 4')) $progKuis['kuis4'] = 100;
+                elseif (str_contains($namaPaket, 'evaluasi')) $progKuis['eval'] = 100;
             }
         }
 
-        // Hitung total progres keseluruhan
         $totalSemuaPersen = array_sum($persenMateri) + array_sum($progKuis);
-        $jumlahKomponen = count($persenMateri) + count($progKuis); // 9
+        $jumlahKomponen = count($persenMateri) + count($progKuis);
         $totalProgressKeseluruhan = round($totalSemuaPersen / $jumlahKomponen);
 
-        // Susun data untuk response
         $detailData = [
             'nama'       => $siswa->name,
             'identitas'  => $siswa->email,
@@ -301,29 +256,65 @@ class PencapaianSiswaController extends Controller
                 ],
             ],
             'kuis' => [
-                'k1' => [
-                    'nama'   => 'Kuis 1: Konsep Pythagoras',
-                    'persen' => $progKuis['kuis1'],
-                ],
-                'k2' => [
-                    'nama'   => 'Kuis 2: Tripel Pythagoras',
-                    'persen' => $progKuis['kuis2'],
-                ],
-                'k3' => [
-                    'nama'   => 'Kuis 3: Segitiga Istimewa',
-                    'persen' => $progKuis['kuis3'],
-                ],
-                'k4' => [
-                    'nama'   => 'Kuis 4: Penerapan Pythagoras',
-                    'persen' => $progKuis['kuis4'],
-                ],
-                'eval' => [
-                    'nama'   => 'Evaluasi Akhir',
-                    'persen' => $progKuis['eval'],
-                ],
+                'k1' => ['nama' => 'Kuis 1: Konsep Pythagoras', 'persen' => $progKuis['kuis1']],
+                'k2' => ['nama' => 'Kuis 2: Tripel Pythagoras', 'persen' => $progKuis['kuis2']],
+                'k3' => ['nama' => 'Kuis 3: Segitiga Istimewa', 'persen' => $progKuis['kuis3']],
+                'k4' => ['nama' => 'Kuis 4: Penerapan Pythagoras', 'persen' => $progKuis['kuis4']],
+                'eval' => ['nama' => 'Evaluasi Akhir', 'persen' => $progKuis['eval']],
             ],
         ];
 
         return response()->json($detailData);
+    }
+
+    // ==========================================
+    // DETAIL BADGE (Modal)
+    // ==========================================
+    public function detailBadge($badge_id)
+    {
+        $guruId = Auth::id();
+        // Ambil ID kelas yang diampu oleh guru ini
+        $kelasIds = Kelas::where('guru_id', $guruId)->pluck('id')->toArray();
+
+        // Jika guru tidak memiliki kelas, kembalikan data kosong
+        if (empty($kelasIds)) {
+            return response()->json([
+                'nama_badge' => '',
+                'gambar_badge' => null,
+                'peraih' => []
+            ]);
+        }
+
+        $badge = Badge::with(['users' => function($query) use ($kelasIds) {
+            $query->select('users.id', 'users.name', 'users.kelas_id')
+                ->with('kelas')
+                ->whereIn('users.kelas_id', $kelasIds); // Filter hanya siswa di kelas guru
+        }])->findOrFail($badge_id);
+
+        $peraih = $badge->users->map(function($user) {
+            return [
+                'nama' => $user->name,
+                'kelas' => $user->kelas ? $user->kelas->nama_kelas : 'Tanpa Kelas'
+            ];
+        });
+
+        return response()->json([
+            'nama_badge' => $badge->name,
+            'gambar_badge' => $badge->image_path ? asset('images/badges/' . $badge->image_path) : null,
+            'peraih' => $peraih
+        ]);
+    }
+
+    // Helper format peringkat
+    private function formatPeringkat($rank)
+    {
+        if ($rank == 1) {
+            return '<span class="fs-4">🥇</span> 1';
+        } elseif ($rank == 2) {
+            return '<span class="fs-5">🥈</span> 2';
+        } elseif ($rank == 3) {
+            return '<span class="fs-5">🥉</span> 3';
+        }
+        return (string) $rank;
     }
 }

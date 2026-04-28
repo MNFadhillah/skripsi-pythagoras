@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use App\Models\User;
+use App\Models\Setting;
 
 class AuthController extends Controller
 {
@@ -18,12 +19,6 @@ class AuthController extends Controller
     }
 
     /* =====================
-       PROSES LOGIN
-    ====================== */
-    /* =====================
-       PROSES LOGIN
-    ====================== */
-/* =====================
        PROSES LOGIN (DIPERBAIKI)
     ====================== */
     public function login(Request $request)
@@ -38,15 +33,17 @@ class AuthController extends Controller
         if (Auth::attempt($credentials, $request->remember)) {
             $request->session()->regenerate();
 
+            // Setelah login sukses, baru cek role
             if (Auth::user()->role === 'guru') {
                 return redirect()->route('guru.dashboard');
             }
-
+            if (Auth::user()->role === 'admin') {
+                return redirect()->route('admin.dashboard');
+            }
             return redirect()->route('siswa.menu.dashboard');
         }
 
         return back()->withErrors([
-            // Update pesan error (hapus kata "peran")
             'email' => 'Email atau password salah.',
         ]);
     }
@@ -69,6 +66,29 @@ class AuthController extends Controller
             'email'    => 'required|email|unique:users,email',
             'password' => 'required|min:6|confirmed',
             'role'     => 'required|in:siswa,guru',
+            // Validasi khusus token guru
+            'guru_token' => [
+                'required_if:role,guru',
+                function ($attribute, $value, $fail) use ($request) {
+                    if ($request->role === 'guru') {
+                        // Cek token di database
+                        $tokenSetting = Setting::where('key', 'guru_token')->first();
+                        
+                        // Jika Admin BELUM mengatur token sama sekali di database
+                        if (!$tokenSetting || empty($tokenSetting->value)) {
+                            $fail('Pendaftaran Guru saat ini ditutup karena Token belum dikonfigurasi oleh Admin.');
+                            return; // Hentikan pengecekan lebih lanjut
+                        }
+
+                        // Jika token yang dimasukkan tidak sama dengan yang ada di database
+                        if ($value !== $tokenSetting->value) {
+                            $fail('Token registrasi Guru tidak valid atau salah.');
+                        }
+                    }
+                },
+            ],
+        ], [
+            'guru_token.required_if' => 'Token registrasi wajib diisi untuk mendaftar sebagai Guru.',
         ]);
 
         User::create([

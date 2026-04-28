@@ -3,12 +3,12 @@
 @section('title', 'PythaLearn')
 
 @push('scripts')
-    <script>
-        window.completedCheckpoints = <?php echo json_encode($completedCheckpoints ?? []); ?>;
-    </script>
+<script>
+    window.completedCheckpoints = <?php echo json_encode($completedCheckpoints ?? []); ?>;
+</script>
 
-    <script src="{{ asset('js/materi1.js') }}"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="{{ asset('js/materi1.js') }}"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 @endpush
 
 @section('content')
@@ -43,7 +43,7 @@
             <li class="page-item">
                 <button class="page-link page-btn" data-page="5">6</button>
             </li>
-            
+
             <li class="page-item">
                 <button class="page-link next-btn">›</button>
             </li>
@@ -81,9 +81,9 @@
                         <div class="card-body p-3">
 
                             <div class="text-center mb-3">
-                                <button class="btn btn-outline-success btn-sm fw-bold" 
-                                        data-bs-toggle="modal" 
-                                        data-bs-target="#modalPetunjuk">
+                                <button class="btn btn-outline-success btn-sm fw-bold"
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#modalPetunjuk">
                                     Petunjuk Pengerjaan
                                 </button>
                             </div>
@@ -108,11 +108,11 @@
                                 <div class="col-lg-10">
                                     <div class="overflow-hidden rounded border shadow-sm">
                                         <div class="interactive-image-container position-relative">
-                                            <img src="/images/jembatan-barito-new.jpg" 
-                                                class="img-fluid w-100" 
-                                                style="object-fit: cover; max-height: 480px;" 
+                                            <img src="/images/jembatan-barito-new.jpg"
+                                                class="img-fluid w-100"
+                                                style="object-fit: cover; max-height: 480px;"
                                                 alt="Jembatan Barito">
-                                            
+
                                             <div class="text-overlay-container">
                                                 <div id="text-tegak" class="overlay-text text-tegak">
                                                     <div class="text-label bg-danger text-white px-2 py-1 rounded">
@@ -146,9 +146,9 @@
                                         Dari bagian jembatan yang diamati tersebut, terbentuk sebuah segitiga seperti gambar di bawah:
                                     </p>
                                     <div class="d-inline-block border rounded bg-light p-3 shadow-sm">
-                                        <img src="/images/segitiga_jembatan.png" 
-                                            class="img-fluid" 
-                                            style="max-height: 250px;" 
+                                        <img src="/images/segitiga_jembatan.png"
+                                            class="img-fluid"
+                                            style="max-height: 250px;"
                                             alt="Segitiga Jembatan Barito">
                                     </div>
                                 </div>
@@ -159,7 +159,7 @@
                                     <p class="fw-semibold text-center mb-3">
                                         Berdasarkan gambar di atas, <strong>tiang penyangga</strong>, <strong>badan jembatan</strong>,
                                         dan <strong>kabel baja</strong> membentuk sebuah segitiga.
-                                        Menurut pengamatanmu berdasarkan sudutnya, segitiga apakah yang terbentuk? 
+                                        Menurut pengamatanmu berdasarkan sudutnya, segitiga apakah yang terbentuk?
                                     </p>
 
                                     <div class="row justify-content-center">
@@ -248,17 +248,17 @@
                             </div>
 
                             <div class="d-flex flex-wrap gap-3 justify-content-center p-3 bg-white rounded border mb-4" id="drag-source">
-                                <div class="drag-item badge bg-success fs-6 p-3 shadow-sm" 
-                                    draggable="true" 
-                                    id="item-siku" 
-                                    data-value="siku" 
+                                <div class="drag-item badge bg-success fs-6 p-3 shadow-sm"
+                                    draggable="true"
+                                    id="item-siku"
+                                    data-value="siku"
                                     style="cursor: grab;">Sisi Siku-siku
                                 </div>
 
-                                <div class="drag-item badge bg-success fs-6 p-3 shadow-sm" 
-                                    draggable="true" 
-                                    id="item-miring" 
-                                    data-value="miring" 
+                                <div class="drag-item badge bg-success fs-6 p-3 shadow-sm"
+                                    draggable="true"
+                                    id="item-miring"
+                                    data-value="miring"
                                     style="cursor: grab;">Sisi Miring
                                 </div>
                             </div>
@@ -277,7 +277,7 @@
             <div class="row mb-2 d-none" id="penguatan-materi-dragdrop">
                 <div class="col-12">
                     <div class="card border-success border-4 shadow-sm animate__animated animate__fadeIn">
-                        <div class="card-body p-4"> 
+                        <div class="card-body p-4">
                             <p class="mb-0 text-justify text-dark">
                                 Nah, untuk menjawab rasa penasaran Ahmad tentang panjang kabel baja tadi, kita akan menggunakan hubungan antara panjang kedua <strong>sisi siku-siku</strong> dan <strong>sisi miring (hipotenusa)</strong>. Hubungan inilah yang harus selalu kamu ingat untuk memahami <strong>Teorema Pythagoras</strong>. Selanjutnya, mari kita pelajari bagaimana cara merumuskan dan menghitungnya!
                             </p>
@@ -297,8 +297,8 @@
                     </div>
                     <div class="modal-body">
                         <ol class="small ps-3">
-                            <li>Perhatikan gambar jembatan barito dan cerita yang disajikan</li> 
-                            <li>Pada bagian cerita, terdapat kata-kata berwarna yang bisa diklik untuk melihat posisi bagian jembatan.</li> 
+                            <li>Perhatikan gambar jembatan barito dan cerita yang disajikan</li>
+                            <li>Pada bagian cerita, terdapat kata-kata berwarna yang bisa diklik untuk melihat posisi bagian jembatan.</li>
                             <li>Berdasarkan pengamatanmu jawablah pertanyaan yang tersedia dengan memilih pada menu pilihan, lalu klik tombol cek jawaban.</li>
                         </ol>
                     </div>
@@ -328,13 +328,13 @@
                     <div class="card border-success shadow-sm border-2 mb-2">
                         <div class="card-body">
                             <h6 class="fw-bold mb-1">Petunjuk Pengerjaan:</h6>
-                                <ol class="mb-0 small">
-                                    <li>Perhatikan tabel bentuk kuadrat di bawah ini.</li>
-                                    <li>Lengkapi setiap kolom sesuai hubungan antara bentuk perkalian, bentuk kuadrat, dan nilainya.</li>
-                                    <li>Isilah semua bagian titik-titik yang masih kosong dengan jawaban yang tepat.</li>
-                                    <li>Periksa kembali jawabanmu agar sesuai dengan pola yang telah dicontohkan.</li>
-                                    <li>Klik <strong>Cek Jawaban</strong> untuk memeriksa jawaban kamu.</li>
-                                </ol>
+                            <ol class="mb-0 small">
+                                <li>Perhatikan tabel bentuk kuadrat di bawah ini.</li>
+                                <li>Lengkapi setiap kolom sesuai hubungan antara bentuk perkalian, bentuk kuadrat, dan nilainya.</li>
+                                <li>Isilah semua bagian titik-titik yang masih kosong dengan jawaban yang tepat.</li>
+                                <li>Periksa kembali jawabanmu agar sesuai dengan pola yang telah dicontohkan.</li>
+                                <li>Klik <strong>Cek Jawaban</strong> untuk memeriksa jawaban kamu.</li>
+                            </ol>
                         </div>
                     </div>
 
@@ -362,13 +362,13 @@
                                         <td>\(2^2\)</td>
                                         <td>\(4\)</td>
                                     </tr>
-                                    
+
                                     <tr>
                                         <td>\(3\)</td>
                                         <td>\(3 \times 3\)</td>
                                         <td>\(3^2\)</td>
                                         <td>
-                                            <input type="number" class="form-control d-inline-block text-center fw-bold input-kuadrat px-1" 
+                                            <input type="number" class="form-control d-inline-block text-center fw-bold input-kuadrat px-1"
                                                 style="width: 80px;" data-answer="9" placeholder="...">
                                         </td>
                                     </tr>
@@ -378,7 +378,7 @@
                                         <td>\(5 \times 5\)</td>
                                         <td>
                                             <div class="d-flex justify-content-center align-items-start">
-                                                <input type="number" class="form-control text-center fw-bold input-kuadrat px-1" 
+                                                <input type="number" class="form-control text-center fw-bold input-kuadrat px-1"
                                                     style="width: 80px; height: 35px;" data-answer="5" placeholder="...">
                                                 \(^2\)
                                             </div>
@@ -386,16 +386,16 @@
                                         <td>\(25\)</td>
                                     </tr>
 
-                                    
+
                                     <tr>
                                         <td>\(8\)</td>
                                         <td>
                                             <div class="d-flex justify-content-center align-items-center gap-2">
-                                                <input type="number" class="form-control text-center fw-bold input-kuadrat px-1" 
+                                                <input type="number" class="form-control text-center fw-bold input-kuadrat px-1"
                                                     style="width: 80px;" data-answer="8" placeholder="...">
-                                                    <span>×</span>
-                                                <input type="number" class="form-control text-center fw-bold input-kuadrat px-1" 
-                                                style="width: 80px;" data-answer="8" placeholder="...">
+                                                <span>×</span>
+                                                <input type="number" class="form-control text-center fw-bold input-kuadrat px-1"
+                                                    style="width: 80px;" data-answer="8" placeholder="...">
                                             </div>
                                         </td>
                                         <td>\(8^2\)</td>
@@ -406,28 +406,28 @@
                                         <td>\(9\)</td>
                                         <td>
                                             <div class="d-flex justify-content-center align-items-center gap-2">
-                                                <input type="number" class="form-control text-center fw-bold input-kuadrat px-1" 
+                                                <input type="number" class="form-control text-center fw-bold input-kuadrat px-1"
                                                     style="width: 80px;" data-answer="9" placeholder="...">
-                                                    <span>×</span>
-                                                <input type="number" class="form-control text-center fw-bold input-kuadrat px-1" 
-                                                style="width: 80px;" data-answer="9" placeholder="...">
+                                                <span>×</span>
+                                                <input type="number" class="form-control text-center fw-bold input-kuadrat px-1"
+                                                    style="width: 80px;" data-answer="9" placeholder="...">
                                             </div>
                                         </td>
                                         <td>
                                             <div class="d-flex justify-content-center align-items-start">
-                                                <input type="number" class="form-control text-center fw-bold input-kuadrat px-1" 
+                                                <input type="number" class="form-control text-center fw-bold input-kuadrat px-1"
                                                     style="width: 80px; height: 35px;" data-answer="9" placeholder="...">
-                                                    \(^2\)
+                                                \(^2\)
                                             </div>
                                         </td>
                                         <td>
-                                            <input type="number" class="form-control d-inline-block text-center fw-bold input-kuadrat px-1" 
-                                            style="width: 80px;" data-answer="81" placeholder="...">
+                                            <input type="number" class="form-control d-inline-block text-center fw-bold input-kuadrat px-1"
+                                                style="width: 80px;" data-answer="81" placeholder="...">
                                         </td>
                                     </tr>
-                                        
-                                    </tbody>
-                                </table>
+
+                                </tbody>
+                            </table>
                         </div>
 
                         <div class="text-center mb-3">
@@ -553,12 +553,12 @@
                     <div class="card border-success shadow-sm border-2 mb-2">
                         <div class="card-body">
                             <h6 class="fw-bold mb-1">Petunjuk Pengerjaan:</h6>
-                                <ol class="mb-0 small">
-                                    <li>Perhatikan soal-soal akar kuadrat di bawah ini.</li>
-                                    <li>Lengkapi setiap soal sesuai hasil akar kuadrat, sifat-sifat kuadrat.</li>
-                                    <li>Isilah semua bagian yang masih kosong dengan jawaban yang tepat.</li>
-                                    <li>Periksa kembali jawabanmu dan klik <strong>Cek Jawaban</strong> untuk memeriksa jawaban kamu.</li>
-                                </ol>
+                            <ol class="mb-0 small">
+                                <li>Perhatikan soal-soal akar kuadrat di bawah ini.</li>
+                                <li>Lengkapi setiap soal sesuai hasil akar kuadrat, sifat-sifat kuadrat.</li>
+                                <li>Isilah semua bagian yang masih kosong dengan jawaban yang tepat.</li>
+                                <li>Periksa kembali jawabanmu dan klik <strong>Cek Jawaban</strong> untuk memeriksa jawaban kamu.</li>
+                            </ol>
                         </div>
                     </div>
 
@@ -569,7 +569,7 @@
                                     <div class="d-flex justify-content-center align-items-center gap-2">
                                         <label class="form-label fw-bold mb-0 fs-5">\(\sqrt{36}\)</label>
                                         <span class="fw-bold fs-5">=</span>
-                                        <input type="number" class="form-control text-center input-akar fw-bold" 
+                                        <input type="number" class="form-control text-center input-akar fw-bold"
                                             style="width: 80px;" data-answer="6" placeholder="...">
                                     </div>
                                 </div>
@@ -580,7 +580,7 @@
                                     <div class="d-flex justify-content-center align-items-center gap-2">
                                         <label class="form-label fw-bold mb-0 fs-5">\(\sqrt{49}\)</label>
                                         <span class="fw-bold fs-5">=</span>
-                                        <input type="number" class="form-control text-center input-akar fw-bold" 
+                                        <input type="number" class="form-control text-center input-akar fw-bold"
                                             style="width: 80px;" data-answer="7" placeholder="...">
                                     </div>
                                 </div>
@@ -591,7 +591,7 @@
                                     <div class="d-flex justify-content-center align-items-center gap-2">
                                         <label class="form-label fw-bold mb-0 fs-5">\(\sqrt{81}\)</label>
                                         <span class="fw-bold fs-5">=</span>
-                                        <input type="number" class="form-control text-center input-akar fw-bold" 
+                                        <input type="number" class="form-control text-center input-akar fw-bold"
                                             style="width: 80px;" data-answer="9" placeholder="...">
                                     </div>
                                 </div>
@@ -601,7 +601,7 @@
                                     <div class="d-flex justify-content-center align-items-center gap-2">
                                         <label class="form-label fw-bold mb-0 fs-6">\(\sqrt{4} \times \sqrt{9}\)</label>
                                         <span class="fw-bold fs-5">=</span>
-                                        <input type="number" class="form-control text-center input-akar fw-bold" 
+                                        <input type="number" class="form-control text-center input-akar fw-bold"
                                             style="width: 80px;" data-answer="6" placeholder="...">
                                     </div>
                                 </div>
@@ -612,7 +612,7 @@
                                     <div class="d-flex justify-content-center align-items-center gap-2">
                                         <label class="form-label fw-bold mb-0 fs-6">\(\sqrt{4 \times 25}\)</label>
                                         <span class="fw-bold fs-5">=</span>
-                                        <input type="number" class="form-control text-center input-akar fw-bold" 
+                                        <input type="number" class="form-control text-center input-akar fw-bold"
                                             style="width: 90px;" data-answer="10" placeholder="...">
                                     </div>
                                 </div>
@@ -642,8 +642,8 @@
 
                     <div class="card-body p-3">
                         <div class="row align-items-center g-4">
-                
-                    
+
+
                             {{-- KOLOM KIRI: TEKS PENJELASAN (MATERI & INSTRUKSI) --}}
                             <div class="col-lg-6 order-2">
 
@@ -669,9 +669,9 @@
                                                 </p>
                                             </div>
                                             <div class="col-md-4">
-                                                <input 
-                                                    type="text" 
-                                                    class="form-control form-control-sm border-success" 
+                                                <input
+                                                    type="text"
+                                                    class="form-control form-control-sm border-success"
                                                     id="inputTitikSudut"
                                                     placeholder="Jawab di sini...">
 
@@ -680,9 +680,9 @@
 
                                         <!-- Tombol Cek Jawaban -->
                                         <div class="text-center mb-2">
-                                            <button 
-                                                class="btn btn-success fw-bold px-4" 
-                                                type="button" 
+                                            <button
+                                                class="btn btn-success fw-bold px-4"
+                                                type="button"
                                                 onclick="cekJawabanSikusiku()">
                                                 Cek Jawaban
                                             </button>
@@ -719,11 +719,11 @@
                                         <h5 class="fw-bold text-success">Istilah Penting</h5>
                                         <ul class="list-group list-group-flush bg-transparent">
                                             <li class="list-group-item bg-transparent px-0">
-                                                Sisi yang terletak <strong>di depan sudut siku-siku</strong>, yaitu sisi <strong>AC</strong>. 
+                                                Sisi yang terletak <strong>di depan sudut siku-siku</strong>, yaitu sisi <strong>AC</strong>.
                                                 Sisi ini disebut <strong> Hipotenusa (Sisi Miring)</strong>, dan merupakan sisi terpanjang pada segitiga siku-siku.
                                             </li>
                                             <li class="list-group-item bg-transparent px-0">
-                                                Dua sisi yang saling bertemu dan membentuk sudut siku-siku, yaitu sisi 
+                                                Dua sisi yang saling bertemu dan membentuk sudut siku-siku, yaitu sisi
                                                 <strong>AB</strong> dan <strong>BC</strong> disebut <strong>Sisi Siku-siku</strong>.
                                             </li>
                                         </ul>
@@ -760,13 +760,13 @@
                     <div class="card-header text-center">
                         <h4>Ayo Menggambar</h4>
                     </div>
-                    
+
                     <div class="card-body p-4">
-                        
+
                         {{-- BAGIAN ATAS: GAMBAR & PEMBAHASAN --}}
                         <div class="row g-4 mb-4">
                             <div class="col-lg-4 d-flex flex-column">
-                                
+
                                 {{-- Instruksi --}}
                                 <div class="alert alert-light border-start border-success mb-3 text-justify">
                                     <h4 class="fw-bold">Langkah Pengerjaan:</h4>
@@ -776,24 +776,24 @@
                                         <li class="mb-0">Hubungkan hingga membentuk segitiga siku-siku.</li>
                                     </ol>
                                 </div>
-                
+
                                 {{-- Card Status / Pembahasan (Mengisi sisa tinggi) --}}
                                 <div class="card border-0 bg-light shadow-sm flex-grow-1" id="statusCard">
                                     <div class="card-body text-center d-flex flex-column justify-content-center align-items-center">
-                                        
+
                                         {{-- State Awal --}}
                                         <div id="initialState">
                                             <i class="bi bi-pencil-square fs-1 text-secondary opacity-25 mb-3"></i>
                                             <h6 class="text-muted fw-bold">Area Pembahasan</h6>
                                             <p class="small text-muted mb-0">Status gambar akan muncul di sini.</p>
                                         </div>
-                
+
                                         {{-- State Benar --}}
                                         <div id="successState" class="d-none animate__animated animate__fadeIn">
                                             <h5 class="text-success fw-bold">Segitiga Siku-Siku Terbentuk</h5>
                                             <p class="small text-dark mb-0">Sekarang, silakan jawab pertanyaan di bawah ini.</p>
                                         </div>
-                
+
                                         {{-- State Salah --}}
                                         <div id="failState" class="d-none animate__animated animate__shakeX">
                                             <h5 class="text-danger fw-bold">Segitiga Siku-Siku Belum Terbentuk</h5>
@@ -804,11 +804,11 @@
                                                 Coba Lagi
                                             </button>
                                         </div>
-                
+
                                     </div>
                                 </div>
                             </div>
-                            
+
                             {{-- KOLOM KIRI: CANVAS --}}
                             <div class="col-lg-8">
                                 <div id="canvasContainer" class="position-relative bg-white border rounded shadow-sm" style="width: 100%; min-height: 400px;">
@@ -830,7 +830,7 @@
                         <div class="row">
                             <div class="col-12">
                                 <div class="card shadow-sm border-success position-relative">
-                                    
+
                                     {{-- Overlay Pengunci --}}
                                     <div id="quizLockOverlay" class="position-absolute top-0 start-0 w-100 h-100 bg-white bg-opacity-90 d-flex align-items-center justify-content-center rounded" style="z-index: 10;">
                                         <div class="text-center">
@@ -892,7 +892,7 @@
                                             <div class="mt-4 text-end">
                                                 <button type="submit" id="btnPeriksaQuiz" class="btn btn-success fw-bold shadow-sm px-4" disabled>Cek Jawaban</button>
                                             </div>
-                                            
+
                                             <div id="quizFeedback" class="mt-3 text-center" style="display: none;"></div>
                                         </form>
                                     </div>
@@ -907,29 +907,29 @@
 
             <div class="col-sm-12 mb-4">
                 <div class="card shadow-sm">
-    
+
                     <div class="card-header text-center">
                         <h4>Penamaan Sisi Segitiga</h4>
                     </div>
 
                     <div class="card-body p-4">
-                        
+
                         {{-- BAGIAN 1: MATERI --}}
                         <p class="alert alert-light border-start border-success border-4 shadow-sm mb-4">
-                            Dalam matematika, penamaan sisi segitiga memiliki aturan tertentu. 
-                            Garis yang menghubungkan titik \(A\) dan titik \(B\) disebut <strong>Ruas Garis</strong> yang dinotasikan sebagai \(\overline{AB}\). 
+                            Dalam matematika, penamaan sisi segitiga memiliki aturan tertentu.
+                            Garis yang menghubungkan titik \(A\) dan titik \(B\) disebut <strong>Ruas Garis</strong> yang dinotasikan sebagai \(\overline{AB}\).
                             Sedangkan untuk menyatakan <strong>panjang / ukuran</strong> dari ruas garis tersebut, cukup ditulis sebagai \(AB\).
                             <br>
-                            Selain menggunakan dua huruf kapital (misal: \(AB\)), kita juga bisa menamai sisi menggunakan 
+                            Selain menggunakan dua huruf kapital (misal: \(AB\)), kita juga bisa menamai sisi menggunakan
                             <strong>satu huruf kecil</strong> dengan syarat memperhatikan sudut yang berhadapan dengan sisi tersebut.
                         </p>
 
                         <div class="row align-items-center g-4">
                             <div class="col-md-6">
                                 <div class="p-3 bg-white rounded border border-success border-4 shadow-sm d-flex align-items-center justify-content-center h-100">
-                                    <img src="/images/mengenal_sisi_segitiga_sikusiku.png" 
-                                        alt="Mengenal Sisi Segitiga Siku-siku" 
-                                        class="img-fluid" 
+                                    <img src="/images/mengenal_sisi_segitiga_sikusiku.png"
+                                        alt="Mengenal Sisi Segitiga Siku-siku"
+                                        class="img-fluid"
                                         style="max-height: 250px; object-fit: contain;">
                                 </div>
                             </div>
@@ -999,7 +999,7 @@
                                 </div>
                             </div>
                         </div>
-                        
+
                         <hr class="my-5 opacity-25">
 
                         {{-- BAGIAN 2: HEADER INSTRUKSI --}}
@@ -1010,7 +1010,7 @@
                                 <p class="mb-2 text-center text-dark fw-bold">
                                     Amati gambar segitiga, lalu lengkapi isian di bawah ini:
                                 </p>
-                                
+
                                 <ol class="mb-3 ps-3 small text-muted text-justify" style="line-height: 1.8;">
                                     <li>
                                         <strong>Pada Segitiga ABC, MNO, dan PQR:</strong> Tentukan nama sisi yang berada di depan sudut yang ditanya.
@@ -1027,15 +1027,15 @@
                             {{-- Latihan 1 --}}
                             <div class="col-md-4">
                                 <div class="card bg-white border-0 h-100 p-3 text-center shadow-sm">
-                                    <div class="mb-3 d-flex align-items-center justify-content-center bg-light rounded border" 
+                                    <div class="mb-3 d-flex align-items-center justify-content-center bg-light rounded border"
                                         style="height: 220px; overflow: hidden;">
-                                        <img src="/images/mengenal_sisi_latihan1.png" alt="Latihan 1" class="img-fluid" 
+                                        <img src="/images/mengenal_sisi_latihan1.png" alt="Latihan 1" class="img-fluid"
                                             style="max-height: 100%; object-fit: contain;">
                                     </div>
                                     <div class="text-start px-2 mt-auto">
                                         <label class="form-label small fw-bold">Sisi yang berada di depan sudut A adalah sisi ...</label>
                                         <div class="input-group input-group-sm mb-2">
-                                            <input type="text" class="form-control sisi-input text-center fw-bold" 
+                                            <input type="text" class="form-control sisi-input text-center fw-bold"
                                                 data-answer="a" placeholder="...">
                                         </div>
                                     </div>
@@ -1045,15 +1045,15 @@
                             {{-- Latihan 2 --}}
                             <div class="col-md-4">
                                 <div class="card bg-white border-0 h-100 p-3 text-center shadow-sm">
-                                    <div class="mb-3 d-flex align-items-center justify-content-center bg-light rounded border" 
+                                    <div class="mb-3 d-flex align-items-center justify-content-center bg-light rounded border"
                                         style="height: 220px; overflow: hidden;">
-                                        <img src="/images/mengenal_sisi_latihan2.png" alt="Latihan 2" class="img-fluid" 
+                                        <img src="/images/mengenal_sisi_latihan2.png" alt="Latihan 2" class="img-fluid"
                                             style="max-height: 100%; object-fit: contain;">
                                     </div>
                                     <div class="text-start px-2 mt-auto">
                                         <label class="form-label small fw-bold">Sisi yang berada di depan sudut N adalah sisi ...</label>
                                         <div class="input-group input-group-sm mb-2">
-                                            <input type="text" class="form-control sisi-input text-center fw-bold" 
+                                            <input type="text" class="form-control sisi-input text-center fw-bold"
                                                 data-answer="n" placeholder="...">
                                         </div>
                                     </div>
@@ -1063,15 +1063,15 @@
                             {{-- Latihan 3 --}}
                             <div class="col-md-4">
                                 <div class="card bg-white border-0 h-100 p-3 text-center shadow-sm">
-                                    <div class="mb-3 d-flex align-items-center justify-content-center bg-light rounded border" 
+                                    <div class="mb-3 d-flex align-items-center justify-content-center bg-light rounded border"
                                         style="height: 220px; overflow: hidden;">
-                                        <img src="/images/mengenal_sisi_latihan3.png" alt="Latihan 3" class="img-fluid" 
+                                        <img src="/images/mengenal_sisi_latihan3.png" alt="Latihan 3" class="img-fluid"
                                             style="max-height: 100%; object-fit: contain;">
                                     </div>
                                     <div class="text-start px-2 mt-auto">
                                         <label class="form-label small fw-bold">Sisi yang berada di depan sudut P adalah sisi ...</label>
                                         <div class="input-group input-group-sm mb-2">
-                                            <input type="text" class="form-control sisi-input text-center fw-bold" 
+                                            <input type="text" class="form-control sisi-input text-center fw-bold"
                                                 data-answer="p" placeholder="...">
                                         </div>
                                     </div>
@@ -1090,7 +1090,7 @@
                                     <img src="/images/segitiga_sikusiku_f.png" alt="Segitiga EFG" class="img-fluid" style="max-height: 200px;">
                                 </div>
                             </div>
-                            
+
                             {{-- Kolom Tabel --}}
                             <div class="col-md-8">
                                 <div class="table-responsive">
@@ -1106,33 +1106,33 @@
                                             <tr>
                                                 <td class="fw-bold bg-light text-success fs-5">sisi <em>e</em></td>
                                                 <td>
-                                                    <input type="text" class="form-control text-center fw-bold input-titik" 
+                                                    <input type="text" class="form-control text-center fw-bold input-titik"
                                                         data-correct="E" placeholder="...">
                                                 </td>
                                                 <td>
-                                                    <input type="text" class="form-control text-center fw-bold input-ruas" 
+                                                    <input type="text" class="form-control text-center fw-bold input-ruas"
                                                         data-correct="FG" placeholder="...">
                                                 </td>
                                             </tr>
                                             <tr>
                                                 <td class="fw-bold bg-light text-success fs-5">sisi <em>f</em></td>
                                                 <td>
-                                                    <input type="text" class="form-control text-center fw-bold input-titik" 
+                                                    <input type="text" class="form-control text-center fw-bold input-titik"
                                                         data-correct="F" placeholder="...">
                                                 </td>
                                                 <td>
-                                                    <input type="text" class="form-control text-center fw-bold input-ruas" 
+                                                    <input type="text" class="form-control text-center fw-bold input-ruas"
                                                         data-correct="EG" placeholder="...">
                                                 </td>
                                             </tr>
                                             <tr>
                                                 <td class="fw-bold bg-light text-success fs-5">sisi <em>g</em></td>
                                                 <td>
-                                                    <input type="text" class="form-control text-center fw-bold input-titik" 
+                                                    <input type="text" class="form-control text-center fw-bold input-titik"
                                                         data-correct="G" placeholder="...">
                                                 </td>
                                                 <td>
-                                                    <input type="text" class="form-control text-center fw-bold input-ruas" 
+                                                    <input type="text" class="form-control text-center fw-bold input-ruas"
                                                         data-correct="EF" placeholder="...">
                                                 </td>
                                             </tr>
@@ -1167,33 +1167,33 @@
                                             <tr>
                                                 <td class="fw-bold bg-light text-success fs-5">sisi <em>h</em></td>
                                                 <td>
-                                                    <input type="text" class="form-control text-center fw-bold input-titik" 
+                                                    <input type="text" class="form-control text-center fw-bold input-titik"
                                                         data-correct="H" placeholder="...">
                                                 </td>
                                                 <td>
-                                                    <input type="text" class="form-control text-center fw-bold input-ruas" 
+                                                    <input type="text" class="form-control text-center fw-bold input-ruas"
                                                         data-correct="IJ" placeholder="...">
                                                 </td>
                                             </tr>
                                             <tr>
                                                 <td class="fw-bold bg-light text-success fs-5">sisi <em>i</em></td>
                                                 <td>
-                                                    <input type="text" class="form-control text-center fw-bold input-titik" 
+                                                    <input type="text" class="form-control text-center fw-bold input-titik"
                                                         data-correct="I" placeholder="...">
                                                 </td>
                                                 <td>
-                                                    <input type="text" class="form-control text-center fw-bold input-ruas" 
+                                                    <input type="text" class="form-control text-center fw-bold input-ruas"
                                                         data-correct="HJ" placeholder="...">
                                                 </td>
                                             </tr>
                                             <tr>
                                                 <td class="fw-bold bg-light text-success fs-5">sisi <em>j</em></td>
                                                 <td>
-                                                    <input type="text" class="form-control text-center fw-bold input-titik" 
+                                                    <input type="text" class="form-control text-center fw-bold input-titik"
                                                         data-correct="J" placeholder="...">
                                                 </td>
                                                 <td>
-                                                    <input type="text" class="form-control text-center fw-bold input-ruas" 
+                                                    <input type="text" class="form-control text-center fw-bold input-ruas"
                                                         data-correct="HI" placeholder="...">
                                                 </td>
                                             </tr>
@@ -1210,7 +1210,7 @@
                             </button>
                             <div id="final-feedback" class="mt-3 fw-bold fs-5"></div>
                         </div>
-                        
+
                     </div>
                 </div>
             </div>
@@ -1230,9 +1230,9 @@
                             Masih ingatkah kamu dengan pertanyaan tentang bagian jembatan sebelumnya? Kita ingin tahu bagaimana cara menghitung panjang kabel baja jembatan sebagai sisi miring suatu segitiga siku-siku.
                             Untuk menemukannya, kita bisa mengilustrasikan bagian jembatan sebagai segitiga siku-siku dan menempelkan sebuah persegi pada setiap sisi segitiga siku-siku tersebut. Mari amati hubungan persegi pada sisi-sisi pada segitiga siku-siku ini melalui Geogebra di bawah!
                         </p>
-                    
+
                         <div class="d-flex justify-content-center mb-2 mt-3">
-                            <button type="button" class="btn btn-outline-success shadow-sm fw-bold" data-bs-toggle="modal" data-bs-target="#modalPetunjukAktivitas"> 
+                            <button type="button" class="btn btn-outline-success shadow-sm fw-bold" data-bs-toggle="modal" data-bs-target="#modalPetunjukAktivitas">
                                 Petunjuk Pengerjaan
                             </button>
                         </div>
@@ -1240,7 +1240,7 @@
                         <div class="row">
                             <div class="col-12">
                                 <div class="geogebra-container border rounded shadow-sm" style="overflow: hidden; min-height: 500px;">
-                                    <iframe 
+                                    <iframe
                                         scrolling="no"
                                         title="Hubungan Sisi-Sisi Segitiga Siku-Siku"
                                         src="https://www.geogebra.org/material/iframe/id/s6kt3mbw/width/1536/height/794/border/888888/sfsb/true/smb/false/stb/false/stbh/false/ai/false/asb/false/sri/false/rc/false/ld/false/sdz/false/ctl/false"
@@ -1281,11 +1281,11 @@
                             <div class="col-12">
                                 <div class="card mb-4 shadow-sm border-success">
                                     <div class="card-body">
-                                        
+
                                         <p class="mb-3 text-justify">
                                             Setelah melakukan percobaan di atas, perhatikan ukuran sisi segitiga siku-siku dan ukuran persegi yang menempel pada sisi-sisinya. Hitunglah panjang sisi dan luas dari masing-masing persegi tersebut, dan masukkan hasilnya ke dalam tabel yang tersedia.
                                         </p>
-                                        
+
                                         <div class="alert alert-light border border-success mb-4">
                                             <p class="mb-0 small fw-bold text-dark">Tugasmu:</p>
                                             <ol class="mb-0 small text-muted ps-3">
@@ -1314,7 +1314,7 @@
                                                     </tr>
                                                     <tr>
                                                         <td class="fw-bold text-start">Luas Persegi (sisi x sisi)</td>
-                                                        
+
                                                         {{-- Penjabaran Persegi A --}}
                                                         <td>
                                                             <div class="d-flex align-items-center justify-content-center gap-1">
@@ -1366,7 +1366,7 @@
                                                 </tbody>
                                             </table>
                                         </div>
-                                        
+
                                         <button class="btn btn-success fw-bold mb-2" onclick="cekTabelGeoGebra()">Cek Jawaban Tabel</button>
                                         <div id="feedbackTabelGeoGebra" class="mb-2 fw-semibold"></div>
 
@@ -1377,7 +1377,7 @@
                                             <p class="text-justify">
                                                 Perhatikan angka-angka pada baris <strong>Luas Persegi</strong> di tabelmu, coba tentukan persegi mana yang paling besar dari ketiga luas persegi tersebut dengan memilih salah satu kotak di bawah ini.
                                             </p>
-                                            
+
                                             <div class="row g-3 mb-3">
                                                 <div class="col-md-4">
                                                     <button type="button" class="btn btn-outline-success w-100 h-100 p-2 shadow-sm text-center btn-soal1" onclick="cekSoal1geogebra('salah', this)">
@@ -1399,7 +1399,7 @@
                                             <div id="feedbackSalah1" class="alert alert-danger d-none small text-center fw-bold animate__animated animate__fadeIn">
                                                 Jawaban Kamu kurang tepat. Coba perhatikan lagi tabelmu, mana angka yang paling tinggi?
                                             </div>
-                                            
+
                                             <div id="feedbackBenar1" class="alert alert-success d-none small text-center fw-bold animate__animated animate__fadeIn">
                                                 Jawaban Kamu Benar! Persegi C memiliki luas yang paling besar.
                                             </div>
@@ -1442,16 +1442,16 @@
                                                 <p class="mb-3 text-justify small text-dark">
                                                     Berdasarkan percobaan di atas, kita menemukan bahwa <strong>Luas Persegi A + Luas Persegi B = Luas Persegi C</strong> dengan penyelesaian:
                                                 </p>
-                                                
+
                                                 <div class="text-center fw-bold text-dark bg-light p-3 rounded border mb-3">
-                                                    
+
                                                     <div class="mb-2">
                                                         Luas Persegi A + Luas Persegi B = Luas Persegi C <br>
                                                         <span class="text-primary fs-5">9 + 16 = 25</span>
                                                     </div>
-                                                    
+
                                                     <hr class="my-3">
-                                                    
+
                                                     <div class="mb-3 text-start px-md-3 small fw-normal">
                                                         <p class="mb-2">
                                                             Ingat kembali bahwa rumus Luas Persegi adalah <strong>sisi &times; sisi</strong> atau <strong>sisi&sup2;</strong>. Karena persegi-persegi tersebut menempel tepat pada sisi segitiga, maka panjang sisi perseginya sama dengan panjang sisi segitiga siku-siku!
@@ -1462,9 +1462,9 @@
                                                             <li>Panjang <strong>sisi miring (AB)</strong> = 5</li>
                                                         </ul>
                                                     </div>
-                                                    
+
                                                     <hr class="my-3">
-                                                    
+
                                                     <div class="mb-2">
                                                         <p class="small fw-normal mb-2 text-muted">Sehingga, jika dituliskan dalam bentuk panjang sisi segitiga, hubungannya menjadi:</p>
                                                         <div class="p-2 mb-2 rounded bg-white border border-secondary d-inline-block">
@@ -1482,7 +1482,7 @@
                                                         <em>"Sisi siku-siku yang dikuadratkan dan dijumlahkan hasilnya akan sama dengan kuadrat sisi miringnya."</em><br><br>
                                                         Inilah hubungan yang dikenal dengan <strong>Teorema Pythagoras</strong>:
                                                     </p>
-                                                    
+
                                                     <h3 class="fw-bold mb-0 text-success">
                                                         \( a^2 + b^2 = c^2 \)
                                                     </h3>
@@ -1496,9 +1496,9 @@
                     </div>
                 </div>
             </div>
-         </div>
+        </div>
     </section>
-        
+
     <!-- ================= HALAMAN 4 ================= -->
     <section class="materi-page d-none" data-page="3">
         <div class="row">
@@ -1511,40 +1511,40 @@
                         <h4 class="mb-0">Dalil Pythagoras</h4>
                     </div>
 
-                        <div class="card-body">
-                            <div class="row">
+                    <div class="card-body">
+                        <div class="row">
 
 
-                                <div class="col-md-7">
-                                    
-                                    <p class="text-justify mb-3">
-                                        Berdasarkan aktivitas sebelumnya, hubungan yang kalian temukan merupakan <strong>Dalil Pythagoras</strong>, yang berbunyi:
-                                    </p>
-                                    
-                                    <div class="alert alert-success border-start border-success border-4">
-                                        <div class="text-justify bg-white border rounded p-4 shadow-sm">
-                                            <strong class="text-success">Pada suatu segitiga siku-siku, luas persegi pada sisi miringnya sama dengan jumlah luas persegi lain pada kedua sisi siku-sikunya, hal ini juga berarti jumlah dari kuadrat kedua sisi siku-siku segitiga pada segitiga siku-siku sama dengan kuadrat panjang sisi miringnya (hipotenusa).</strong>
-                                        </div>
+                            <div class="col-md-7">
 
-                                        <p class="text-center mt-2">
-                                            Yang dapat disederhakan menjadi:
-                                        </p>
-                                        
-                                        <div class="text-center bg-white border rounded py-2 my-3 shadow-sm">
-                                            <strong class="text-success">Luas Persegi A + Luas Persegi B = Luas Persegi C</strong>
-                                        </div>
-                                        <div class="text-center">
-                                            Jika kita ubah ke dalam simbol matematika dimana sisi-sisinya adalah <strong>a</strong>, <strong>b</strong>, dan <strong>c</strong> (sisi miring), maka diperoleh rumus:
-                                            <br><br>
-                                            <h3 class="fw-bold text-dark">c² = a² + b²</h3>
-                                        </div>
+                                <p class="text-justify mb-3">
+                                    Berdasarkan aktivitas sebelumnya, hubungan yang kalian temukan merupakan <strong>Dalil Pythagoras</strong>, yang berbunyi:
+                                </p>
+
+                                <div class="alert alert-success border-start border-success border-4">
+                                    <div class="text-justify bg-white border rounded p-4 shadow-sm">
+                                        <strong class="text-success">Pada suatu segitiga siku-siku, luas persegi pada sisi miringnya sama dengan jumlah luas persegi lain pada kedua sisi siku-sikunya, hal ini juga berarti jumlah dari kuadrat kedua sisi siku-siku segitiga pada segitiga siku-siku sama dengan kuadrat panjang sisi miringnya (hipotenusa).</strong>
                                     </div>
-                                    
 
+                                    <p class="text-center mt-2">
+                                        Yang dapat disederhakan menjadi:
+                                    </p>
+
+                                    <div class="text-center bg-white border rounded py-2 my-3 shadow-sm">
+                                        <strong class="text-success">Luas Persegi A + Luas Persegi B = Luas Persegi C</strong>
+                                    </div>
+                                    <div class="text-center">
+                                        Jika kita ubah ke dalam simbol matematika dimana sisi-sisinya adalah <strong>a</strong>, <strong>b</strong>, dan <strong>c</strong> (sisi miring), maka diperoleh rumus:
+                                        <br><br>
+                                        <h3 class="fw-bold text-dark">c² = a² + b²</h3>
+                                    </div>
                                 </div>
-                                <div class="col-md-5">
-                                    <div class="text-center my-4">
-                                        <img src="/images/pembuktian_pythagoras.png" alt="Segitiga Siku-Siku" class="img-fluid rounded border" style="width: 100%;">
+
+
+                            </div>
+                            <div class="col-md-5">
+                                <div class="text-center my-4">
+                                    <img src="/images/pembuktian_pythagoras.png" alt="Segitiga Siku-Siku" class="img-fluid rounded border" style="width: 100%;">
                                 </div>
                             </div>
                         </div>
@@ -1624,7 +1624,7 @@
                     </div>
                 </div>
             </div>
-            
+
             <!-- ================================= -->
             <!-- CONTOH SOAL 1 -->
             <!-- ================================= -->
@@ -1633,7 +1633,7 @@
                     <div class="card-header text-center">
                         <h4 class="mb-0">Contoh 1</h4>
                     </div>
-                    
+
                     <div class="card-body">
                         <div class="alert alert-white shadow-sm border-start border-success border-4" role="alert">
                             <div class="small">
@@ -1697,7 +1697,7 @@
                                         <ol class="ps-3 mb-0 text-muted list-group-numbered-custom">
                                             <li>
                                                 <strong>Karena mencari sisi miring (hipotenusa), kita gunakan rumus pythagoras</strong>
-                                                
+
                                                 <div class="p-3 bg-white border rounded shadow-sm">
                                                     <small class="fst-italic text-secondary d-block mb-3 text-center">Rumus: \( AB^2 = BC^2 + AC^2 \)</small>
 
@@ -1749,8 +1749,8 @@
                         </div>
                     </div>
                 </div>
-            </div>       
-            
+            </div>
+
             <!-- ================================= -->
             <!-- CONTOH SOAL 2 -->
             <!-- ================================= -->
@@ -1759,7 +1759,7 @@
                     <div class="card-header text-center">
                         <h4 class="mb-0">Contoh 2</h4>
                     </div>
-                    
+
                     <div class="card-body">
                         <div class="alert alert-white shadow-sm border-start border-success border-4" role="alert">
                             <div class="small">
@@ -1774,7 +1774,7 @@
                                         Diketahui dua segitiga siku-siku seperti gambar di bawah. Panjang \( AB = 13 \text{ cm} \), \( AC = 12 \text{ cm} \), dan \( CD = 3 \text{ cm} \). Hitunglah panjang garis <strong>\( BD \)</strong>!
                                     </p>
                                 </div>
-                                
+
                                 <div class="bg-white rounded-3 shadow-sm border p-4 d-flex justify-content-center align-items-center flex-wrap text-center">
                                     <img src="/images/contoh_soal_2.png" class="img-fluid" style="max-height: 280px;" alt="Contoh 2">
                                 </div>
@@ -1833,7 +1833,7 @@
                                                 <p class="text-muted mb-2 small">
                                                     Gunakan segitiga \( ABC \). Karena \( BC \) adalah salah satu sisi siku-siku, maka kurangkan kuadrat sisi miring dengan sisi siku-siku lainnya.
                                                 </p>
-                                                
+
                                                 <div class="p-3 bg-white border rounded shadow-sm">
                                                     <small class="fst-italic text-secondary d-block mb-3 text-center">Rumus: \( BC^2 = AB^2 - AC^2 \)</small>
 
@@ -1871,7 +1871,7 @@
                                                 <p class="text-muted mb-2 small">
                                                     Gunakan segitiga \( BCD \). Kita cari sisi siku-siku \( BD \).
                                                 </p>
-                                                
+
                                                 <div class="p-3 bg-white border rounded shadow-sm">
                                                     <small class="fst-italic text-secondary d-block mb-3 text-center">Rumus: \( BD^2 = BC^2 - CD^2 \)</small>
 
@@ -1931,572 +1931,572 @@
             <!-- ================================= -->
 
             <div class="col-sm-12">
-                    <div class="card shadow-sm">
-                        <div class="card-header text-center border-bottom py-3">
-                            <h4>Ayo Berlatih</h4>
+                <div class="card shadow-sm">
+                    <div class="card-header text-center border-bottom py-3">
+                        <h4>Ayo Berlatih</h4>
+                    </div>
+
+                    <div class="card-body">
+                        <div class="alert alert-white shadow-sm border-start border-success border-4 mb-4">
+                            <h6 class="fw-bold">Petunjuk Pengerjaan:</h6>
+                            <ol class="mb-0 small text-muted text-justify">
+                                <li>Amati gambar dan informasi yang diketahui di kolom sebelah kiri pada setiap soal.</li>
+                                <li><strong>Pada Soal 1</strong> pilihlah sisi yang dicari pada pilihan yang tersedia dan isilah sisi yang sudah diketahui, lalu pilih operator dan rumus teorema pythagoras yang paling tepat.</li>
+                                <li><strong>Pada Soal 2 dan 3</strong> Tarik <em>(drag)</em> item kotak yang tersedia di kiri, lalu lepas <em>(drop)</em> ke dalam area kotak putus-putus yang sesuai di sebelah kanan dan lengkap perhitungannya</li>
+                                <li>Klik tombol <strong class="text-success">Cek Jawaban</strong> di setiap akhir nomor untuk memeriksa apakah langkah penyelesaianmu sudah benar.</li>
+                            </ol>
                         </div>
-                        
-                        <div class="card-body">
-                            <div class="alert alert-white shadow-sm border-start border-success border-4 mb-4">
-                                <h6 class="fw-bold">Petunjuk Pengerjaan:</h6>
-                                <ol class="mb-0 small text-muted text-justify">
-                                    <li>Amati gambar dan informasi yang diketahui di kolom sebelah kiri pada setiap soal.</li>
-                                    <li><strong>Pada Soal 1</strong> pilihlah sisi yang dicari pada pilihan yang tersedia dan isilah sisi yang sudah diketahui, lalu pilih operator dan rumus teorema pythagoras yang paling tepat.</li>
-                                    <li><strong>Pada Soal 2 dan 3</strong> Tarik <em>(drag)</em> item kotak yang tersedia di kiri, lalu lepas <em>(drop)</em> ke dalam area kotak putus-putus yang sesuai di sebelah kanan dan lengkap perhitungannya</li>
-                                    <li>Klik tombol <strong class="text-success">Cek Jawaban</strong> di setiap akhir nomor untuk memeriksa apakah langkah penyelesaianmu sudah benar.</li>
-                                </ol>
+
+                        <div class="card border-0 shadow mb-4">
+                            <div class="card-header bg-success text-white">
+                                <h5 class="mb-0 fw-bold">Soal 1</h5>
                             </div>
+                            <div class="card-body">
+                                <div class="row">
 
-                            <div class="card border-0 shadow mb-4">
-                                <div class="card-header bg-success text-white">
-                                    <h5 class="mb-0 fw-bold">Soal 1</h5>
-                                </div>
-                                <div class="card-body">
-                                    <div class="row">
-
-                                        <div class="col-lg-5 mb-3">
-                                            <p class="text-muted fw-bold mb-2 small">Perhatikan gambar segitiga siku-siku di bawah ini:</p>
-                                            <div class="bg-white rounded-3 border border-dark mb-3 d-flex justify-content-center">
-                                                <img src="/images/segitiga_latihan1_nomor1.png" class="img-fluid p-2" style="max-height: 300px;" alt="Soal 1">
-                                            </div>
-                                            <div class="alert bg-light border border-dark text-justify small shadow-sm">
-                                                Berdasarkan gambar di atas, temukan rumus Pythagoras yang sesuai berdasarkan petunjuk yang tersedia!
-                                            </div>
+                                    <div class="col-lg-5 mb-3">
+                                        <p class="text-muted fw-bold mb-2 small">Perhatikan gambar segitiga siku-siku di bawah ini:</p>
+                                        <div class="bg-white rounded-3 border border-dark mb-3 d-flex justify-content-center">
+                                            <img src="/images/segitiga_latihan1_nomor1.png" class="img-fluid p-2" style="max-height: 300px;" alt="Soal 1">
                                         </div>
+                                        <div class="alert bg-light border border-dark text-justify small shadow-sm">
+                                            Berdasarkan gambar di atas, temukan rumus Pythagoras yang sesuai berdasarkan petunjuk yang tersedia!
+                                        </div>
+                                    </div>
 
-                                        <div class="col-lg-7">
-                                            <div class="card bg-white border border-dark rounded-3 h-100 shadow-sm">
-                                                <div class="card-body">
-                                                    
-                                                    <div class="d-flex flex-column gap-3">
-                                                        
-                                                        <div class="p-3 border-1 border-dark rounded">
-                                                            <p class="mb-2 fw-bold text-dark small">Berdasarkan gambar di samping, sisi apa yang akan kita cari panjangnya?</p>
-                                                            <select id="s1_tanya" class="form-select form-select-sm border-dark bg-white text-dark mb-3">
-                                                                <option value="">-- Pilih sisi yang dicari --</option>
-                                                                <option value="miring">Sisi miring (Hipotenusa)</option>
-                                                                <option value="siku_ac">Sisi siku-siku (AC)</option>
-                                                                <option value="siku_bc">Sisi siku-siku (BC)</option>
-                                                            </select>
-                                                            
-                                                            <p class="fw-bold text-dark small">Sisi apa saja yang sudah diketahui nilainya?</p>
-                                                            <div class="d-flex align-items-center gap-2 small">
-                                                                <input type="text" class="form-control form-control-sm text-center border-dark bg-white" style="width: 80px;" placeholder="..." id="s1_diketahui_1">
-                                                                <span class="text-dark">dan</span>
-                                                                <input type="text" class="form-control form-control-sm text-center border-dark bg-white" style="width: 80px;" placeholder="..." id="s1_diketahui_2">
-                                                            </div>
+                                    <div class="col-lg-7">
+                                        <div class="card bg-white border border-dark rounded-3 h-100 shadow-sm">
+                                            <div class="card-body">
+
+                                                <div class="d-flex flex-column gap-3">
+
+                                                    <div class="p-3 border-1 border-dark rounded">
+                                                        <p class="mb-2 fw-bold text-dark small">Berdasarkan gambar di samping, sisi apa yang akan kita cari panjangnya?</p>
+                                                        <select id="s1_tanya" class="form-select form-select-sm border-dark bg-white text-dark mb-3">
+                                                            <option value="">-- Pilih sisi yang dicari --</option>
+                                                            <option value="miring">Sisi miring (Hipotenusa)</option>
+                                                            <option value="siku_ac">Sisi siku-siku (AC)</option>
+                                                            <option value="siku_bc">Sisi siku-siku (BC)</option>
+                                                        </select>
+
+                                                        <p class="fw-bold text-dark small">Sisi apa saja yang sudah diketahui nilainya?</p>
+                                                        <div class="d-flex align-items-center gap-2 small">
+                                                            <input type="text" class="form-control form-control-sm text-center border-dark bg-white" style="width: 80px;" placeholder="..." id="s1_diketahui_1">
+                                                            <span class="text-dark">dan</span>
+                                                            <input type="text" class="form-control form-control-sm text-center border-dark bg-white" style="width: 80px;" placeholder="..." id="s1_diketahui_2">
                                                         </div>
+                                                    </div>
 
-                                                        <div class="p-3 border-1 border-dark rounded">
-                                                            <p class="mb-2 fw-bold text-justify small">Berdasarkan sisi yang kita cari, operator apa yang harus digunakan pada rumus Teorema Pythagoras untuk menemukan sisi yang dicari?</p>
-                                                            <div class="row g-2">
-                                                                <div class="col-md-3">
-                                                                    <button class="btn btn-outline-dark w-100 btn-sm fw-bold btn-pilihan" onclick="pilihRumusAnalisis('benar', this)">
-                                                                        Ditambah (+)
-                                                                    </button>
-                                                                </div>
-                                                                <div class="col-md-3">
-                                                                    <button class="btn btn-outline-dark w-100 btn-sm fw-bold btn-pilihan" onclick="pilihRumusAnalisis('salah', this)">
-                                                                        Dikurang (-)
-                                                                    </button>
-                                                                </div>
-                                                                <div class="col-md-3">
-                                                                    <button class="btn btn-outline-dark w-100 btn-sm fw-bold btn-pilihan" onclick="pilihRumusAnalisis('salah', this)">
-                                                                        Dikali (x)
-                                                                    </button>
-                                                                </div>
-                                                                <div class="col-md-3">
-                                                                    <button class="btn btn-outline-dark w-100 btn-sm fw-bold btn-pilihan" onclick="pilihRumusAnalisis('salah', this)">
-                                                                        Dibagi (/)
-                                                                    </button>
-                                                                </div>
+                                                    <div class="p-3 border-1 border-dark rounded">
+                                                        <p class="mb-2 fw-bold text-justify small">Berdasarkan sisi yang kita cari, operator apa yang harus digunakan pada rumus Teorema Pythagoras untuk menemukan sisi yang dicari?</p>
+                                                        <div class="row g-2">
+                                                            <div class="col-md-3">
+                                                                <button class="btn btn-outline-dark w-100 btn-sm fw-bold btn-pilihan" onclick="pilihRumusAnalisis('benar', this)">
+                                                                    Ditambah (+)
+                                                                </button>
                                                             </div>
-                                                        </div>
-
-                                                        <div class="p-3 border-1 border-dark rounded">
-                                                            <p class="mb-2 fw-bold text-dark small">Berdasarkan analisis di atas, rumus Teorema Pythagoras mana yang paling tepat digunakan?</p>                                                
-                                                            <div class="row g-3 mt-2">
-                                                                <div class="col-md-6">
-                                                                    <button type="button" class="btn btn-outline-dark w-100 h-100 p-2 shadow-sm text-center btn-pilihan" onclick="pilihRumusAnalisis('benar', this)">
-                                                                        <span class="fw-bold">AC² = AB² + BC²</span>
-                                                                    </button>
-                                                                </div>
-                                                                <div class="col-md-6">
-                                                                    <button type="button" class="btn btn-outline-dark w-100 h-100 p-2 shadow-sm text-center btn-pilihan" onclick="pilihRumusAnalisis('salah1', this)">
-                                                                        <span class="fw-bold">AC² = AB² - BC²</span>
-                                                                    </button>
-                                                                </div>
-                                                                <div class="col-md-6">
-                                                                    <button type="button" class="btn btn-outline-dark w-100 h-100 p-2 shadow-sm text-center btn-pilihan" onclick="pilihRumusAnalisis('salah2', this)">
-                                                                        <span class="fw-bold">AC² = BC² - AB²</span>
-                                                                    </button>
-                                                                </div>
-                                                                <div class="col-md-6">
-                                                                    <button type="button" class="btn btn-outline-dark w-100 h-100 p-2 shadow-sm text-center btn-pilihan" onclick="pilihRumusAnalisis('salah3', this)">
-                                                                        <span class="fw-bold">AC = AB - BC</span>
-                                                                    </button>
-                                                                </div>
+                                                            <div class="col-md-3">
+                                                                <button class="btn btn-outline-dark w-100 btn-sm fw-bold btn-pilihan" onclick="pilihRumusAnalisis('salah', this)">
+                                                                    Dikurang (-)
+                                                                </button>
+                                                            </div>
+                                                            <div class="col-md-3">
+                                                                <button class="btn btn-outline-dark w-100 btn-sm fw-bold btn-pilihan" onclick="pilihRumusAnalisis('salah', this)">
+                                                                    Dikali (x)
+                                                                </button>
+                                                            </div>
+                                                            <div class="col-md-3">
+                                                                <button class="btn btn-outline-dark w-100 btn-sm fw-bold btn-pilihan" onclick="pilihRumusAnalisis('salah', this)">
+                                                                    Dibagi (/)
+                                                                </button>
                                                             </div>
                                                         </div>
                                                     </div>
 
-                                                    <div class="d-flex justify-content-center align-items-center">
-                                                        <div id="s1_feedback" class="small fw-bold text-success"></div>
-                                                            <button class="btn btn-success btn-sm px-4 fw-bold shadow-sm" onclick="cekLatihanAnalisis1()">
-                                                                Cek Jawaban
-                                                            </button>
+                                                    <div class="p-3 border-1 border-dark rounded">
+                                                        <p class="mb-2 fw-bold text-dark small">Berdasarkan analisis di atas, rumus Teorema Pythagoras mana yang paling tepat digunakan?</p>
+                                                        <div class="row g-3 mt-2">
+                                                            <div class="col-md-6">
+                                                                <button type="button" class="btn btn-outline-dark w-100 h-100 p-2 shadow-sm text-center btn-pilihan" onclick="pilihRumusAnalisis('benar', this)">
+                                                                    <span class="fw-bold">AC² = AB² + BC²</span>
+                                                                </button>
+                                                            </div>
+                                                            <div class="col-md-6">
+                                                                <button type="button" class="btn btn-outline-dark w-100 h-100 p-2 shadow-sm text-center btn-pilihan" onclick="pilihRumusAnalisis('salah1', this)">
+                                                                    <span class="fw-bold">AC² = AB² - BC²</span>
+                                                                </button>
+                                                            </div>
+                                                            <div class="col-md-6">
+                                                                <button type="button" class="btn btn-outline-dark w-100 h-100 p-2 shadow-sm text-center btn-pilihan" onclick="pilihRumusAnalisis('salah2', this)">
+                                                                    <span class="fw-bold">AC² = BC² - AB²</span>
+                                                                </button>
+                                                            </div>
+                                                            <div class="col-md-6">
+                                                                <button type="button" class="btn btn-outline-dark w-100 h-100 p-2 shadow-sm text-center btn-pilihan" onclick="pilihRumusAnalisis('salah3', this)">
+                                                                    <span class="fw-bold">AC = AB - BC</span>
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="d-flex justify-content-center align-items-center">
+                                                    <div id="s1_feedback" class="small fw-bold text-success"></div>
+                                                    <button class="btn btn-success btn-sm px-4 fw-bold shadow-sm" onclick="cekLatihanAnalisis1()">
+                                                        Cek Jawaban
+                                                    </button>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card border-0 shadow mb-4">
+                            <div class="card-header bg-success text-white">
+                                <h5 class="mb-0 fw-bold">Soal 2: Menyusun Informasi dan Rumus</h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="row">
+
+                                    <div class="col-lg-5 mb-4">
+                                        <p class="text-muted fw-bold mb-2 small">Perhatikan gambar segitiga siku-siku MNO di bawah ini:</p>
+                                        <div class="bg-white rounded-3 border border-dark mb-3 d-flex justify-content-center">
+                                            <img src="/images/segitiga_latihan1_nomor2.png" class="img-fluid p-2" style="max-height: 250px;" alt="Segitiga MNO">
+
+                                        </div>
+                                        <div class="alert bg-light border border-dark text-justify small shadow-sm">
+                                            Berdasarkan segitiga siku-siku di atas, tentukan panjang sisi miring MO!
+                                        </div>
+
+                                        <div class="p-3 bg-white border border-dark rounded shadow-sm mb-3">
+                                            <h6 class="text-dark small"><strong>Pilihan Item</strong></h6>
+                                            <p class="text-dark mb-3 small"> Tarik (drag) kotak-kotak item di bawah ini ke area yang sesuai untuk menyusun jawaban yang tepat!:</p>
+                                            <div class="d-flex flex-wrap gap-2" id="drag-items-container">
+                                                <div class="p-2 bg-white border border-dark text-dark rounded shadow-sm draggable-item cursor-grab fw-bold small" draggable="true" id="item-8cm" data-value="8cm">8 cm</div>
+                                                <div class="p-2 bg-white border border-dark text-dark rounded shadow-sm draggable-item cursor-grab fw-bold small" draggable="true" id="item-15cm" data-value="15cm">15 cm</div>
+                                                <div class="p-2 bg-white border border-dark text-dark rounded shadow-sm draggable-item cursor-grab fw-bold small" draggable="true" id="item-tanya" data-value="tanya">Panjang sisi miring MO</div>
+                                                <div class="p-2 bg-white border border-dark text-dark rounded shadow-sm draggable-item cursor-grab fw-bold small" draggable="true" id="item-mo" data-value="MO">MO</div>
+                                                <div class="p-2 bg-white border border-dark text-dark rounded shadow-sm draggable-item cursor-grab fw-bold small" draggable="true" id="item-mn" data-value="MN">MN</div>
+                                                <div class="p-2 bg-white border border-dark text-dark rounded shadow-sm draggable-item cursor-grab fw-bold small" draggable="true" id="item-no" data-value="NO">NO</div>
+
+                                                <div class="p-2 bg-white border border-dark text-dark rounded shadow-sm draggable-item cursor-grab fw-bold small" draggable="true" id="item-17cm" data-value="salah_17">17 cm</div>
+                                                <div class="p-2 bg-white border border-dark text-dark rounded shadow-sm draggable-item cursor-grab fw-bold small" draggable="true" id="item-om" data-value="salah_om">OM</div>
+                                                <div class="p-2 bg-white border border-dark text-dark rounded shadow-sm draggable-item cursor-grab fw-bold small" draggable="true" id="item-siku" data-value="salah_siku">Panjang sisi siku-siku</div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                    <div class="col-lg-7">
+                                        <div class="card bg-white border border-dark rounded-3 shadow-sm">
+                                            <div class="card-body">
+
+                                                <div class="d-flex flex-column gap-3">
+
+                                                    <div class="p-3 bg-light border border-dark rounded">
+                                                        <div class="row">
+
+                                                            <div class="col-12">
+                                                                <strong class="text-dark small d-block">Diketahui:</strong>
+                                                            </div>
+
+                                                            <div class="col-md-6">
+                                                                <span class="text-dark fw-bold small d-block mb-2">Panjang sisi siku-siku (MN) =</span>
+                                                                <div class="drop-zone bg-white border border-dark rounded border-dashed d-flex align-items-center justify-content-center p-1" style="min-width: 100px; min-height: 30px;" data-target="s2_diketahui_mn"></div>
+                                                            </div>
+
+                                                            <div class="col-md-6">
+                                                                <span class="text-dark fw-bold small d-block mb-2">Panjang sisi siku-siku (NO) =</span>
+                                                                <div class="drop-zone bg-white border border-dark rounded border-dashed d-flex align-items-center justify-content-center p-1" style="min-width: 100px; min-height: 30px;" data-target="s2_diketahui_no"></div>
+                                                            </div>
+
+                                                            <div class="col-md-12 mt-2">
+                                                                <strong class="text-dark small d-block mb-2">Ditanya:</strong>
+                                                                <div class="drop-zone bg-white border border-dark rounded border-dashed d-flex align-items-center justify-content-center p-1" style="min-width: 100px; min-height: 42px;" data-target="s2_ditanya"></div>
+                                                            </div>
+
+                                                        </div>
+
+                                                    </div>
+
+                                                    <div class="p-3 bg-light border border-dark rounded">
+                                                        <p class="text-dark small">Karena kita mencari sisi miring, susun rumus Pythagoras yang tepat dengan menarik nama-nama sisi ke dalam kotak di bawah ini!</p>
+
+                                                        <div class="d-flex align-items-center justify-content-center gap-2 mb-2 p-2 bg-white border border-dark rounded shadow-sm">
+                                                            <div class="d-flex align-items-start">
+                                                                <div class="drop-zone bg-white border border-dark rounded border-dashed d-flex align-items-center justify-content-center p-1" style="min-width: 80px; min-height: 42px;" data-target="s2_rumus_miring"></div>
+                                                                <span class="text-dark fw-bold ms-1" style="font-size: 1.2rem;">²</span>
+                                                            </div>
+
+                                                            <span class="fw-bold text-dark mx-2" style="font-size: 1.2rem;">=</span>
+
+                                                            <div class="d-flex align-items-start">
+                                                                <div class="drop-zone bg-light border border-dark rounded border-dashed d-flex align-items-center justify-content-center" style="width: 80px; height: 40px;" data-target="s2_rumus_tegak1"></div>
+                                                                <span class="text-dark fw-bold ms-1" style="font-size: 1.2rem;">²</span>
+                                                            </div>
+
+                                                            <span class="fw-bold text-dark mx-2" style="font-size: 1.2rem;">+</span>
+
+                                                            <div class="d-flex align-items-start">
+                                                                <div class="drop-zone bg-light border border-dark rounded border-dashed d-flex align-items-center justify-content-center" style="width: 80px; height: 40px;" data-target="s2_rumus_tegak2"></div>
+                                                                <span class="text-dark fw-bold ms-1" style="font-size: 1.2rem;">²</span>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="d-flex align-items-center gap-2 mb-2">
+                                                            <div class="input-group input-group-sm" style="width: 80px;">
+                                                                <input type="text" id="s2_inp_mo_1" class="form-control text-center bg-white border-dark shadow-sm fw-bold" placeholder="...">
+                                                                <span class="input-group-text bg-white border-dark text-dark fw-bold">²</span>
+                                                            </div>
+                                                            <span class="fw-bold text-dark">=</span>
+                                                            <div class="input-group input-group-sm" style="width: 80px;">
+                                                                <input type="number" id="s2_inp_mn" class="form-control text-center bg-white border-dark shadow-sm" placeholder="...">
+                                                                <span class="input-group-text bg-white border-dark text-dark fw-bold">²</span>
+                                                            </div>
+                                                            <span class="fw-bold text-dark">+</span>
+                                                            <div class="input-group input-group-sm" style="width: 80px;">
+                                                                <input type="number" id="s2_inp_no" class="form-control text-center bg-white border-dark shadow-sm" placeholder="...">
+                                                                <span class="input-group-text bg-white border-dark text-dark fw-bold">²</span>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="d-flex align-items-center gap-2 mb-2">
+                                                            <div class="input-group input-group-sm" style="width: 80px;">
+                                                                <input type="text" id="s2_inp_mo_2" class="form-control text-center bg-white border-dark shadow-sm fw-bold" placeholder="...">
+                                                                <span class="input-group-text bg-white border-dark text-dark fw-bold">²</span>
+                                                            </div>
+                                                            <span class="fw-bold text-dark">=</span>
+                                                            <input type="number" id="s2_res_mn_sq" class="form-control form-control-sm text-center bg-white border-dark shadow-sm" style="width:80px;" placeholder="...">
+                                                            <span class="fw-bold text-dark">+</span>
+                                                            <input type="number" id="s2_res_no_sq" class="form-control form-control-sm text-center bg-white border-dark shadow-sm" style="width:80px;" placeholder="...">
+                                                        </div>
+
+                                                        <div class="d-flex align-items-center gap-2 mb-2">
+                                                            <div class="input-group input-group-sm" style="width: 80px;">
+                                                                <input type="text" id="s2_inp_mo_3" class="form-control text-center bg-white border-dark shadow-sm fw-bold" placeholder="...">
+                                                                <span class="input-group-text bg-white border-dark text-dark fw-bold">²</span>
+                                                            </div>
+                                                            <span class="fw-bold text-dark">=</span>
+                                                            <input type="number" id="s2_res_sum" class="form-control form-control-sm text-center bg-white border-dark fw-bold shadow-sm" style="width:185px;" placeholder="...">
+                                                        </div>
+
+                                                        <div class="d-flex align-items-center gap-2 mb-3">
+                                                            <input type="text" id="s2_inp_mo_4" class="form-control form-control-sm text-center bg-white border-dark shadow-sm fw-bold" style="width:80px;" placeholder="...">
+                                                            <span class="fw-bold text-dark">=</span>
+                                                            <span class="text-dark fw-bold">√</span>
+                                                            <input type="number" id="s2_res_sqrt" class="form-control form-control-sm text-center bg-white border-dark fw-bold shadow-sm" style="width:80px;" placeholder="...">
+                                                            <span class="text-dark fw-bold">=</span>
+                                                            <input type="number" id="s2_final" class="form-control form-control-sm text-center bg-white fw-bold text-dark border-dark shadow-sm" style="width:90px;" placeholder="...">
+                                                            <span class="fw-bold text-dark">cm</span>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+
+                                                <div class="mt-2 d-flex justify-content-center align-items-center">
+                                                    <div id="s2_feedback" class="small fw-bold text-success"></div>
+                                                    <button class="btn btn-success btn-sm px-4 fw-bold shadow-sm" onclick="cekLatihanAnalisis2()">
+                                                        Cek Jawaban
+                                                    </button>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card border-0 shadow mb-4" id="soal3-container">
+                            <div class="card-header bg-success text-white">
+                                <h5 class="mb-0 fw-bold">Soal 3</h5>
+                            </div>
+
+                            <div class="card-body">
+                                <div class="row">
+
+                                    <div class="col-lg-5 mb-3">
+                                        <p class="text-muted fw-bold mb-2 small">Perhatikan gambar di bawah ini:</p>
+                                        <div class="bg-white rounded-3 border border-dark mb-3 d-flex justify-content-center">
+                                            <img src="/images/segitiga_latihan1_nomor3.png"
+                                                class="img-fluid p-2"
+                                                style="max-height:300px;"
+                                                alt="Soal 3">
+                                        </div>
+
+                                        <div class="alert bg-light border border-dark text-justify small shadow-sm">
+                                            Berdasarkan bangun datar di atas, tentukan panjang BC!
+                                        </div>
+
+
+                                        <div class="p-3 bg-light border border-dark rounded shadow-sm mb-4">
+                                            <h6 class="text-dark small"><strong>Pilihan Item</strong></h6>
+                                            <p class="text-dark mb-3 small"> Tarik (drag) kotak-kotak item di bawah ini ke area yang sesuai untuk menyusun jawaban yang tepat!:</p>
+                                            <div class="d-flex flex-wrap gap-2" id="drag-items-container-s3">
+                                                <div class="p-1 px-2 bg-white border border-dark text-dark rounded shadow-sm draggable-item cursor-grab fw-bold small" draggable="true" id="item-AE" data-value="AE">AE</div>
+                                                <div class="p-1 px-2 bg-white border border-dark text-dark rounded shadow-sm draggable-item cursor-grab fw-bold small" draggable="true" id="item-CE" data-value="CE">CE</div>
+                                                <div class="p-1 px-2 bg-white border border-dark text-dark rounded shadow-sm draggable-item cursor-grab fw-bold small" draggable="true" id="item-AD" data-value="AD">AD</div>
+                                                <div class="p-1 px-2 bg-white border border-dark text-dark rounded shadow-sm draggable-item cursor-grab fw-bold small" draggable="true" id="item-BD" data-value="BD">BD</div>
+                                                <div class="p-1 px-2 bg-white border border-dark text-dark rounded shadow-sm draggable-item cursor-grab fw-bold small" draggable="true" id="item-AC" data-value="AC">AC</div>
+                                                <div class="p-1 px-2 bg-white border border-dark text-dark rounded shadow-sm draggable-item cursor-grab fw-bold small" draggable="true" id="item-AB" data-value="AB">AB</div>
+                                                <div class="p-1 px-2 bg-white border border-dark text-dark rounded shadow-sm draggable-item cursor-grab fw-bold small" draggable="true" id="item-BC" data-value="BC">BC</div>
+
+                                                <div class="p-1 px-2 bg-white border border-dark text-dark rounded shadow-sm draggable-item cursor-grab fw-bold small" draggable="true" id="item-24" data-value="24">24</div>
+                                                <div class="p-1 px-2 bg-white border border-dark text-dark rounded shadow-sm draggable-item cursor-grab fw-bold small" draggable="true" id="item-7" data-value="7">7</div>
+                                                <div class="p-1 px-2 bg-white border border-dark text-dark rounded shadow-sm draggable-item cursor-grab fw-bold small" draggable="true" id="item-16" data-value="16">16</div>
+                                                <div class="p-1 px-2 bg-white border border-dark text-dark rounded shadow-sm draggable-item cursor-grab fw-bold small" draggable="true" id="item-12" data-value="12">12</div>
+
+                                                <div class="p-1 px-2 bg-white border border-dark text-dark rounded shadow-sm draggable-item cursor-grab fw-bold small" draggable="true" id="item-CD" data-value="CD">CD</div>
+                                                <div class="p-1 px-2 bg-white border border-dark text-dark rounded shadow-sm draggable-item cursor-grab fw-bold small" draggable="true" id="item-20" data-value="20">20</div>
+                                            </div>
+                                        </div>
+
+                                        <div class="card bg-white border border-dark rounded-3 shadow-sm mb-4">
+                                            <div class="card-body p-3">
+                                                <div class="row g-3">
+
+                                                    <div class="col-12 pb-0 mb-0">
+                                                        <strong class="text-dark small d-block">Diketahui:</strong>
+                                                    </div>
+
+                                                    <div class="col-6 pt-1">
+                                                        <div class="d-flex flex-column gap-2 small">
+                                                            <div>
+                                                                <span class="text-dark fw-bold d-block mb-1">Panjang AE =</span>
+                                                                <div class="drop-zone bg-light border border-dark rounded border-dashed d-flex align-items-center justify-content-center p-1" style="min-width: 100px; min-height: 38px;" data-target="s3_diket_ae"></div>
+                                                            </div>
+                                                            <div>
+                                                                <span class="text-dark fw-bold d-block mb-1">Panjang CE =</span>
+                                                                <div class="drop-zone bg-light border border-dark rounded border-dashed d-flex align-items-center justify-content-center p-1" style="min-width: 100px; min-height: 38px;" data-target="s3_diket_ce"></div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-6 pt-1">
+                                                        <div class="d-flex flex-column gap-2 small">
+                                                            <div>
+                                                                <span class="text-dark fw-bold d-block mb-1">Panjang AD =</span>
+                                                                <div class="drop-zone bg-light border border-dark rounded border-dashed d-flex align-items-center justify-content-center p-1" style="min-width: 100px; min-height: 38px;" data-target="s3_diket_ad"></div>
+                                                            </div>
+                                                            <div>
+                                                                <span class="text-dark fw-bold d-block mb-1">Panjang BD =</span>
+                                                                <div class="drop-zone bg-light border border-dark rounded border-dashed d-flex align-items-center justify-content-center p-1" style="min-width: 100px; min-height: 38px;" data-target="s3_diket_bd"></div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-12 py-1">
+                                                        <hr class="m-0 border-secondary">
+                                                    </div>
+
+                                                    <div class="col-12 pt-1">
+                                                        <strong class="text-dark small d-block mb-2">Ditanya:</strong>
+                                                        <div class="d-flex align-items-center gap-2 small">
+                                                            <span class="text-muted">Panjang sisi</span>
+                                                            <div class="drop-zone bg-light border border-dark rounded border-dashed d-flex align-items-center justify-content-center p-1" style="min-width: 80px; min-height: 38px;" data-target="s3_ditanya"></div>
+                                                            <span class="text-dark fw-bold">= ... ?</span>
+                                                        </div>
                                                     </div>
 
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                            </div>
 
-                            <div class="card border-0 shadow mb-4">
-                                <div class="card-header bg-success text-white">
-                                    <h5 class="mb-0 fw-bold">Soal 2: Menyusun Informasi dan Rumus</h5>
-                                </div>
-                                <div class="card-body">
-                                    <div class="row">
+                                    <div class="col-lg-7">
+                                        <div class="card bg-white border border-dark rounded-3 shadow-sm h-100">
+                                            <div class="card-body">
 
-                                        <div class="col-lg-5 mb-4">
-                                            <p class="text-muted fw-bold mb-2 small">Perhatikan gambar segitiga siku-siku MNO di bawah ini:</p>
-                                            <div class="bg-white rounded-3 border border-dark mb-3 d-flex justify-content-center">
-                                                <img src="/images/segitiga_latihan1_nomor2.png" class="img-fluid p-2" style="max-height: 250px;" alt="Segitiga MNO">
-                                                
-                                            </div>
-                                            <div class="alert bg-light border border-dark text-justify small shadow-sm">
-                                                Berdasarkan segitiga siku-siku di atas, tentukan panjang sisi miring MO!
-                                            </div>
+                                                <h6 class="fw-bold mb-3 text-dark border-bottom pb-2">Langkah Penyelesaian:</h6>
 
-                                            <div class="p-3 bg-white border border-dark rounded shadow-sm mb-3">
-                                                <h6 class="text-dark small"><strong>Pilihan Item</strong></h6>
-                                                <p class="text-dark mb-3 small"> Tarik (drag) kotak-kotak item di bawah ini ke area yang sesuai untuk menyusun jawaban yang tepat!:</p>
-                                                <div class="d-flex flex-wrap gap-2" id="drag-items-container">
-                                                    <div class="p-2 bg-white border border-dark text-dark rounded shadow-sm draggable-item cursor-grab fw-bold small" draggable="true" id="item-8cm" data-value="8cm">8 cm</div>
-                                                    <div class="p-2 bg-white border border-dark text-dark rounded shadow-sm draggable-item cursor-grab fw-bold small" draggable="true" id="item-15cm" data-value="15cm">15 cm</div>
-                                                    <div class="p-2 bg-white border border-dark text-dark rounded shadow-sm draggable-item cursor-grab fw-bold small" draggable="true" id="item-tanya" data-value="tanya">Panjang sisi miring MO</div>
-                                                    <div class="p-2 bg-white border border-dark text-dark rounded shadow-sm draggable-item cursor-grab fw-bold small" draggable="true" id="item-mo" data-value="MO">MO</div>
-                                                    <div class="p-2 bg-white border border-dark text-dark rounded shadow-sm draggable-item cursor-grab fw-bold small" draggable="true" id="item-mn" data-value="MN">MN</div>
-                                                    <div class="p-2 bg-white border border-dark text-dark rounded shadow-sm draggable-item cursor-grab fw-bold small" draggable="true" id="item-no" data-value="NO">NO</div>
-                                                    
-                                                    <div class="p-2 bg-white border border-dark text-dark rounded shadow-sm draggable-item cursor-grab fw-bold small" draggable="true" id="item-17cm" data-value="salah_17">17 cm</div>
-                                                    <div class="p-2 bg-white border border-dark text-dark rounded shadow-sm draggable-item cursor-grab fw-bold small" draggable="true" id="item-om" data-value="salah_om">OM</div>
-                                                    <div class="p-2 bg-white border border-dark text-dark rounded shadow-sm draggable-item cursor-grab fw-bold small" draggable="true" id="item-siku" data-value="salah_siku">Panjang sisi siku-siku</div>
-                                                </div>
-                                            </div>
+                                                <ol class="ps-3 mb-0 text-muted list-group-numbered-custom fw-bold text-dark">
 
-                                        </div>
+                                                    <li class="mb-4">
+                                                        <span class="text-dark">Mencari sisi miring AC pada \(\triangle AEC\):</span>
 
-                                        <div class="col-lg-7">
-                                            <div class="card bg-white border border-dark rounded-3 shadow-sm">
-                                                <div class="card-body">
-                                                    
-                                                    <div class="d-flex flex-column gap-3">
-                                                        
-                                                        <div class="p-3 bg-light border border-dark rounded">    
-                                                            <div class="row">
-                                                        
-                                                                <div class="col-12">
-                                                                    <strong class="text-dark small d-block">Diketahui:</strong>
+                                                        <div class="mt-2 p-3 bg-light border border-dark rounded shadow-sm">
+                                                            <div class="d-flex align-items-center gap-1 mb-2 bg-white p-2 rounded border border-dark justify-content-start">
+                                                                <span class="fw-bold text-dark" style="min-width: 60px;">\( AC^2 = \)</span>
+                                                                <div class="d-flex align-items-start">
+                                                                    <div class="drop-zone bg-light border border-dark rounded border-dashed d-flex align-items-center justify-content-center" style="width: 60px; height: 32px;" data-target="s3_ac_drop1"></div>
+                                                                    <span class="text-dark fw-bold ms-1" style="font-size: 0.85em;">2</span>
                                                                 </div>
-                                                                
-                                                                <div class="col-md-6">
-                                                                    <span class="text-dark fw-bold small d-block mb-2">Panjang sisi siku-siku (MN) =</span>
-                                                                    <div class="drop-zone bg-white border border-dark rounded border-dashed d-flex align-items-center justify-content-center p-1" style="min-width: 100px; min-height: 30px;" data-target="s2_diketahui_mn"></div>
+                                                                <span class="text-dark fw-bold mx-1">+</span>
+                                                                <div class="d-flex align-items-start">
+                                                                    <div class="drop-zone bg-light border border-dark rounded border-dashed d-flex align-items-center justify-content-center" style="width: 60px; height: 32px;" data-target="s3_ac_drop2"></div>
+                                                                    <span class="text-dark fw-bold ms-1" style="font-size: 0.85em;">2</span>
                                                                 </div>
-                                                                                                                        
-                                                                <div class="col-md-6">
-                                                                    <span class="text-dark fw-bold small d-block mb-2">Panjang sisi siku-siku (NO) =</span>
-                                                                    <div class="drop-zone bg-white border border-dark rounded border-dashed d-flex align-items-center justify-content-center p-1" style="min-width: 100px; min-height: 30px;" data-target="s2_diketahui_no"></div>
-                                                                </div>
-                                                                                                                        
-                                                                <div class="col-md-12 mt-2">
-                                                                    <strong class="text-dark small d-block mb-2">Ditanya:</strong>
-                                                                    <div class="drop-zone bg-white border border-dark rounded border-dashed d-flex align-items-center justify-content-center p-1" style="min-width: 100px; min-height: 42px;" data-target="s2_ditanya"></div>
-                                                                </div>
-                                                                
-                                                            </div>                       
+                                                            </div>
 
+                                                            <div class="d-flex align-items-center gap-1 mb-2 justify-content-start">
+                                                                <span class="fw-bold text-dark" style="min-width: 60px;">\( AC^2 = \)</span>
+                                                                <div class="input-group input-group-sm" style="width: 85px;">
+                                                                    <input type="number" id="s3_ac_sq1" class="form-control text-center bg-white border-dark px-1">
+                                                                    <span class="input-group-text bg-white border-dark text-dark fw-bold px-1" style="font-size: 0.85em;">2</span>
+                                                                </div>
+                                                                <span class="text-dark fw-bold mx-1">+</span>
+                                                                <div class="input-group input-group-sm" style="width: 85px;">
+                                                                    <input type="number" id="s3_ac_sq2" class="form-control text-center bg-white border-dark px-1">
+                                                                    <span class="input-group-text bg-white border-dark text-dark fw-bold px-1" style="font-size: 0.85em;">2</span>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="d-flex align-items-center gap-1 mb-2 justify-content-start">
+                                                                <span class="fw-bold text-dark" style="min-width: 60px;">\( AC^2 = \)</span>
+                                                                <input type="number" id="s3_ac_sum1" class="form-control form-control-sm text-center bg-white border-dark" style="width: 85px;">
+                                                                <span class="text-dark fw-bold mx-1">+</span>
+                                                                <input type="number" id="s3_ac_sum2" class="form-control form-control-sm text-center bg-white border-dark" style="width: 85px;">
+                                                            </div>
+
+                                                            <div class="d-flex align-items-center gap-1 mb-2 justify-content-start">
+                                                                <span class="fw-bold text-dark" style="min-width: 60px;">\( AC^2 = \)</span>
+                                                                <input type="number" id="s3_ac_total" class="form-control form-control-sm text-center bg-white border-dark fw-bold" style="width: 190px;">
+                                                            </div>
+
+                                                            <div class="d-flex align-items-center gap-1 justify-content-start">
+                                                                <span class="fw-bold text-dark" style="min-width: 60px;">\( AC = \)</span>
+                                                                <span class="fw-bold text-dark">\(\sqrt{}\)</span>
+                                                                <input type="number" id="s3_ac_sqrt_val" class="form-control form-control-sm text-center bg-white border-dark fw-bold" style="width: 75px;">
+                                                                <span class="text-dark fw-bold mx-1">=</span>
+                                                                <input type="number" id="s3_ac_final" class="form-control form-control-sm text-center bg-white border-dark fw-bold text-success" style="width: 75px;">
+                                                                <span class="fw-bold text-dark small">cm</span>
+                                                            </div>
                                                         </div>
+                                                    </li>
 
-                                                        <div class="p-3 bg-light border border-dark rounded">
-                                                            <p class="text-dark small">Karena kita mencari sisi miring, susun rumus Pythagoras yang tepat dengan menarik nama-nama sisi ke dalam kotak di bawah ini!</p>
-                                                            
-                                                            <div class="d-flex align-items-center justify-content-center gap-2 mb-2 p-2 bg-white border border-dark rounded shadow-sm">
+                                                    <li class="mb-4">
+                                                        <span class="text-dark">Mencari sisi miring AB pada \(\triangle ADB\):</span>
+
+                                                        <div class="mt-2 p-3 bg-light border border-dark rounded shadow-sm">
+                                                            <div class="d-flex align-items-center gap-1 mb-3 bg-white p-2 rounded border border-dark justify-content-start">
+                                                                <span class="fw-bold text-dark" style="min-width: 60px;">\( AB^2 = \)</span>
                                                                 <div class="d-flex align-items-start">
-                                                                    <div class="drop-zone bg-white border border-dark rounded border-dashed d-flex align-items-center justify-content-center p-1" style="min-width: 80px; min-height: 42px;" data-target="s2_rumus_miring"></div>
-                                                                    <span class="text-dark fw-bold ms-1" style="font-size: 1.2rem;">²</span>
+                                                                    <div class="drop-zone bg-light border border-dark rounded border-dashed d-flex align-items-center justify-content-center" style="width: 60px; height: 32px;" data-target="s3_ab_drop1"></div>
+                                                                    <span class="text-dark fw-bold ms-1" style="font-size: 0.85em;">2</span>
                                                                 </div>
-                                                                                                                        
-                                                                <span class="fw-bold text-dark mx-2" style="font-size: 1.2rem;">=</span>
-                                                                                                                        
+                                                                <span class="text-dark fw-bold mx-1">+</span>
                                                                 <div class="d-flex align-items-start">
-                                                                    <div class="drop-zone bg-light border border-dark rounded border-dashed d-flex align-items-center justify-content-center" style="width: 80px; height: 40px;" data-target="s2_rumus_tegak1"></div>
-                                                                    <span class="text-dark fw-bold ms-1" style="font-size: 1.2rem;">²</span>
-                                                                </div>
-                                                                                                                        
-                                                                <span class="fw-bold text-dark mx-2" style="font-size: 1.2rem;">+</span>
-                                                                                                                        
-                                                                <div class="d-flex align-items-start">
-                                                                    <div class="drop-zone bg-light border border-dark rounded border-dashed d-flex align-items-center justify-content-center" style="width: 80px; height: 40px;" data-target="s2_rumus_tegak2"></div>
-                                                                    <span class="text-dark fw-bold ms-1" style="font-size: 1.2rem;">²</span>
+                                                                    <div class="drop-zone bg-light border border-dark rounded border-dashed d-flex align-items-center justify-content-center" style="width: 60px; height: 32px;" data-target="s3_ab_drop2"></div>
+                                                                    <span class="text-dark fw-bold ms-1" style="font-size: 0.85em;">2</span>
                                                                 </div>
                                                             </div>
 
-                                                            <div class="d-flex align-items-center gap-2 mb-2">
-                                                                <div class="input-group input-group-sm" style="width: 80px;">
-                                                                    <input type="text" id="s2_inp_mo_1" class="form-control text-center bg-white border-dark shadow-sm fw-bold" placeholder="...">
-                                                                    <span class="input-group-text bg-white border-dark text-dark fw-bold">²</span>
+                                                            <div class="d-flex align-items-center gap-1 mb-2 justify-content-start">
+                                                                <span class="fw-bold text-dark" style="min-width: 60px;">\( AB^2 = \)</span>
+                                                                <div class="input-group input-group-sm" style="width: 85px;">
+                                                                    <input type="number" id="s3_ab_sq1" class="form-control text-center bg-white border-dark px-1">
+                                                                    <span class="input-group-text bg-white border-dark text-dark fw-bold px-1" style="font-size: 0.85em;">2</span>
                                                                 </div>
-                                                                <span class="fw-bold text-dark">=</span>
-                                                                <div class="input-group input-group-sm" style="width: 80px;">
-                                                                    <input type="number" id="s2_inp_mn" class="form-control text-center bg-white border-dark shadow-sm" placeholder="...">
-                                                                    <span class="input-group-text bg-white border-dark text-dark fw-bold">²</span>
-                                                                </div>
-                                                                <span class="fw-bold text-dark">+</span>
-                                                                <div class="input-group input-group-sm" style="width: 80px;">
-                                                                    <input type="number" id="s2_inp_no" class="form-control text-center bg-white border-dark shadow-sm" placeholder="...">
-                                                                    <span class="input-group-text bg-white border-dark text-dark fw-bold">²</span>
+                                                                <span class="text-dark fw-bold mx-1">+</span>
+                                                                <div class="input-group input-group-sm" style="width: 85px;">
+                                                                    <input type="number" id="s3_ab_sq2" class="form-control text-center bg-white border-dark px-1">
+                                                                    <span class="input-group-text bg-white border-dark text-dark fw-bold px-1" style="font-size: 0.85em;">2</span>
                                                                 </div>
                                                             </div>
 
-                                                            <div class="d-flex align-items-center gap-2 mb-2">
-                                                                <div class="input-group input-group-sm" style="width: 80px;">
-                                                                    <input type="text" id="s2_inp_mo_2" class="form-control text-center bg-white border-dark shadow-sm fw-bold" placeholder="...">
-                                                                    <span class="input-group-text bg-white border-dark text-dark fw-bold">²</span>
-                                                                </div>
-                                                                <span class="fw-bold text-dark">=</span>
-                                                                <input type="number" id="s2_res_mn_sq" class="form-control form-control-sm text-center bg-white border-dark shadow-sm" style="width:80px;" placeholder="...">
-                                                                <span class="fw-bold text-dark">+</span>
-                                                                <input type="number" id="s2_res_no_sq" class="form-control form-control-sm text-center bg-white border-dark shadow-sm" style="width:80px;" placeholder="...">
-                                                            </div>
-                                                            
-                                                            <div class="d-flex align-items-center gap-2 mb-2">
-                                                                <div class="input-group input-group-sm" style="width: 80px;">
-                                                                    <input type="text" id="s2_inp_mo_3" class="form-control text-center bg-white border-dark shadow-sm fw-bold" placeholder="...">
-                                                                    <span class="input-group-text bg-white border-dark text-dark fw-bold">²</span>
-                                                                </div>
-                                                                <span class="fw-bold text-dark">=</span>
-                                                                <input type="number" id="s2_res_sum" class="form-control form-control-sm text-center bg-white border-dark fw-bold shadow-sm" style="width:185px;" placeholder="...">
-                                                            </div>
-                                                            
-                                                            <div class="d-flex align-items-center gap-2 mb-3">
-                                                                <input type="text" id="s2_inp_mo_4" class="form-control form-control-sm text-center bg-white border-dark shadow-sm fw-bold" style="width:80px;" placeholder="...">
-                                                                <span class="fw-bold text-dark">=</span>
-                                                                <span class="text-dark fw-bold">√</span>
-                                                                <input type="number" id="s2_res_sqrt" class="form-control form-control-sm text-center bg-white border-dark fw-bold shadow-sm" style="width:80px;" placeholder="...">
-                                                                <span class="text-dark fw-bold">=</span>
-                                                                <input type="number" id="s2_final" class="form-control form-control-sm text-center bg-white fw-bold text-dark border-dark shadow-sm" style="width:90px;" placeholder="...">
-                                                                <span class="fw-bold text-dark">cm</span>
+                                                            <div class="d-flex align-items-center gap-1 mb-2 justify-content-start">
+                                                                <span class="fw-bold text-dark" style="min-width: 60px;">\( AB^2 = \)</span>
+                                                                <input type="number" id="s3_ab_sum1" class="form-control form-control-sm text-center bg-white border-dark" style="width: 85px;">
+                                                                <span class="text-dark fw-bold mx-1">+</span>
+                                                                <input type="number" id="s3_ab_sum2" class="form-control form-control-sm text-center bg-white border-dark" style="width: 85px;">
                                                             </div>
 
+                                                            <div class="d-flex align-items-center gap-1 mb-2 justify-content-start">
+                                                                <span class="fw-bold text-dark" style="min-width: 60px;">\( AB^2 = \)</span>
+                                                                <input type="number" id="s3_ab_total" class="form-control form-control-sm text-center bg-white border-dark fw-bold" style="width: 190px;">
+                                                            </div>
+
+                                                            <div class="d-flex align-items-center gap-1 justify-content-start">
+                                                                <span class="fw-bold text-dark" style="min-width: 60px;">\( AB = \)</span>
+                                                                <span class="fw-bold text-dark">\(\sqrt{}\)</span>
+                                                                <input type="number" id="s3_ab_sqrt_val" class="form-control form-control-sm text-center bg-white border-dark fw-bold" style="width: 75px;">
+                                                                <span class="text-dark fw-bold mx-1">=</span>
+                                                                <input type="number" id="s3_ab_final" class="form-control form-control-sm text-center bg-white border-dark fw-bold text-success" style="width: 75px;">
+                                                                <span class="fw-bold text-dark small">cm</span>
+                                                            </div>
                                                         </div>
-                                                    </div>
+                                                    </li>
 
-                                                    <div class="mt-2 d-flex justify-content-center align-items-center">
-                                                        <div id="s2_feedback" class="small fw-bold text-success"></div>
-                                                        <button class="btn btn-success btn-sm px-4 fw-bold shadow-sm" onclick="cekLatihanAnalisis2()">
-                                                            Cek Jawaban
-                                                        </button>
-                                                    </div>
+                                                    <li class="mb-2">
+                                                        <span class="text-dark">Mencari sisi siku-siku BC pada \(\triangle ABC\):</span>
 
+                                                        <div class="mt-2 p-3 bg-light border border-dark rounded shadow-sm">
+                                                            <div class="d-flex align-items-center gap-1 mb-3 bg-white p-2 rounded border border-dark justify-content-start">
+                                                                <span class="fw-bold text-dark" style="min-width: 60px;">\( BC^2 = \)</span>
+                                                                <div class="d-flex align-items-start">
+                                                                    <div class="drop-zone bg-light border border-dark rounded border-dashed d-flex align-items-center justify-content-center" style="width: 60px; height: 32px;" data-target="s3_bc_drop1"></div>
+                                                                    <span class="text-dark fw-bold ms-1" style="font-size: 0.85em;">2</span>
+                                                                </div>
+                                                                <span class="text-danger fw-bold fs-5 mx-1">-</span>
+                                                                <div class="d-flex align-items-start">
+                                                                    <div class="drop-zone bg-light border border-dark rounded border-dashed d-flex align-items-center justify-content-center" style="width: 60px; height: 32px;" data-target="s3_bc_drop2"></div>
+                                                                    <span class="text-dark fw-bold ms-1" style="font-size: 0.85em;">2</span>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="d-flex align-items-center gap-1 mb-2 justify-content-start">
+                                                                <span class="fw-bold text-dark" style="min-width: 60px;">\( BC^2 = \)</span>
+                                                                <div class="input-group input-group-sm" style="width: 85px;">
+                                                                    <input type="number" id="s3_bc_sq1" class="form-control text-center bg-white border-dark px-1">
+                                                                    <span class="input-group-text bg-white border-dark text-dark fw-bold px-1" style="font-size: 0.85em;">2</span>
+                                                                </div>
+                                                                <span class="text-danger fw-bold mx-1">-</span>
+                                                                <div class="input-group input-group-sm" style="width: 85px;">
+                                                                    <input type="number" id="s3_bc_sq2" class="form-control text-center bg-white border-dark px-1">
+                                                                    <span class="input-group-text bg-white border-dark text-dark fw-bold px-1" style="font-size: 0.85em;">2</span>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="d-flex align-items-center gap-1 mb-2 justify-content-start">
+                                                                <span class="fw-bold text-dark" style="min-width: 60px;">\( BC^2 = \)</span>
+                                                                <input type="number" id="s3_bc_diff1" class="form-control form-control-sm text-center bg-white border-dark" style="width: 85px;">
+                                                                <span class="text-danger fw-bold mx-1">-</span>
+                                                                <input type="number" id="s3_bc_diff2" class="form-control form-control-sm text-center bg-white border-dark" style="width: 85px;">
+                                                            </div>
+
+                                                            <div class="d-flex align-items-center gap-1 mb-2 justify-content-start">
+                                                                <span class="fw-bold text-dark" style="min-width: 60px;">\( BC^2 = \)</span>
+                                                                <input type="number" id="s3_bc_total" class="form-control form-control-sm text-center bg-white border-dark fw-bold" style="width: 190px;">
+                                                            </div>
+
+                                                            <div class="d-flex align-items-center gap-1 justify-content-start">
+                                                                <span class="fw-bold text-dark" style="min-width: 60px;">\( BC = \)</span>
+                                                                <span class="fw-bold text-dark">\(\sqrt{}\)</span>
+                                                                <input type="number" id="s3_bc_sqrt_val" class="form-control form-control-sm text-center bg-white border-dark fw-bold" style="width: 75px;">
+                                                                <span class="text-dark fw-bold mx-1">=</span>
+                                                                <input type="number" id="s3_bc_final" class="form-control form-control-sm text-center bg-white border-dark fw-bold text-success" style="width: 75px;">
+                                                                <span class="fw-bold text-dark small">cm</span>
+                                                            </div>
+                                                        </div>
+                                                    </li>
+
+                                                </ol>
+                                                <div id="s3_feedback" class="w-100 text-center small fw-bold text-success mb-2"></div>
+
+                                                <div class="d-flex justify-content-center gap-2 mt-4 pt-3 border-top">
+                                                    <button class="btn btn-outline-secondary px-3 fw-bold shadow-sm" onclick="resetSoal3()">
+                                                        Reset
+                                                    </button>
+                                                    <button class="btn btn-success px-4 fw-bold shadow-sm" onclick="cekLatihanAnalisis3()">
+                                                        Cek Jawaban
+                                                    </button>
                                                 </div>
+
                                             </div>
                                         </div>
-
                                     </div>
-                                </div>
-                            </div>
 
-                            <div class="card border-0 shadow mb-4" id="soal3-container">
-                                <div class="card-header bg-success text-white">
-                                    <h5 class="mb-0 fw-bold">Soal 3</h5>
-                                </div>
-
-                                <div class="card-body">
-                                    <div class="row">
-
-                                        <div class="col-lg-5 mb-3">
-                                            <p class="text-muted fw-bold mb-2 small">Perhatikan gambar di bawah ini:</p>
-                                            <div class="bg-white rounded-3 border border-dark mb-3 d-flex justify-content-center">
-                                                <img src="/images/segitiga_latihan1_nomor3.png"
-                                                    class="img-fluid p-2"
-                                                    style="max-height:300px;"
-                                                    alt="Soal 3">
-                                            </div>
-
-                                            <div class="alert bg-light border border-dark text-justify small shadow-sm">
-                                                Berdasarkan bangun datar di atas, tentukan panjang BC!
-                                            </div>
-
-                                            
-                                            <div class="p-3 bg-light border border-dark rounded shadow-sm mb-4">
-                                                <h6 class="text-dark small"><strong>Pilihan Item</strong></h6>
-                                                <p class="text-dark mb-3 small"> Tarik (drag) kotak-kotak item di bawah ini ke area yang sesuai untuk menyusun jawaban yang tepat!:</p>
-                                                <div class="d-flex flex-wrap gap-2" id="drag-items-container-s3">
-                                                    <div class="p-1 px-2 bg-white border border-dark text-dark rounded shadow-sm draggable-item cursor-grab fw-bold small" draggable="true" id="item-AE" data-value="AE">AE</div>
-                                                    <div class="p-1 px-2 bg-white border border-dark text-dark rounded shadow-sm draggable-item cursor-grab fw-bold small" draggable="true" id="item-CE" data-value="CE">CE</div>
-                                                    <div class="p-1 px-2 bg-white border border-dark text-dark rounded shadow-sm draggable-item cursor-grab fw-bold small" draggable="true" id="item-AD" data-value="AD">AD</div>
-                                                    <div class="p-1 px-2 bg-white border border-dark text-dark rounded shadow-sm draggable-item cursor-grab fw-bold small" draggable="true" id="item-BD" data-value="BD">BD</div>
-                                                    <div class="p-1 px-2 bg-white border border-dark text-dark rounded shadow-sm draggable-item cursor-grab fw-bold small" draggable="true" id="item-AC" data-value="AC">AC</div>
-                                                    <div class="p-1 px-2 bg-white border border-dark text-dark rounded shadow-sm draggable-item cursor-grab fw-bold small" draggable="true" id="item-AB" data-value="AB">AB</div>
-                                                    <div class="p-1 px-2 bg-white border border-dark text-dark rounded shadow-sm draggable-item cursor-grab fw-bold small" draggable="true" id="item-BC" data-value="BC">BC</div>
-                                                    
-                                                    <div class="p-1 px-2 bg-white border border-dark text-dark rounded shadow-sm draggable-item cursor-grab fw-bold small" draggable="true" id="item-24" data-value="24">24</div>
-                                                    <div class="p-1 px-2 bg-white border border-dark text-dark rounded shadow-sm draggable-item cursor-grab fw-bold small" draggable="true" id="item-7" data-value="7">7</div>
-                                                    <div class="p-1 px-2 bg-white border border-dark text-dark rounded shadow-sm draggable-item cursor-grab fw-bold small" draggable="true" id="item-16" data-value="16">16</div>
-                                                    <div class="p-1 px-2 bg-white border border-dark text-dark rounded shadow-sm draggable-item cursor-grab fw-bold small" draggable="true" id="item-12" data-value="12">12</div>
-                                                    
-                                                    <div class="p-1 px-2 bg-white border border-dark text-dark rounded shadow-sm draggable-item cursor-grab fw-bold small" draggable="true" id="item-CD" data-value="CD">CD</div>
-                                                    <div class="p-1 px-2 bg-white border border-dark text-dark rounded shadow-sm draggable-item cursor-grab fw-bold small" draggable="true" id="item-20" data-value="20">20</div>
-                                                </div>
-                                            </div>
-                                            
-                                            <div class="card bg-white border border-dark rounded-3 shadow-sm mb-4">
-                                                <div class="card-body p-3">
-                                                    <div class="row g-3">
-                                                        
-                                                        <div class="col-12 pb-0 mb-0">
-                                                            <strong class="text-dark small d-block">Diketahui:</strong>
-                                                        </div>
-    
-                                                        <div class="col-6 pt-1">
-                                                            <div class="d-flex flex-column gap-2 small">
-                                                                <div>
-                                                                    <span class="text-dark fw-bold d-block mb-1">Panjang AE =</span>
-                                                                    <div class="drop-zone bg-light border border-dark rounded border-dashed d-flex align-items-center justify-content-center p-1" style="min-width: 100px; min-height: 38px;" data-target="s3_diket_ae"></div>
-                                                                </div>
-                                                                <div>
-                                                                    <span class="text-dark fw-bold d-block mb-1">Panjang CE =</span>
-                                                                    <div class="drop-zone bg-light border border-dark rounded border-dashed d-flex align-items-center justify-content-center p-1" style="min-width: 100px; min-height: 38px;" data-target="s3_diket_ce"></div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-    
-                                                        <div class="col-6 pt-1">
-                                                            <div class="d-flex flex-column gap-2 small">
-                                                                <div>
-                                                                    <span class="text-dark fw-bold d-block mb-1">Panjang AD =</span>
-                                                                    <div class="drop-zone bg-light border border-dark rounded border-dashed d-flex align-items-center justify-content-center p-1" style="min-width: 100px; min-height: 38px;" data-target="s3_diket_ad"></div>
-                                                                </div>
-                                                                <div>
-                                                                    <span class="text-dark fw-bold d-block mb-1">Panjang BD =</span>
-                                                                    <div class="drop-zone bg-light border border-dark rounded border-dashed d-flex align-items-center justify-content-center p-1" style="min-width: 100px; min-height: 38px;" data-target="s3_diket_bd"></div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-    
-                                                        <div class="col-12 py-1">
-                                                            <hr class="m-0 border-secondary">
-                                                        </div>
-    
-                                                        <div class="col-12 pt-1">
-                                                            <strong class="text-dark small d-block mb-2">Ditanya:</strong>
-                                                            <div class="d-flex align-items-center gap-2 small">
-                                                                <span class="text-muted">Panjang sisi</span>
-                                                                <div class="drop-zone bg-light border border-dark rounded border-dashed d-flex align-items-center justify-content-center p-1" style="min-width: 80px; min-height: 38px;" data-target="s3_ditanya"></div>
-                                                                <span class="text-dark fw-bold">= ... ?</span>
-                                                            </div>
-                                                        </div>
-    
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-lg-7">
-                                            <div class="card bg-white border border-dark rounded-3 shadow-sm h-100">
-                                                <div class="card-body">
-
-                                                    <h6 class="fw-bold mb-3 text-dark border-bottom pb-2">Langkah Penyelesaian:</h6>
-
-                                                    <ol class="ps-3 mb-0 text-muted list-group-numbered-custom fw-bold text-dark">
-
-                                                        <li class="mb-4">
-                                                            <span class="text-dark">Mencari sisi miring AC pada \(\triangle AEC\):</span>
-                                                            
-                                                            <div class="mt-2 p-3 bg-light border border-dark rounded shadow-sm">
-                                                                <div class="d-flex align-items-center gap-1 mb-2 bg-white p-2 rounded border border-dark justify-content-start">
-                                                                    <span class="fw-bold text-dark" style="min-width: 60px;">\( AC^2 = \)</span>
-                                                                    <div class="d-flex align-items-start">
-                                                                        <div class="drop-zone bg-light border border-dark rounded border-dashed d-flex align-items-center justify-content-center" style="width: 60px; height: 32px;" data-target="s3_ac_drop1"></div>
-                                                                        <span class="text-dark fw-bold ms-1" style="font-size: 0.85em;">2</span>
-                                                                    </div>
-                                                                    <span class="text-dark fw-bold mx-1">+</span>
-                                                                    <div class="d-flex align-items-start">
-                                                                        <div class="drop-zone bg-light border border-dark rounded border-dashed d-flex align-items-center justify-content-center" style="width: 60px; height: 32px;" data-target="s3_ac_drop2"></div>
-                                                                        <span class="text-dark fw-bold ms-1" style="font-size: 0.85em;">2</span>
-                                                                    </div>
-                                                                </div>
-
-                                                                <div class="d-flex align-items-center gap-1 mb-2 justify-content-start">
-                                                                    <span class="fw-bold text-dark" style="min-width: 60px;">\( AC^2 = \)</span>
-                                                                    <div class="input-group input-group-sm" style="width: 85px;">
-                                                                        <input type="number" id="s3_ac_sq1" class="form-control text-center bg-white border-dark px-1">
-                                                                        <span class="input-group-text bg-white border-dark text-dark fw-bold px-1" style="font-size: 0.85em;">2</span>
-                                                                    </div>
-                                                                    <span class="text-dark fw-bold mx-1">+</span>
-                                                                    <div class="input-group input-group-sm" style="width: 85px;">
-                                                                        <input type="number" id="s3_ac_sq2" class="form-control text-center bg-white border-dark px-1">
-                                                                        <span class="input-group-text bg-white border-dark text-dark fw-bold px-1" style="font-size: 0.85em;">2</span>
-                                                                    </div>
-                                                                </div>
-                                                                
-                                                                <div class="d-flex align-items-center gap-1 mb-2 justify-content-start">
-                                                                    <span class="fw-bold text-dark" style="min-width: 60px;">\( AC^2 = \)</span>
-                                                                    <input type="number" id="s3_ac_sum1" class="form-control form-control-sm text-center bg-white border-dark" style="width: 85px;">
-                                                                    <span class="text-dark fw-bold mx-1">+</span>
-                                                                    <input type="number" id="s3_ac_sum2" class="form-control form-control-sm text-center bg-white border-dark" style="width: 85px;">
-                                                                </div>
-
-                                                                <div class="d-flex align-items-center gap-1 mb-2 justify-content-start">
-                                                                    <span class="fw-bold text-dark" style="min-width: 60px;">\( AC^2 = \)</span>
-                                                                    <input type="number" id="s3_ac_total" class="form-control form-control-sm text-center bg-white border-dark fw-bold" style="width: 190px;">
-                                                                </div>
-
-                                                                <div class="d-flex align-items-center gap-1 justify-content-start">
-                                                                    <span class="fw-bold text-dark" style="min-width: 60px;">\( AC = \)</span>
-                                                                    <span class="fw-bold text-dark">\(\sqrt{}\)</span>
-                                                                    <input type="number" id="s3_ac_sqrt_val" class="form-control form-control-sm text-center bg-white border-dark fw-bold" style="width: 75px;">
-                                                                    <span class="text-dark fw-bold mx-1">=</span>
-                                                                    <input type="number" id="s3_ac_final" class="form-control form-control-sm text-center bg-white border-dark fw-bold text-success" style="width: 75px;">
-                                                                    <span class="fw-bold text-dark small">cm</span>
-                                                                </div>
-                                                            </div>
-                                                        </li>
-
-                                                        <li class="mb-4">
-                                                            <span class="text-dark">Mencari sisi miring AB pada \(\triangle ADB\):</span>
-                                                            
-                                                            <div class="mt-2 p-3 bg-light border border-dark rounded shadow-sm">
-                                                                <div class="d-flex align-items-center gap-1 mb-3 bg-white p-2 rounded border border-dark justify-content-start">
-                                                                    <span class="fw-bold text-dark" style="min-width: 60px;">\( AB^2 = \)</span>
-                                                                    <div class="d-flex align-items-start">
-                                                                        <div class="drop-zone bg-light border border-dark rounded border-dashed d-flex align-items-center justify-content-center" style="width: 60px; height: 32px;" data-target="s3_ab_drop1"></div>
-                                                                        <span class="text-dark fw-bold ms-1" style="font-size: 0.85em;">2</span>
-                                                                    </div>
-                                                                    <span class="text-dark fw-bold mx-1">+</span>
-                                                                    <div class="d-flex align-items-start">
-                                                                        <div class="drop-zone bg-light border border-dark rounded border-dashed d-flex align-items-center justify-content-center" style="width: 60px; height: 32px;" data-target="s3_ab_drop2"></div>
-                                                                        <span class="text-dark fw-bold ms-1" style="font-size: 0.85em;">2</span>
-                                                                    </div>
-                                                                </div>
-
-                                                                <div class="d-flex align-items-center gap-1 mb-2 justify-content-start">
-                                                                    <span class="fw-bold text-dark" style="min-width: 60px;">\( AB^2 = \)</span>
-                                                                    <div class="input-group input-group-sm" style="width: 85px;">
-                                                                        <input type="number" id="s3_ab_sq1" class="form-control text-center bg-white border-dark px-1">
-                                                                        <span class="input-group-text bg-white border-dark text-dark fw-bold px-1" style="font-size: 0.85em;">2</span>
-                                                                    </div>
-                                                                    <span class="text-dark fw-bold mx-1">+</span>
-                                                                    <div class="input-group input-group-sm" style="width: 85px;">
-                                                                        <input type="number" id="s3_ab_sq2" class="form-control text-center bg-white border-dark px-1">
-                                                                        <span class="input-group-text bg-white border-dark text-dark fw-bold px-1" style="font-size: 0.85em;">2</span>
-                                                                    </div>
-                                                                </div>
-                                                                
-                                                                <div class="d-flex align-items-center gap-1 mb-2 justify-content-start">
-                                                                    <span class="fw-bold text-dark" style="min-width: 60px;">\( AB^2 = \)</span>
-                                                                    <input type="number" id="s3_ab_sum1" class="form-control form-control-sm text-center bg-white border-dark" style="width: 85px;">
-                                                                    <span class="text-dark fw-bold mx-1">+</span>
-                                                                    <input type="number" id="s3_ab_sum2" class="form-control form-control-sm text-center bg-white border-dark" style="width: 85px;">
-                                                                </div>
-
-                                                                <div class="d-flex align-items-center gap-1 mb-2 justify-content-start">
-                                                                    <span class="fw-bold text-dark" style="min-width: 60px;">\( AB^2 = \)</span>
-                                                                    <input type="number" id="s3_ab_total" class="form-control form-control-sm text-center bg-white border-dark fw-bold" style="width: 190px;">
-                                                                </div>
-
-                                                                <div class="d-flex align-items-center gap-1 justify-content-start">
-                                                                    <span class="fw-bold text-dark" style="min-width: 60px;">\( AB = \)</span>
-                                                                    <span class="fw-bold text-dark">\(\sqrt{}\)</span>
-                                                                    <input type="number" id="s3_ab_sqrt_val" class="form-control form-control-sm text-center bg-white border-dark fw-bold" style="width: 75px;">
-                                                                    <span class="text-dark fw-bold mx-1">=</span>
-                                                                    <input type="number" id="s3_ab_final" class="form-control form-control-sm text-center bg-white border-dark fw-bold text-success" style="width: 75px;">
-                                                                    <span class="fw-bold text-dark small">cm</span>
-                                                                </div>
-                                                            </div>
-                                                        </li>
-
-                                                        <li class="mb-2">
-                                                            <span class="text-dark">Mencari sisi siku-siku BC pada \(\triangle ABC\):</span>
-
-                                                            <div class="mt-2 p-3 bg-light border border-dark rounded shadow-sm">
-                                                                <div class="d-flex align-items-center gap-1 mb-3 bg-white p-2 rounded border border-dark justify-content-start">
-                                                                    <span class="fw-bold text-dark" style="min-width: 60px;">\( BC^2 = \)</span>
-                                                                    <div class="d-flex align-items-start">
-                                                                        <div class="drop-zone bg-light border border-dark rounded border-dashed d-flex align-items-center justify-content-center" style="width: 60px; height: 32px;" data-target="s3_bc_drop1"></div>
-                                                                        <span class="text-dark fw-bold ms-1" style="font-size: 0.85em;">2</span>
-                                                                    </div>
-                                                                    <span class="text-danger fw-bold fs-5 mx-1">-</span>
-                                                                    <div class="d-flex align-items-start">
-                                                                        <div class="drop-zone bg-light border border-dark rounded border-dashed d-flex align-items-center justify-content-center" style="width: 60px; height: 32px;" data-target="s3_bc_drop2"></div>
-                                                                        <span class="text-dark fw-bold ms-1" style="font-size: 0.85em;">2</span>
-                                                                    </div>
-                                                                </div>
-
-                                                                <div class="d-flex align-items-center gap-1 mb-2 justify-content-start">
-                                                                    <span class="fw-bold text-dark" style="min-width: 60px;">\( BC^2 = \)</span>
-                                                                    <div class="input-group input-group-sm" style="width: 85px;">
-                                                                        <input type="number" id="s3_bc_sq1" class="form-control text-center bg-white border-dark px-1">
-                                                                        <span class="input-group-text bg-white border-dark text-dark fw-bold px-1" style="font-size: 0.85em;">2</span>
-                                                                    </div>
-                                                                    <span class="text-danger fw-bold mx-1">-</span>
-                                                                    <div class="input-group input-group-sm" style="width: 85px;">
-                                                                        <input type="number" id="s3_bc_sq2" class="form-control text-center bg-white border-dark px-1">
-                                                                        <span class="input-group-text bg-white border-dark text-dark fw-bold px-1" style="font-size: 0.85em;">2</span>
-                                                                    </div>
-                                                                </div>
-                                                                
-                                                                <div class="d-flex align-items-center gap-1 mb-2 justify-content-start">
-                                                                    <span class="fw-bold text-dark" style="min-width: 60px;">\( BC^2 = \)</span>
-                                                                    <input type="number" id="s3_bc_diff1" class="form-control form-control-sm text-center bg-white border-dark" style="width: 85px;">
-                                                                    <span class="text-danger fw-bold mx-1">-</span>
-                                                                    <input type="number" id="s3_bc_diff2" class="form-control form-control-sm text-center bg-white border-dark" style="width: 85px;">
-                                                                </div>
-
-                                                                <div class="d-flex align-items-center gap-1 mb-2 justify-content-start">
-                                                                    <span class="fw-bold text-dark" style="min-width: 60px;">\( BC^2 = \)</span>
-                                                                    <input type="number" id="s3_bc_total" class="form-control form-control-sm text-center bg-white border-dark fw-bold" style="width: 190px;">
-                                                                </div>
-
-                                                                <div class="d-flex align-items-center gap-1 justify-content-start">
-                                                                    <span class="fw-bold text-dark" style="min-width: 60px;">\( BC = \)</span>
-                                                                    <span class="fw-bold text-dark">\(\sqrt{}\)</span>
-                                                                    <input type="number" id="s3_bc_sqrt_val" class="form-control form-control-sm text-center bg-white border-dark fw-bold" style="width: 75px;">
-                                                                    <span class="text-dark fw-bold mx-1">=</span>
-                                                                    <input type="number" id="s3_bc_final" class="form-control form-control-sm text-center bg-white border-dark fw-bold text-success" style="width: 75px;">
-                                                                    <span class="fw-bold text-dark small">cm</span>
-                                                                </div>
-                                                            </div>
-                                                        </li>
-
-                                                    </ol>
-                                                    <div id="s3_feedback" class="w-100 text-center small fw-bold text-success mb-2"></div>
-                                                    
-                                                    <div class="d-flex justify-content-center gap-2 mt-4 pt-3 border-top"> 
-                                                        <button class="btn btn-outline-secondary px-3 fw-bold shadow-sm" onclick="resetSoal3()">
-                                                            Reset
-                                                        </button>
-                                                        <button class="btn btn-success px-4 fw-bold shadow-sm" onclick="cekLatihanAnalisis3()">
-                                                            Cek Jawaban
-                                                        </button>
-                                                    </div>
-
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
+        </div>
     </section>
 
     <!-- Halaman 6 -->
@@ -2507,9 +2507,9 @@
                     <div class="card-header text-center">
                         <h4>Rangkuman</h4>
                     </div>
-                    
+
                     <div class="card-body p-4 bg-white">
-                        
+
                         <div class="d-flex align-items-start mb-3">
                             <div class="bg-success text-white rounded-circle d-flex align-items-center justify-content-center flex-shrink-0 mt-1" style="width: 30px; height: 30px;">1</div>
                             <div class="ms-3">
@@ -2536,12 +2536,12 @@
                             <div class="bg-success text-white rounded-circle d-flex align-items-center justify-content-center flex-shrink-0 mt-1" style="width: 30px; height: 30px;">3</div>
                             <div class="ms-3 w-100">
                                 <div class="row align-items-center">
-                                    
+
                                     <div class="col-md-6 mb-3 mb-md-0">
                                         <div class="p-3 bg-light rounded border border-success border-opacity-25 text-center">
                                             <div class="mb-3">
                                                 <p>Pada Segitiga di samping berlaku rumus Teorema Pythagoras:</p>
-                                                <h4 class="fw-bold text-success mb-0">\( c^2 = a^2 + b^2 \)  (Mencari Sisi miring)</h4>
+                                                <h4 class="fw-bold text-success mb-0">\( c^2 = a^2 + b^2 \) (Mencari Sisi miring)</h4>
                                             </div>
                                             <div class="text-muted small  text-center">
                                                 <p>Rumus lain yang berlaku:</p>
@@ -2566,111 +2566,100 @@
             <div class="col-md-12">
                 <div class="card shadow-sm">
                     <div class="card-header text-center bg-light">
-                        <h4 class="mb-0">Refleksi</h4>
+                        <h4 class="mb-0">Refleksi Belajar</h4>
                         <small class="text-muted">
-                            Jawablah berdasarkan pemahamanmu dari aktivitas yang telah dilakukan
+                            Tidak ada jawaban benar atau salah. Jawablah jujur sesuai dengan apa yang kamu rasakan dan pahami hari ini!
                         </small>
                     </div>
 
                     <div class="card-body">
 
-                        <!-- REFLEKSI 1 -->
                         <div class="mb-4">
                             <label class="fw-semibold">
-                                1. Apakah bilangan kuadrat dan akar kuadrat merupakan bilangan dasar
-                                yang menentukan terbentuknya Teorema Pythagoras?
+                                1. Saat mempelajari materi konsep Teorema Pythagoras tadi, apakah kamu merasa kesulitan saat mengaitkannya dengan bilangan kuadrat dan akar kuadrat?
                             </label>
 
                             <div class="mt-2">
                                 <div class="form-check form-check-inline">
                                     <input class="form-check-input" type="radio" name="ref1_opsi" id="ref1_ya" value="ya">
-                                    <label class="form-check-label" for="ref1_ya">Ya</label>
+                                    <label class="form-check-label" for="ref1_ya">Ya, lumayan sulit</label>
                                 </div>
                                 <div class="form-check form-check-inline">
                                     <input class="form-check-input" type="radio" name="ref1_opsi" id="ref1_tidak" value="tidak">
-                                    <label class="form-check-label" for="ref1_tidak">Tidak</label>
+                                    <label class="form-check-label" for="ref1_tidak">Tidak, cukup mudah</label>
                                 </div>
                             </div>
 
                             <textarea class="form-control mt-2" rows="3" id="ref1_text"
-                                placeholder="Jelaskan alasanmu..."></textarea>
-
-                            <div class="feedback mt-2 small" id="fb1"></div>
+                                placeholder="Ceritakan sedikit, bagian mana yang terasa sulit atau bagian mana yang paling mudah..."></textarea>
                         </div>
 
-                        <!-- REFLEKSI 2 -->
                         <div class="mb-4">
                             <label class="fw-semibold">
-                                2. Bagaimana hubungan setiap sisi pada segitiga siku-siku?
-                                Apakah hubungan tersebut berkaitan dengan Teorema Pythagoras?
+                                2. Coba ceritakan menggunakan bahasamu sendiri, apa kesimpulan yang kamu dapatkan tentang hubungan sisi-sisi pada segitiga siku-siku?
                             </label>
                             <textarea class="form-control mt-2" rows="3" id="ref2"
-                                placeholder="Tuliskan pemahamanmu..."></textarea>
-                            <div class="feedback mt-2 small" id="fb2"></div>
+                                placeholder="Tuliskan pemahamanmu di sini..."></textarea>
                         </div>
 
-                        <!-- REFLEKSI 3 -->
                         <div class="mb-4">
                             <label class="fw-semibold">
-                                3. Bagaimana langkah menentukan panjang hipotenusa jika dua sisi lainnya diketahui?
+                                3. Jika kamu diminta menjelaskan cara mencari panjang sisi miring (hipotenusa) kepada temanmu yang belum paham, bagaimana cara kamu menjelaskannya?
                             </label>
                             <textarea class="form-control mt-2" rows="3" id="ref3"
-                                placeholder="Tuliskan langkah-langkahnya..."></textarea>
-                            <div class="feedback mt-2 small" id="fb3"></div>
+                                placeholder="Tuliskan langkah-langkah penjelasanmu..."></textarea>
                         </div>
 
-                        <!-- TOMBOL -->
                         <div class="text-center mt-4">
-                            <button class="btn btn-success px-4" onclick="cekRefleksi()">
+                            <button class="btn btn-success px-4 fw-bold" onclick="cekRefleksi()">
                                 Simpan Refleksi
                             </button>
                         </div>
 
-                        <div class="text-center mt-4">
-                            <p>Setelah mempelajari materi tentang Menemukan Konsep Teorema Pythagoras. Silahkan kerjakan Kuis 1 - Menemukan Konsep Teorema Pythagoras</p>
+                        <div class="text-center mt-4 pt-3 border-top">
+                            <p class="text-muted mb-0">Setelah menyimpan refleksi, silakan lanjut ke Kuis 1 untuk menguji kemampuanmu!</p>
                         </div>
                     </div>
-
-                    </div>
                 </div>
-            </div>  
+            </div>
+        </div>
     </section>
 
-    </div>
+</div>
 
-    
 
-    <!-- Pagination -->
-    <nav class="mt-4">
-        <ul class="pagination justify-content-center materi-pagination">
-            <li class="page-item">
-                <button class="page-link prev-btn">‹</button>
-            </li>
 
-            <li class="page-item active">
-                <button class="page-link page-btn" data-page="0">1</button>
-            </li>
-            <li class="page-item">
-                <button class="page-link page-btn" data-page="1">2</button>
-            </li>
-            <li class="page-item">
-                <button class="page-link page-btn" data-page="2">3</button>
-            </li>
-            <li class="page-item">
-                <button class="page-link page-btn" data-page="3">4</button>
-            </li>
-            <li class="page-item">
-                <button class="page-link page-btn" data-page="4">5</button>
-            </li>
-            <li class="page-item">
-                <button class="page-link page-btn" data-page="5">6</button>
-            </li>
-            
-            <li class="page-item">
-                <button class="page-link next-btn">›</button>
-            </li>
-        </ul>
-    </nav>
+<!-- Pagination -->
+<nav class="mt-4">
+    <ul class="pagination justify-content-center materi-pagination">
+        <li class="page-item">
+            <button class="page-link prev-btn">‹</button>
+        </li>
+
+        <li class="page-item active">
+            <button class="page-link page-btn" data-page="0">1</button>
+        </li>
+        <li class="page-item">
+            <button class="page-link page-btn" data-page="1">2</button>
+        </li>
+        <li class="page-item">
+            <button class="page-link page-btn" data-page="2">3</button>
+        </li>
+        <li class="page-item">
+            <button class="page-link page-btn" data-page="3">4</button>
+        </li>
+        <li class="page-item">
+            <button class="page-link page-btn" data-page="4">5</button>
+        </li>
+        <li class="page-item">
+            <button class="page-link page-btn" data-page="5">6</button>
+        </li>
+
+        <li class="page-item">
+            <button class="page-link next-btn">›</button>
+        </li>
+    </ul>
+</nav>
 </div>
 
 @endsection

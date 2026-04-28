@@ -3,64 +3,48 @@
 namespace App\Exports;
 
 use App\Models\User;
-use Illuminate\Http\Request;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\WithHeadings;
-use Maatwebsite\Excel\Concerns\WithMapping;
-use Maatwebsite\Excel\Concerns\ShouldAutoSize;
+use Illuminate\Http\Request;
 
-class SiswaExport implements FromCollection, WithHeadings, WithMapping, ShouldAutoSize
+class SiswaExport implements FromCollection, WithHeadings
 {
     protected $request;
+    protected $allowedClassIds;
 
-    // Menangkap request filter dari Controller
-    public function __construct(Request $request)
+    public function __construct(Request $request, array $allowedClassIds)
     {
         $this->request = $request;
+        $this->allowedClassIds = $allowedClassIds;
     }
 
-    // 1. Mengambil data sesuai filter
     public function collection()
     {
-        $query = User::with('kelas')->where('role', 'siswa'); 
+        $query = User::where('role', 'siswa')
+                     ->whereIn('kelas_id', $this->allowedClassIds)
+                     ->with('kelas');
 
-        if ($this->request->filled('kelas_id')) {
+        if ($this->request->filled('kelas_id') && in_array($this->request->kelas_id, $this->allowedClassIds)) {
             $query->where('kelas_id', $this->request->kelas_id);
         }
 
-        if ($this->request->filled('search')) {
-            $search = $this->request->search;
-            $query->where(function($q) use ($search) {
-                $q->where('name', 'like', "%{$search}%")
-                  ->orWhere('email', 'like', "%{$search}%");
-            });
-        }
+        $siswa = $query->get();
 
-        return $query->latest()->get();
+        return $siswa->map(function ($item) {
+            return [
+                'Nama' => $item->name,
+                'Email' => $item->email,
+                'Kelas' => $item->kelas ? $item->kelas->nama_kelas : '-',
+            ];
+        });
     }
 
-    // 2. Mapping data per baris Excel
-    public function map($siswa): array
-    {
-        static $no = 0;
-        $no++;
-        
-        return [
-            $no,
-            $siswa->name,
-            $siswa->email,
-            $siswa->kelas->nama_kelas ?? '-',
-        ];
-    }
-
-    // 3. Membuat Header (Baris Pertama) Excel
     public function headings(): array
     {
         return [
-            'No',
             'Nama Siswa',
             'Email',
-            'Kelas',
+            'Kelas'
         ];
     }
 }

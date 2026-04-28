@@ -4,7 +4,7 @@
 
 @section('content')
 <div class="container-fluid">
-    
+
     {{-- HEADER --}}
     <div class="card border-0 shadow-sm mb-4">
         <div class="card-body">
@@ -12,22 +12,10 @@
                 <div class="col-md-6">
                     <h4 class="fw-bold mb-0">Pencapaian Siswa</h4>
                 </div>
-                
-                {{-- Filter Kelas (Bisa digunakan untuk semua tab) --}}
-                <div class="col-md-6 d-flex justify-content-md-end gap-2 mt-3 mt-md-0">
-                    <div class="d-flex align-items-center gap-2">
-                        <select id="filterKelas" class="form-select shadow-sm border-secondary-subtle" style="width: 200px;">
-                            <option value="">-- Semua Kelas --</option>
-                            @foreach($kelasList as $kelas)
-                                <option value="{{ $kelas->id }}">{{ $kelas->nama_kelas }}</option>
-                            @endforeach
-                        </select>
-                    </div>                    
-                </div>
             </div>
         </div>
     </div>
-    
+
     {{-- KONTEN UTAMA DENGAN TAB BOOTSTRAP --}}
     <div class="card shadow-sm border-1 rounded">
         <div class="card-header bg-white pt-3 pb-0 border-bottom-0">
@@ -46,7 +34,7 @@
 
         <div class="card-body">
             <div class="tab-content" id="pencapaianTabsContent">
-                
+
                 {{-- TAB 1: LEADERBOARD (SEKARANG DATATABLES) --}}
                 <div class="tab-pane fade show active" id="leaderboard" role="tabpanel">
                     <div class="table-responsive mt-2">
@@ -86,35 +74,34 @@
                         </table>
                     </div>
                 </div>
-    
-{{-- TAB 3: REKAP LENCANA --}}
+
+                {{-- TAB 3: REKAP LENCANA --}}
                 <div class="tab-pane fade" id="badges" role="tabpanel">
                     <div class="row mt-3">
                         @forelse($badges as $badge)
-                            <div class="col-md-3 mb-4">
-                                <div class="card h-100 border text-center p-4 shadow-sm d-flex flex-column">
-                                    @if($badge->image_path)
-                                        <img src="{{ asset('images/badges/' . $badge->image_path) }}" alt="{{ $badge->name }}" class="mx-auto mb-3" style="width: 120px;">
-                                    @else
-                                        <h1 class="display-3 mb-3">🏅</h1>
-                                    @endif
-                                    
-                                    <h6 class="fw-bold mb-1">{{ $badge->name }}</h6>
-                                    <p class="text-muted small mb-3 flex-grow-1">{{ $badge->description ?? 'Lencana pencapaian.' }}</p>
-                                    
-                                    {{-- TOMBOL DIRAIH OLEH --}}
-                                    <button class="btn btn-sm btn-outline-success rounded-pill mt-auto fw-bold" 
-                                            data-id="{{ $badge->id }}" 
-                                            data-name="{{ $badge->name }}"
-                                            onclick="showBadgeModal(this.dataset.id, this.dataset.name)">
-                                        <i class="bi bi-people-fill me-1"></i> Diraih oleh {{ $badge->users_count }} Siswa
-                                    </button>
-                                </div>
+                        <div class="col-md-3 mb-4">
+                            <div class="card h-100 border text-center p-4 shadow-sm d-flex flex-column">
+                                @if($badge->image_path)
+                                <img src="{{ asset('images/badges/' . $badge->image_path) }}" alt="{{ $badge->name }}" class="mx-auto mb-3" style="width: 120px;">
+                                @else
+                                <h1 class="display-3 mb-3">🏅</h1>
+                                @endif
+
+                                <h6 class="fw-bold mb-1">{{ $badge->name }}</h6>
+                                <p class="text-muted small mb-3 flex-grow-1">{{ $badge->description ?? 'Lencana pencapaian.' }}</p>
+
+                                {{-- TOMBOL DIRAIH OLEH --}}
+                                <button class="btn btn-sm btn-outline-success rounded-pill mt-auto fw-bold show-badge-modal"
+                                    data-id="{{ $badge->id }}"
+                                    data-name="{{ $badge->name }}">
+                                    <i class="bi bi-people-fill me-1"></i> Diraih oleh {{ $badge->users_count }} Siswa
+                                </button>
                             </div>
+                        </div>
                         @empty
-                            <div class="col-12 text-center text-muted py-5">
-                                <h5>Belum ada data lencana.</h5>
-                            </div>
+                        <div class="col-12 text-center text-muted py-5">
+                            <h5>Belum ada data lencana.</h5>
+                        </div>
                         @endforelse
                     </div>
                 </div>
@@ -123,32 +110,32 @@
         </div>
     </div>
 
-{{-- MODAL DETAIL PROGRES (Clean & Minimalist) --}}
+    {{-- MODAL DETAIL PROGRES (Clean & Minimalist) --}}
     <div class="modal fade" id="modalDetailProgres" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
             <div class="modal-content rounded border-0 shadow">
-                
+
                 {{-- Header Modal --}}
                 <div class="modal-header bg-success text-white py-3">
                     <h5 class="modal-title fw-bold" id="modalDetailLabel">Detail Pencapaian Siswa</h5>
                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
                 </div>
-                
+
                 <div class="modal-body p-4 bg-light">
-                    
+
                     {{-- Box Info Siswa & Total Progress --}}
                     <div class="bg-white rounded-3 p-4 mb-3 shadow-sm border">
                         <div class="row mb-3">
                             <div class="col-md-6">
-                                <span class="text-muted small d-block mb-1">Nama Siswa</span> 
+                                <span class="text-muted small d-block mb-1">Nama Siswa</span>
                                 <span id="dtl_nama" class="text-dark fw-bold fs-5">-</span>
                             </div>
                             <div class="col-md-6 border-start">
-                                <span class="text-muted small d-block mb-1">Email/ID</span> 
+                                <span class="text-muted small d-block mb-1">Email/ID</span>
                                 <span id="dtl_identitas" class="text-dark fw-bold">-</span>
                             </div>
                         </div>
-                        
+
                         {{-- Bar Progress Keseluruhan --}}
                         <div class="mt-3 pt-3 border-top">
                             <div class="d-flex justify-content-between align-items-end mb-2">
@@ -187,7 +174,7 @@
                         <span class="text-muted small">Lencana:</span>
                         <h5 class="fw-bold text-dark mb-0" id="badgeModalName">-</h5>
                     </div>
-                    
+
                     <div class="bg-white rounded border p-3">
                         <ul class="list-group list-group-flush" id="badgeModalList">
                             <div class="text-center py-4">
@@ -211,150 +198,186 @@
 <script src="https://cdn.datatables.net/responsive/2.5.0/js/dataTables.responsive.min.js"></script>
 
 <script>
-$(document).ready(function() {
-    
-// Inisialisasi DataTables untuk Progres
-    var tableProgress = $('#tableProgress').DataTable({
-        processing: true, 
-        serverSide: false,
-        ajax: {
-            url: "{{ route('guru.pencapaian_siswa.data') }}", 
-            type: "GET",
-            data: function (d) { d.kelas_id = $('#filterKelas').val(); }
-        },
-        columns: [
-            { data: 'DT_RowIndex', name: 'DT_RowIndex', orderable: false, searchable: false, className: 'text-center fw-bold text-muted' },
-            { data: 'nama', name: 'nama', className: 'fw-bold text-start' },
-            { data: 'kelas', name: 'kelas', className: 'text-center text-muted' },
-            { data: 'progress', name: 'progress', className: 'align-middle px-4' },
-            { data: 'aksi', name: 'aksi', orderable: false, searchable: false, className: 'text-center' }
-        ],
-        language: { url: "//cdn.datatables.net/plug-ins/1.13.4/i18n/id.json" }
-    });
+    $(document).ready(function() {
 
-    // Inisialisasi DataTables untuk Leaderboard
-    var tableLeaderboard = $('#tableLeaderboard').DataTable({
-        processing: true, 
-        serverSide: false,
-        ajax: {
-            url: "{{ route('guru.pencapaian_siswa.data_leaderboard') }}", 
-            type: "GET",
-            data: function (d) { d.kelas_id = $('#filterKelas').val(); }
-        },
-        columns: [
-            { data: 'peringkat', className: 'text-center align-middle' },
-            { data: 'nama', className: 'align-middle' },
-            { data: 'kelas', className: 'text-center align-middle' },
-            { data: 'points', className: 'text-center align-middle' }
-        ],
-        order: [],
-        language: { url: "//cdn.datatables.net/plug-ins/1.13.4/i18n/id.json" }
-    });
-
-    // Pemicu saat dropdown Filter Kelas diubah
-    $('#filterKelas').on('change', function() {
-        tableProgress.ajax.reload();
-        tableLeaderboard.ajax.reload();
-    });
-});
-
-// FUNGSI MENAMPILKAN MODAL LENCANA
-function showBadgeModal(badgeId, badgeName) {
-    $('#badgeModalName').text(badgeName);
-    $('#modalDetailBadge').modal('show');
-    
-    // Set loading state
-    $('#badgeModalList').html('<div class="text-center py-4"><div class="spinner-border text-success spinner-border-sm" role="status"></div><span class="ms-2 text-muted">Memuat daftar siswa...</span></div>');
-
-    $.ajax({
-        url: '/guru/pencapaian_siswa/badge/' + badgeId + '/detail',
-        type: 'GET',
-        success: function(res) {
-            
-            // 1. Tampilkan Gambar di Modal (Jika ada)
-            let badgeIconHtml = '';
-            if (res.gambar_badge) {
-                badgeIconHtml = `<img src="${res.gambar_badge}" alt="icon" style="width: 100px; margin-bottom: 10px;"><br>`;
-            } else {
-                badgeIconHtml = `<h1 class="display-6 mb-2">🏅</h1>`;
+        // Inisialisasi DataTables untuk Progres
+        var tableProgress = $('#tableProgress').DataTable({
+            processing: true,
+            serverSide: false,
+            ajax: {
+                url: "{{ route('guru.pencapaian_siswa.data') }}",
+                type: "GET",
+                data: function(d) {
+                    d.kelas_id = $('#filterKelas').val();
+                }
+            },
+            columns: [{
+                    data: 'DT_RowIndex',
+                    name: 'DT_RowIndex',
+                    orderable: false,
+                    searchable: false,
+                    className: 'text-center fw-bold text-muted'
+                },
+                {
+                    data: 'nama',
+                    name: 'nama',
+                    className: 'fw-bold text-start'
+                },
+                {
+                    data: 'kelas',
+                    name: 'kelas',
+                    className: 'text-center text-muted'
+                },
+                {
+                    data: 'progress',
+                    name: 'progress',
+                    className: 'align-middle px-4'
+                },
+                {
+                    data: 'aksi',
+                    name: 'aksi',
+                    orderable: false,
+                    searchable: false,
+                    className: 'text-center'
+                }
+            ],
+            language: {
+                url: "//cdn.datatables.net/plug-ins/1.13.4/i18n/id.json"
             }
-            
-            // Masukkan gambar dan nama lencana ke header modal
-            $('#badgeModalName').html(badgeIconHtml + res.nama_badge);
+        });
 
-            // 2. Tampilkan Daftar Siswa
-            let html = '';
-            if (res.peraih.length > 0) {
-                res.peraih.forEach(function(siswa) {
-                    html += `
-                        <li class="list-group-item d-flex justify-content-between align-items-center px-0">
-                            <div>
-                                <i class="bi bi-person-circle text-secondary me-2"></i> 
-                                <span class="fw-bold">${siswa.nama}</span>
-                            </div>
-                            <span class="badge bg-light text-dark border">${siswa.kelas}</span>
-                        </li>`;
-                });
-            } else {
-                html = '<div class="text-center py-4 text-muted">Belum ada siswa yang meraih lencana ini.</div>';
+        // Inisialisasi DataTables untuk Leaderboard
+        var tableLeaderboard = $('#tableLeaderboard').DataTable({
+            processing: true,
+            serverSide: false,
+            ajax: {
+                url: "{{ route('guru.pencapaian_siswa.data_leaderboard') }}",
+                type: "GET",
+                data: function(d) {
+                    d.kelas_id = $('#filterKelas').val();
+                }
+            },
+            columns: [{
+                    data: 'peringkat',
+                    className: 'text-center align-middle'
+                },
+                {
+                    data: 'nama',
+                    className: 'align-middle'
+                },
+                {
+                    data: 'kelas',
+                    className: 'text-center align-middle'
+                },
+                {
+                    data: 'points',
+                    className: 'text-center align-middle'
+                }
+            ],
+            order: [],
+            language: {
+                url: "//cdn.datatables.net/plug-ins/1.13.4/i18n/id.json"
             }
-            $('#badgeModalList').html(html);
-        },
-        error: function() {
-            $('#badgeModalList').html('<div class="text-center py-4 text-danger">Gagal memuat data.</div>');
-        }
+        });
+
+        // Pemicu saat dropdown Filter Kelas diubah
+        $('#filterKelas').on('change', function() {
+            tableProgress.ajax.reload();
+            tableLeaderboard.ajax.reload();
+        });
+
+        // Event listener untuk tombol badge
+        $(document).on('click', '.show-badge-modal', function() {
+            var badgeId = $(this).data('id');
+            var badgeName = $(this).data('name');
+
+            $('#badgeModalName').text(badgeName);
+            $('#modalDetailBadge').modal('show');
+            $('#badgeModalList').html('<div class="text-center py-4"><div class="spinner-border text-success spinner-border-sm" role="status"></div><span class="ms-2 text-muted">Memuat daftar siswa...</span></div>');
+
+            $.ajax({
+                url: '/guru/pencapaian_siswa/badge/' + badgeId + '/detail',
+                type: 'GET',
+                success: function(res) {
+                    let badgeIconHtml = '';
+                    if (res.gambar_badge) {
+                        badgeIconHtml = `<img src="${res.gambar_badge}" alt="icon" style="width: 100px; margin-bottom: 10px;"><br>`;
+                    } else {
+                        badgeIconHtml = `<h1 class="display-6 mb-2">🏅</h1>`;
+                    }
+                    $('#badgeModalName').html(badgeIconHtml + res.nama_badge);
+
+                    let html = '';
+                    if (res.peraih && res.peraih.length > 0) {
+                        res.peraih.forEach(function(siswa) {
+                            html += `<li class="list-group-item d-flex justify-content-between align-items-center px-0">
+                                    <div><i class="bi bi-person-circle text-secondary me-2"></i> <span class="fw-bold">${siswa.nama}</span></div>
+                                    <span class="badge bg-light text-dark border">${siswa.kelas}</span>
+                                </li>`;
+                        });
+                    } else {
+                        html = '<div class="text-center py-4 text-muted">Tidak ada siswa dari kelas Anda yang meraih lencana ini.</div>';
+                    }
+                    $('#badgeModalList').html(html);
+                },
+                error: function() {
+                    $('#badgeModalList').html('<div class="text-center py-4 text-danger">Gagal memuat data.</div>');
+                }
+            });
+        });
     });
-}
-// ==========================================
-// FUNGSI MENAMPILKAN MODAL DETAIL
-// ==========================================
-function showDetailModal(userId) {
-    // Tampilkan modal dan set ke loading state
-    $('#modalDetailProgres').modal('show');
-    $('#dtl_content').html('<div class="text-center py-5"><div class="spinner-border text-success" role="status"></div><p class="mt-2 text-muted fw-bold">Memuat data pencapaian...</p></div>');
 
-    // Tarik data detail via AJAX
-    $.ajax({
-        url: '/guru/pencapaian_siswa/' + userId + '/detail',
-        type: 'GET',
-        success: function(res) {
-            // Isi Header Box (Identitas)
-            $('#dtl_nama').text(res.nama);
-            $('#dtl_identitas').text(res.identitas);
 
-            let totalProg = res.total_progress;
-            $('#dtl_total_progres_text').text(totalProg + '%');
-            $('#dtl_total_progres_bar').css('width', totalProg + '%');
+    // ==========================================
+    // FUNGSI MENAMPILKAN MODAL DETAIL
+    // ==========================================
+    function showDetailModal(userId) {
+        // Tampilkan modal dan set ke loading state
+        $('#modalDetailProgres').modal('show');
+        $('#dtl_content').html('<div class="text-center py-5"><div class="spinner-border text-success" role="status"></div><p class="mt-2 text-muted fw-bold">Memuat data pencapaian...</p></div>');
 
-            // Logika warna untuk Total Progress
-            if (totalProg === 100) {
-                $('#dtl_total_progres_text').removeClass('text-primary').addClass('text-success');
-                $('#dtl_total_progres_bar').removeClass('bg-primary').addClass('bg-success');
-            } else {
-                $('#dtl_total_progres_text').removeClass('text-success').addClass('text-primary');
-                $('#dtl_total_progres_bar').removeClass('bg-success').addClass('bg-primary');
-            }
+        // Tarik data detail via AJAX
+        $.ajax({
+            url: '/guru/pencapaian_siswa/' + userId + '/detail',
+            type: 'GET',
+            success: function(res) {
+                // Isi Header Box (Identitas)
+                $('#dtl_nama').text(res.nama);
+                $('#dtl_identitas').text(res.identitas);
 
-            // Fungsi pembantu untuk merakit List dengan Progress Bar
-            const renderRow = (title, percent, info = '') => {
-                let statusHtml = '';
-                let barColor = '';
-                let titleClass = 'text-dark fw-bold'; 
+                let totalProg = res.total_progress;
+                $('#dtl_total_progres_text').text(totalProg + '%');
+                $('#dtl_total_progres_bar').css('width', totalProg + '%');
 
-                if (percent === 100) {
-                    statusHtml = '<span class="text-success"><i class="bi bi-check-circle-fill me-1"></i>Selesai</span>';
-                    barColor = 'bg-success';
-                } else if (percent > 0) {
-                    statusHtml = `<span class="text-primary">${percent}%</span>`;
-                    barColor = 'bg-primary';
+                // Logika warna untuk Total Progress
+                if (totalProg === 100) {
+                    $('#dtl_total_progres_text').removeClass('text-primary').addClass('text-success');
+                    $('#dtl_total_progres_bar').removeClass('bg-primary').addClass('bg-success');
                 } else {
-                    statusHtml = '<span class="text-muted"><i class="bi bi-dash-circle me-1"></i>Belum dikerjakan</span>';
-                    barColor = 'bg-secondary';
+                    $('#dtl_total_progres_text').removeClass('text-success').addClass('text-primary');
+                    $('#dtl_total_progres_bar').removeClass('bg-success').addClass('bg-primary');
                 }
 
-                let infoHtml = info && info !== 'Locked' ? `<span class="text-muted fw-normal small ms-1">(${info})</span>` : '';
+                // Fungsi pembantu untuk merakit List dengan Progress Bar
+                const renderRow = (title, percent, info = '') => {
+                    let statusHtml = '';
+                    let barColor = '';
+                    let titleClass = 'text-dark fw-bold';
 
-                return `
+                    if (percent === 100) {
+                        statusHtml = '<span class="text-success"><i class="bi bi-check-circle-fill me-1"></i>Selesai</span>';
+                        barColor = 'bg-success';
+                    } else if (percent > 0) {
+                        statusHtml = `<span class="text-primary">${percent}%</span>`;
+                        barColor = 'bg-primary';
+                    } else {
+                        statusHtml = '<span class="text-muted"><i class="bi bi-dash-circle me-1"></i>Belum dikerjakan</span>';
+                        barColor = 'bg-secondary';
+                    }
+
+                    let infoHtml = info && info !== 'Locked' ? `<span class="text-muted fw-normal small ms-1">(${info})</span>` : '';
+
+                    return `
                     <div class="py-3 border-bottom">
                         <div class="d-flex justify-content-between align-items-center mb-2">
                             <div class="${titleClass}" style="font-size: 0.95rem;">
@@ -369,39 +392,38 @@ function showDetailModal(userId) {
                         </div>
                     </div>
                 `;
-            };
+                };
 
-            let html = '';
+                let html = '';
 
-            // Section MATERI
-            html += '<div class="mb-4">';
-            html += '<h6 class="fw-bold text-success text-uppercase mb-2" style="font-size: 0.8rem; letter-spacing: 1px;">📚 Materi Pembelajaran</h6>';
-            
-            html += renderRow(res.materi.m1.nama, res.materi.m1.persen, res.materi.m1.info);
-            html += renderRow(res.materi.m2.nama, res.materi.m2.persen, res.materi.m2.info);
-            html += renderRow(res.materi.m3.nama, res.materi.m3.persen, res.materi.m3.info);
-            html += renderRow(res.materi.m4.nama, res.materi.m4.persen, res.materi.m4.info);
-            html += '</div>';
+                // Section MATERI
+                html += '<div class="mb-4">';
+                html += '<h6 class="fw-bold text-success text-uppercase mb-2" style="font-size: 0.8rem; letter-spacing: 1px;">📚 Materi Pembelajaran</h6>';
 
-            // Section KUIS & EVALUASI
-            html += '<div class="mt-4">';
-            html += '<h6 class="fw-bold text-success text-uppercase mb-2" style="font-size: 0.8rem; letter-spacing: 1px;">📝 Kuis & Evaluasi</h6>';
-            
-            html += renderRow(res.kuis.k1.nama, res.kuis.k1.persen);
-            html += renderRow(res.kuis.k2.nama, res.kuis.k2.persen);
-            html += renderRow(res.kuis.k3.nama, res.kuis.k3.persen);
-            html += renderRow(res.kuis.k4.nama, res.kuis.k4.persen);
-            html += renderRow(res.kuis.eval.nama, res.kuis.eval.persen);
-            html += '</div>';
+                html += renderRow(res.materi.m1.nama, res.materi.m1.persen, res.materi.m1.info);
+                html += renderRow(res.materi.m2.nama, res.materi.m2.persen, res.materi.m2.info);
+                html += renderRow(res.materi.m3.nama, res.materi.m3.persen, res.materi.m3.info);
+                html += renderRow(res.materi.m4.nama, res.materi.m4.persen, res.materi.m4.info);
+                html += '</div>';
 
-            $('#dtl_content').html(html);
-        },
-        error: function(xhr) {
-            console.error(xhr.responseText); // Tambahkan log untuk memudahkan debug jika ada error 500
-            $('#dtl_content').html('<div class="text-danger text-center py-4 fw-bold"><i class="bi bi-exclamation-triangle-fill fs-4 d-block mb-2"></i> Gagal memuat data dari server. Pastikan Route URL di AJAX sudah tepat.</div>');
-        }
-    });
-}
+                // Section KUIS & EVALUASI
+                html += '<div class="mt-4">';
+                html += '<h6 class="fw-bold text-success text-uppercase mb-2" style="font-size: 0.8rem; letter-spacing: 1px;">📝 Kuis & Evaluasi</h6>';
 
+                html += renderRow(res.kuis.k1.nama, res.kuis.k1.persen);
+                html += renderRow(res.kuis.k2.nama, res.kuis.k2.persen);
+                html += renderRow(res.kuis.k3.nama, res.kuis.k3.persen);
+                html += renderRow(res.kuis.k4.nama, res.kuis.k4.persen);
+                html += renderRow(res.kuis.eval.nama, res.kuis.eval.persen);
+                html += '</div>';
+
+                $('#dtl_content').html(html);
+            },
+            error: function(xhr) {
+                console.error(xhr.responseText); // Tambahkan log untuk memudahkan debug jika ada error 500
+                $('#dtl_content').html('<div class="text-danger text-center py-4 fw-bold"><i class="bi bi-exclamation-triangle-fill fs-4 d-block mb-2"></i> Gagal memuat data dari server. Pastikan Route URL di AJAX sudah tepat.</div>');
+            }
+        });
+    }
 </script>
 @endpush

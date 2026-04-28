@@ -2,15 +2,22 @@
 
 namespace App\Http\Controllers;
 use App\Models\User;
+use App\Models\Kelas;
+use Illuminate\Support\Facades\Auth;
 
 use Illuminate\Http\Request;
 
 class GuruController extends Controller
 {
     //
+
     public function dashboard()
     {
-        return view('guru.dashboard');
+        $guruId = Auth::id();
+        $kelasList = Kelas::where('guru_id', $guruId)->withCount('siswa')->get();
+        $hasClass = $kelasList->isNotEmpty();
+
+        return view('guru.dashboard', compact('kelasList', 'hasClass'));
     }
     public function data_siswa()
     {

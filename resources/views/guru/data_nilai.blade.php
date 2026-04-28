@@ -15,18 +15,6 @@
                 
                 {{-- Filter & Action --}}
                 <div class="col-md-6 d-flex justify-content-md-end gap-2 mt-3 mt-md-0">
-                    
-                    {{-- 1. Filter Kelas --}}
-                    <form action="{{ route('guru.data_nilai') }}" method="GET" class="d-flex gap-2">
-                        <select name="kelas_id" class="form-select shadow-sm border-secondary-subtle" style="width: 200px;" onchange="this.form.submit()">
-                            <option value="">-- Semua Kelas --</option>
-                            @foreach($listKelas as $kls)
-                                <option value="{{ $kls->id }}" {{ $kelasId == $kls->id ? 'selected' : '' }}>
-                                    {{ $kls->nama_kelas }}
-                                </option>
-                            @endforeach
-                        </select>
-                    </form>
 
                     {{-- 2. Logika Teks Tombol Export --}}
                     @php
@@ -131,122 +119,162 @@
 @push('scripts')
 <script>
 $(document).ready(function() {
-        // 1. INISIALISASI DATATABLES TABEL UTAMA
-        $('#tabelNilai').DataTable({
-            "language": {
-                search: "Cari:",
-                lengthMenu: "Tampilkan _MENU_ data",
-                info: "Menampilkan _START_ sampai _END_ dari _TOTAL_ nilai",
-                emptyTable: "Belum ada data Nilai.",
-                paginate: {
-                    first: "Pertama",
-                    last: "Terakhir",
-                    next: "Berikutnya",
-                    previous: "Sebelumnya"
-                },
-                "url": "//cdn.datatables.net/plug-ins/1.13.4/i18n/id.json"
-                
+    // Inisialisasi DataTable (tetap)
+    $('#tabelNilai').DataTable({
+        "language": {
+            search: "Cari:",
+            lengthMenu: "Tampilkan _MENU_ data",
+            info: "Menampilkan _START_ sampai _END_ dari _TOTAL_ nilai",
+            emptyTable: "Belum ada data Nilai.",
+            paginate: {
+                first: "Pertama",
+                last: "Terakhir",
+                next: "Berikutnya",
+                previous: "Sebelumnya"
             },
-            "pageLength": 10,
-            "columnDefs": [
-                { "orderable": false, "targets": [0, 8] }
-            ],
-            "order": [[1, 'asc']]
-        });
+            "url": "//cdn.datatables.net/plug-ins/1.13.4/i18n/id.json"
+        },
+        "pageLength": 10,
+        "columnDefs": [
+            { "orderable": false, "targets": [0, 8] }
+        ],
+        "order": [[1, 'asc']]
+    });
 
-        // 2. LOGIKA AJAX RIWAYAT (FIXED VERSION)
-        $(document).on('click', '.btn-riwayat', function() {
-            let userId = $(this).data('user-id');
-            let userName = $(this).data('user-name');
-            let url = "{{ route('guru.data_nilai.riwayat', ':id') }}".replace(':id', userId);
+    // Fungsi untuk mendapatkan urutan prioritas paket soal
+    function getUrutanPaket(judul) {
+        const lower = judul.toLowerCase();
+        // Deteksi kuis 1, kuis 2, ...
+        if (lower.includes('kuis 1') || lower.includes('kuis1')) return 1;
+        if (lower.includes('kuis 2') || lower.includes('kuis2')) return 2;
+        if (lower.includes('kuis 3') || lower.includes('kuis3')) return 3;
+        if (lower.includes('kuis 4') || lower.includes('kuis4')) return 4;
+        if (lower.includes('evaluasi')) return 5;
+        return 99; // lainnya taruh di akhir
+    }
 
-            $('#modalRiwayatTitle').html(`<i class="bi bi-clock-history me-2"></i>Riwayat: ${userName}`);
-            $('#modalRiwayatBody').html('<div class="text-center my-5"><div class="spinner-border text-success"></div><p class="mt-2">Memuat data...</p></div>');
-            
-            let modalRiwayat = new bootstrap.Modal(document.getElementById('modalRiwayat'));
-            modalRiwayat.show();
+    // Event tombol riwayat
+    $(document).on('click', '.btn-riwayat', function() {
+        let userId = $(this).data('user-id');
+        let userName = $(this).data('user-name');
+        let url = "{{ route('guru.data_nilai.riwayat', ':id') }}".replace(':id', userId);
 
-            $.ajax({
-                url: url,
-                type: 'GET',
-                success: function(res) {
-                    if(res.success) {
-                        let data = res.data;
-                        let html = '';
+        $('#modalRiwayatTitle').html(`<i class="bi bi-clock-history me-2"></i>Riwayat: ${userName}`);
+        $('#modalRiwayatBody').html('<div class="text-center my-5"><div class="spinner-border text-success"></div><p class="mt-2">Memuat data...</p></div>');
+        
+        let modalRiwayat = new bootstrap.Modal(document.getElementById('modalRiwayat'));
+        modalRiwayat.show();
 
-                        if(Object.keys(data).length === 0) {
-                            html = '<div class="alert alert-warning text-center">Belum ada riwayat pengerjaan.</div>';
-                        } else {
-                            for (const [judulPaket, attempts] of Object.entries(data)) {
-                                html += `<h5 class="fw-bold mt-4 mb-3 text-success text-uppercase">${judulPaket}</h5>`;
-                                html += `<div class="card shadow-sm border-0 mb-4 rounded overflow-hidden">
-                                            <div class="card-body p-0">
-                                                <div class="table-responsive">
-                                                    <table class="table table-bordered table-hover text-center mb-0" style="min-width: 900px;">
-                                                        <thead class="bg-success text-white"> 
-                                                            <tr>
-                                                                <th width="8%" class="py-3">Percobaan</th>
-                                                                <th width="12%">Tanggal</th>
-                                                                <th width="10%">Mulai</th>
-                                                                <th width="10%">Selesai</th>
-                                                                <th width="8%">Nilai</th>
-                                                                <th width="10%">Status</th>`;
-                                
-                                // Mencari jumlah soal terbanyak
-                                let maxSoal = 0;
-                                attempts.forEach(attempt => {
-                                    if (attempt.total_soal > maxSoal) maxSoal = attempt.total_soal;
-                                });
+        $.ajax({
+            url: url,
+            type: 'GET',
+            success: function(res) {
+                if(res.success) {
+                    let data = res.data;
+                    let html = '';
 
-                                for (let i = 1; i <= maxSoal; i++) {
-                                    html += `<th class="fw-bold">S${i}</th>`;
-                                }
-                                
-                                html += `</tr></thead><tbody class="bg-white fs-6">`;
+                    if(Object.keys(data).length === 0) {
+                        html = '<div class="alert alert-warning text-center">Belum ada riwayat pengerjaan.</div>';
+                    } else {
+                        // Urutkan judul paket berdasarkan prioritas
+                        let sortedJudul = Object.keys(data).sort((a, b) => {
+                            return getUrutanPaket(a) - getUrutanPaket(b);
+                        });
 
-                                attempts.forEach((attempt, index) => {
-                                    let badgeStatus = attempt.status_lulus 
-                                            ? '<span class="badge bg-success rounded-pill px-3">Lulus</span>'
-                                            : '<span class="badge bg-danger rounded-pill px-3">Tidak Lulus</span>';
-
-                                    // --- PERBAIKAN DI SINI ---
-                                    // Langsung pakai data dari Controller (tidak perlu split-split lagi)
-                                    // Controller Anda sudah mengirimkan key: 'tanggal', 'jam_mulai', 'jam_selesai'
-                                    
-                                    html += `<tr>
-                                                <td class="text-muted fw-bold">Ke-${index + 1}</td>
-                                                <td>${attempt.tanggal}</td>
-                                                <td class="fw-bold text-primary">${attempt.jam_mulai}</td>
-                                                <td class="fw-bold text-danger">${attempt.jam_selesai}</td>
-                                                <td class="fw-bold fs-5">${attempt.skor}</td>
-                                                <td>${badgeStatus}</td>`;
-
-                                    // Loop Jawaban (Matrix)
-                                    for (let i = 0; i < maxSoal; i++) {
-                                        if (i < attempt.matrix.length) {
-                                            let isBenar = attempt.matrix[i];
-                                            let icon = isBenar 
-                                                ? '<i class="bi bi-check-circle-fill text-success fs-5"></i>' 
-                                                : '<i class="bi bi-x-circle-fill text-danger fs-5"></i>';
-                                            html += `<td>${icon}</td>`;
-                                        } else {
-                                            html += `<td class="text-muted">-</td>`;
-                                        }
-                                    }
-                                    html += `</tr>`;
-                                });
-
-                                html += `</tbody></table></div></div></div>`;
+                        // Mulai accordion
+                        html = '<div class="accordion" id="accordionRiwayat">';
+                        
+                        sortedJudul.forEach((judulPaket, idx) => {
+                            let attempts = data[judulPaket];
+                            let accordionId = `collapse_${idx}_${userId}`;
+                            let headerId = `heading_${idx}_${userId}`;
+                            
+                            // Buat item accordion
+                            html += `
+                                <div class="accordion-item border-0 shadow-sm mb-3 rounded overflow-hidden">
+                                    <h2 class="accordion-header" id="${headerId}">
+                                        <button class="accordion-button ${idx !== 0 ? 'collapsed' : ''}" type="button" data-bs-toggle="collapse" data-bs-target="#${accordionId}" aria-expanded="${idx === 0 ? 'true' : 'false'}" aria-controls="${accordionId}">
+                                            <strong class="text-success"><i class="bi bi-folder-fill me-2"></i> ${judulPaket}</strong>
+                                        </button>
+                                    </h2>
+                                    <div id="${accordionId}" class="accordion-collapse collapse ${idx === 0 ? 'show' : ''}" aria-labelledby="${headerId}" data-bs-parent="#accordionRiwayat">
+                                        <div class="accordion-body p-0">
+                            `;
+                            
+                            // Tabel riwayat untuk paket ini (sama seperti sebelumnya)
+                            html += `<div class="card shadow-sm border-0 rounded overflow-hidden">
+                                        <div class="card-body p-0">
+                                            <div class="table-responsive">
+                                                <table class="table table-bordered table-hover text-center mb-0" style="min-width: 900px;">
+                                                    <thead class="bg-success text-white"> 
+                                                        <tr>
+                                                            <th width="8%" class="py-3">Percobaan</th>
+                                                            <th width="12%">Tanggal</th>
+                                                            <th width="10%">Mulai</th>
+                                                            <th width="10%">Selesai</th>
+                                                            <th width="8%">Nilai</th>
+                                                            <th width="10%">Status</th>`;
+                            
+                            // Mencari jumlah soal terbanyak
+                            let maxSoal = 0;
+                            attempts.forEach(attempt => {
+                                if (attempt.total_soal > maxSoal) maxSoal = attempt.total_soal;
+                            });
+                            
+                            for (let i = 1; i <= maxSoal; i++) {
+                                html += `<th class="fw-bold">S${i}</th>`;
                             }
-                        }
-                        $('#modalRiwayatBody').html(html);
+                            
+                            html += `</tr></thead><tbody class="bg-white fs-6">`;
+                            
+                            attempts.forEach((attempt, index) => {
+                                let badgeStatus = attempt.status_lulus 
+                                        ? '<span class="badge bg-success rounded-pill px-3">Lulus</span>'
+                                        : '<span class="badge bg-danger rounded-pill px-3">Tidak Lulus</span>';
+                                
+                                html += `<tr>
+                                            <td class="text-muted fw-bold">Ke-${index + 1}</td>
+                                            <td>${attempt.tanggal}</td>
+                                            <td class="fw-bold text-primary">${attempt.jam_mulai}</td>
+                                            <td class="fw-bold text-danger">${attempt.jam_selesai}</td>
+                                            <td class="fw-bold fs-5">${attempt.skor}</td>
+                                            <td>${badgeStatus}</td>`;
+                                
+                                // Loop Jawaban
+                                for (let i = 0; i < maxSoal; i++) {
+                                    if (i < attempt.matrix.length) {
+                                        let isBenar = attempt.matrix[i];
+                                        let icon = isBenar 
+                                            ? '<i class="bi bi-check-circle-fill text-success fs-5"></i>' 
+                                            : '<i class="bi bi-x-circle-fill text-danger fs-5"></i>';
+                                        html += `<td>${icon}</td>`;
+                                    } else {
+                                        html += `<td class="text-muted">-</td>`;
+                                    }
+                                }
+                                html += `</tr>`;
+                            });
+                            
+                            html += `</tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>`;
+                            
+                            // Tutup accordion body dan item
+                            html += `</div></div></div>`;
+                        });
+                        
+                        html += `</div>`; // tutup accordion
                     }
-                },
-                error: function() {
-                    $('#modalRiwayatBody').html('<div class="alert alert-danger text-center">Terjadi kesalahan saat mengambil data riwayat.</div>');
+                    $('#modalRiwayatBody').html(html);
                 }
-            });
+            },
+            error: function() {
+                $('#modalRiwayatBody').html('<div class="alert alert-danger text-center">Terjadi kesalahan saat mengambil data riwayat.</div>');
+            }
         });
     });
+});
 </script>
 @endpush

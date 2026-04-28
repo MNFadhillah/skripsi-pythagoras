@@ -1,5 +1,6 @@
 <!doctype html>
 <html lang="id">
+
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -12,15 +13,17 @@
     <link href="https://fonts.googleapis.com/css2?family=PT+Sans:wght@400;700&family=Open+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.20/dist/summernote-lite.min.css" rel="stylesheet">
+
 
     @stack('head')
 
     <style>
         :root {
-            --primary: #2E8B57;   
-            --dark:    #1E5631;   
+            --primary: #2E8B57;
+            --dark: #1E5631;
             --sidebar-w: 260px;
-            --sidebar-mini-w: 80px; 
+            --sidebar-mini-w: 80px;
             --header-h: 65px;
             --transition: all 0.3s ease;
         }
@@ -40,7 +43,7 @@
             left: 0;
             z-index: 1040;
             background: #ffffff;
-            border-right: 1px solid #eaeaea; 
+            border-right: 1px solid #eaeaea;
             transition: var(--transition);
             display: flex;
             flex-direction: column;
@@ -55,7 +58,7 @@
             justify-content: space-between;
             padding: 0 1rem;
             color: #fff;
-            margin-right: -1px; 
+            margin-right: -1px;
             position: relative;
             z-index: 1042;
         }
@@ -135,7 +138,7 @@
             display: flex;
             align-items: center;
             padding: 0 1.5rem;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.05); 
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
             transition: var(--transition);
         }
 
@@ -148,48 +151,103 @@
             flex-direction: column;
             transition: var(--transition);
         }
-        
+
         .content-body {
             padding: 2rem;
             flex: 1;
         }
 
         /* === LOGIC: COLLAPSED / MINI SIDEBAR (DESKTOP) === */
-        body.sidebar-collapsed .sidebar { width: var(--sidebar-mini-w); }
-        body.sidebar-collapsed .topbar { left: var(--sidebar-mini-w); }
-        body.sidebar-collapsed .main-wrapper { margin-left: var(--sidebar-mini-w); }
+        body.sidebar-collapsed .sidebar {
+            width: var(--sidebar-mini-w);
+        }
+
+        body.sidebar-collapsed .topbar {
+            left: var(--sidebar-mini-w);
+        }
+
+        body.sidebar-collapsed .main-wrapper {
+            margin-left: var(--sidebar-mini-w);
+        }
 
         body.sidebar-collapsed .brand-text,
         body.sidebar-collapsed .nav-text,
-        body.sidebar-collapsed .menu-heading { display: none; }
+        body.sidebar-collapsed .menu-heading {
+            display: none;
+        }
 
-        body.sidebar-collapsed .sidebar-header { padding: 0; justify-content: center; }
-        body.sidebar-collapsed .brand-wrapper { display: none; }
+        body.sidebar-collapsed .sidebar-header {
+            padding: 0;
+            justify-content: center;
+        }
 
-        body.sidebar-collapsed .list-group-item { justify-content: center; padding: 0; }
-        body.sidebar-collapsed .list-group-item i { margin-right: 0; }
+        body.sidebar-collapsed .brand-wrapper {
+            display: none;
+        }
+
+        body.sidebar-collapsed .list-group-item {
+            justify-content: center;
+            padding: 0;
+        }
+
+        body.sidebar-collapsed .list-group-item i {
+            margin-right: 0;
+        }
 
         /* === MOBILE RESPONSIVE === */
         @media (max-width: 991.98px) {
-            .sidebar { left: calc(var(--sidebar-w) * -1); }
-            .topbar { left: 0; }
-            .main-wrapper { margin-left: 0; }
+            .sidebar {
+                left: calc(var(--sidebar-w) * -1);
+            }
 
-            body.mobile-open .sidebar { left: 0; }
-            
+            .topbar {
+                left: 0;
+            }
+
+            .main-wrapper {
+                margin-left: 0;
+            }
+
+            body.mobile-open .sidebar {
+                left: 0;
+            }
+
             .sidebar-overlay {
-                position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-                background: rgba(0,0,0,0.5); z-index: 1035;
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: rgba(0, 0, 0, 0.5);
+                z-index: 1035;
                 display: none;
             }
-            body.mobile-open .sidebar-overlay { display: block; }
 
-            .mobile-toggle-btn { display: block !important; }
-            #btnSidebarToggle { display: none; } 
-            .sidebar-header { justify-content: center; }
+            body.mobile-open .sidebar-overlay {
+                display: block;
+            }
+
+            .mobile-toggle-btn {
+                display: block !important;
+            }
+
+            #btnSidebarToggle {
+                display: none;
+            }
+
+            .sidebar-header {
+                justify-content: center;
+            }
         }
-        
-        .mobile-toggle-btn { display: none; font-size: 1.5rem; color: white; border: none; background: none; margin-right: 1rem; }
+
+        .mobile-toggle-btn {
+            display: none;
+            font-size: 1.5rem;
+            color: white;
+            border: none;
+            background: none;
+            margin-right: 1rem;
+        }
     </style>
 </head>
 
@@ -203,7 +261,7 @@
                 <i class="bi bi-mortardboard-fill me-2"></i>
                 <span class="brand-text">PythaLearn</span>
             </a>
-            
+
             <button id="btnSidebarToggle">
                 <i class="bi bi-list"></i>
             </button>
@@ -212,42 +270,47 @@
         <div class="sidebar-content">
             <div class="list-group">
                 <a href="{{ url('/guru/dashboard') }}" class="list-group-item list-group-item-action {{ request()->is('guru/dashboard') ? 'active' : '' }}" title="Dashboard">
-                    <i class="bi bi-speedometer2"></i> 
+                    <i class="bi bi-speedometer2"></i>
                     <span class="nav-text">Dashboard Guru</span>
                 </a>
-                
+
                 <a href="{{ url('/guru/data_siswa') }}" class="list-group-item list-group-item-action {{ request()->is('guru/data_siswa') ? 'active' : '' }}" title="Data Siswa">
-                    <i class="bi bi-people"></i> 
+                    <i class="bi bi-people"></i>
                     <span class="nav-text">Data Siswa</span>
                 </a>
 
                 <a href="{{ url('/guru/pencapaian_siswa') }}" class="list-group-item list-group-item-action {{ request()->is('guru/pencapaian_siswa') ? 'active' : '' }}" title="Pencapaian Siswa">
-                    <i class="bi bi-graph-up"></i> 
+                    <i class="bi bi-graph-up"></i>
                     <span class="nav-text">Pencapaian Siswa</span>
                 </a>
-                
+
                 <a href="{{ url('/guru/data_nilai') }}" class="list-group-item list-group-item-action {{ request()->is('guru/data_nilai') ? 'active' : '' }}" title="Data Nilai">
-                    <i class="bi bi-list-check"></i> 
+                    <i class="bi bi-list-check"></i>
                     <span class="nav-text">Data Nilai</span>
                 </a>
 
                 <a href="{{ url('/guru/data_kelas') }}" class="list-group-item list-group-item-action {{ request()->is('guru/data_kelas') ? 'active' : '' }}" title="Data Kelas">
-                    <i class="bi bi-house"></i> 
+                    <i class="bi bi-house"></i>
                     <span class="nav-text">Data Kelas</span>
                 </a>
 
+                <a href="{{ url('/guru/data_refleksi') }}" class="list-group-item list-group-item-action {{ request()->is('guru/data_refleksi') ? 'active' : '' }}" title="Data Refleksi">
+                    <i class="bi bi-journal-text"></i>
+                    <span class="nav-text">Data Refleksi</span>
+                </a>
+
                 <a href="{{ url('/guru/paket_soal') }}" class="list-group-item list-group-item-action {{ request()->is('guru/paket_soal') ? 'active' : '' }}" title="Paket Soal">
-                    <i class="bi bi-box"></i> 
+                    <i class="bi bi-box"></i>
                     <span class="nav-text">Paket Soal</span>
                 </a>
 
                 <a href="{{ route('guru.data_soal') }}" class="list-group-item list-group-item-action {{ request()->is('guru/data_soal') ? 'active' : '' }}" title="Data Soal">
-                    <i class="bi bi-journal-text"></i> 
+                    <i class="bi bi-journal-text"></i>
                     <span class="nav-text">Data Soal</span>
                 </a>
 
                 <a href="{{ route('guru.aktivitas.index') }}" class="list-group-item list-group-item-action {{ request()->is('guru/aktivitas*') ? 'active' : '' }}" title="Aktivitas Siswa">
-                    <i class="bi bi-clipboard-data"></i> 
+                    <i class="bi bi-clipboard-data"></i>
                     <span class="nav-text">Aktivitas Siswa</span>
                 </a>
             </div>
@@ -266,8 +329,8 @@
             </div>
 
             <div class="dropdown">
-                <button class="btn btn-light rounded-circle shadow-sm p-0 d-flex align-items-center justify-content-center" 
-                        style="width: 40px; height: 40px;" data-bs-toggle="dropdown">
+                <button class="btn btn-light rounded-circle shadow-sm p-0 d-flex align-items-center justify-content-center"
+                    style="width: 40px; height: 40px;" data-bs-toggle="dropdown">
                     <i class="bi bi-person-fill text-success fs-5"></i>
                 </button>
                 <ul class="dropdown-menu dropdown-menu-end border-0 shadow mt-3 py-2">
@@ -276,7 +339,9 @@
                             <i class="bi bi-person-circle me-2 text-success"></i> Profil Saya
                         </a>
                     </li>
-                    <li><hr class="dropdown-divider"></li>
+                    <li>
+                        <hr class="dropdown-divider">
+                    </li>
                     <li>
                         <form method="POST" action="{{ route('logout') }}">
                             @csrf
@@ -303,7 +368,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
-    
+
     <script>
         $(document).ready(function() {
             // 1. Toggle Desktop (Tombol di dalam sidebar)
@@ -320,7 +385,7 @@
             $('#overlay').on('click', function() {
                 $('body').removeClass('mobile-open');
             });
-            
+
             // 4. Reset state saat resize layar
             $(window).resize(function() {
                 if ($(window).width() >= 992) {
@@ -334,5 +399,8 @@
 
     @stack('scripts')
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.20/dist/summernote-lite.min.js"></script>
+
 </body>
+
 </html>

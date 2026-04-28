@@ -7,6 +7,7 @@ use App\Models\AktivitasBelajar; // Ganti PaketSoal jadi Aktivitas
 use App\Models\HasilPengerjaan;
 use App\Models\ButirSoal;
 use App\Models\JawabanSiswa;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
@@ -20,6 +21,14 @@ class QuizController extends Controller
     {
         $aktivitas = AktivitasBelajar::with('paket_soal')->findOrFail($aktivitasId);
         
+        $user = Auth::user();
+
+        // CEK AKSES KELAS
+        if ($user->kelas_id != $aktivitas->kelas_id) {
+            return redirect()->route('siswa.menu.dashboard')
+                ->with('error', 'Anda tidak memiliki akses ke aktivitas ini.');
+        }
+
         // Cek apakah siswa sudah pernah menyelesaikan kuis ini
         $riwayatSelesai = HasilPengerjaan::where('user_id', Auth::id())
                             ->where('paket_soal_id', $aktivitas->paket_soal_id)
@@ -60,6 +69,10 @@ class QuizController extends Controller
         $aktivitas = AktivitasBelajar::with('paket_soal.butir_soal')->findOrFail($aktivitasId);
         $user = Auth::user(); 
         $now = Carbon::now();
+
+        if ($user->kelas_id != $aktivitas->kelas_id) {
+            return response()->json(['error' => 'Anda tidak memiliki akses ke aktivitas ini.'], 403);
+        }
 
         // 1. Validasi standar (status dan evaluasi)
         if (!$aktivitas->is_currently_active) {
@@ -171,14 +184,22 @@ class QuizController extends Controller
         $paketId = $aktivitas->paket_soal_id;
         $totalSoalReal = ButirSoal::where('paket_soal_id', $paketId)->count();
 
+        // Ambil riwayat pengerjaan sebelumnya untuk menentukan remedial
+        $riwayatSebelumnya = HasilPengerjaan::where('user_id', $user->id)
+                            ->where('paket_soal_id', $paketId)
+                            ->whereNotNull('waktu_selesai')
+                            ->orderBy('created_at', 'asc')
+                            ->get();
+        $jumlahPercobaan = $riwayatSebelumnya->count();
+        $nilaiPertama = $jumlahPercobaan > 0 ? $riwayatSebelumnya->first()->skor_akhir : null;
+
         $waktuMulaiAktual = Carbon::parse($request->waktu_mulai_aktual);
         $waktuSelesaiAktual = Carbon::parse($request->waktu_selesai_aktual);
 
-        // --- BAGIAN 3: CARI DATA PENGERJAAN ---
-        // Pastikan kita HANYA mencari data yang 'waktu_selesai' masih NULL (sedang berjalan)
+        // Cari pengerjaan aktif (belum selesai)
         $hasil = HasilPengerjaan::where('user_id', $user->id)
                     ->where('paket_soal_id', $paketId)
-                    ->whereNull('waktu_selesai') // <--- TAMBAHKAN BARIS INI
+                    ->whereNull('waktu_selesai')
                     ->latest()
                     ->first();
 
@@ -186,7 +207,6 @@ class QuizController extends Controller
             $hasil->waktu_mulai = $waktuMulaiAktual; 
             $hasil->waktu_selesai = $waktuSelesaiAktual;
         } else {
-            // Jika tidak ketemu (jarang terjadi tapi untuk jaga-jaga), buat baru
             $hasil = HasilPengerjaan::create([
                 'user_id'       => $user->id,
                 'paket_soal_id' => $paketId,
@@ -196,10 +216,9 @@ class QuizController extends Controller
             ]);
         }
 
-        // --- BAGIAN 4: LOGIKA SKOR & SNAPSHOT (Tetap sama) ---
         $skor = 0;
         $detailJawaban = []; 
-        $snapshotArray = []; 
+        $snapshotArray = [];
 
         foreach ($jawabanSiswa as $item) {
             $soal = ButirSoal::find($item['soal_id']);
@@ -235,21 +254,78 @@ class QuizController extends Controller
                 'is_benar'      => $benar
             ];
         }
-
         $nilaiAkhir = ($totalSoalReal > 0) ? round(($skor / $totalSoalReal) * 100) : 0;
-        
-        $hasil->skor_akhir = $nilaiAkhir;
+
+        // Terapkan batasan remedial
+        $finalNilai = $nilaiAkhir;
+        if ($jumlahPercobaan > 0 && $nilaiPertama < 70) {
+            if ($finalNilai >= 70) {
+                $finalNilai = 70;
+            }
+        }
+
+        // 1. Tentukan apakah nilai saat ini lulus
+        $isPassed = $finalNilai >= 70;
+
+        // 2. Cek apakah SEBELUMNYA sudah pernah lulus dari collection yang sudah di-query di atas.
+        // (Jauh lebih cepat daripada melakukan query database baru)
+        $pernahLulus = $riwayatSebelumnya->contains(function ($riwayat) {
+            return $riwayat->skor_akhir >= 70;
+        });
+
+        // 3. BARU KITA SIMPAN hasil yang sekarang ke database
+        $hasil->skor_akhir = $finalNilai;
         $hasil->snapshot_jawaban = $snapshotArray; 
         $hasil->save();
+
+        // 4. Logika penambahan poin gamifikasi
+        $poinDiberikan = false;
+        if ($isPassed && !$pernahLulus) {
+            // TIPS PRO: Gunakan increment() agar lebih aman dari Race Condition
+            User::where('id', $user->id)->increment('points', $aktivitas->poin_didapat);
+            $poinDiberikan = true;
+        }
+
+        $remedialUrl = route('siswa.kuis.show', $aktivitas->id);
+        $materiUrl = $this->getMateriUrlByKategori($aktivitas->kategori);
+        $nextUrl = $isPassed ? $this->getNextMateriUrl($aktivitas->kategori) : $remedialUrl;
 
         return response()->json([
             'status'       => 'ok',
             'hasil_id'     => $hasil->id,
-            'skor'         => $nilaiAkhir,
-            'total_soal'   => $totalSoalReal, 
-            'jumlah_benar' => $skor,          
-            'detail'       => $detailJawaban
+            'skor'         => $finalNilai,
+            'total_soal'   => $totalSoalReal,
+            'jumlah_benar' => $skor,
+            'detail'       => $detailJawaban,
+            'is_passed'    => $isPassed,
+            'remedial_url' => $remedialUrl,
+            'materi_url'   => $materiUrl,
+            'next_url'     => $nextUrl,
+            'poin_diberikan' => $poinDiberikan,
+            'poin_didapat'   => $aktivitas->poin_didapat
         ]);
+    }
+
+    private function getMateriUrlByKategori($kategori)
+    {
+        switch ($kategori) {
+            case 'konsep': return route('siswa.konsep.materi');
+            case 'tripel': return route('siswa.tripel.materi');
+            case 'istimewa': return route('siswa.istimewa.materi');
+            case 'penerapan': return route('siswa.penerapan.materi');
+            default: return route('siswa.menu.dashboard');
+        }
+    }
+
+    private function getNextMateriUrl($kategori)
+    {
+        switch ($kategori) {
+            case 'konsep': return route('siswa.tripel.materi');
+            case 'tripel': return route('siswa.istimewa.materi');
+            case 'istimewa': return route('siswa.penerapan.materi');
+            case 'penerapan': return route('siswa.menu.dashboard'); // atau evaluasi
+            default: return route('siswa.menu.dashboard');
+        }
     }
     /**
      * Menampilkan Halaman Hasil (Review)

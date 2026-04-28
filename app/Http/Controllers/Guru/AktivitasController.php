@@ -3,24 +3,42 @@
 namespace App\Http\Controllers\Guru;
 
 use App\Http\Controllers\Controller;
-use App\Models\AktivitasBelajar; // Pakai Model Baru
+use App\Models\AktivitasBelajar;
 use App\Models\PaketSoal;
 use App\Models\Kelas;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class AktivitasController extends Controller
 {
-    public function index()
+public function index()
     {
-        $aktivitas = AktivitasBelajar::with(['paket_soal','kelas'])->latest()->get();
-        $listPaket = PaketSoal::orderBy('judul')->get();
-        $listKelas = Kelas::orderBy('nama_kelas')->get(); // TAMBAHAN
+        $guruId = Auth::id();
+        // Hanya kelas yang diampu guru
+        $kelasIds = Kelas::where('guru_id', $guruId)->pluck('id')->toArray();
 
-        return view('guru.aktivitas', compact('aktivitas', 'listPaket', 'listKelas'));
+        // CEK APAKAH GURU PUNYA KELAS (True/False)
+        $hasClass = !empty($kelasIds);
+
+        // Ambil aktivitas hanya untuk kelas-kelas tersebut
+        $aktivitas = AktivitasBelajar::with(['paket_soal', 'kelas'])
+            ->whereIn('kelas_id', $kelasIds)
+            ->latest()
+            ->get();
+
+        $listPaket = PaketSoal::orderBy('judul')->get();
+        // List kelas untuk dropdown (hanya kelas yang diampu)
+        $listKelas = Kelas::whereIn('id', $kelasIds)->orderBy('nama_kelas')->get();
+
+        // PASTIKAN hasClass IKUT DIKIRIM
+        return view('guru.aktivitas', compact('aktivitas', 'listPaket', 'listKelas', 'hasClass'));
     }
 
     public function store(Request $request)
     {
+        $guruId = Auth::id();
+        $kelasIds = Kelas::where('guru_id', $guruId)->pluck('id')->toArray();
+
         $request->validate([
             'judul' => 'required|string',
             'kategori' => 'required|in:konsep,tripel,istimewa,penerapan,evaluasi',
@@ -28,10 +46,14 @@ class AktivitasController extends Controller
             'durasi_menit' => 'nullable|integer|min:1',
         ]);
 
+        // Pastikan kelas_id milik guru
+        if (!in_array($request->kelas_id, $kelasIds)) {
+            return response()->json(['success' => false, 'message' => 'Kelas tidak valid'], 403);
+        }
+
         $data = $request->all();
         $data['status'] = $request->has('status') ? 1 : 0;
 
-        // Jika status aktif dan waktu mulai/selesai tidak diisi, set otomatis
         if ($data['status'] && (empty($data['waktu_mulai']) || empty($data['waktu_selesai']))) {
             $now = now();
             $data['waktu_mulai'] = $now;
@@ -42,20 +64,17 @@ class AktivitasController extends Controller
         return response()->json(['success' => true, 'message' => 'Aktivitas berhasil dibuat!']);
     }
 
-
     public function edit($id)
     {
-        $data = AktivitasBelajar::findOrFail($id);
-        
-        // --- LOGIKA ADVANCED: Hitung Status Real-time ---
+        $guruId = Auth::id();
+        $kelasIds = Kelas::where('guru_id', $guruId)->pluck('id')->toArray();
+
+        $data = AktivitasBelajar::whereIn('kelas_id', $kelasIds)->findOrFail($id);
+
         $now = now();
         $waktuMulai = $data->waktu_mulai ? \Carbon\Carbon::parse($data->waktu_mulai) : null;
         $waktuSelesai = $data->waktu_selesai ? \Carbon\Carbon::parse($data->waktu_selesai) : null;
-        
-        // Cek apakah waktu saat ini berada di antara waktu mulai dan selesai
         $isTimeValid = $waktuMulai && $waktuSelesai && $now->between($waktuMulai, $waktuSelesai);
-        
-        // Status sebenarnya: Toggle ON (1) AND waktunya valid
         $data->is_currently_active = ($data->status == 1 && $isTimeValid);
 
         return response()->json(['success' => true, 'data' => $data]);
@@ -63,7 +82,11 @@ class AktivitasController extends Controller
 
     public function update(Request $request, $id)
     {
-        $aktivitas = AktivitasBelajar::findOrFail($id);
+        $guruId = Auth::id();
+        $kelasIds = Kelas::where('guru_id', $guruId)->pluck('id')->toArray();
+
+        $aktivitas = AktivitasBelajar::whereIn('kelas_id', $kelasIds)->findOrFail($id);
+
         $request->validate([
             'judul' => 'required|string',
             'kategori' => 'required|in:konsep,tripel,istimewa,penerapan,evaluasi',
@@ -73,19 +96,19 @@ class AktivitasController extends Controller
             'durasi_menit' => 'nullable|integer|min:1',
         ]);
 
+        // Pastikan kelas_id masih milik guru (jika diubah)
+        if (!in_array($request->kelas_id, $kelasIds)) {
+            return response()->json(['success' => false, 'message' => 'Kelas tidak valid'], 403);
+        }
+
         $data = $request->all();
         $data['status'] = $request->has('status') ? 1 : 0;
 
-        // --- LOGIKA ADVANCED: Auto-Reset Waktu ---
         if ($data['status'] == 1) {
             $now = now();
-            // Ambil waktu selesai dari form (jika ada)
             $waktuSelesaiInput = !empty($data['waktu_selesai']) ? \Carbon\Carbon::parse($data['waktu_selesai']) : null;
-            
-            // Kondisi: Jika waktu kosong ATAU waktu selesainya SUDAH LEWAT (isPast)
             if (empty($data['waktu_mulai']) || empty($data['waktu_selesai']) || ($waktuSelesaiInput && $waktuSelesaiInput->isPast())) {
                 $data['waktu_mulai'] = $now;
-                // Set waktu selesai menjadi Sekarang + Durasi
                 $data['waktu_selesai'] = $now->copy()->addMinutes((int) ($data['durasi_menit'] ?? 60));
             }
         }
@@ -93,9 +116,14 @@ class AktivitasController extends Controller
         $aktivitas->update($data);
         return response()->json(['success' => true, 'message' => 'Aktivitas diperbarui']);
     }
+
     public function destroy($id)
     {
-        AktivitasBelajar::findOrFail($id)->delete();
+        $guruId = Auth::id();
+        $kelasIds = Kelas::where('guru_id', $guruId)->pluck('id')->toArray();
+
+        $aktivitas = AktivitasBelajar::whereIn('kelas_id', $kelasIds)->findOrFail($id);
+        $aktivitas->delete();
         return response()->json(['success' => true, 'message' => 'Aktivitas dihapus']);
     }
 }

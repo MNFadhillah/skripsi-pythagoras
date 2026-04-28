@@ -20,24 +20,30 @@ class ProfileGuruController extends Controller
     {
         $user = Auth::user();
 
-        // 1. Hitung Total Aktivitas
+        // 1. Hitung Total Aktivitas (Ini tetap menghitung keseluruhan aktivitas yang tersedia)
         $totalAktivitas = AktivitasBelajar::count();
 
-        // 2. Hitung Total Kelas
-        $totalKelas = Kelas::count();
+        // 2. Ambil Data Kelas yang Diampu oleh Guru ini (Maksimal 1 Kelas)
+        // Catatan: Sesuaikan 'guru_id' dengan nama kolom di tabel 'kelas' yang menyimpan ID guru.
+        $kelas = Kelas::where('guru_id', $user->id)->first();
 
-        // 3. Ambil Nama Kelas yang Diampu (Gabungkan dengan koma)
-        $kelasDiampu = Kelas::pluck('nama_kelas')->implode(', ');
-        if (empty($kelasDiampu)) {
-            $kelasDiampu = 'Belum ada kelas yang terdaftar.';
+        // 3. Tentukan Nama Kelas & Hitung Total Siswa Spesifik di Kelas Tersebut
+        if ($kelas) {
+            $kelasDiampu = $kelas->nama_kelas;
+
+            // Catatan: Sesuaikan 'kelas_id' dengan nama kolom di tabel 'users' yang menyimpan ID kelas siswa.
+            // Kita juga bisa menambahkan kondisi tambahan (seperti where role = siswa) jika diperlukan.
+            $totalSiswa = User::where('kelas_id', $kelas->id)
+                ->where('id', '!=', $user->id)
+                ->count();
+        } else {
+            $kelasDiampu = 'Belum memiliki kelas';
+            $totalSiswa  = 0;
         }
 
-        // 4. Hitung Total Siswa 
-        // (Asumsi: di tabel users ada kolom 'role'='siswa', sesuaikan jika strukturmu berbeda. 
-        // Jika tidak ada role, bisa pakai trik menghitung semua user kecuali guru itu sendiri: User::where('id', '!=', $user->id)->count())
-        $totalSiswa = User::where('id', '!=', $user->id)->count(); 
-
-        return view('guru.profil', compact('user', 'totalAktivitas', 'totalKelas', 'totalSiswa', 'kelasDiampu'));
+        // Variabel $totalKelas dihapus karena guru hanya mengampu 1 kelas.
+        // Pastikan variabel ini juga sudah dihapus/diganti di file Blade (profil.blade.php) sesuai pembaruan sebelumnya.
+        return view('guru.profil', compact('user', 'totalAktivitas', 'totalSiswa', 'kelasDiampu'));
     }
 
     /**
@@ -72,7 +78,7 @@ class ProfileGuruController extends Controller
         $user->save();
 
         return response()->json([
-            'success' => true, 
+            'success' => true,
             'message' => 'Data profil berhasil diperbarui!'
         ]);
     }

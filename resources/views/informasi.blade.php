@@ -69,8 +69,8 @@
                                 Media pembelajaran ini dibuat untuk memenuhi persyaratan dalam menyelesaikan studi di program Strata-1 Pendidikan Komputer dengan judul:
                             </p>
                             <h1 class="text-center mb-4"><strong>
-                                Penerapan Gamifikasi pada Web Pembelajaran Interaktif Teorema Pythagoras dengan Metode <i>Drill and Practice</i>
-                            </strong></h1>
+                                    Penerapan Gamifikasi pada Web Pembelajaran Interaktif Teorema Pythagoras dengan Metode <i>Drill and Practice</i>
+                                </strong></h1>
                             <div class="row align-items-center">
                                 <div class="col-md-9">
                                     <table>
@@ -119,7 +119,7 @@
                     <div class="card info-card shadow-sm">
                         <div class="card-body p-4">
                             <p class="mb-4">
-                               Anam, A.C., As’ari,A.R., Taufiq, I., Tohir, M. (2022). Matematika untuk SMP/MTs Kelas VIII. Kementerian Pendidikan, Kebudayaan, Riset, dan Teknologi.
+                                Anam, A.C., As’ari,A.R., Taufiq, I., Tohir, M. (2022). Matematika untuk SMP/MTs Kelas VIII. Kementerian Pendidikan, Kebudayaan, Riset, dan Teknologi.
                             </p>
                             <p class="mb-4">
                                 As’ari, A.R., Tohir, M., Valentino,E., Imron.Z., Taufiq, I. (2017). Buku Siswa Matematika Kelas VIII SMP/MTs Kurikulum 2013. Kementerian Pendidikan dan Kebudayaan
@@ -128,6 +128,18 @@
                                 Nuharini, D., & Wahyuni, T. (2008). Matematika Konsep dan Aplikasinya: Untuk SMP/MTs Kelas VIII. Jakarta: Pusat Perbukuan, Departemen Pendidikan Nasional.
                             </p>
 
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <h2 class="mt-2">Atribusi</h2>
+            <div class="row">
+                <div class="col-12">
+                    <div class="card info-card shadow-sm">
+                        <div class="card-body p-4">
+                            <p class="mb-4">
+                                Aset ilustrasi media pembelajaran oleh <a href="https://storyset.com/" target="_blank" class="email-link">Storyset</a>
+                            </p>
                         </div>
                     </div>
                 </div>

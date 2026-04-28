@@ -1153,51 +1153,53 @@
             </div>
         </div>
         
-        <div class="col-md-12 mb-2">
-            <div class="card shadow-sm border-1">
+        <div class="col-md-12 mb-4">
+            <div class="card shadow-sm border-0">
                 <div class="card-header text-center bg-light">
-                    <h4>Refleksi</h4>
+                    <h4 class="mb-0">Refleksi Akhir Pembelajaran</h4>
                     <small class="text-muted">
-                        Jawablah berdasarkan pemahamanmu terkait penerapan Teorema Pythagoras
+                        Jawablah berdasarkan pemahamanmu terkait penerapan Teorema Pythagoras. Ini langkah terakhirmu!
                     </small>
                 </div>
-        
+
                 <div class="card-body p-4 bg-white">
-        
+
                     <div class="mb-4">
                         <label class="fw-semibold mb-2 text-dark">
-                            1. Setelah mempelajari berbagai contoh penerapan, apakah menurutmu pembuatan sketsa (gambar) segitiga siku-siku sangat penting sebelum melakukan perhitungan? Jelaskan alasannya.
+                            1. Setelah mempelajari berbagai contoh penerapan, apakah menurutmu pembuatan sketsa (gambar) segitiga siku-siku sangat penting sebelum mulai menghitung?
                         </label>
-        
+
                         <div class="mb-2">
                             <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="ref_penerapan_1" id="ref_penerapan_1_ya" value="ya">
+                                <input class="form-check-input" type="radio" name="ref_penerapan_1" id="ref_penerapan_1_ya" value="sangat_penting">
                                 <label class="form-check-label" for="ref_penerapan_1_ya">Sangat Penting</label>
                             </div>
                             <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="ref_penerapan_1" id="ref_penerapan_1_tidak" value="tidak">
+                                <input class="form-check-input" type="radio" name="ref_penerapan_1" id="ref_penerapan_1_tidak" value="tidak_penting">
                                 <label class="form-check-label" for="ref_penerapan_1_tidak">Tidak Terlalu Penting</label>
                             </div>
                         </div>
-        
-                        <textarea class="form-control border-success shadow-sm" rows="3" id="ref_penerapan_1_text" placeholder="Berikan penjelasanmu di sini..."></textarea>
+
+                        <textarea class="form-control shadow-sm" rows="3" id="ref_penerapan_1_text" placeholder="Jelaskan alasanmu di sini..."></textarea>
                     </div>
-        
+
                     <div class="mb-4">
                         <label class="fw-semibold mb-2 text-dark">
                             2. Coba perhatikan lingkungan di sekitarmu (rumah, sekolah, atau jalanan). Sebutkan satu masalah atau situasi nyata yang bisa kamu selesaikan menggunakan Teorema Pythagoras!
                         </label>
-                        <textarea class="form-control border-success shadow-sm" rows="3" id="ref_penerapan_2_text" placeholder="Tuliskan situasi yang kamu temukan..."></textarea>
+                        <textarea class="form-control shadow-sm" rows="3" id="ref_penerapan_2_text" placeholder="Tuliskan situasi yang kamu temukan..."></textarea>
                     </div>
-        
+
                     <div class="text-center mt-4 border-top pt-4">
-                        <button class="btn btn-success fw-bold shadow-sm px-4" onclick="cekRefleksiPenerapan()">Simpan Refleksi</button>
+                        <button class="btn btn-success fw-bold shadow-sm px-4" onclick="cekRefleksiPenerapan()">
+                            <i class="fas fa-save me-1"></i> Simpan Refleksi
+                        </button>
                     </div>
-        
+
                     <div class="text-center mt-4">
-                        <p class="text-muted small">Setelah merefleksikan materi ini, silakan bersiap untuk mengerjakan kuis guna menguji pemahamanmu tentang Teorema Pythagoras.</p>
+                        <p class="text-muted small">Setelah menyimpan refleksi ini, bersiaplah untuk mengerjakan kuis guna menguji seluruh pemahamanmu tentang Teorema Pythagoras.</p>
                     </div>
-        
+
                 </div>
             </div>
         </div>

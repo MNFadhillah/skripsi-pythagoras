@@ -231,6 +231,16 @@
                 height: 100px;
             }
         }
+
+        /* Efek animasi pop-in untuk poin gamifikasi */
+        @keyframes popIn {
+            0% { transform: scale(0); opacity: 0; }
+            80% { transform: scale(1.15); opacity: 1; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+        .pop-in-animation {
+            animation: popIn 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+        }
     </style>
 </head>
 <body
@@ -362,54 +372,58 @@
     </div>
 
     <div id="resultModal" class="modal fade" tabindex="-1" data-bs-backdrop="static">
-        <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-dialog modal-dialog-centered modal-xl">
             <div class="modal-content">
-                <div class="modal-header bg-success text-white">
+                <div class="modal-header bg-success text-white py-2">
                     <h5 class="modal-title">Hasil Aktivitas</h5>
                 </div>
-                <div class="modal-body">
-                    <div class="text-center mb-4">
-                        <div class="score-circle mb-3 shadow">
-                            <span class="score-value display-4 fw-bold" id="finalScore">0</span>
-                            <span class="score-label small">Nilai Akhir</span>
+                <div class="modal-body p-3">
+                    <div class="text-center mb-2">
+                        <div class="score-circle mb-2 shadow" style="width: 120px; height: 120px;">
+                            <span class="score-value display-5 fw-bold" id="finalScore">0</span>
+                            <span class="score-label small">Nilai</span>
+                            <div id="gamificationPointPlaceholder" class="position-absolute top-0 start-100 translate-middle"></div>
                         </div>
-                        <h4 class="text-success">{{ $aktivitas->judul }}</h4>
+                        <h5 class="text-success mb-1">{{ $aktivitas->judul }}</h5>
+                        <div id="statusBadgeContainer" class="mt-1"></div>
                     </div>
                     
-                    <div class="row g-3 mb-4">
+                    <div class="row g-2 mb-3">
                         <div class="col-4">
-                            <div class="p-3 border rounded text-center bg-light">
-                                <h4 class="text-dark mb-0" id="totalSoal">0</h4>
+                            <div class="p-2 border rounded text-center bg-light">
+                                <h5 class="text-dark mb-0" id="totalSoal">0</h5>
                                 <small class="text-muted">Total</small>
                             </div>
                         </div>
                         <div class="col-4">
-                            <div class="p-3 border rounded text-center bg-success-subtle">
-                                <h4 class="text-success mb-0" id="benarCount">0</h4>
+                            <div class="p-2 border rounded text-center bg-success-subtle">
+                                <h5 class="text-success mb-0" id="benarCount">0</h5>
                                 <small class="text-muted">Benar</small>
                             </div>
                         </div>
                         <div class="col-4">
-                            <div class="p-3 border rounded text-center bg-danger-subtle">
-                                <h4 class="text-danger mb-0" id="salahCount">0</h4>
+                            <div class="p-2 border rounded text-center bg-danger-subtle">
+                                <h5 class="text-danger mb-0" id="salahCount">0</h5>
                                 <small class="text-muted">Salah</small>
                             </div>
                         </div>
                     </div>
                     
-                    <div class="mb-3">
-                        <div class="d-flex justify-content-between align-items-center mb-2">
-                            <h6 class="mb-0">Detail Pengerjaan</h6>
-                            <span class="badge bg-secondary">Review</span>
+                    <div class="mb-2">
+                        <div class="d-flex justify-content-between align-items-center mb-1">
+                            <h6 class="mb-0 small">Detail Pengerjaan</h6>
+                            <span class="badge bg-secondary small">Review</span>
                         </div>
-                        <div id="resultDetails" style="max-height: 300px; overflow-y: auto; border: 1px solid #dee2e6; border-radius: 6px;"></div>
+                        <div id="resultDetails" style="max-height: 200px; overflow-y: auto; border: 1px solid #dee2e6; border-radius: 6px; font-size: 0.8rem;"></div>
                     </div>
                 </div>
-                <div class="modal-footer">
+                <div class="modal-footer py-2">
                     @if(!$isEvaluasi)
-                        <button id="reviewBtn" class="btn btn-outline-success">Review Jawaban</button>
+                        <button id="reviewBtn" class="btn btn-outline-success btn-sm">Review Jawaban</button>
                     @endif
-                    <button onclick="window.location.href='{{ $nextMateriUrl }}'" class="btn btn-success">Selesai & Lanjut</button>
+                    <div id="resultActionButtons" class="d-inline-block">
+                        <!-- Tombol dinamis -->
+                    </div>
                 </div>
             </div>
         </div>
@@ -433,6 +447,17 @@
         const KKM              = parseInt('{{ $kkm ?? 70 }}');
         // -----------------------------------------------
 
+        // ELEMENT REFERENCES
+        const instructionPage = document.getElementById('instructionPage');
+        const quizPage = document.getElementById('quizPage');
+        const startBtn = document.getElementById('startBtn');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        const finishBtn = document.getElementById('finishBtn');
+        const flagBtn = document.getElementById('flagBtn');
+        const resultModal = new bootstrap.Modal(document.getElementById('resultModal'));
+        const reviewBtn = document.getElementById('reviewBtn'); 
+
         let questions = [];
         let answers = [];
         let flagged = [];
@@ -444,17 +469,7 @@
         let quizResult = null;
         let waktuMulaiClient = null;
 
-        // ELEMENT REFERENCES
-        const instructionPage = document.getElementById('instructionPage');
-        const quizPage = document.getElementById('quizPage');
-        const startBtn = document.getElementById('startBtn');
-        const prevBtn = document.getElementById('prevBtn');
-        const nextBtn = document.getElementById('nextBtn');
-        const finishBtn = document.getElementById('finishBtn');
-        const flagBtn = document.getElementById('flagBtn');
-        const resultModal = new bootstrap.Modal(document.getElementById('resultModal'));
-        const reviewBtn = document.getElementById('reviewBtn');
-
+        
 
         /* =============================
         1. LOAD DATA DARI API (INIT)
@@ -574,17 +589,18 @@
             const nextMateriBtn = document.getElementById('nextMateriBtn');
             const ulangiBtn = document.getElementById('ulangiBtn');
             
-            const isSelesai = !NEXT_MATERI_URL || NEXT_MATERI_URL === '#' || NEXT_MATERI_URL.includes('dashboard');
+            // Cek apakah sudah lulus (dari quizResult setelah submit)
+            const isPassed = quizResult ? quizResult.is_passed : false;
             
-            if (isSelesai) {
-                if(nextMateriBtn) {
-                    nextMateriBtn.innerHTML = '<i class="bi bi-check-circle"></i> Selesai';
-                    nextMateriBtn.onclick = function() { window.location.href = '/siswa/dashboard'; };
+            if (isPassed) {
+                if (nextMateriBtn) {
+                    nextMateriBtn.innerHTML = '<i class="bi bi-arrow-right"></i> Lanjut Materi';
+                    nextMateriBtn.onclick = () => { window.location.href = NEXT_MATERI_URL; };
                 }
             } else {
-                if(nextMateriBtn) {
-                    nextMateriBtn.innerHTML = '<i class="bi bi-arrow-right"></i> Lanjut Materi';
-                    nextMateriBtn.onclick = lanjutKeMateriBerikutnya;
+                if (nextMateriBtn) {
+                    nextMateriBtn.innerHTML = '<i class="bi bi-book"></i> Kembali Pelajari Materi';
+                    nextMateriBtn.onclick = () => { window.location.href = BACK_MATERI_URL; };
                 }
             }
             
@@ -649,6 +665,7 @@
                 jalankanKuis();
             }
         };
+
 
         function jalankanKuis() {
             instructionPage.classList.add('d-none');
@@ -982,7 +999,15 @@
             document.getElementById('totalSoal').textContent = result.total_soal;
             document.getElementById('benarCount').textContent = result.jumlah_benar;
             document.getElementById('salahCount').textContent = result.total_soal - result.jumlah_benar;
+
+            const statusContainer = document.getElementById('statusBadgeContainer');
+            statusContainer.innerHTML = '';
+            const statusBadge = document.createElement('span');
+            statusBadge.className = `badge ${result.is_passed ? 'bg-success' : 'bg-danger'} fs-6 px-3 py-2`;
+            statusBadge.textContent = result.is_passed ? '✓ LULUS' : '✗ REMEDIAL (TIDAK LULUS)';
+            statusContainer.appendChild(statusBadge);
             
+            // Tampilkan detail pengerjaan
             const detailsContainer = document.getElementById('resultDetails');
             detailsContainer.innerHTML = '';
             
@@ -992,9 +1017,7 @@
                 result.detail.forEach((item, index) => {
                     const detailDiv = document.createElement('div');
                     detailDiv.className = `p-2 mb-2 border-bottom ${item.benar ? 'bg-success-subtle' : 'bg-danger-subtle'}`;
-                    
                     const shortText = item.pertanyaan ? item.pertanyaan.substring(0, 60) + (item.pertanyaan.length > 60 ? '...' : '') : 'Soal Gambar';
-                    
                     detailDiv.innerHTML = `
                         <div class="d-flex justify-content-between align-items-center">
                             <span class="fw-bold small">No. ${index + 1}</span>
@@ -1002,13 +1025,71 @@
                         </div>
                         <div class="small text-muted mt-1">${shortText}</div>
                     `;
-                    
                     detailsContainer.appendChild(detailDiv);
                 });
             }
             
+            // Atur tombol aksi di modal footer
+            const actionContainer = document.getElementById('resultActionButtons');
+            actionContainer.innerHTML = '';
+            
+            if (!IS_EVALUASI) {
+                if (result.is_passed) {
+                    const nextBtn = document.createElement('button');
+                    nextBtn.className = 'btn btn-success';
+                    nextBtn.textContent = 'Selesai & Lanjut';
+                    nextBtn.onclick = () => { window.location.href = result.next_url; };
+                    actionContainer.appendChild(nextBtn);
+                } else {
+                    const ulangiBtn = document.createElement('button');
+                    ulangiBtn.className = 'btn btn-warning me-2';
+                    ulangiBtn.textContent = 'Ulangi Kuis';
+                    ulangiBtn.onclick = () => {
+                        Swal.fire({
+                            title: 'Remedial',
+                            text: 'Jika Anda mengulang dan lulus, nilai maksimal yang akan tercatat adalah KKM (70). Lanjutkan?',
+                            icon: 'question',
+                            showCancelButton: true,
+                            confirmButtonText: 'Ya, Ulangi',
+                            cancelButtonText: 'Batal'
+                        }).then((res) => {
+                            if (res.isConfirmed) window.location.href = result.remedial_url;
+                        });
+                    };
+                    actionContainer.appendChild(ulangiBtn);
+                    
+                    const materiBtn = document.createElement('button');
+                    materiBtn.className = 'btn btn-outline-secondary';
+                    materiBtn.textContent = 'Kembali Pelajari Materi';
+                    materiBtn.onclick = () => { window.location.href = result.materi_url; };
+                    actionContainer.appendChild(materiBtn);
+                }
+            } else {
+                const selesaiBtn = document.createElement('button');
+                selesaiBtn.className = 'btn btn-success';
+                selesaiBtn.textContent = 'Selesai';
+                selesaiBtn.onclick = () => { window.location.href = '/siswa/dashboard'; };
+                actionContainer.appendChild(selesaiBtn);
+            }
+            
             resultModal.show();
+            // --- LOGIKA MENAMPILKAN POIN GAMIFIKASI DI DALAM MODAL ---
+            const pointPlaceholder = document.getElementById('gamificationPointPlaceholder');
+            pointPlaceholder.innerHTML = ''; // Reset isi placeholder
+            
+            if (result.poin_diberikan && result.poin_didapat > 0) {
+                // Beri jeda sedikit (300ms) agar modal terbuka dulu, baru poinnya "muncul"
+                setTimeout(() => {
+                    pointPlaceholder.innerHTML = `
+                        <span class="badge bg-warning text-dark border border-white border-2 shadow pop-in-animation d-flex align-items-center" style="font-size: 0.95rem; padding: 0.5rem 0.75rem;">
+                            <i class="bi bi-star-fill text-danger me-1"></i> +${result.poin_didapat} Poin
+                        </span>
+                    `;
+                }, 300);
+            }   
         }
+
+        
     </script>
 
 </body>

@@ -117,7 +117,7 @@ class DataSoalController extends Controller
 
         // 4. Proses Simpan Gambar
         $pertanyaanData = [
-            'text'  => trim($request->pertanyaan),
+            'text'  => $this->sanitizeHtml(trim($request->pertanyaan)),
             'image' => null,
         ];
 
@@ -196,7 +196,7 @@ class DataSoalController extends Controller
         // 4. Proses Gambar (Pertahankan lama jika tidak ada upload baru)
         $pathGambarLama = $soal->pertanyaan['image'] ?? null;
         $pertanyaanData = [
-            'text'  => trim($request->pertanyaan_text),
+            'text'  => $this->sanitizeHtml(trim($request->pertanyaan_text)),
             'image' => $pathGambarLama,
         ];
 
@@ -418,6 +418,13 @@ class DataSoalController extends Controller
             }
 
         }, 'template_import_soal.xlsx');
+    }
+
+    private function sanitizeHtml($html)
+    {
+        // Izinkan tag dan atribut tertentu
+        $allowedTags = '<p><br><strong><b><em><i><u><ul><ol><li><a><span><div><sup><sub>';
+        return strip_tags($html, $allowedTags);
     }
 
 }

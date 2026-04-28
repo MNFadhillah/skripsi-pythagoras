@@ -45,17 +45,19 @@
 
         <div class="col-xl-8 col-lg-7 mb-4">
             
-            {{-- Statistik Cards Tetap Sama --}}
             <div class="row g-3 mb-4">
+                {{-- KOTAK 1: Menampilkan Nama Kelas Langsung --}}
                 <div class="col-md-4">
                     <div class="card border-0 shadow-sm bg-primary text-white h-100">
                         <div class="card-body d-flex align-items-center">
                             <div class="bg-white bg-opacity-25 rounded p-3 me-3">
-                                <i class="bi bi-house-door-fill fs-3"></i>
+                                <i class="bi bi-building fs-3"></i>
                             </div>
                             <div>
-                                <h6 class="mb-0 fw-normal opacity-75 small">Total Kelas</h6>
-                                <h3 class="mb-0 fw-bold">{{ $totalKelas }}</h3>
+                                <h6 class="mb-0 fw-normal opacity-75 small">Kelas Diampu</h6>
+                                <h4 class="mb-0 fw-bold text-truncate" style="max-width: 130px;" title="{{ $kelasDiampu }}">
+                                    {{ $kelasDiampu !== 'Belum memiliki kelas' ? $kelasDiampu : '-' }}
+                                </h4>
                             </div>
                         </div>
                     </div>
@@ -90,17 +92,21 @@
                 </div>
             </div>
 
-            {{-- 2. Perubahan: Kelas Yang Diampu (Dibuat Minimalis) --}}
+            {{-- 2. Perubahan: Detail Kelas Yang Diampu (Dibuat Eksklusif untuk 1 Kelas) --}}
             <div class="card border-0 shadow-sm">
                 <div class="card-body p-4">
                     <h6 class="fw-bold text-success border-bottom pb-2 mb-3">
                         <i class="bi bi-bookmark-star me-2"></i>Kelas Yang Diampu
                     </h6>
                     <div>
-                        @if($totalKelas > 0)
-                            <h6 class="fw-medium text-dark mb-0 lh-base" style="line-height: 1.5;">{{ $kelasDiampu }}</h6>
+                        @if($kelasDiampu !== 'Belum memiliki kelas')
+                            <span class="badge bg-success-subtle text-success border border-success-subtle px-4 py-2 rounded-pill fs-6 fw-bold shadow-sm">
+                                <i class="bi bi-easel2-fill me-2"></i> {{ $kelasDiampu }}
+                            </span>
                         @else
-                            <span class="fst-italic text-muted">Belum ada kelas</span>
+                            <div class="alert alert-light border border-secondary-subtle text-muted mb-0">
+                                <i class="bi bi-info-circle me-2"></i> Anda belum ditugaskan untuk mengampu kelas manapun.
+                            </div>
                         @endif
                     </div>
                 </div>
@@ -110,6 +116,7 @@
     </div>
 </div>
 
+{{-- MODAL EDIT PROFIL --}}
 <div class="modal fade" id="modalEditProfil" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content border-0 shadow">
@@ -157,6 +164,7 @@
     </div>
 </div>
 
+{{-- MODAL UPLOAD AVATAR --}}
 <div class="modal fade" id="modalAvatar" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-sm modal-dialog-centered">
         <div class="modal-content border-0 shadow">
