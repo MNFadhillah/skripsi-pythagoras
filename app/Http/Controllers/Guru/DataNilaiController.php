@@ -54,8 +54,11 @@ class DataNilaiController extends Controller
 
         $dataSiswa = $users->map(function ($user) use ($hasilPengerjaan) {
             $nilai = [
-                'kuis_1' => '-', 'kuis_2' => '-', 'kuis_3' => '-',
-                'kuis_4' => '-', 'evaluasi' => '-',
+                'kuis_1' => '-',
+                'kuis_2' => '-',
+                'kuis_3' => '-',
+                'kuis_4' => '-',
+                'evaluasi' => '-',
             ];
 
             if (isset($hasilPengerjaan[$user->id])) {
@@ -81,13 +84,24 @@ class DataNilaiController extends Controller
                     elseif (str_contains($judul, 'evaluasi')) $nilai['evaluasi'] = $finalScore;
                 }
             }
+            // Hitung rata-rata
+            $nilaiAngka = array_filter($nilai, function ($val) {
+                return $val !== '-';
+            });
+            if (count($nilaiAngka) > 0) {
+                $rataRata = round(array_sum($nilaiAngka) / count($nilaiAngka), 1);
+            } else {
+                $rataRata = '-';
+            }
+
 
             return [
                 'user_id' => $user->id,
                 'name'    => $user->name,
                 'email'   => $user->email,
                 'kelas'   => $user->kelas->nama_kelas ?? '-',
-                'nilai'   => $nilai
+                'nilai'   => $nilai,
+                'rata_rata' => $rataRata
             ];
         });
 
@@ -149,9 +163,9 @@ class DataNilaiController extends Controller
             ], 403);
         }
 
-        $hasil = HasilPengerjaan::with(['paketSoal', 'jawabanSiswa' => function($q) {
-                $q->orderBy('butir_soal_id', 'asc');
-            }])
+        $hasil = HasilPengerjaan::with(['paketSoal', 'jawabanSiswa' => function ($q) {
+            $q->orderBy('butir_soal_id', 'asc');
+        }])
             ->where('user_id', $userId)
             ->orderBy('created_at', 'asc')
             ->get();

@@ -289,9 +289,12 @@ function cekContoh2Penerapan() {
     const inputs = ['c2_dik_mn', 'c2_dik_no', 'c2_ditanya', 'c2_rumus', 'c2_mn', 'c2_no', 'c2_mn_kuadrat', 'c2_no_kuadrat', 'c2_akar_val', 'c2_mo'];
     if (!checkCompleteness(inputs)) return processValidation('c2', false, false, btn, 'showAnswerC2', 'm4_cp3_contoh_2', '', 15);
 
-    const iDik = checkCommutative('c2_dik_mn', 'c2_dik_no', 15, 20);
+    // Disesuaikan: MN = 20, NO = 15
+    const iDik = checkCommutative('c2_dik_mn', 'c2_dik_no', 20, 15);
     const iDit = checkValue('c2_ditanya', 'MO') && checkValue('c2_rumus', 'MO');
-    const iSub = checkCommutativeWithSquares('c2_mn', 'c2_no', 'c2_mn_kuadrat', 'c2_no_kuadrat', 15, 20);
+
+    // Disesuaikan: 20 -> 400, 15 -> 225
+    const iSub = checkCommutativeWithSquares('c2_mn', 'c2_no', 'c2_mn_kuadrat', 'c2_no_kuadrat', 20, 15);
     const akr = checkValue('c2_akar_val', 625);
     const res = checkValue('c2_mo', 25);
     document.getElementById('c2_mo2').value = 625;
@@ -301,9 +304,21 @@ function cekContoh2Penerapan() {
 }
 
 function showAnswerC2() {
-    fillAnswer('c2_dik_mn', 15); fillAnswer('c2_dik_no', 20); fillAnswer('c2_ditanya', 'MO'); fillAnswer('c2_rumus', 'MO');
-    fillAnswer('c2_mn', 15); fillAnswer('c2_no', 20); fillAnswer('c2_mn_kuadrat', 225); fillAnswer('c2_no_kuadrat', 400);
-    fillAnswer('c2_akar_val', 625); fillAnswer('c2_mo', 25); document.getElementById('c2_mo2').value = 625;
+    // Penyesuaian Nilai Jawaban Otomatis
+    fillAnswer('c2_dik_mn', 20);
+    fillAnswer('c2_dik_no', 15);
+    fillAnswer('c2_ditanya', 'MO');
+    fillAnswer('c2_rumus', 'MO');
+
+    fillAnswer('c2_mn', 20);
+    fillAnswer('c2_no', 15);
+    fillAnswer('c2_mn_kuadrat', 400);
+    fillAnswer('c2_no_kuadrat', 225);
+
+    fillAnswer('c2_akar_val', 625);
+    fillAnswer('c2_mo', 25);
+    document.getElementById('c2_mo2').value = 625;
+
     document.querySelector('button[onclick="showAnswerC2()"]').classList.add('d-none');
     if (typeof updateProgress === 'function') updateProgress('materi_4_penerapan_pythagoras', 'm4_cp3_contoh_2', 15);
 }
@@ -609,9 +624,10 @@ document.addEventListener('DOMContentLoaded', function () {
         // 3. Contoh 2
         window.setupReviewMode('m4_cp3_contoh_2', 'button[onclick="cekContoh2Penerapan()"]',
             function () {
+                // Penyesuaian Kunci Jawaban di Review Mode
                 const ans = {
-                    'c2_dik_mn': '15', 'c2_dik_no': '20', 'c2_ditanya': 'MO', 'c2_rumus': 'MO',
-                    'c2_mn': '15', 'c2_no': '20', 'c2_mn_kuadrat': '225', 'c2_no_kuadrat': '400',
+                    'c2_dik_mn': '20', 'c2_dik_no': '15', 'c2_ditanya': 'MO', 'c2_rumus': 'MO',
+                    'c2_mn': '20', 'c2_no': '15', 'c2_mn_kuadrat': '400', 'c2_no_kuadrat': '225',
                     'c2_mo2': '625', 'c2_akar_val': '625', 'c2_mo': '25'
                 };
                 for (let id in ans) {

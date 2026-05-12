@@ -11,6 +11,7 @@
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 @endpush
 
+
 @section('content')
 <div class="container">
     <div class="row align-items-center">
@@ -113,6 +114,25 @@
                                                 style="object-fit: cover; max-height: 480px;"
                                                 alt="Jembatan Barito">
 
+                                            <!-- SVG OVERLAY UNTUK GARIS MERAH -->
+                                            <svg class="highlight-svg" viewBox="0 0 100 100" preserveAspectRatio="none">
+                                                <!-- Tiang Penyangga: vertikal merah -->
+                                                <line id="line-tegak"
+                                                    x1="35" y1="1" x2="36" y2="68"
+                                                    stroke="#dc3545" stroke-width="2" stroke-linecap="round" class="highlight-line" />
+
+                                                <!-- Badan Jembatan: horizontal hijau -->
+                                                <line id="line-datar"
+                                                    x1="37" y1="68" x2="90" y2="80"
+                                                    stroke="#198754" stroke-width="2" stroke-linecap="round" class="highlight-line" />
+
+                                                <!-- Kabel Baja: diagonal kuning -->
+                                                <line id="line-miring"
+                                                    x1="35" y1="1" x2="90" y2="80"
+                                                    stroke="#ffc107" stroke-width="2" stroke-linecap="round" class="highlight-line" />
+                                            </svg>
+
+
                                             <div class="text-overlay-container">
                                                 <div id="text-tegak" class="overlay-text text-tegak">
                                                     <div class="text-label bg-danger text-white px-2 py-1 rounded">
@@ -130,8 +150,10 @@
                                                     </div>
                                                 </div>
                                             </div>
+
                                         </div>
                                     </div>
+                                    <p class="text-center text-muted small mt-2 fw-bold">Gambar 1 jembatan barito</p>
                                     <div class="text-end mt-2">
                                         <button class="btn btn-outline-secondary btn-sm" onclick="resetHighlight()">
                                             Reset Gambar
@@ -151,6 +173,7 @@
                                             style="max-height: 250px;"
                                             alt="Segitiga Jembatan Barito">
                                     </div>
+                                    <p class="text-center text-muted mt-2 small fw-bold">Gambar 2 Ilustrasi sisi segitiga siku-siku dari sisi jembatan barito</p>
                                 </div>
                             </div>
 
@@ -214,7 +237,7 @@
                                 <div class="card-body">
                                     <h5 class="fw-bold">Petunjuk Pengerjaan</h5>
                                     <ol class="mb-0 ps-3 small">
-                                        <li>Perhatikan kembali gambar bagian jembatan barito di atas.</li>
+                                        <li>Perhatikan kembali gambar 2. bagian jembatan barito di atas.</li>
                                         <li>Tentukan apakah bagian tersebut termasuk <strong>Sisi Siku-siku</strong> atau <strong>Sisi Miring</strong>.</li>
                                         <li><strong>Klik & Tahan (Drag)</strong> tombol jawaban yang sesuai, lalu <strong>Lepaskan (Drop)</strong> ke dalam kotak kosong yang tersedia.</li>
                                     </ol>
@@ -226,7 +249,7 @@
                                     <div class="card h-100 border-0 shadow-sm bg-white">
                                         <div class="card-body text-center">
                                             <p class="small text-muted mb-2">
-                                                <strong>Tiang Penyangga</strong> dan <strong>Badan Jembatan</strong> saling bertemu membentuk sudut siku-siku. Kedua bagian ini disebut...
+                                                <strong>Tiang Penyangga</strong> dan <strong>Badan Jembatan</strong> saling bertemu membentuk sudut siku-siku. Kedua bagian ini disebut ....
                                             </p>
                                             <div class="drop-zone drop-zone-box w-100" data-correct="siku"></div>
                                             <div class="feedback-msg mt-2"></div>
@@ -238,7 +261,7 @@
                                     <div class="card h-100 border-0 shadow-sm bg-white">
                                         <div class="card-body text-center">
                                             <p class="small text-muted mb-2">
-                                                <strong>Kabel Baja</strong> membentang menghubungkan tiang dan lantai di depan sudut siku-siku. Bagiain ini disebut sebagai...
+                                                <strong>Kabel Baja</strong> membentang menghubungkan tiang dan lantai di depan sudut siku-siku. Bagiain ini disebut sebagai ....
                                             </p>
                                             <div class="drop-zone drop-zone-box w-100" data-correct="miring"></div>
                                             <div class="feedback-msg mt-2"></div>
@@ -437,7 +460,7 @@
                         </div>
                     </div>
 
-                    <div id="penguatan-materi" class="d-none mt-3 mb-3   animate__animated animate__fadeInUp">
+                    <!-- <div id="penguatan-materi" class="d-none mt-3 mb-3   animate__animated animate__fadeInUp">
                         <div class="card border-success border-4 shadow-sm bg-light">
                             <div class="card-body p-4">
                                 <h5 class="fw-bold text-success mb-3">Pembahasan</h5>
@@ -448,7 +471,7 @@
                                 </ul>
                             </div>
                         </div>
-                    </div>
+                    </div> -->
                     <h5 class="fw-bold mt-5">2. Akar Kuadrat</h5>
                     <hr>
 
@@ -461,7 +484,7 @@
                             <div class="card bg-white border shadow-sm">
                                 <div class="card-body text-center">
                                     <p class="mb-3 fs-5">
-                                        Jika <strong>\(A^2 = B\)</strong>, maka <strong>\(\sqrt{B} = A\)</strong>
+                                        Jika <strong>\(a^2 = b\)</strong>, maka <strong>\(\sqrt{b} = a\)</strong>
                                     </p>
                                     <div class="fs-5">
                                         \[
@@ -522,27 +545,27 @@
                                     <tbody class="small">
                                         <tr>
                                             <td>i.</td>
-                                            <td class="text-start ps-4">\(\sqrt{A \times B}\)</td>
-                                            <td class="text-start ps-4">\(\sqrt{A} \times \sqrt{B}\)</td>
-                                            <td>\(A \ge 0, B \ge 0\)</td>
+                                            <td class="text-start ps-4">\(\sqrt{a \times b}\)</td>
+                                            <td class="text-start ps-4">\(\sqrt{a} \times \sqrt{b}\)</td>
+                                            <td>\(a \ge 0, b \ge 0\)</td>
                                         </tr>
                                         <tr>
                                             <td>ii.</td>
-                                            <td class="text-start ps-4">\(\sqrt{\frac{A}{B}}\)</td>
-                                            <td class="text-start ps-4">\(\frac{\sqrt{A}}{\sqrt{B}}\)</td>
-                                            <td>\(A \ge 0, B \ne 0\)</td>
+                                            <td class="text-start ps-4">\(\sqrt{\frac{a}{b}}\)</td>
+                                            <td class="text-start ps-4">\(\frac{\sqrt{a}}{\sqrt{b}}\)</td>
+                                            <td>\(a \ge 0, b \ne 0\)</td>
                                         </tr>
                                         <tr>
                                             <td>iii.</td>
-                                            <td class="text-start ps-4">\(A\sqrt{B} + A\sqrt{C}\)</td>
-                                            <td class="text-start ps-4">\(A(\sqrt{B} + \sqrt{C})\)</td>
-                                            <td>\(B \ge 0, C \ge 0\)</td>
+                                            <td class="text-start ps-4">\(a\sqrt{b} + a\sqrt{c}\)</td>
+                                            <td class="text-start ps-4">\(a(\sqrt{b} + \sqrt{c})\)</td>
+                                            <td>\(b \ge 0, c \ge 0\)</td>
                                         </tr>
                                         <tr>
                                             <td>iv.</td>
-                                            <td class="text-start ps-4">\(\sqrt{A} \times \sqrt{A}\)</td>
-                                            <td class="text-start ps-4">\(A\)</td>
-                                            <td>\(A \ge 0\)</td>
+                                            <td class="text-start ps-4">\(\sqrt{a} \times \sqrt{a}\)</td>
+                                            <td class="text-start ps-4">\(a\)</td>
+                                            <td>\(a \ge 0\)</td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -665,7 +688,7 @@
                                                 <p class="mb-0 small">
                                                     Berdasarkan pengamatanmu, sudut yang berukuran <strong>90°</strong>
                                                     berada pada <strong>titik</strong>
-                                                    <strong>...</strong>
+                                                    <strong>....</strong>
                                                 </p>
                                             </div>
                                             <div class="col-md-4">
@@ -918,7 +941,7 @@
                         <p class="alert alert-light border-start border-success border-4 shadow-sm mb-4">
                             Dalam matematika, penamaan sisi segitiga memiliki aturan tertentu.
                             Garis yang menghubungkan titik \(A\) dan titik \(B\) disebut <strong>Ruas Garis</strong> yang dinotasikan sebagai \(\overline{AB}\).
-                            Sedangkan untuk menyatakan <strong>panjang / ukuran</strong> dari ruas garis tersebut, cukup ditulis sebagai \(AB\).
+                            Sedangkan untuk menyatakan <strong>panjang/ukuran</strong> dari ruas garis tersebut, cukup ditulis sebagai \(AB\).
                             <br>
                             Selain menggunakan dua huruf kapital (misal: \(AB\)), kita juga bisa menamai sisi menggunakan
                             <strong>satu huruf kecil</strong> dengan syarat memperhatikan sudut yang berhadapan dengan sisi tersebut.
@@ -926,11 +949,17 @@
 
                         <div class="row align-items-center g-4">
                             <div class="col-md-6">
-                                <div class="p-3 bg-white rounded border border-success border-4 shadow-sm d-flex align-items-center justify-content-center h-100">
+                                <div class="p-3 bg-white rounded border border-success border-4 shadow-sm d-flex flex-column align-items-center justify-content-center h-100">
+
                                     <img src="/images/mengenal_sisi_segitiga_sikusiku.png"
                                         alt="Mengenal Sisi Segitiga Siku-siku"
                                         class="img-fluid"
-                                        style="max-height: 250px; object-fit: contain;">
+                                        style="max-height: 205px; object-fit: contain;">
+
+                                    <p class="text-center text-muted small mt-2 fw-bold">
+                                        Gambar 3 Segitiga siku-siku ABC
+                                    </p>
+
                                 </div>
                             </div>
 
@@ -1032,6 +1061,9 @@
                                         <img src="/images/mengenal_sisi_latihan1.png" alt="Latihan 1" class="img-fluid"
                                             style="max-height: 100%; object-fit: contain;">
                                     </div>
+                                    <p class="text-center text-muted small fw-bold">
+                                        Gambar 4 Segitiga siku-siku ABC
+                                    </p>
                                     <div class="text-start px-2 mt-auto">
                                         <label class="form-label small fw-bold">Sisi yang berada di depan sudut A adalah sisi ...</label>
                                         <div class="input-group input-group-sm mb-2">
@@ -1050,6 +1082,9 @@
                                         <img src="/images/mengenal_sisi_latihan2.png" alt="Latihan 2" class="img-fluid"
                                             style="max-height: 100%; object-fit: contain;">
                                     </div>
+                                    <p class="text-center text-muted small fw-bold">
+                                        Gambar 5 Segitiga siku-siku MNO
+                                    </p>
                                     <div class="text-start px-2 mt-auto">
                                         <label class="form-label small fw-bold">Sisi yang berada di depan sudut N adalah sisi ...</label>
                                         <div class="input-group input-group-sm mb-2">
@@ -1068,6 +1103,9 @@
                                         <img src="/images/mengenal_sisi_latihan3.png" alt="Latihan 3" class="img-fluid"
                                             style="max-height: 100%; object-fit: contain;">
                                     </div>
+                                    <p class="text-center text-muted small fw-bold">
+                                        Gambar 6 Segitiga siku-siku PQR
+                                    </p>
                                     <div class="text-start px-2 mt-auto">
                                         <label class="form-label small fw-bold">Sisi yang berada di depan sudut P adalah sisi ...</label>
                                         <div class="input-group input-group-sm mb-2">
@@ -1089,6 +1127,9 @@
                                     {{-- Pastikan nama file gambar EFG benar --}}
                                     <img src="/images/segitiga_sikusiku_f.png" alt="Segitiga EFG" class="img-fluid" style="max-height: 200px;">
                                 </div>
+                                <p class="text-center text-muted small mt-2 fw-bold">
+                                    Gambar 7 Segitiga siku-siku sisi e, f, dan g
+                                </p>
                             </div>
 
                             {{-- Kolom Tabel --}}
@@ -1150,6 +1191,9 @@
                                     {{-- Pastikan nama file gambar HIJ benar --}}
                                     <img src="/images/segitiga_sikusiku_i.png" alt="Segitiga HIJ" class="img-fluid" style="max-height: 200px;">
                                 </div>
+                                <p class="text-center text-muted small mt-2 fw-bold">
+                                    Gambar 8 Segitiga siku-siku sisi h, i, dan j
+                                </p>
                             </div>
 
                             {{-- Kolom Tabel --}}
@@ -1318,48 +1362,48 @@
                                                         {{-- Penjabaran Persegi A --}}
                                                         <td>
                                                             <div class="d-flex align-items-center justify-content-center gap-1">
-                                                                <input type="number" id="luas_a_1" class="form-control text-center px-1" style="width: 60px;" placeholder="...">
+                                                                <input type="number" id="luas_a_1" class="form-control text-center px-1" style="width: 65px;" placeholder="...">
                                                                 <span class="fw-bold">×</span>
-                                                                <input type="number" id="luas_a_2" class="form-control text-center px-1" style="width: 60px;" placeholder="...">
+                                                                <input type="number" id="luas_a_2" class="form-control text-center px-1" style="width: 65px;" placeholder="...">
                                                                 <span class="fw-bold">=</span>
                                                                 <div class="d-flex align-items-start">
-                                                                    <input type="number" id="luas_a_sq" class="form-control text-center px-1" style="width: 60px;" placeholder="...">
+                                                                    <input type="number" id="luas_a_sq" class="form-control text-center px-1" style="width: 65px;" placeholder="...">
                                                                     <sup class="fw-bold mt-1">2</sup>
                                                                 </div>
                                                                 <span class="fw-bold">=</span>
-                                                                <input type="number" id="luas_a_hasil" class="form-control text-center px-1 fw-bold text-primary" style="width: 50px;" placeholder="...">
+                                                                <input type="number" id="luas_a_hasil" class="form-control text-center px-1 fw-bold text-primary" style="width: 65px;" placeholder="...">
                                                             </div>
                                                         </td>
 
                                                         {{-- Penjabaran Persegi B --}}
                                                         <td>
                                                             <div class="d-flex align-items-center justify-content-center gap-1">
-                                                                <input type="number" id="luas_b_1" class="form-control text-center px-1" style="width: 60px;" placeholder="...">
+                                                                <input type="number" id="luas_b_1" class="form-control text-center px-1" style="width: 65px;" placeholder="...">
                                                                 <span class="fw-bold">×</span>
-                                                                <input type="number" id="luas_b_2" class="form-control text-center px-1" style="width: 60px;" placeholder="...">
+                                                                <input type="number" id="luas_b_2" class="form-control text-center px-1" style="width: 65px;" placeholder="...">
                                                                 <span class="fw-bold">=</span>
                                                                 <div class="d-flex align-items-start">
-                                                                    <input type="number" id="luas_b_sq" class="form-control text-center px-1" style="width: 60px;" placeholder="...">
+                                                                    <input type="number" id="luas_b_sq" class="form-control text-center px-1" style="width: 65px;" placeholder="...">
                                                                     <sup class="fw-bold mt-1">2</sup>
                                                                 </div>
                                                                 <span class="fw-bold">=</span>
-                                                                <input type="number" id="luas_b_hasil" class="form-control text-center px-1 fw-bold text-primary" style="width: 50px;" placeholder="...">
+                                                                <input type="number" id="luas_b_hasil" class="form-control text-center px-1 fw-bold text-primary" style="width: 65px;" placeholder="...">
                                                             </div>
                                                         </td>
 
                                                         {{-- Penjabaran Persegi C --}}
                                                         <td>
                                                             <div class="d-flex align-items-center justify-content-center gap-1">
-                                                                <input type="number" id="luas_c_1" class="form-control text-center px-1" style="width: 60px;" placeholder="...">
+                                                                <input type="number" id="luas_c_1" class="form-control text-center px-1" style="width: 65px;" placeholder="...">
                                                                 <span class="fw-bold">×</span>
-                                                                <input type="number" id="luas_c_2" class="form-control text-center px-1" style="width: 60px;" placeholder="...">
+                                                                <input type="number" id="luas_c_2" class="form-control text-center px-1" style="width: 65px;" placeholder="...">
                                                                 <span class="fw-bold">=</span>
                                                                 <div class="d-flex align-items-start">
-                                                                    <input type="number" id="luas_c_sq" class="form-control text-center px-1" style="width: 60px;" placeholder="...">
+                                                                    <input type="number" id="luas_c_sq" class="form-control text-center px-1" style="width: 65px;" placeholder="...">
                                                                     <sup class="fw-bold mt-1">2</sup>
                                                                 </div>
                                                                 <span class="fw-bold">=</span>
-                                                                <input type="number" id="luas_c_hasil" class="form-control text-center px-1 fw-bold text-primary" style="width: 50px;" placeholder="...">
+                                                                <input type="number" id="luas_c_hasil" class="form-control text-center px-1 fw-bold text-primary" style="width: 65px;" placeholder="...">
                                                             </div>
                                                         </td>
                                                     </tr>
@@ -1567,6 +1611,7 @@
                             <div class="text-center my-4">
                                 <img src="/images/segitiga_versilain.png" alt="Segitiga ABC siku-siku di C" class="img-fluid rounded border" style="width: 20%;">
                             </div>
+                            <p class="text-center text-muted small mt-2 fw-bold">Gambar 9 segitiga siku-siku ABC</p>
                         </div>
 
                         <div class="row">
@@ -1648,9 +1693,48 @@
                                         Sebuah tangga menuju laboratorium sekolah memiliki jarak 4 meter daripada dinding dan ketinggian tangga tersebut 3 meter dari lantai. Jika Ahmad ingin menuju laboratorium dan menaiki tangga, berapakah jarak yang harus ditempuh oleh Ahmad hingga sampai ke atas?
                                     </p>
                                 </div>
-                                <div class="bg-white rounded-3 shadow-sm border p-4 d-flex justify-content-center align-items-center flex-wrap text-center">
-                                    <img src="/images/contoh_soal_1.png" class="img-fluid" style="max-height: 280px;" alt="Ilustrasi Tangga">
-                                    <img src="/images/contoh_soal_1_2.png" class="img-fluid" style="max-height: 280px;" alt="Sketsa Segitiga">
+                                <div class="bg-white rounded-3 shadow-sm border p-4">
+
+                                    <div class="row g-4">
+
+                                        <!-- Gambar 1 -->
+                                        <div class="col-md-6">
+                                            <div class="text-center h-100 d-flex flex-column align-items-center">
+
+                                                <div class="d-flex align-items-center justify-content-center" style="height: 300px;">
+                                                    <img src="/images/contoh_soal_1.png"
+                                                        class="img-fluid"
+                                                        style="max-height: 280px;"
+                                                        alt="Ilustrasi Tangga">
+                                                </div>
+
+                                                <p class="text-muted small mt-2 fw-bold">
+                                                    Gambar 10 Ilustrasi siswa menaiki tangga
+                                                </p>
+
+                                            </div>
+                                        </div>
+
+                                        <!-- Gambar 2 -->
+                                        <div class="col-md-6">
+                                            <div class="text-center h-100 d-flex flex-column align-items-center">
+
+                                                <div class="d-flex align-items-center justify-content-center" style="height: 300px;">
+                                                    <img src="/images/contoh_soal_1_2.png"
+                                                        class="img-fluid"
+                                                        style="max-height: 280px;"
+                                                        alt="Sketsa Segitiga">
+                                                </div>
+
+                                                <p class="text-muted small mt-2 fw-bold">
+                                                    Gambar 11 Ilustrasi sisi tangga pada segitiga siku-siku
+                                                </p>
+
+                                            </div>
+                                        </div>
+
+                                    </div>
+
                                 </div>
                             </div>
                         </div>
@@ -1775,10 +1859,18 @@
                                     </p>
                                 </div>
 
-                                <div class="bg-white rounded-3 shadow-sm border p-4 d-flex justify-content-center align-items-center flex-wrap text-center">
-                                    <img src="/images/contoh_soal_2.png" class="img-fluid" style="max-height: 280px;" alt="Contoh 2">
+                                <div class="bg-white rounded-3 shadow-sm border p-4 d-flex flex-column justify-content-center align-items-center text-center">
+
+                                    <img src="/images/contoh_soal_2.png"
+                                        class="img-fluid"
+                                        style="max-height: 280px;"
+                                        alt="Contoh 2">
+
+                                    <p class="text-muted small mt-2 fw-bold mb-0">
+                                        Gambar 12 Segitiga siku-siku berdempetan.
+                                    </p>
+
                                 </div>
-                                <p class="text-center text-muted small mt-2 fst-italic">Ilustrasi gabungan dua segitiga siku-siku.</p>
                             </div>
                         </div>
 
@@ -1956,8 +2048,17 @@
 
                                     <div class="col-lg-5 mb-3">
                                         <p class="text-muted fw-bold mb-2 small">Perhatikan gambar segitiga siku-siku di bawah ini:</p>
-                                        <div class="bg-white rounded-3 border border-dark mb-3 d-flex justify-content-center">
-                                            <img src="/images/segitiga_latihan1_nomor1.png" class="img-fluid p-2" style="max-height: 300px;" alt="Soal 1">
+                                        <div class="bg-white rounded-3 border border-dark mb-3 d-flex flex-column justify-content-center align-items-center text-center">
+
+                                            <img src="/images/segitiga_latihan1_nomor1.png"
+                                                class="img-fluid p-2"
+                                                style="max-height: 300px;"
+                                                alt="Soal 1">
+
+                                            <p class="text-muted small mt-2 fw-bold mb-2">
+                                                Gambar 13 Segitiga siku-siku ABC latihan 1
+                                            </p>
+
                                         </div>
                                         <div class="alert bg-light border border-dark text-justify small shadow-sm">
                                             Berdasarkan gambar di atas, temukan rumus Pythagoras yang sesuai berdasarkan petunjuk yang tersedia!
@@ -2063,8 +2164,16 @@
 
                                     <div class="col-lg-5 mb-4">
                                         <p class="text-muted fw-bold mb-2 small">Perhatikan gambar segitiga siku-siku MNO di bawah ini:</p>
-                                        <div class="bg-white rounded-3 border border-dark mb-3 d-flex justify-content-center">
-                                            <img src="/images/segitiga_latihan1_nomor2.png" class="img-fluid p-2" style="max-height: 250px;" alt="Segitiga MNO">
+                                        <div class="bg-white rounded-3 border border-dark mb-3 d-flex flex-column justify-content-center align-items-center text-center">
+
+                                            <img src="/images/segitiga_latihan1_nomor2.png"
+                                                class="img-fluid p-2"
+                                                style="max-height: 250px;"
+                                                alt="Segitiga MNO">
+
+                                            <p class="text-muted small mt-2 fw-bold mb-2">
+                                                Gambar 14 Segitiga siku-siku MNO latihan 1
+                                            </p>
 
                                         </div>
                                         <div class="alert bg-light border border-dark text-justify small shadow-sm">
@@ -2083,7 +2192,6 @@
                                                 <div class="p-2 bg-white border border-dark text-dark rounded shadow-sm draggable-item cursor-grab fw-bold small" draggable="true" id="item-no" data-value="NO">NO</div>
 
                                                 <div class="p-2 bg-white border border-dark text-dark rounded shadow-sm draggable-item cursor-grab fw-bold small" draggable="true" id="item-17cm" data-value="salah_17">17 cm</div>
-                                                <div class="p-2 bg-white border border-dark text-dark rounded shadow-sm draggable-item cursor-grab fw-bold small" draggable="true" id="item-om" data-value="salah_om">OM</div>
                                                 <div class="p-2 bg-white border border-dark text-dark rounded shadow-sm draggable-item cursor-grab fw-bold small" draggable="true" id="item-siku" data-value="salah_siku">Panjang sisi siku-siku</div>
                                             </div>
                                         </div>
@@ -2221,11 +2329,17 @@
 
                                     <div class="col-lg-5 mb-3">
                                         <p class="text-muted fw-bold mb-2 small">Perhatikan gambar di bawah ini:</p>
-                                        <div class="bg-white rounded-3 border border-dark mb-3 d-flex justify-content-center">
+                                        <div class="bg-white rounded-3 border border-dark mb-3 d-flex flex-column justify-content-center align-items-center text-center">
+
                                             <img src="/images/segitiga_latihan1_nomor3.png"
                                                 class="img-fluid p-2"
                                                 style="max-height:300px;"
                                                 alt="Soal 3">
+
+                                            <p class="text-muted small mt-2 fw-bold mb-2">
+                                                Gambar 15 Tiga segitiga siku-siku berdempetan
+                                            </p>
+
                                         </div>
 
                                         <div class="alert bg-light border border-dark text-justify small shadow-sm">
@@ -2550,9 +2664,17 @@
                                             </div>
                                         </div>
                                     </div>
+                                    <div class="col-md-6 text-center d-flex flex-column align-items-center">
 
-                                    <div class="col-md-6 text-center">
-                                        <img src="/images/segitiga_versilain.png" alt="Rangkuman Teorema Pythagoras" class="img-fluid rounded border" style="width: 50%;">
+                                        <img src="/images/segitiga_versilain.png"
+                                            alt="Rangkuman Teorema Pythagoras"
+                                            class="img-fluid rounded border"
+                                            style="width: 50%;">
+
+                                        <p class="text-muted small mt-2 fw-bold mb-0">
+                                            Gambar 16 Segitiga siku-siku rangkuman
+                                        </p>
+
                                     </div>
 
                                 </div>

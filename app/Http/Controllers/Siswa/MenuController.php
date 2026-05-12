@@ -20,7 +20,7 @@ class MenuController extends Controller
 {
     public function dashboard()
     {
-        $user = User::find(Auth::id()); 
+        $user = User::find(Auth::id());
         $userId = $user->id;
 
         // --- BAGIAN 1: Ambil Data Aktivitas ---
@@ -28,17 +28,17 @@ class MenuController extends Controller
 
         // --- BAGIAN 2: Hitung Rata-rata ---
         $semuaPaket = PaketSoal::orderBy('id', 'asc')->get();
-        
+
         $totalSkor = 0;
         $jumlahPaketDiambil = 0;
 
         foreach ($semuaPaket as $paket) {
             $bestScoreRaw = HasilPengerjaan::where('paket_soal_id', $paket->id)
-                                            ->where('user_id', $userId)
-                                            ->max('skor_akhir');
+                ->where('user_id', $userId)
+                ->max('skor_akhir');
 
             if ($bestScoreRaw !== null) {
-                $totalSkor += $bestScoreRaw; 
+                $totalSkor += $bestScoreRaw;
                 $jumlahPaketDiambil++;
             }
         }
@@ -51,21 +51,41 @@ class MenuController extends Controller
         // Kita panggil fungsi getDetail() dari ProgressController
         // Agar angka di Dashboard SAMA PERSIS dengan di Profil dan Modal!
         $progressCtrl = new ProgressController();
-        $detailProgres = $progressCtrl->getDetail()->getData();
 
-        $totalProgressKeseluruhan = $detailProgres->total_progress; // Mengambil 57%
-        
-        // Ambil nilai masing-masing untuk dikirim ke view jika dibutuhkan
-        $progMateri1 = $detailProgres->materi->m1->persen;
-        $progKuis1   = $detailProgres->kuis->k1->persen;
-        $progKuis2   = $detailProgres->kuis->k2->persen;
-        $progKuis3   = $detailProgres->kuis->k3->persen;
-        $progKuis4   = $detailProgres->kuis->k4->persen;
-        $progEval    = $detailProgres->kuis->eval->persen;
+        try {
+
+            $response = $progressCtrl->getDetail();
+
+            $detailProgres = $response->getData();
+
+            $totalProgressKeseluruhan = $detailProgres->total_progress ?? 0;
+
+            $progMateri1 = $detailProgres->materi->m1->persen ?? 0;
+
+            $progKuis1 = $detailProgres->kuis->k1->persen ?? 0;
+            $progKuis2 = $detailProgres->kuis->k2->persen ?? 0;
+            $progKuis3 = $detailProgres->kuis->k3->persen ?? 0;
+            $progKuis4 = $detailProgres->kuis->k4->persen ?? 0;
+
+            $progEval = $detailProgres->kuis->eval->persen ?? 0;
+        } catch (\Exception $e) {
+
+            // Fallback jika progress gagal diambil
+            $totalProgressKeseluruhan = 0;
+
+            $progMateri1 = 0;
+
+            $progKuis1 = 0;
+            $progKuis2 = 0;
+            $progKuis3 = 0;
+            $progKuis4 = 0;
+
+            $progEval = 0;
+        }
 
         // --- LENCANA / BADGES ---
-        $totalBadgesCount = Badge::count(); 
-        $earnedBadgesCount = $user->badges()->count(); 
+        $totalBadgesCount = Badge::count();
+        $earnedBadgesCount = $user->badges()->count();
         $latestBadge = $user->badges()->latest('badge_user.created_at')->first();
         $lastBadgeName = $latestBadge ? $latestBadge->name : 'Belum ada lencana';
         $allBadges = Badge::all();
@@ -74,11 +94,20 @@ class MenuController extends Controller
 
         // --- BAGIAN 5: Kirim ke View ---
         return view('siswa.menu.dashboard', compact(
-            'aktivitas', 'rataRata', 
-            'progMateri1', 'totalProgressKeseluruhan', 
-            'totalBadgesCount', 'earnedBadgesCount', 'lastBadgeName',
-            'allBadges', 'earnedBadgeIds',
-            'progKuis1', 'progKuis2', 'progKuis3', 'progKuis4', 'progEval',
+            'aktivitas',
+            'rataRata',
+            'progMateri1',
+            'totalProgressKeseluruhan',
+            'totalBadgesCount',
+            'earnedBadgesCount',
+            'lastBadgeName',
+            'allBadges',
+            'earnedBadgeIds',
+            'progKuis1',
+            'progKuis2',
+            'progKuis3',
+            'progKuis4',
+            'progEval',
             'userPoints'
         ));
     }
@@ -114,9 +143,9 @@ class MenuController extends Controller
 
         // 1. Ambil Riwayat
         $riwayat = HasilPengerjaan::with('paketSoal')
-                        ->where('user_id', $userId) 
-                        ->orderBy('created_at', 'desc')
-                        ->get();
+            ->where('user_id', $userId)
+            ->orderBy('created_at', 'desc')
+            ->get();
 
         // 2. Logika Rangkuman (Nilai Tertinggi per Paket)
         $semuaPaket = PaketSoal::all()->sortBy(function ($paket) {
@@ -135,38 +164,38 @@ class MenuController extends Controller
         foreach ($semuaPaket as $paket) {
             // Ambil SEMUA riwayat pengerjaan user untuk paket ini, urutkan dari yang PERTAMA (paling lama)
             $riwayatPaket = HasilPengerjaan::where('paket_soal_id', $paket->id)
-                                ->where('user_id', $userId)
-                                ->whereNotNull('waktu_selesai')
-                                ->orderBy('created_at', 'asc') // Urutan waktu sangat penting!
-                                ->get();
+                ->where('user_id', $userId)
+                ->whereNotNull('waktu_selesai')
+                ->orderBy('created_at', 'asc') // Urutan waktu sangat penting!
+                ->get();
 
             $finalScore = null;
 
             if ($riwayatPaket->count() > 0) {
                 $kkm = 70; // Tentukan nilai KKM Anda
-                
+
                 // Ambil skor percobaan PERTAMA KALI
                 $skorPertama = $riwayatPaket->first()->skor_akhir;
 
                 if ($skorPertama >= $kkm) {
-                    $finalScore = $skorPertama; 
+                    $finalScore = $skorPertama;
                 } else {
                     $skorTertinggi = $riwayatPaket->max('skor_akhir');
                     if ($skorTertinggi >= $kkm) {
                         $finalScore = $kkm;
                     } else {
-                        $finalScore = $skorTertinggi; 
+                        $finalScore = $skorTertinggi;
                     }
                 }
             }
 
             $rekapNilai[] = [
                 'nama_paket' => $paket->nama_paket ?? $paket->judul,
-                'nilai' => $finalScore !== null ? $finalScore : '-' 
+                'nilai' => $finalScore !== null ? $finalScore : '-'
             ];
 
             if ($finalScore !== null) {
-                $totalSkor += $finalScore; 
+                $totalSkor += $finalScore;
                 $jumlahPaketDiambil++;
             }
         }
@@ -207,4 +236,6 @@ class MenuController extends Controller
 
         return redirect()->back()->with('success', 'Berhasil bergabung ke kelas ' . $kelas->nama_kelas);
     }
+
+    
 }

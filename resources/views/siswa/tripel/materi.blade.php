@@ -699,7 +699,7 @@
                                         Dikali dengan 2
                                     </div>
                                     <div class="card-body">
-                                        <p class="text-center mb-2">Kalikan sisi awal (3, 4, 5) dengan 2:</p>
+                                        <p class="text-center mb-2">Kalikan sisi awal 3 cm, 4 cm, dan 5 cm dengan 2:</p>
                                         <div class="table-responsive">
                                             <table class="table table-bordered text-center align-middle border-dark">
                                                 <thead class="bg-light">
@@ -758,7 +758,7 @@
                                         Dikali dengan 3
                                     </div>
                                     <div class="card-body">
-                                        <p class="text-center mb-2">Kalikan sisi awal (3, 4, 5) dengan 3:</p>
+                                        <p class="text-center mb-2">Kalikan sisi awal 3 cm, 4 cm, dan 5 cm dengan 3:</p>
                                         <div class="table-responsive">
                                             <table class="table table-bordered text-center align-middle border-dark">
                                                 <thead class="bg-light">

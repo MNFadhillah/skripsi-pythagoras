@@ -11,7 +11,7 @@
 
             {{-- SEMBUNYIKAN TOMBOL TAMBAH JIKA GURU BELUM PUNYA KELAS --}}
             @if($hasClass)
-            <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#modalTambahAktivitas">
+            <button type="button" class="btn btn-success" id="btnTambah" data-bs-toggle="modal" data-bs-target="#modalForm">
                 <i class="bi bi-plus-lg me-1"></i> Tambah Aktivitas
             </button>
             @endif

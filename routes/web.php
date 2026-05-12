@@ -189,6 +189,8 @@ Route::middleware(['auth', 'role:guru'])
       Route::get('/pencapaian_siswa', [PencapaianSiswaController::class, 'index'])->name('pencapaian_siswa');
       Route::get('/pencapaian_siswa/data', [PencapaianSiswaController::class, 'data'])->name('pencapaian_siswa.data');
       Route::get('/pencapaian_siswa/{user_id}/detail', [PencapaianSiswaController::class, 'detail'])->name('pencapaian_siswa.detail');
+      Route::get('/pencapaian_siswa/data-pemahaman', [PencapaianSiswaController::class, 'dataPemahaman'])->name('pencapaian_siswa.data_pemahaman');
+      Route::get('/pencapaian_siswa/{user_id}/grafik-penguasaan', [PencapaianSiswaController::class, 'grafikPenguasaan'])->name('pencapaian_siswa.grafik_penguasaan');
 
       // DUA ROUTE BARU INI:
       Route::get('/pencapaian_siswa/data_leaderboard', [PencapaianSiswaController::class, 'dataLeaderboard'])->name('pencapaian_siswa.data_leaderboard');
@@ -202,4 +204,6 @@ Route::middleware(['auth', 'role:guru'])
 
       /* ===== DATA REFLEKSI ===== */
       Route::get('/data_refleksi', [DataRefleksiController::class, 'index'])->name('data_refleksi');
+
+
    });

@@ -118,10 +118,9 @@ function cekTab45() {
 }
 
 // ==========================================
-// HALAMAN 3: CONTOH SOAL 1
+// HALAMAN 0: CONTOH SOAL 1 (45-45-90)
 // ==========================================
-let attemptContoh1 = 0;
-const maxAttempts1 = 3;
+let attemptContoh1_45 = 0;
 
 function cekContoh1Interaktif() {
     const kunciJawaban = {
@@ -131,6 +130,9 @@ function cekContoh1Interaktif() {
         'c1i_rasio_90': '2',
         'c1i_perbandingan_atas': '1',
         'c1i_perbandingan_bawah': '2',
+        'c1i_sub_ab_angka': '15', // <- Ini yang tadi kurang
+        'c1i_sub_rasio_ac': '1',  // <- Ini yang tadi kurang
+        'c1i_sub_rasio_ab': '2',  // <- Ini yang tadi kurang
         'c1i_pecahan_rasio_ac': '1',
         'c1i_pecahan_rasio_ab': '2',
         'c1i_pecahan_ab_angka': '15',
@@ -155,16 +157,11 @@ function cekContoh1Interaktif() {
     }
 
     if (adaKosong) {
-        Swal.fire({
-            icon: 'warning',
-            title: 'Belum Lengkap',
-            text: 'Harap lengkapi semua kotak jawaban pada Contoh 1!',
-            confirmButtonColor: '#198754'
-        });
+        Swal.fire({ icon: 'warning', title: 'Belum Lengkap', text: 'Harap lengkapi semua kotak jawaban!', confirmButtonColor: '#198754' });
         return;
     }
 
-    attemptContoh1++;
+    attemptContoh1_45++;
     let semuaBenar = true;
 
     inputElements.forEach(input => {
@@ -174,9 +171,7 @@ function cekContoh1Interaktif() {
 
             if (input.id === 'c1i_dik_ab') {
                 let cleanVal = input.value.replace(/[\s\\{}]/g, '').toLowerCase();
-                if (cleanVal === '15sqrt2' || cleanVal === '15akar2' || cleanVal === '15') {
-                    isCorrect = true;
-                }
+                if (cleanVal === '15sqrt2' || cleanVal === '15akar2' || cleanVal === '15') isCorrect = true;
             } else {
                 let userVal = input.value.trim().toLowerCase();
                 isCorrect = userVal === kunciJawaban[input.id].toLowerCase();
@@ -192,113 +187,132 @@ function cekContoh1Interaktif() {
     });
 
     if (semuaBenar) {
-        Swal.fire({
-            icon: 'success',
-            title: '+15 Poin!',
-            text: 'Langkah penyelesaian Contoh 1 sudah benar.',
-            confirmButtonColor: '#198754'
-        }).then((result) => {
-            if (result.isConfirmed) {
-                if (typeof updateProgress === 'function') {
-                    updateProgress('materi_3_segitiga_istimewa', 'm3_cp2_contoh_1', 15);
-                }
-            }
-        });
+        Swal.fire({ icon: 'success', title: '+15 Poin!', text: 'Langkah penyelesaian Contoh 1 sudah benar.', confirmButtonColor: '#198754' })
+            .then((res) => { if (res.isConfirmed && typeof updateProgress === 'function') updateProgress('materi_3_segitiga_istimewa', 'm3_cp2_contoh_1', 15); });
+        document.getElementById('c1i_feedback').innerText = "Jawaban Benar";
     } else {
-        if (attemptContoh1 >= maxAttempts1) {
-            Swal.fire({
-                title: 'Kesempatan Habis',
-                text: 'Masih ada jawaban yang kurang tepat. Ingin melihat jawaban yang benar?',
-                icon: 'error',
-                showCancelButton: true,
-                confirmButtonText: 'Tampilkan Jawaban',
-                cancelButtonText: 'Tutup',
-                confirmButtonColor: '#198754',
-                cancelButtonColor: '#6c757d'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    inputElements.forEach(input => {
-                        input.value = (input.id === 'c1i_dik_ab') ? '15\\sqrt{2}' : kunciJawaban[input.id];
-                        input.classList.remove('is-invalid', 'border-danger', 'text-danger');
-                        input.classList.add('is-valid', 'border-success', 'text-success');
-                    });
-                    if (typeof updateProgress === 'function') {
-                        updateProgress('materi_3_segitiga_istimewa', 'm3_cp2_contoh_1', 15);
+        if (attemptContoh1_45 >= 3) {
+            Swal.fire({ title: 'Kesempatan Habis', text: 'Lihat jawaban benar?', icon: 'error', showCancelButton: true, confirmButtonText: 'Tampilkan', confirmButtonColor: '#198754' })
+                .then((res) => {
+                    if (res.isConfirmed) {
+                        inputElements.forEach(input => {
+                            input.value = (input.id === 'c1i_dik_ab') ? '15\\sqrt{2}' : kunciJawaban[input.id];
+                            input.classList.remove('is-invalid', 'border-danger', 'text-danger');
+                            input.classList.add('is-valid', 'border-success', 'text-success');
+                        });
+                        if (typeof updateProgress === 'function') updateProgress('materi_3_segitiga_istimewa', 'm3_cp2_contoh_1', 15);
                     }
-                }
-            });
+                });
         } else {
-            let sisa = maxAttempts1 - attemptContoh1;
-            Swal.fire({
-                title: 'Kurang Tepat',
-                text: `Masih ada kotak yang salah (warna merah). Sisa kesempatan: ${sisa} kali.`,
-                icon: 'error',
-                confirmButtonColor: '#dc3545'
-            });
+            Swal.fire({ title: 'Kurang Tepat', text: `Masih ada kotak salah (merah). Sisa: ${3 - attemptContoh1_45} kali.`, icon: 'error', confirmButtonColor: '#dc3545' });
         }
     }
 }
 
 // ==========================================
-// HALAMAN 3: CONTOH SOAL 2
+// HALAMAN 0: CONTOH SOAL 2 (45-45-90)
 // ==========================================
-let attemptContoh2 = 0;
+let attemptContoh2_45 = 0;
 
-function cekContoh2Istimewa() {
+function cekContoh2_45() {
     const kunciJawaban = {
-        'c2_dik_bc': '15',
-        'c2_dik_sudut': '30',
-        'c2_dik_siku': 'c', // Toleransi huruf kecil C
-        'c2_rasio_30': '1',
-        'c2_rasio_60': '3',
-        'c2_rasio_90': '2',
-        'c2_perbandingan_atas': '1',
-        'c2_perbandingan_bawah': '3',
-        'c2_sub_bc_angka': '15',
-        'c2_sub_rasio_ac': '1',
-        'c2_sub_rasio_bc': '3',
-        'c2_pecahan_bc_angka': '15',
-        'c2_pecahan_rasio_ac': '1',
-        'c2_pecahan_rasio_bc': '3',
-        'c2_ks_rasio_bc': '3',
-        'c2_ks_rasio_ac': '1',
-        'c2_kali_silang_angka': '15',
-        'c2_pindah_atas': '15',
-        'c2_pindah_bawah': '3',
-        'c2_hasil_hitung_angka': '5',
-        'c2_hasil_hitung_akar': '3',
-        'c2_hasil_akhir_angka': '5',
-        'c2_hasil_akhir_akar': '3'
+        'c2_45_dik_ac': '20', 'c2_45_dik_sudut': '45', 'c2_45_rasio_45_1': '1', 'c2_45_rasio_45_2': '1', 'c2_45_rasio_90': '2',
+        'c2_45_perbandingan_atas': '2', 'c2_45_perbandingan_bawah': '1',
+        'c2_45_sub_ac': '20', 'c2_45_sub_rasio_ab': '2', 'c2_45_sub_rasio_ac': '1',
+        'c2_45_pecahan_ac': '20', 'c2_45_pecahan_rasio_ab': '2', 'c2_45_pecahan_rasio_ac': '1',
+        'c2_45_pindah_rasio_ab': '2', 'c2_45_pindah_angka_ac': '20', 'c2_45_pindah_rasio_ac': '1',
+        'c2_45_ras_val_atas': '20', 'c2_45_ras_val_bawah': '2',
+        'c2_45_rasionalkan_atas': '2', 'c2_45_rasionalkan_bawah': '2',
+        'c2_45_hasil_pembilang_angka': '20', 'c2_45_hasil_pembilang_akar': '2', 'c2_45_hasil_penyebut': '2',
+        'c2_45_hasil_akhir_angka': '10', 'c2_45_hasil_akhir_akar': '2'
     };
 
     const inputElements = Object.keys(kunciJawaban).map(id => document.getElementById(id));
-    let adaKosong = false;
-
-    for (const input of inputElements) {
-        if (input && input.value.trim() === "") {
-            adaKosong = true;
-            break;
-        }
+    if (cekAdaKosong(inputElements)) {
+        Swal.fire({ icon: 'warning', title: 'Belum Lengkap', text: 'Harap lengkapi semua kotak!', confirmButtonColor: '#198754' }); return;
     }
 
-    if (adaKosong) {
-        Swal.fire({
-            icon: 'warning',
-            title: 'Belum Lengkap',
-            text: 'Harap lengkapi semua kotak jawaban pada Contoh Soal 2!',
-            confirmButtonColor: '#198754'
-        });
-        return;
-    }
-
-    attemptContoh2++;
+    attemptContoh2_45++;
     let semuaBenar = true;
 
     inputElements.forEach(input => {
         if (input) {
             input.classList.remove('is-valid', 'is-invalid', 'border-success', 'border-danger', 'text-success', 'text-danger');
+            let isCorrect = input.value.trim() === kunciJawaban[input.id];
+            if (isCorrect) {
+                input.classList.add('is-valid', 'border-success', 'text-success');
+            } else {
+                input.classList.add('is-invalid', 'border-danger', 'text-danger');
+                semuaBenar = false;
+            }
+        }
+    });
+
+    if (semuaBenar) {
+        Swal.fire({ icon: 'success', title: 'Tepat!', text: 'Penyelesaian Contoh 2 sudah benar.', confirmButtonColor: '#198754' });
+        document.getElementById('c2_45_feedback').innerText = "Jawaban Benar";
+    } else {
+        if (attemptContoh2_45 >= 3) {
+            Swal.fire({ title: 'Kesempatan Habis', icon: 'error', showCancelButton: true, confirmButtonText: 'Tampilkan', confirmButtonColor: '#198754' })
+                .then(res => {
+                    if (res.isConfirmed) {
+                        inputElements.forEach(input => {
+                            input.value = kunciJawaban[input.id];
+                            input.classList.remove('is-invalid', 'border-danger', 'text-danger');
+                            input.classList.add('is-valid', 'border-success', 'text-success');
+                        });
+                    }
+                });
+        } else {
+            Swal.fire({ title: 'Kurang Tepat', text: `Masih ada yang salah. Sisa: ${3 - attemptContoh2_45} kali.`, icon: 'error', confirmButtonColor: '#dc3545' });
+        }
+    }
+}
+// ==========================================
+// HALAMAN 1: CONTOH SOAL 1 (30-60-90)
+// ==========================================
+let attemptContoh1_30 = 0;
+
+function cekContoh1_30() {
+    const kunciJawaban = {
+        'c1_30_dik_bc': '15', 'c1_30_dik_sudut': '30', 'c1_30_dik_siku': 'c',
+        'c1_30_rasio_30': '1', 'c1_30_rasio_60': '3', 'c1_30_rasio_90': '2',
+        'c1_30_perbandingan_atas': '1', 'c1_30_perbandingan_bawah': '3',
+        'c1_30_sub_bc': '15', 'c1_30_sub_rasio_ac': '1', 'c1_30_sub_rasio_bc': '3',
+        'c1_30_pecahan_bc': '15', 'c1_30_pecahan_rasio_ac': '1', 'c1_30_pecahan_rasio_bc': '3',
+        'c1_30_pindah_rasio_ac': '1', 'c1_30_pindah_angka_bc': '15', 'c1_30_pindah_rasio_bc': '3',
+        'c1_30_rasional_atas': '3', 'c1_30_rasional_bawah': '3',
+        'c1_30_hasil_bagi': '3', 'c1_30_hasil_akhir_angka': '5', 'c1_30_hasil_akhir_akar': '3'
+    };
+
+    const inputElements = Object.keys(kunciJawaban).map(id => document.getElementById(id));
+    if (cekAdaKosong(inputElements)) {
+        Swal.fire({ icon: 'warning', title: 'Belum Lengkap', text: 'Harap lengkapi semua kotak!', confirmButtonColor: '#198754' }); return;
+    }
+
+    attemptContoh1_30++;
+    let semuaBenar = true;
+
+    inputElements.forEach(input => {
+        if (input) {
+            input.classList.remove('is-valid', 'is-invalid', 'border-success', 'border-danger', 'text-success', 'text-danger');
+
+            let isCorrect = false;
             let userVal = input.value.trim().toLowerCase();
-            let isCorrect = userVal === kunciJawaban[input.id].toLowerCase();
+
+            // Pengecekan khusus untuk sifat komutatif perkalian (1 x 15 atau 15 x 1)
+            if (input.id === 'c1_30_pindah_rasio_ac' || input.id === 'c1_30_pindah_angka_bc') {
+                let val1 = document.getElementById('c1_30_pindah_rasio_ac').value.trim();
+                let val2 = document.getElementById('c1_30_pindah_angka_bc').value.trim();
+
+                // Jika isinya '1' dan '15' ATAU '15' dan '1', keduanya dianggap BENAR
+                if ((val1 === '1' && val2 === '15') || (val1 === '15' && val2 === '1')) {
+                    isCorrect = true;
+                }
+            } else {
+                // Pengecekan normal untuk input lainnya
+                isCorrect = userVal === kunciJawaban[input.id];
+            }
 
             if (isCorrect) {
                 input.classList.add('is-valid', 'border-success', 'text-success');
@@ -310,53 +324,27 @@ function cekContoh2Istimewa() {
     });
 
     if (semuaBenar) {
-        Swal.fire({
-            icon: 'success',
-            title: '+15 Poin!',
-            text: 'Langkah penyelesaian Contoh 2 sudah benar seluruhnya.',
-            confirmButtonColor: '#198754'
-        }).then((result) => {
-            if (result.isConfirmed) {
-                if (typeof updateProgress === 'function') {
-                    updateProgress('materi_3_segitiga_istimewa', 'm3_cp3_contoh_2', 15);
-                }
-            }
-        });
+        Swal.fire({ icon: 'success', title: '+15 Poin!', text: 'Langkah penyelesaian Contoh 1 (30-60-90) sudah benar.', confirmButtonColor: '#198754' })
+            .then((res) => { if (res.isConfirmed && typeof updateProgress === 'function') updateProgress('materi_3_segitiga_istimewa', 'm3_cp3_contoh_2', 15); });
+        document.getElementById('c1_30_feedback').innerText = "Jawaban Benar";
     } else {
-        if (attemptContoh2 >= maxAttempts1) {
-            Swal.fire({
-                title: 'Kesempatan Habis',
-                text: 'Masih ada jawaban yang kurang tepat. Ingin melihat jawaban yang benar?',
-                icon: 'error',
-                showCancelButton: true,
-                confirmButtonText: 'Tampilkan Jawaban',
-                cancelButtonText: 'Tutup',
-                confirmButtonColor: '#198754',
-                cancelButtonColor: '#6c757d'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    inputElements.forEach(input => {
-                        input.value = kunciJawaban[input.id];
-                        input.classList.remove('is-invalid', 'border-danger', 'text-danger');
-                        input.classList.add('is-valid', 'border-success', 'text-success');
-                    });
-                    if (typeof updateProgress === 'function') {
-                        updateProgress('materi_3_segitiga_istimewa', 'm3_cp3_contoh_2', 15);
+        if (attemptContoh1_30 >= 3) {
+            Swal.fire({ title: 'Kesempatan Habis', icon: 'error', showCancelButton: true, confirmButtonText: 'Tampilkan', confirmButtonColor: '#198754' })
+                .then(res => {
+                    if (res.isConfirmed) {
+                        inputElements.forEach(input => {
+                            input.value = kunciJawaban[input.id];
+                            input.classList.remove('is-invalid', 'border-danger', 'text-danger');
+                            input.classList.add('is-valid', 'border-success', 'text-success');
+                        });
+                        if (typeof updateProgress === 'function') updateProgress('materi_3_segitiga_istimewa', 'm3_cp3_contoh_2', 15);
                     }
-                }
-            });
+                });
         } else {
-            let sisa = maxAttempts1 - attemptContoh2;
-            Swal.fire({
-                title: 'Kurang Tepat',
-                text: `Masih ada kotak yang salah (warna merah). Sisa kesempatan: ${sisa} kali.`,
-                icon: 'error',
-                confirmButtonColor: '#dc3545'
-            });
+            Swal.fire({ title: 'Kurang Tepat', text: `Masih ada yang salah. Sisa: ${3 - attemptContoh1_30} kali.`, icon: 'error', confirmButtonColor: '#dc3545' });
         }
     }
 }
-
 
 // ==========================================
 // HALAMAN 3: AYO BERLATIH - SOAL 1
@@ -706,9 +694,15 @@ document.addEventListener('DOMContentLoaded', function () {
                 if (document.getElementById('tab45_feedback')) {
                     document.getElementById('tab45_feedback').innerHTML = `
                         <div class="alert mt-3 mb-0 small text-start border-success shadow-sm">
-                            Berdasarkan pola pada tabel di atas, dapat dilihat bahwa panjang sisi miring (hipotenusa) selalu <strong>panjang sisi siku-siku dikali &radic;2</strong>. Hal ini membuktikan bahwa perbandingan panjang sisi-sisi pada segitiga siku-siku sama kaki (sudut 45&deg;-45&deg;-90&deg;) akan selalu memiliki pola tetap, yaitu <strong>1 : 1 : &radic;2</strong>.
+                            Berdasarkan pola pada tabel di atas, dapat dilihat bahwa panjang sisi miring (hipotenusa) selalu 
+                            <strong>\\( \\text{panjang sisi siku-siku} \\times \\sqrt{2} \\)</strong>. 
+                            Hal ini membuktikan bahwa perbandingan panjang sisi-sisi pada segitiga siku-siku sama kaki 
+                            (sudut \\(45^\\circ\\)-\\(45^\\circ\\)-\\(90^\\circ\\)) akan selalu memiliki pola tetap, yaitu 
+                            <strong>\\( 1 : 1 : \\sqrt{2} \\)</strong>.
                         </div>
                     `;
+
+                    MathJax.typesetPromise();
                 }
             },
             function () {
@@ -750,32 +744,70 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         );
 
-        // 3. Contoh 2 
-        window.setupReviewMode('m3_cp3_contoh_2', 'button[onclick="cekContoh2Istimewa()"]',
+        // Setup Contoh 2 (45-45-90)
+        window.setupReviewMode('m3_cp_contoh_2_45', 'button[onclick="cekContoh2_45()"]',
             function () {
                 const ans = {
-                    'c2_dik_bc': '15', 'c2_dik_sudut': '30', 'c2_dik_siku': 'C', 'c2_rasio_30': '1', 'c2_rasio_60': '3',
-                    'c2_rasio_90': '2', 'c2_perbandingan_atas': '1', 'c2_perbandingan_bawah': '3', 'c2_sub_bc_angka': '15',
-                    'c2_sub_rasio_ac': '1', 'c2_sub_rasio_bc': '3', 'c2_pecahan_bc_angka': '15', 'c2_pecahan_rasio_ac': '1',
-                    'c2_pecahan_rasio_bc': '3', 'c2_ks_rasio_bc': '3', 'c2_ks_rasio_ac': '1', 'c2_kali_silang_angka': '15',
-                    'c2_pindah_atas': '15', 'c2_pindah_bawah': '3', 'c2_hasil_hitung_angka': '5', 'c2_hasil_hitung_akar': '3',
-                    'c2_hasil_akhir_angka': '5', 'c2_hasil_akhir_akar': '3'
+                    'c2_45_dik_ac': '20', 'c2_45_dik_sudut': '45', 'c2_45_rasio_45_1': '1', 'c2_45_rasio_45_2': '1', 'c2_45_rasio_90': '2',
+                    'c2_45_perbandingan_atas': '2', 'c2_45_perbandingan_bawah': '1',
+                    'c2_45_sub_ac': '20', 'c2_45_sub_rasio_ab': '2', 'c2_45_sub_rasio_ac': '1',
+                    'c2_45_pecahan_ac': '20', 'c2_45_pecahan_rasio_ab': '2', 'c2_45_pecahan_rasio_ac': '1',
+                    'c2_45_pindah_rasio_ab': '2', 'c2_45_pindah_angka_ac': '20', 'c2_45_pindah_rasio_ac': '1',
+                    'c2_45_ras_val_atas': '20', 'c2_45_ras_val_bawah': '2',
+                    'c2_45_rasionalkan_atas': '2', 'c2_45_rasionalkan_bawah': '2',
+                    'c2_45_hasil_pembilang_angka': '20', 'c2_45_hasil_pembilang_akar': '2', 'c2_45_hasil_penyebut': '2',
+                    'c2_45_hasil_akhir_angka': '10', 'c2_45_hasil_akhir_akar': '2'
                 };
                 for (let id in ans) {
                     let el = document.getElementById(id);
                     if (el) { el.value = ans[id]; el.classList.add('is-valid', 'border-success', 'text-success'); el.disabled = true; }
                 }
-                if (document.getElementById('c2_feedback')) {
-                    document.getElementById('c2_feedback').innerHTML = '<span class="text-success fw-bold">Penyelesaian Selesai.</span>';
-                }
             },
             function () {
-                const ids = ['c2_dik_bc', 'c2_dik_sudut', 'c2_dik_siku', 'c2_rasio_30', 'c2_rasio_60', 'c2_rasio_90', 'c2_perbandingan_atas', 'c2_perbandingan_bawah', 'c2_sub_bc_angka', 'c2_sub_rasio_ac', 'c2_sub_rasio_bc', 'c2_pecahan_bc_angka', 'c2_pecahan_rasio_ac', 'c2_pecahan_rasio_bc', 'c2_ks_rasio_bc', 'c2_ks_rasio_ac', 'c2_kali_silang_angka', 'c2_pindah_atas', 'c2_pindah_bawah', 'c2_hasil_hitung_angka', 'c2_hasil_hitung_akar', 'c2_hasil_akhir_angka', 'c2_hasil_akhir_akar'];
+                const ids = Object.keys(ans);
                 ids.forEach(id => {
                     let el = document.getElementById(id);
                     if (el) { el.value = ''; el.classList.remove('is-valid', 'is-invalid', 'border-success', 'text-success', 'border-danger', 'text-danger'); el.disabled = false; }
                 });
-                if (document.getElementById('c2_feedback')) document.getElementById('c2_feedback').innerHTML = '';
+            }
+        );
+
+        // Setup Contoh 1 (30-60-90)
+        // Setup Contoh 1 (30-60-90)
+        window.setupReviewMode('m3_cp3_contoh_2', 'button[onclick="cekContoh1_30()"]',
+            function () {
+                const ans = {
+                    'c1_30_dik_bc': '15', 'c1_30_dik_sudut': '30', 'c1_30_dik_siku': 'C',
+                    'c1_30_rasio_30': '1', 'c1_30_rasio_60': '3', 'c1_30_rasio_90': '2',
+                    'c1_30_perbandingan_atas': '1', 'c1_30_perbandingan_bawah': '3',
+                    'c1_30_sub_bc': '15', 'c1_30_sub_rasio_ac': '1', 'c1_30_sub_rasio_bc': '3',
+                    'c1_30_pecahan_bc': '15', 'c1_30_pecahan_rasio_ac': '1', 'c1_30_pecahan_rasio_bc': '3',
+                    'c1_30_pindah_rasio_ac': '1', 'c1_30_pindah_angka_bc': '15', 'c1_30_pindah_rasio_bc': '3',
+                    'c1_30_rasional_atas': '3', 'c1_30_rasional_bawah': '3',
+                    'c1_30_hasil_bagi': '3', 'c1_30_hasil_akhir_angka': '5', 'c1_30_hasil_akhir_akar': '3'
+                };
+                for (let id in ans) {
+                    let el = document.getElementById(id);
+                    if (el) { el.value = ans[id]; el.classList.add('is-valid', 'border-success', 'text-success'); el.disabled = true; }
+                }
+            },
+            function () {
+                // PERBAIKAN: Definisikan manual id kotak inputnya
+                const ids = [
+                    'c1_30_dik_bc', 'c1_30_dik_sudut', 'c1_30_dik_siku', 'c1_30_rasio_30',
+                    'c1_30_rasio_60', 'c1_30_rasio_90', 'c1_30_perbandingan_atas', 'c1_30_perbandingan_bawah',
+                    'c1_30_sub_bc', 'c1_30_sub_rasio_ac', 'c1_30_sub_rasio_bc', 'c1_30_pecahan_bc',
+                    'c1_30_pecahan_rasio_ac', 'c1_30_pecahan_rasio_bc', 'c1_30_pindah_rasio_ac',
+                    'c1_30_pindah_angka_bc', 'c1_30_pindah_rasio_bc', 'c1_30_rasional_atas',
+                    'c1_30_rasional_bawah', 'c1_30_hasil_bagi', 'c1_30_hasil_akhir_angka', 'c1_30_hasil_akhir_akar'
+                ];
+                ids.forEach(id => {
+                    let el = document.getElementById(id);
+                    if (el) { el.value = ''; el.classList.remove('is-valid', 'is-invalid', 'border-success', 'text-success', 'border-danger', 'text-danger'); el.disabled = false; }
+                });
+
+                // Reset counter percobaan agar siswa mendapat 3 kesempatan lagi
+                attemptContoh1_30 = 0;
             }
         );
 

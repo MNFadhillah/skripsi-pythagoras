@@ -78,7 +78,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+
                     <button type="submit" class="btn btn-success">Simpan</button>
                 </div>
             </form>
@@ -126,7 +126,7 @@
                     </div>
                 </div>
                 <div class="modal-footer border-0">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+
                     <button type="submit" class="btn btn-success">Simpan Token</button>
                 </div>
             </form>
@@ -161,7 +161,7 @@
                     </div>
                 </div>
                 <div class="modal-footer border-0">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+
                     <button type="submit" class="btn btn-success px-4">Simpan Perubahan</button>
                 </div>
             </form>

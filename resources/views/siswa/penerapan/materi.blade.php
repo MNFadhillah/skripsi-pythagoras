@@ -207,7 +207,7 @@
                                 Budi sedang bermain layang-layang di lapangan. Jarak mendatar dari tempat Budi berdiri hingga tepat di bawah posisi layang-layang adalah <strong>40 meter</strong>. Jika tinggi layang-layang dari permukaan tanah adalah <strong>30 meter</strong> (mengabaikan tinggi Budi), tentukan panjang benang layang-layang yang terulur!
                             </p>
                             <div class="bg-white rounded-3 shadow-sm border p-3 d-flex justify-content-center align-items-center mb-4 overflow-hidden">
-                                <img src="{{ asset('images/contoh_1_penerapan.png') }}" class="img-fluid" style="max-height: 220px;" alt="Ilustrasi Layang-Layang">
+                                <img src="{{ asset('images/contoh_1_penerapan.jpg') }}" class="img-fluid" style="max-height: auto;" alt="Ilustrasi Layang-Layang">
                             </div>
 
                             <div class="card border mb-3 shadow-sm">
@@ -217,7 +217,7 @@
                                 <div class="card-body small py-2">
                                     <div class="d-flex align-items-center mb-2">
                                         <span style="width: 250px;">Jarak Budi ke tinggi layang-layang (AB) :</span>
-                                        <select id="c1_dik_ab" class="form-select form-select-sm text-center border-secondary mx-2" style="width: 80px;">
+                                        <select id="c1_dik_ab" class="form-select form-select-sm text-center border-secondary mx-2" style="width: 120px;">
                                             <option value=""></option>
                                             <option value="40">40</option>
                                             <option value="30">30</option>
@@ -227,7 +227,7 @@
                                     </div>
                                     <div class="d-flex align-items-center">
                                         <span style="width: 250px;">Tinggi layang-layang (BC) :</span>
-                                        <select id="c1_dik_bc" class="form-select form-select-sm text-center border-secondary mx-2" style="width: 80px;">
+                                        <select id="c1_dik_bc" class="form-select form-select-sm text-center border-secondary mx-2" style="width: 120px;">
                                             <option value=""></option>
                                             <option value="40">40</option>
                                             <option value="30">30</option>
@@ -245,7 +245,7 @@
                                 <div class="card-body py-2">
                                     <div class="d-flex align-items-center small ">
                                         <span>Panjang benang (</span>
-                                        <select id="c1_ditanya" class="form-select form-select-sm text-center border-warning fw-bold text-dark mx-2" style="width: 70px;">
+                                        <select id="c1_ditanya" class="form-select form-select-sm text-center border-warning fw-bold text-dark mx-2" style="width: 120px;">
                                             <option value=""></option>
                                             <option value="AB">AB</option>
                                             <option value="BC">BC</option>
@@ -349,10 +349,10 @@
                         <!-- Kolom Kiri: Soal, Diketahui, Ditanya -->
                         <div class="col-md-5 mb-4 mb-md-0">
                             <p class="small text-justify">
-                                Seorang pengemudi ojek online menempuh perjalanan sejauh <strong>15 km</strong> ke arah barat kemudian <strong>20 km</strong> ke arah utara untuk mengantar penumpang. Tentukan jarak garis lurus dari titik awal ke titik akhir perjalanan yang ditempuh oleh pengemudi ojek!
+                                Seorang pengemudi ojek online menempuh perjalanan sejauh <strong>20 km</strong> ke arah barat kemudian <strong>15 km</strong> ke arah utara untuk mengantar penumpang. Tentukan jarak garis lurus dari titik awal ke titik akhir perjalanan yang ditempuh oleh pengemudi ojek!
                             </p>
                             <div class="bg-white rounded-3 shadow-sm border p-3 d-flex justify-content-center align-items-center mb-4 overflow-hidden">
-                                <img src="{{ asset('images/contoh_2_penerapan.png') }}" class="img-fluid" style="max-height:220px;" alt="Ilustrasi Jarak Ojek Online">
+                                <img src="{{ asset('images/contoh_2_penerapan.jpg') }}" class="img-fluid" style="max-height: auto;" alt="Ilustrasi Jarak Ojek Online">
                             </div>
                             
                             <!-- Bagian Diketahui -->
@@ -362,8 +362,8 @@
                                 </div>
                                 <div class="card-body small py-2">
                                     <div class="d-flex align-items-center mb-2">
-                                        <span style="width: 250px;">Jarak tempuh ke arah barat (MN) :</span>
-                                        <select id="c2_dik_mn" class="form-select form-select-sm text-center border-secondary mx-2" style="width:80px;">
+                                        <span style="width: 250px;">Jarak tempuh ke arah barat (NO) :</span>
+                                        <select id="c2_dik_mn" class="form-select form-select-sm text-center border-secondary mx-2" style="width:120px;">
                                             <option value=""></option>
                                             <option value="15">15</option>
                                             <option value="20">20</option>
@@ -372,8 +372,8 @@
                                         <span>km</span>
                                     </div>
                                     <div class="d-flex align-items-center">
-                                        <span style="width: 250px;">Jarak tempuh ke arah utara (NO) :</span>
-                                        <select id="c2_dik_no" class="form-select form-select-sm text-center border-secondary mx-2" style="width:80px;">
+                                        <span style="width: 250px;">Jarak tempuh ke arah utara (MN) :</span>
+                                        <select id="c2_dik_no" class="form-select form-select-sm text-center border-secondary mx-2" style="width:120px;">
                                             <option value=""></option>
                                             <option value="15">15</option>
                                             <option value="20">20</option>
@@ -392,7 +392,7 @@
                                 <div class="card-body py-2">
                                     <div class="d-flex align-items-center small">
                                         <span>Jarak lurus (</span>
-                                        <select id="c2_ditanya" class="form-select form-select-sm text-center border-warning fw-bold text-dark mx-2" style="width:80px;">
+                                        <select id="c2_ditanya" class="form-select form-select-sm text-center border-warning fw-bold text-dark mx-2" style="width:120px;">
                                             <option value=""></option>
                                             <option value="MN">MN</option>
                                             <option value="NO">NO</option>
@@ -502,7 +502,7 @@
                                 Seorang pengamat berada di puncak mercusuar (titik D) yang tingginya <strong>15 meter</strong>. Ia melihat dua buah perahu, Perahu A dan Perahu B, yang berlayar sebaris lurus di laut. Jarak pandang garis lurus dari pengamat ke Perahu A adalah <strong>25 meter</strong>, dan ke Perahu B adalah <strong>17 meter</strong>. Berapakah jarak antara Perahu A dan Perahu B?
                             </p>
                             <div class="bg-white rounded-3 shadow-sm border p-3 d-flex justify-content-center align-items-center mb-4 overflow-hidden">
-                                <img src="{{ asset('images/contoh_3_penerapan.png') }}" class="img-fluid" style="max-height:220px;" alt="Ilustrasi Mercusuar">
+                                <img src="{{ asset('images/contoh_3_penerapan.jpg') }}" class="img-fluid" style="max-height: auto;" alt="Ilustrasi Mercusuar">
                             </div>
                             
                             <!-- Bagian Diketahui -->
@@ -513,7 +513,7 @@
                                 <div class="card-body small py-2">
                                     <div class="d-flex align-items-center mb-2">
                                         <span style="width: 220px;">Tinggi mercusuar (DC) :</span>
-                                        <select id="c3_dik_dc" class="form-select form-select-sm text-center border-secondary mx-2" style="width:80px;">
+                                        <select id="c3_dik_dc" class="form-select form-select-sm text-center border-secondary mx-2" style="width:120px;">
                                             <option value=""></option>
                                             <option value="15">15</option>
                                             <option value="17">17</option>
@@ -523,7 +523,7 @@
                                     </div>
                                     <div class="d-flex align-items-center mb-2">
                                         <span style="width: 220px;">Jarak pandang ke A (DA) :</span>
-                                        <select id="c3_dik_da" class="form-select form-select-sm text-center border-secondary mx-2" style="width:80px;">
+                                        <select id="c3_dik_da" class="form-select form-select-sm text-center border-secondary mx-2" style="width:120px;">
                                             <option value=""></option>
                                             <option value="15">15</option>
                                             <option value="17">17</option>
@@ -533,7 +533,7 @@
                                     </div>
                                     <div class="d-flex align-items-center">
                                         <span style="width: 220px;">Jarak pandang ke B (DB) :</span>
-                                        <select id="c3_dik_db" class="form-select form-select-sm text-center border-secondary mx-2" style="width:80px;">
+                                        <select id="c3_dik_db" class="form-select form-select-sm text-center border-secondary mx-2" style="width:120px;">
                                             <option value=""></option>
                                             <option value="15">15</option>
                                             <option value="17">17</option>
@@ -552,7 +552,7 @@
                                 <div class="card-body py-2">
                                     <div class="d-flex align-items-center small ">
                                         <span>Jarak antara perahu (</span>
-                                        <select id="c3_ditanya" class="form-select form-select-sm text-center border-warning fw-bold text-dark mx-2" style="width:70px;">
+                                        <select id="c3_ditanya" class="form-select form-select-sm text-center border-warning fw-bold text-dark mx-2" style="width:120px;">
                                             <option value=""></option>
                                             <option value="AC">AC</option>
                                             <option value="BC">BC</option>
@@ -701,7 +701,7 @@
                             <div class="col-md-5 mb-4 mb-md-0">
                                 <p class="fw-bold mb-2 small">Perhatikan gambar di bawah ini:</p>
                                 <div class="bg-white rounded-3 shadow-sm border p-3 d-flex justify-content-center align-items-center mb-4 overflow-hidden">
-                                    <img src="{{ asset('images/ilustrasi_soal1.png') }}" class="img-fluid p-2" style="max-height:220px;" alt="Soal 1">
+                                    <img src="{{ asset('images/ilustrasi_soal1.jpg') }}" class="img-fluid p-2" style="max-height: auto;" alt="Soal 1">
                                 </div>
                                 <p class="small text-justify mb-4">Pak Rahman mengemudikan klotok. Ia menyeberang ke arah timur <strong>40 m</strong> dan terbawa arus ke arah selatan <strong>30 m</strong>. Tentukan jarak lurus dari titik awal ke titik akhir.</p>
                                 
@@ -712,7 +712,7 @@
                                     <div class="card-body small py-2">
                                         <div class="d-flex align-items-center mb-2">
                                             <span style="width: 140px;">Gerak timur (AB) :</span>
-                                            <select id="s1_dik_ab" class="form-select form-select-sm text-center border-secondary mx-2" style="width:80px;">
+                                            <select id="s1_dik_ab" class="form-select form-select-sm text-center border-secondary mx-2" style="width:120px;">
                                                 <option value=""></option>
                                                 <option value="30">30</option>
                                                 <option value="40">40</option>
@@ -722,7 +722,7 @@
                                         </div>
                                         <div class="d-flex align-items-center">
                                             <span style="width: 140px;">Gerak selatan (BC) :</span>
-                                            <select id="s1_dik_bc" class="form-select form-select-sm text-center border-secondary mx-2" style="width:80px;">
+                                            <select id="s1_dik_bc" class="form-select form-select-sm text-center border-secondary mx-2" style="width:120px;">
                                                 <option value=""></option>
                                                 <option value="30">30</option>
                                                 <option value="40">40</option>
@@ -740,7 +740,7 @@
                                     <div class="card-body py-2">
                                         <div class="d-flex align-items-center small">
                                             <span style="width: 140px;">Jarak lurus (</span>
-                                            <select id="s1_ditanya" class="form-select form-select-sm text-center border-warning fw-bold text-dark mx-2" style="width:80px;">
+                                            <select id="s1_ditanya" class="form-select form-select-sm text-center border-warning fw-bold text-dark mx-2" style="width:120px;">
                                                 <option value=""></option>
                                                 <option value="AB">AB</option>
                                                 <option value="BC">BC</option>
@@ -828,9 +828,9 @@
                             <div class="col-md-5 mb-4 mb-md-0">
                                 <p class="fw-bold mb-2 small">Perhatikan gambar di bawah ini:</p>
                                 <div class="bg-white rounded-3 shadow-sm border p-3 d-flex justify-content-center align-items-center mb-4 overflow-hidden">
-                                    <img src="{{ '/images/ilustrasi_soal2.png' }}" class="img-fluid p-2" style="max-height:220px;" alt="Soal 2">
+                                    <img src="{{ '/images/ilustrasi_soal2.jpg' }}" class="img-fluid p-2" style="max-height: auto;" alt="Soal 2">
                                 </div>
-                                <p class="small text-justify mb-4">Seorang siswa melihat puncak menara dengan jarak mendatar <strong>24 m</strong> dan jarak pandang <strong>25 m</strong>. Tentukan tinggi menara tersebut.</p>
+                                <p class="small text-justify mb-4">Seorang siswa melihat puncak menara dengan jarak 25 meter, dan jarak siswa tersebut dengan menara adalah 24 meter. Tentukan tinggi menara tersebut.</p>
                                 
                                 <div class="card border mb-3 shadow-sm">
                                     <div class="card-header border-bottom bg-light py-2">
@@ -838,8 +838,8 @@
                                     </div>
                                     <div class="card-body small py-2">
                                         <div class="d-flex align-items-center mb-2">
-                                            <span style="width: 140px;">Jarak mendatar (AB) :</span>
-                                            <select id="s2_dik_ab" class="form-select form-select-sm text-center border-secondary mx-2" style="width:80px;">
+                                            <span style="width: auto;">Jarak siswa dengan menara (AB) :</span>
+                                            <select id="s2_dik_ab" class="form-select form-select-sm text-center border-secondary mx-2" style="width:120px;">
                                                 <option value=""></option>
                                                 <option value="24">24</option>
                                                 <option value="25">25</option>
@@ -848,8 +848,8 @@
                                             <span>m</span>
                                         </div>
                                         <div class="d-flex align-items-center">
-                                            <span style="width: 140px;">Garis pandang (AC) :</span>
-                                            <select id="s2_dik_ac" class="form-select form-select-sm text-center border-secondary mx-2" style="width:80px;">
+                                            <span style="width: a;">Jarak pandang siswa ke menara (AC) :</span>
+                                            <select id="s2_dik_ac" class="form-select form-select-sm text-center border-secondary mx-2" style="width:120px;">
                                                 <option value=""></option>
                                                 <option value="24">24</option>
                                                 <option value="25">25</option>
@@ -867,7 +867,7 @@
                                     <div class="card-body py-2">
                                         <div class="d-flex align-items-center small">
                                             <span style="width: 140px;">Tinggi menara (</span>
-                                            <select id="s2_ditanya" class="form-select form-select-sm text-center border-warning fw-bold text-dark mx-2" style="width:80px;">
+                                            <select id="s2_ditanya" class="form-select form-select-sm text-center border-warning fw-bold text-dark mx-2" style="width:120px;">
                                                 <option value=""></option>
                                                 <option value="AB">AB</option>
                                                 <option value="BC">BC</option>
@@ -955,9 +955,9 @@
                             <div class="col-md-5 mb-4 mb-md-0">
                                 <p class="fw-bold mb-2 small">Perhatikan gambar di bawah ini:</p>
                                 <div class="bg-white rounded-3 shadow-sm border p-3 d-flex justify-content-center align-items-center mb-4 overflow-hidden">
-                                    <img src="{{ asset('/images/ilustrasi_soal3.png') }}" class="img-fluid p-2" style="max-height:350px;" alt="Soal 3">
+                                    <img src="{{ asset('/images/ilustrasi_soal3.jpg') }}" class="img-fluid p-2" style="max-height: auto;" alt="Soal 3">
                                 </div>
-                                <p class="small text-justify mb-4">Sebuah drone (titik D) melihat tenda A dengan jarak pandang lurus <strong>20 m</strong> dan jarak mendatar <strong>16 m</strong>. Di arah yang sama, drone juga melihat tenda B dengan jarak pandang lurus <strong>15 m</strong>. Tentukan jarak mendatar dari titik tepat di bawah drone ke tenda B (panjang BC).</p>
+                                <p class="small text-justify mb-4">Sebuah drone diterbangkan dan memantau tenda A dengan jarak pandang lurus sejauh <strong>20 m</strong>, dan jarak tenda A terhadap titik yang tepat di bawah drone adalah sejauh <strong>16 m</strong>. Di arah yang sama, drone juga melihat tenda B dengan jarak pandang lurus <strong>15 m</strong>. Tentukan jarak mendatar dari titik tepat di bawah drone ke tenda B.</p>
                                 
                                 <div class="card border mb-3 shadow-sm">
                                     <div class="card-header border-bottom bg-light py-2">
@@ -966,7 +966,7 @@
                                     <div class="card-body small py-2">
                                         <div class="d-flex align-items-center mb-2">
                                             <span style="width: 150px;">Jarak pandang A (DA) :</span>
-                                            <select id="s3_dik_da" class="form-select form-select-sm text-center border-secondary mx-2" style="width:80px;">
+                                            <select id="s3_dik_da" class="form-select form-select-sm text-center border-secondary mx-2" style="width:120px;">
                                                 <option value=""></option>
                                                 <option value="15">15</option>
                                                 <option value="16">16</option>
@@ -976,7 +976,7 @@
                                         </div>
                                         <div class="d-flex align-items-center mb-2">
                                             <span style="width: 150px;">Jarak mendatar A (AC) :</span>
-                                            <select id="s3_dik_ac" class="form-select form-select-sm text-center border-secondary mx-2" style="width:80px;">
+                                            <select id="s3_dik_ac" class="form-select form-select-sm text-center border-secondary mx-2" style="width:120px;">
                                                 <option value=""></option>
                                                 <option value="15">15</option>
                                                 <option value="16">16</option>
@@ -986,7 +986,7 @@
                                         </div>
                                         <div class="d-flex align-items-center">
                                             <span style="width: 150px;">Jarak pandang B (DB) :</span>
-                                            <select id="s3_dik_db" class="form-select form-select-sm text-center border-secondary mx-2" style="width:80px;">
+                                            <select id="s3_dik_db" class="form-select form-select-sm text-center border-secondary mx-2" style="width:120px;">
                                                 <option value=""></option>
                                                 <option value="15">15</option>
                                                 <option value="16">16</option>
@@ -1004,7 +1004,7 @@
                                     <div class="card-body py-2">
                                         <div class="d-flex align-items-center small">
                                             <span>Jarak mendatar B (</span>
-                                            <select id="s3_ditanya" class="form-select form-select-sm text-center border-warning fw-bold text-dark mx-2" style="width:80px;">
+                                            <select id="s3_ditanya" class="form-select form-select-sm text-center border-warning fw-bold text-dark mx-2" style="width:120px;">
                                                 <option value=""></option>
                                                 <option value="DC">DC</option>
                                                 <option value="BC">BC</option>

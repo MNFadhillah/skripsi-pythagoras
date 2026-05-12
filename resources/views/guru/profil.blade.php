@@ -14,14 +14,14 @@
         <div class="col-xl-4 col-lg-5 mb-4">
             <div class="card border-0 shadow-sm text-center h-100">
                 <div class="card-body d-flex flex-column align-items-center justify-content-center py-5">
-                    
+
                     <div class="position-relative d-inline-block mb-4">
                         @if($user->avatar)
-                            <img src="{{ asset('storage/avatars/' . $user->avatar) }}" alt="Avatar" class="rounded-circle shadow" style="width: 140px; height: 140px; object-fit: cover; border: 4px solid #fff;">
+                        <img src="{{ asset('storage/avatars/' . $user->avatar) }}" alt="Avatar" class="rounded-circle shadow" style="width: 140px; height: 140px; object-fit: cover; border: 4px solid #fff;">
                         @else
-                            <div class="bg-success text-white rounded-circle d-flex align-items-center justify-content-center shadow mx-auto" style="width: 140px; height: 140px; font-size: 3.5rem; border: 4px solid #fff;">
-                                {{ strtoupper(substr($user->name, 0, 1)) }}
-                            </div>
+                        <div class="bg-success text-white rounded-circle d-flex align-items-center justify-content-center shadow mx-auto" style="width: 140px; height: 140px; font-size: 3.5rem; border: 4px solid #fff;">
+                            {{ strtoupper(substr($user->name, 0, 1)) }}
+                        </div>
                         @endif
 
                         <button type="button" class="btn btn-sm btn-light rounded-circle shadow position-absolute bottom-0 end-0 mb-2 me-2" data-bs-toggle="modal" data-bs-target="#modalAvatar" style="width: 35px; height: 35px;" title="Ubah Foto Profil">
@@ -31,7 +31,7 @@
 
                     <h4 class="fw-bold mb-1" id="displayName">{{ $user->name }}</h4>
                     <p class="text-muted mb-3" id="displayEmail">{{ $user->email }}</p>
-                    
+
                     <span class="badge bg-primary-subtle text-primary border border-primary-subtle px-4 py-2 rounded-pill mb-4">
                         Guru
                     </span>
@@ -44,7 +44,7 @@
         </div>
 
         <div class="col-xl-8 col-lg-7 mb-4">
-            
+
             <div class="row g-3 mb-4">
                 {{-- KOTAK 1: Menampilkan Nama Kelas Langsung --}}
                 <div class="col-md-4">
@@ -100,13 +100,13 @@
                     </h6>
                     <div>
                         @if($kelasDiampu !== 'Belum memiliki kelas')
-                            <span class="badge bg-success-subtle text-success border border-success-subtle px-4 py-2 rounded-pill fs-6 fw-bold shadow-sm">
-                                <i class="bi bi-easel2-fill me-2"></i> {{ $kelasDiampu }}
-                            </span>
+                        <span class="badge bg-success-subtle text-success border border-success-subtle px-4 py-2 rounded-pill fs-6 fw-bold shadow-sm">
+                            <i class="bi bi-easel2-fill me-2"></i> {{ $kelasDiampu }}
+                        </span>
                         @else
-                            <div class="alert alert-light border border-secondary-subtle text-muted mb-0">
-                                <i class="bi bi-info-circle me-2"></i> Anda belum ditugaskan untuk mengampu kelas manapun.
-                            </div>
+                        <div class="alert alert-light border border-secondary-subtle text-muted mb-0">
+                            <i class="bi bi-info-circle me-2"></i> Anda belum ditugaskan untuk mengampu kelas manapun.
+                        </div>
                         @endif
                     </div>
                 </div>
@@ -189,88 +189,96 @@
 
 @push('scripts')
 <script>
-$(document).ready(function() {
-    
-    // --- 1. AJAX Edit Identitas ---
-    $('#formProfil').on('submit', function(e) {
-        e.preventDefault();
-        let formData = $(this).serialize();
-        
-        Swal.fire({
-            title: 'Menyimpan...',
-            allowOutsideClick: false,
-            didOpen: () => Swal.showLoading()
-        });
+    $(document).ready(function() {
 
-        $.ajax({
-            url: "{{ route('guru.profil.update') }}",
-            type: 'POST',
-            data: formData,
-            success: function(res) {
-                if(res.success) {
-                    $('#displayName').text($('#name').val());
-                    $('#displayEmail').text($('#email').val());
-                    $('#password, #password_confirmation').val('');
-                    $('#modalEditProfil').modal('hide');
+        // --- 1. AJAX Edit Identitas ---
+        $('#formProfil').on('submit', function(e) {
+            e.preventDefault();
+            let formData = $(this).serialize();
 
+            Swal.fire({
+                title: 'Menyimpan...',
+                allowOutsideClick: false,
+                didOpen: () => Swal.showLoading()
+            });
+
+            $.ajax({
+                url: "{{ route('guru.profil.update') }}",
+                type: 'POST',
+                data: formData,
+                success: function(res) {
+                    if (res.success) {
+                        $('#displayName').text($('#name').val());
+                        $('#displayEmail').text($('#email').val());
+                        $('#password, #password_confirmation').val('');
+                        $('#modalEditProfil').modal('hide');
+
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Berhasil!',
+                            text: res.message,
+                            timer: 2000,
+                            showConfirmButton: false
+                        });
+                    }
+                },
+                error: function(xhr) {
+                    let errorMsg = 'Terjadi kesalahan saat menyimpan data.';
+                    if (xhr.responseJSON && xhr.responseJSON.errors) {
+                        let errors = xhr.responseJSON.errors;
+                        errorMsg = Object.values(errors)[0][0];
+                    }
                     Swal.fire({
-                        icon: 'success',
-                        title: 'Berhasil!',
-                        text: res.message,
-                        timer: 2000,
-                        showConfirmButton: false
+                        icon: 'error',
+                        title: 'Gagal!',
+                        text: errorMsg
                     });
                 }
-            },
-            error: function(xhr) {
-                let errorMsg = 'Terjadi kesalahan saat menyimpan data.';
-                if(xhr.responseJSON && xhr.responseJSON.errors) {
-                    let errors = xhr.responseJSON.errors;
-                    errorMsg = Object.values(errors)[0][0]; 
-                }
-                Swal.fire({ icon: 'error', title: 'Gagal!', text: errorMsg });
-            }
-        });
-    });
-
-    // --- 2. AJAX Upload Avatar ---
-    $('#formAvatar').on('submit', function(e) {
-        e.preventDefault();
-        let formData = new FormData(this);
-
-        Swal.fire({
-            title: 'Mengupload...',
-            allowOutsideClick: false,
-            didOpen: () => Swal.showLoading()
+            });
         });
 
-        $.ajax({
-            url: "{{ route('guru.profil.avatar') }}",
-            type: 'POST',
-            data: formData,
-            contentType: false,
-            processData: false,
-            success: function(res) {
-                if(res.success) {
-                    $('#modalAvatar').modal('hide');
+        // --- 2. AJAX Upload Avatar ---
+        $('#formAvatar').on('submit', function(e) {
+            e.preventDefault();
+            let formData = new FormData(this);
+
+            Swal.fire({
+                title: 'Mengupload...',
+                allowOutsideClick: false,
+                didOpen: () => Swal.showLoading()
+            });
+
+            $.ajax({
+                url: "{{ route('guru.profil.avatar') }}",
+                type: 'POST',
+                data: formData,
+                contentType: false,
+                processData: false,
+                success: function(res) {
+                    if (res.success) {
+                        $('#modalAvatar').modal('hide');
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Berhasil!',
+                            text: res.message,
+                            timer: 1500,
+                            showConfirmButton: false
+                        }).then(() => {
+                            location.reload();
+                        });
+                    }
+                },
+                error: function(xhr) {
+                    let errorMsg = 'Gagal mengupload gambar. Pastikan format JPG/PNG dan maksimal 2MB.';
                     Swal.fire({
-                        icon: 'success',
-                        title: 'Berhasil!',
-                        text: res.message,
-                        timer: 1500,
-                        showConfirmButton: false
-                    }).then(() => {
-                        location.reload(); 
+                        icon: 'error',
+                        title: 'Gagal!',
+                        text: errorMsg
                     });
                 }
-            },
-            error: function(xhr) {
-                let errorMsg = 'Gagal mengupload gambar. Pastikan format JPG/PNG dan maksimal 2MB.';
-                Swal.fire({ icon: 'error', title: 'Gagal!', text: errorMsg });
-            }
+            });
         });
-    });
 
-});
+    });
 </script>
 @endpush

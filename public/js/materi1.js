@@ -169,6 +169,80 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
 /* =====================================================
+   MATERI 1: VISUAL JEMBATAN DAN TAMPILAN TEKS
+===================================================== */
+
+function showPart(id) {
+    // 1. Tampilkan label target (jangan sembunyikan yang lain)
+    const target = document.getElementById(id);
+    if (target) {
+        target.classList.add('active');
+    }
+
+    // 2. Highlight teks yang diklik
+    const clickedBtn = document.querySelector(`.clickable-text[onclick="showPart('${id}')"]`);
+    if (clickedBtn) {
+        clickedBtn.classList.add('active-text-clicked');
+    }
+
+    // 3. Tampilkan garis sesuai id
+    if (id === 'text-tegak') {
+        const line = document.getElementById('line-tegak');
+        if (line) line.classList.add('active');
+    } else if (id === 'text-datar') {
+        const line = document.getElementById('line-datar');
+        if (line) line.classList.add('active');
+    } else if (id === 'text-miring') {
+        const line = document.getElementById('line-miring');
+        if (line) line.classList.add('active');
+    }
+}
+
+function resetHighlight() {
+    // Hapus semua label
+    document.querySelectorAll('.overlay-text').forEach(el => el.classList.remove('active', 'show'));
+
+    // Hapus semua garis
+    document.querySelectorAll('.highlight-line').forEach(line => line.classList.remove('active'));
+
+    // Hapus highlight teks
+    document.querySelectorAll('.clickable-text').forEach(btn => btn.classList.remove('active-text-clicked'));
+
+    // Hapus feedback kuis
+    const feedback = document.getElementById('feedbackPesan');
+    if (feedback) feedback.innerHTML = '';
+}
+
+// Fungsi kuis di bawah ini sudah bagus, tidak perlu diubah
+function cekJawabanSegitigaSikuSiku() {
+    const input = document.getElementById('inputJawaban');
+    if (!input) return;
+    const feedback = document.getElementById('feedbackPesan');
+    const jawaban = input.value;
+    const penjelasanBox = document.getElementById('penjelasan-pythagoras');
+
+    feedback.className = 'fw-bold text-center mt-3';
+    if (jawaban === '') {
+        feedback.classList.add('text-warning');
+        feedback.innerHTML = 'Silakan pilih jenis segitiga terlebih dahulu.';
+        if (penjelasanBox) penjelasanBox.classList.add('d-none');
+    } else if (jawaban === 'siku-siku') {
+        feedback.classList.add('text-success');
+        feedback.innerHTML = 'Tepat Sekali! Segitiga yang terbentuk adalah segitiga siku-siku.';
+        if (penjelasanBox) {
+            penjelasanBox.classList.remove('d-none');
+            setTimeout(() => penjelasanBox.scrollIntoView({ behavior: 'smooth', block: 'nearest' }), 300);
+        }
+        if (typeof updateProgress === 'function') updateProgress('materi_1_konsep_pythagoras', 'm1_cp1_segitiga_jembatan', 10);
+    } else {
+        feedback.classList.add('text-danger');
+        feedback.innerHTML = 'Kurang tepat. Coba perhatikan kembali setiap sudut yang ada pada segitiga.';
+        if (penjelasanBox) penjelasanBox.classList.add('d-none');
+    }
+}
+
+
+/* =====================================================
    2. MATERI 1: DRAG & DROP SISI
 ===================================================== */
 function initDragAndDropPage1() {
@@ -1828,80 +1902,11 @@ function cekContoh2() {
     }
 }
 
-/* =====================================================
-   MATERI 1: VISUAL JEMBATAN DAN TAMPILAN TEKS
-===================================================== */
-function showText(textId) {
-    const textElement = document.getElementById(textId);
-    if (textElement) {
-        textElement.classList.add('active');
-        textElement.style.animation = 'none';
-        textElement.offsetHeight;
-        if (textId === 'text-tegak') {
-            textElement.style.animation = 'tegakMove 0.5s ease forwards';
-        } else if (textId === 'text-datar') {
-            textElement.style.animation = 'datarMove 0.5s ease forwards';
-        } else if (textId === 'text-miring') {
-            textElement.style.animation = 'miringMove 0.5s ease forwards';
-        } else {
-            textElement.style.animation = 'popIn 0.5s ease forwards';
-        }
-        const correspondingBtn = document.querySelector(`.clickable-text[onclick="showText('${textId}')"]`);
-        if (correspondingBtn) correspondingBtn.classList.add('active-text-clicked');
-    }
-}
 
-function hideAllText() {
-    document.querySelectorAll('.text-tegak, .text-datar, .text-miring').forEach(element => {
-        element.classList.remove('active');
-        element.style.animation = 'fadeOut 0.3s ease forwards';
-    });
-    document.querySelectorAll('.interactive-btn[data-target^="text-"]').forEach(btn => {
-        btn.classList.remove('active');
-    });
-}
-
-function showPart(id) {
-    const target = document.getElementById(id);
-    if (target) target.classList.add('active');
-}
-function resetHighlight() {
-    document.querySelectorAll('.overlay-text').forEach(el => el.classList.remove('active'));
-    const feedback = document.getElementById('feedbackPesan');
-    if (feedback) feedback.innerHTML = '';
-}
-
-function cekJawabanSegitigaSikuSiku() {
-    const input = document.getElementById('inputJawaban');
-    if (!input) return;
-    const feedback = document.getElementById('feedbackPesan');
-    const jawaban = input.value;
-    const penjelasanBox = document.getElementById('penjelasan-pythagoras');
-
-    feedback.className = 'fw-bold text-center mt-3';
-    if (jawaban === '') {
-        feedback.classList.add('text-warning');
-        feedback.innerHTML = 'Silakan pilih jenis segitiga terlebih dahulu.';
-        if (penjelasanBox) penjelasanBox.classList.add('d-none');
-    } else if (jawaban === 'siku-siku') {
-        feedback.classList.add('text-success');
-        feedback.innerHTML = 'Tepat Sekali! Segitiga yang terbentuk adalah segitiga siku-siku.';
-        if (penjelasanBox) {
-            penjelasanBox.classList.remove('d-none');
-            setTimeout(() => penjelasanBox.scrollIntoView({ behavior: 'smooth', block: 'nearest' }), 300);
-        }
-        if (typeof updateProgress === 'function') updateProgress('materi_1_konsep_pythagoras', 'm1_cp1_segitiga_jembatan', 10);
-    } else {
-        feedback.classList.add('text-danger');
-        feedback.innerHTML = 'Kurang tepat. Coba perhatikan kembali setiap sudut yang ada pada segitiga.';
-        if (penjelasanBox) penjelasanBox.classList.add('d-none');
-    }
-}
 
 function handleEnter(e) {
     if (e.key === "Enter") cekJawabanSegitigaSikuSiku();
 }
-
 // Jadikan fungsi ini 'async' agar bisa menggunakan 'await' saat memanggil Fetch API
 async function cekRefleksi() {
     const ref1Ya = document.getElementById('ref1_ya').checked;

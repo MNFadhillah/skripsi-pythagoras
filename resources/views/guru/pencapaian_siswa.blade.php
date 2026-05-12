@@ -29,6 +29,9 @@
                 <li class="nav-item" role="presentation">
                     <button class="nav-link fw-bold text-dark" id="badges-tab" data-bs-toggle="tab" data-bs-target="#badges" type="button" role="tab">Rekap Lencana</button>
                 </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link fw-bold text-dark" id="pemahaman-tab" data-bs-toggle="tab" data-bs-target="#pemahaman" type="button" role="tab">Kualitas Penguasaan</button>
+                </li>
             </ul>
         </div>
 
@@ -103,6 +106,28 @@
                             <h5>Belum ada data lencana.</h5>
                         </div>
                         @endforelse
+                    </div>
+                </div>
+
+                {{-- TAB 4: KUALITAS PENGUASAAN (BARU) --}}
+                <div class="tab-pane fade" id="pemahaman" role="tabpanel">
+                    <div class="table-responsive mt-2">
+                        <table id="tablePemahaman" class="table table-bordered table-hover align-middle w-100">
+                            <thead class="table-light">
+                                <tr>
+                                    <th class="text-center" width="5%">No</th>
+                                    <th class="text-center" width="20%">Nama Siswa</th>
+                                    <th class="text-center" width="15%">Kelas</th>
+                                    <th class="text-center" width="20%">Progres</th>
+                                    <th class="text-center" width="20%">Rata‑rata Nilai</th>
+                                    <th class="text-center" width="15%">Status</th>
+                                    <th class="text-center" width="10%">Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {{-- Diisi oleh AJAX DataTables --}}
+                            </tbody>
+                        </table>
                     </div>
                 </div>
 
@@ -182,6 +207,31 @@
                                 <span class="ms-2 text-muted">Memuat data...</span>
                             </div>
                         </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {{-- MODAL GRAFIK PENGUASAAN --}}
+    <div class="modal fade" id="modalGrafikPenguasaan" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-xl">
+            <div class="modal-content border-0 shadow rounded overflow-hidden">
+                <div class="modal-header bg-success text-white">
+                    <h5 class="modal-title fw-bold">Grafik Kualitas Penguasaan</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body bg-light d-flex flex-column align-items-center py-4">
+                    {{-- Container grafik dengan tinggi terbatas --}}
+                    <div style="width: 100%; max-height: 500px; position: relative;" class="mb-3">
+                        <canvas id="chartPenguasaan" height="200"></canvas>
+                    </div>
+                    <div class="text-center mt-3">
+                        <span id="grafikNamaSiswa" class="fw-bold fs-5"></span>
+                        <span id="grafikKelas" class="text-muted ms-2"></span>
+                        <div class="text-center mt-2 text-muted small">
+                            <i class="bi bi-info-circle me-1"></i> Progres dalam persen (%), Nilai dalam skor 0‑100
+                        </div>
                     </div>
                 </div>
             </div>
@@ -280,10 +330,67 @@
             }
         });
 
+        // Inisialisasi DataTables untuk Kualitas Penguasaan
+        var tablePemahaman = $('#tablePemahaman').DataTable({
+            processing: true,
+            serverSide: false,
+            ajax: {
+                url: "{{ route('guru.pencapaian_siswa.data_pemahaman') }}",
+                type: "GET",
+                data: function(d) {
+                    d.kelas_id = $('#filterKelas').val(); // jika ada filter kelas
+                }
+            },
+            columns: [{
+                    data: 'DT_RowIndex',
+                    name: 'DT_RowIndex',
+                    orderable: false,
+                    searchable: false,
+                    className: 'text-center fw-bold text-muted'
+                },
+                {
+                    data: 'nama',
+                    name: 'nama',
+                    className: 'fw-bold'
+                },
+                {
+                    data: 'kelas',
+                    name: 'kelas',
+                    className: 'text-center'
+                },
+                {
+                    data: 'progres',
+                    name: 'progres',
+                    className: 'text-center'
+                },
+                {
+                    data: 'rata_nilai',
+                    name: 'rata_nilai',
+                    className: 'text-center'
+                },
+                {
+                    data: 'status',
+                    name: 'status',
+                    className: 'text-center'
+                },
+                {
+                    data: 'aksi',
+                    name: 'aksi',
+                    orderable: false,
+                    searchable: false,
+                    className: 'text-center'
+                }
+            ],
+            language: {
+                url: "//cdn.datatables.net/plug-ins/1.13.4/i18n/id.json"
+            }
+        });
+
         // Pemicu saat dropdown Filter Kelas diubah
         $('#filterKelas').on('change', function() {
             tableProgress.ajax.reload();
             tableLeaderboard.ajax.reload();
+            tablePemahaman.ajax.reload();
         });
 
         // Event listener untuk tombol badge
@@ -422,6 +529,108 @@
             error: function(xhr) {
                 console.error(xhr.responseText); // Tambahkan log untuk memudahkan debug jika ada error 500
                 $('#dtl_content').html('<div class="text-danger text-center py-4 fw-bold"><i class="bi bi-exclamation-triangle-fill fs-4 d-block mb-2"></i> Gagal memuat data dari server. Pastikan Route URL di AJAX sudah tepat.</div>');
+            }
+        });
+    }
+
+    let chartInstance = null; // untuk menyimpan chart agar bisa dihancurkan sebelum membuat baru
+
+    function showGrafikModal(userId) {
+        let modalEl = document.getElementById('modalGrafikPenguasaan');
+        let modal = new bootstrap.Modal(modalEl);
+        modal.show();
+
+        $('#grafikNamaSiswa').text('Memuat...');
+        $('#grafikKelas').text('');
+
+        if (chartInstance) {
+            chartInstance.destroy();
+        }
+
+        $.ajax({
+            url: `/guru/pencapaian_siswa/${userId}/grafik-penguasaan`,
+            type: 'GET',
+            success: function(res) {
+                if (res.nama) {
+                    $('#grafikNamaSiswa').text(res.nama);
+                    $('#grafikKelas').text(`(${res.kelas})`);
+                }
+
+                const ctx = document.getElementById('chartPenguasaan').getContext('2d');
+                chartInstance = new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: ['Progres Belajar', 'Rata-rata Nilai Kuis'],
+                        datasets: [{
+                                label: 'Kamu (Progres)',
+                                data: [res.progres_total, null],
+                                backgroundColor: 'rgba(54, 162, 235, 0.7)',
+                                borderColor: 'rgba(54, 162, 235, 1)',
+                                borderWidth: 2,
+                                order: 1
+                            },
+                            {
+                                label: 'Kamu (Nilai)',
+                                data: [null, res.rata_nilai],
+                                backgroundColor: 'rgba(75, 192, 192, 0.7)',
+                                borderColor: 'rgba(75, 192, 192, 1)',
+                                borderWidth: 2,
+                                order: 1
+                            },
+                            {
+                                label: 'Kelas (Progres)',
+                                data: [res.rata_kelas_progres, null],
+                                backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                                borderColor: 'rgba(54, 162, 235, 0.5)',
+                                borderWidth: 2,
+                                borderDash: [5, 5],
+                                order: 2
+                            },
+                            {
+                                label: 'Kelas (Nilai)',
+                                data: [null, res.rata_kelas_nilai],
+                                backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                                borderColor: 'rgba(75, 192, 192, 0.5)',
+                                borderWidth: 2,
+                                borderDash: [5, 5],
+                                order: 2
+                            }
+                        ]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                max: 100,
+                                title: {
+                                    display: true,
+                                    text: 'Skor / Persentase'
+                                }
+                            }
+                        },
+                        plugins: {
+                            tooltip: {
+                                callbacks: {
+                                    label: function(context) {
+                                        let value = context.raw;
+                                        if (value === null) return '';
+                                        let label = context.dataset.label || '';
+                                        if (context.dataIndex === 0) {
+                                            return label + ': ' + value + '%';
+                                        } else {
+                                            return label + ': ' + value;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                });
+            },
+            error: function() {
+                $('#grafikNamaSiswa').text('Gagal memuat data');
             }
         });
     }

@@ -81,7 +81,7 @@
             <div class="card shadow-sm">
 
                 <div class="card-header bg-light text-center">
-                    <h4 class="mb-0">Segitiga Istimewa 45°, 45°, 90°</h4>
+                    <h4 class="mb-0">Segitiga Istimewa 45°, 45°, dan 90°</h4>
                 </div>
 
                 <div class="card-body">
@@ -115,7 +115,7 @@
                         </div>
 
                         <div class="col-md-12 text-center">
-                            <p class="mb-2">Maka perbandingan yang memenuhi sisi segitiga istimewa 45°, 45°, 90°:</p>
+                            <p class="mb-2">Maka perbandingan yang memenuhi sisi segitiga istimewa 45°, 45°, dan 90°:</p>
 
                             <div class="bg-light border rounded py-3 mx-auto" style="max-width: 500px;">
                                 <div class="fw-bold text-center">
@@ -133,7 +133,7 @@
 
 
                     <p class="mb-3 mt-3 text-dark">
-                        Berdasarkan penjelasan sebelumnya tentang segitiga istimewa 45°, 45°, 90°, diketahui bahwa panjang sisi miring (hipotenusa) memiliki hubungan tertentu dengan panjang sisi siku-sikunya.
+                        Berdasarkan penjelasan sebelumnya tentang segitiga istimewa 45°, 45°, dan 90°, diketahui bahwa panjang sisi miring (hipotenusa) memiliki hubungan tertentu dengan panjang sisi siku-sikunya.
                         Untuk memahami pola tersebut, lakukan aktivitas <strong>Ayo Mengamati</strong> berikut.
                     </p>
 
@@ -193,7 +193,7 @@
 
                                     <td class="bg-light">
                                         <div class="d-flex justify-content-center align-items-center gap-1">
-                                            <span class="fw-bold">&radic;</span>
+                                            <span class="fw-bold">\(\sqrt{}\)</span>
                                             <span class="fw-bold">2</span>
                                         </div>
                                     </td>
@@ -201,7 +201,7 @@
                                     <td>
                                         <div class="d-flex justify-content-center align-items-center gap-1">
                                             <input type="number" id="h2_a" class="form-control form-control-sm text-center" style="width:55px;">
-                                            <span class="fw-bold">&radic;</span>
+                                            <span class="fw-bold">\(\sqrt{}\)</span>
                                             <input type="number" id="h2_b" class="form-control form-control-sm text-center" style="width:55px;">
                                         </div>
                                     </td>
@@ -209,7 +209,7 @@
                                     <td>
                                         <div class="d-flex justify-content-center align-items-center gap-1">
                                             <input type="number" id="h3_a" class="form-control form-control-sm text-center" style="width:55px;">
-                                            <span class="fw-bold">&radic;</span>
+                                            <span class="fw-bold">\(\sqrt{}\)</span>
                                             <input type="number" id="h3_b" class="form-control form-control-sm text-center" style="width:55px;">
                                         </div>
                                     </td>
@@ -217,7 +217,7 @@
                                     <td>
                                         <div class="d-flex justify-content-center align-items-center gap-1">
                                             <input type="number" id="h4_a" class="form-control form-control-sm text-center" style="width:55px;">
-                                            <span class="fw-bold">&radic;</span>
+                                            <span class="fw-bold">\(\sqrt{}\)</span>
                                             <input type="number" id="h4_b" class="form-control form-control-sm text-center" style="width:55px;">
                                         </div>
                                     </td>
@@ -225,7 +225,7 @@
                                     <td>
                                         <div class="d-flex justify-content-center align-items-center gap-1">
                                             <input type="number" id="h5_a" class="form-control form-control-sm text-center" style="width:55px;">
-                                            <span class="fw-bold">&radic;</span>
+                                            <span class="fw-bold">\(\sqrt{}\)</span>
                                             <input type="number" id="h5_b" class="form-control form-control-sm text-center" style="width:55px;">
                                         </div>
                                     </td>
@@ -233,7 +233,7 @@
                                     <td>
                                         <div class="d-flex justify-content-center align-items-center gap-1">
                                             <input type="number" id="h6_a" class="form-control form-control-sm text-center" style="width:55px;">
-                                            <span class="fw-bold">&radic;</span>
+                                            <span class="fw-bold">\(\sqrt{}\)</span>
                                             <input type="number" id="h6_b" class="form-control form-control-sm text-center" style="width:55px;">
                                         </div>
                                     </td>
@@ -241,7 +241,7 @@
                                     <td>
                                         <div class="d-flex justify-content-center align-items-center gap-1">
                                             <input type="text" id="h7_a" class="form-control form-control-sm text-center" style="width:55px;">
-                                            <span class="fw-bold">&radic;</span>
+                                            <span class="fw-bold">\(\sqrt{}\)</span>
                                             <input type="number" id="h7_b" class="form-control form-control-sm text-center" style="width:55px;">
                                         </div>
                                     </td>
@@ -341,13 +341,13 @@
                                             <div class="p-3 mb-3 bg-white border border-secondary rounded-3 shadow-sm text-center small">
                                                 <span class="d-block fw-bold text-dark mb-2 border-bottom border-secondary pb-2">1. Tentukan Perbandingan Sisi</span>
                                                 <div class="mt-2 text-muted mb-3">
-                                                    Berdasarkan perbandingan segitiga istimewa 45&deg;-45&deg;-90&deg;, perbandingan sisi di depan sudut tersebut berturut-turut adalah:
+                                                    Berdasarkan perbandingan segitiga istimewa \(45^\circ, 45^\circ, \) dan \(90^\circ\), perbandingan sisi di depan sudut tersebut berturut-turut adalah:
                                                 </div>
                                                 <div class="d-flex justify-content-center align-items-center gap-2 mb-3">
                                                     <input type="number" id="c1i_rasio_45_1" class="form-control form-control-sm text-center border-secondary text-dark" style="width: 80px;" placeholder="...">
                                                     <span class="fw-bold text-dark">:</span>
                                                     <input type="number" id="c1i_rasio_45_2" class="form-control form-control-sm text-center border-secondary text-dark" style="width: 80px;" placeholder="...">
-                                                    <span class="fw-bold text-dark">: &radic;</span>
+                                                    <span class="fw-bold text-dark">: \(\sqrt{}\)</span>
                                                     <input type="number" id="c1i_rasio_90" class="form-control form-control-sm text-center border-secondary text-dark" style="width: 80px;" placeholder="...">
                                                 </div>
 
@@ -355,7 +355,7 @@
                                                 <div class="d-flex justify-content-center align-items-center gap-2 mb-2">
                                                     <span class="fw-bold text-dark">AC : AB = </span>
                                                     <input type="number" id="c1i_perbandingan_atas" class="form-control form-control-sm text-center border-secondary text-dark" style="width: 80px;" placeholder="...">
-                                                    <span class="fw-bold text-dark"> : &radic;</span>
+                                                    <span class="fw-bold text-dark"> : \(\sqrt{}\)</span>
                                                     <input type="number" id="c1i_perbandingan_bawah" class="form-control form-control-sm text-center border-secondary text-dark" style="width: 80px;" placeholder="...">
                                                 </div>
                                             </div>
@@ -367,9 +367,9 @@
                                                 <div class="d-flex justify-content-center align-items-center gap-2 mb-3">
                                                     <span class="fw-bold text-dark">AC : </span>
                                                     <input type="number" id="c1i_sub_ab_angka" class="form-control form-control-sm text-center border-secondary text-dark" style="width: 80px;" placeholder="...">
-                                                    <span class="fw-bold text-dark">&radic;2 = </span>
+                                                    <span class="fw-bold text-dark">\(\sqrt{2}\) = </span>
                                                     <input type="number" id="c1i_sub_rasio_ac" class="form-control form-control-sm text-center border-secondary text-dark" style="width: 80px;" placeholder="...">
-                                                    <span class="fw-bold text-dark"> : &radic;</span>
+                                                    <span class="fw-bold text-dark"> : \(\sqrt{}\)</span>
                                                     <input type="number" id="c1i_sub_rasio_ab" class="form-control form-control-sm text-center border-secondary text-dark" style="width: 80px;" placeholder="...">
                                                 </div>
 
@@ -379,7 +379,7 @@
                                                         <div class="border-bottom border-dark pb-1 px-2 fw-bold text-dark">AC</div>
                                                         <div class="pt-1 d-flex align-items-center justify-content-center">
                                                             <input type="number" id="c1i_pecahan_ab_angka" class="form-control form-control-sm text-center border-secondary text-dark" style="width: 80px;" placeholder="...">
-                                                            <span class="fw-bold text-dark ms-1">&radic;2</span>
+                                                            <span class="fw-bold text-dark ms-1">\(\sqrt{2}\)</span>
                                                         </div>
                                                     </div>
                                                     <span class="fw-bold text-dark">=</span>
@@ -388,7 +388,7 @@
                                                             <input type="number" id="c1i_pecahan_rasio_ac" class="form-control form-control-sm text-center border-secondary text-dark" style="width: 80px;" placeholder="...">
                                                         </div>
                                                         <div class="pt-1 d-flex align-items-center justify-content-center">
-                                                            <span class="fw-bold text-dark">&radic;</span>
+                                                            <span class="fw-bold text-dark">\(\sqrt{}\)</span>
                                                             <input type="number" id="c1i_pecahan_rasio_ab" class="form-control form-control-sm text-center border-secondary text-dark ms-1" style="width: 80px;" placeholder="...">
                                                         </div>
                                                     </div>
@@ -396,13 +396,13 @@
 
                                                 <div class="text-muted mb-2">Selesaikan dengan perkalian silang:</div>
                                                 <div class="d-flex align-items-center justify-content-center gap-2 mb-2">
-                                                    <span class="fw-bold text-dark">AC &times; &radic;</span>
+                                                    <span class="fw-bold text-dark">AC &times; \(\sqrt{}\)</span>
                                                     <input type="number" id="c1i_ks_rasio_ab" class="form-control form-control-sm text-center border-secondary text-dark" style="width: 80px;" placeholder="...">
                                                     <span class="fw-bold text-dark"> = </span>
                                                     <input type="number" id="c1i_ks_rasio_ac" class="form-control form-control-sm text-center border-secondary text-dark" style="width: 80px;" placeholder="...">
                                                     <span class="fw-bold text-dark"> &times; </span>
                                                     <input type="number" id="c1i_kali_silang_angka" class="form-control form-control-sm text-center border-secondary text-dark" style="width: 80px;" placeholder="...">
-                                                    <span class="fw-bold text-dark">&radic;2</span>
+                                                    <span class="fw-bold text-dark">\(\sqrt{2}\)</span>
                                                 </div>
                                             </div>
 
@@ -415,10 +415,10 @@
                                                     <div class="d-flex flex-column text-center">
                                                         <div class="border-bottom border-dark pb-1 d-flex align-items-center justify-content-center px-2">
                                                             <input type="number" id="c1i_pindah_atas" class="form-control form-control-sm text-center border-secondary text-dark" style="width: 80px;" placeholder="...">
-                                                            <span class="ms-1 fw-bold text-dark">&radic;2</span>
+                                                            <span class="ms-1 fw-bold text-dark">\(\sqrt{2}\)</span>
                                                         </div>
                                                         <div class="pt-1 d-flex align-items-center justify-content-center">
-                                                            <span class="fw-bold text-dark">&radic;</span>
+                                                            <span class="fw-bold text-dark">\(\sqrt{}\)</span>
                                                             <input type="number" id="c1i_pindah_bawah" class="form-control form-control-sm text-center border-secondary text-dark ms-1" style="width: 80px;" placeholder="...">
                                                         </div>
                                                     </div>
@@ -467,27 +467,22 @@
                         <div class="card-header text-center bg-light">
                             <h4 class="mb-0">Contoh 2</h4>
                         </div>
-
                         <div class="card-body">
                             <div class="alert alert-light shadow-sm border-start border-success border-4" role="alert">
                                 <div class="small">
                                     <strong>Petunjuk:</strong> Perhatikan soal dan ilustrasi gambar di bawah ini, kemudian lengkapi data yang diketahui dan selesaikan langkah perhitungannya dengan mengisi kotak yang kosong.
                                 </div>
                             </div>
-
                             <div class="row mt-4">
-
                                 <div class="col-md-5 mb-4 mb-md-0">
                                     <div class="text-justify mb-3">
                                         <p class="text-dark mb-0">
                                             Perhatikan gambar segitiga siku-siku di bawah ini! Tentukan panjang AB, apabila diketahui panjang AC = 20 cm.
                                         </p>
                                     </div>
-
                                     <div class="bg-white rounded-3 shadow-sm border p-3 d-flex justify-content-center align-items-center mb-4 overflow-hidden">
                                         <img src="/images/contoh_soal_istimewa_1.png" class="img-fluid w-75" alt="Contoh 2">
                                     </div>
-
                                     <div class="card border mb-4 shadow-sm">
                                         <div class="card-header border-bottom bg-light">
                                             <h6 class="fw-bold mb-0 small text-dark">Diketahui</h6>
@@ -495,7 +490,7 @@
                                         <div class="card-body small">
                                             <div class="d-flex align-items-center mb-3">
                                                 <span style="width: 120px;">Panjang Sisi AC:</span>
-                                                <select id="c2_dik_ac" class="form-select form-select-sm text-center border-secondary mx-2 text-dark" style="width: 80px;">
+                                                <select id="c2_45_dik_ac" class="form-select form-select-sm text-center border-secondary mx-2 text-dark" style="width: 80px;">
                                                     <option value=""></option>
                                                     <option value="10">10</option>
                                                     <option value="20">20</option>
@@ -505,7 +500,7 @@
                                             </div>
                                             <div class="d-flex align-items-center mb-3">
                                                 <span style="width: 120px;">Besar Sudut A & C:</span>
-                                                <select id="c2_dik_sudut" class="form-select form-select-sm text-center border-secondary mx-2 text-dark" style="width: 80px;">
+                                                <select id="c2_45_dik_sudut" class="form-select form-select-sm text-center border-secondary mx-2 text-dark" style="width: 80px;">
                                                     <option value=""></option>
                                                     <option value="30">30&deg;</option>
                                                     <option value="45">45&deg;</option>
@@ -514,7 +509,6 @@
                                             </div>
                                         </div>
                                     </div>
-
                                     <div class="card border shadow-sm">
                                         <div class="card-header border-bottom bg-light">
                                             <h6 class="fw-bold mb-0 small text-dark">Ditanya</h6>
@@ -526,153 +520,139 @@
                                         </div>
                                     </div>
                                 </div>
-
                                 <div class="col-md-7">
                                     <div class="card h-100 border shadow-sm">
                                         <div class="card-header bg-light py-2">
                                             <h6 class="fw-bold mb-0 small text-dark"><i class="fas fa-calculator me-2"></i>Langkah Penyelesaian</h6>
                                         </div>
                                         <div class="card-body bg-light">
-
                                             <div class="p-3 mb-3 bg-white border border-secondary rounded-3 shadow-sm text-center small">
                                                 <span class="d-block fw-bold text-dark mb-2 border-bottom border-secondary pb-2">1. Tentukan Perbandingan Sisi</span>
                                                 <div class="mt-2 text-muted mb-3">
-                                                    Berdasarkan perbandingan segitiga istimewa 45&deg;-45&deg;-90&deg;, perbandingan sisi di depan sudut tersebut berturut-turut adalah:
+                                                    Berdasarkan perbandingan segitiga istimewa \(45^\circ, 45^\circ, \) dan \(90^\circ\), perbandingan sisi di depan sudut tersebut berturut-turut adalah:
                                                 </div>
                                                 <div class="d-flex justify-content-center align-items-center gap-2 mb-3">
-                                                    <input type="number" id="c2_rasio_45_1" class="form-control form-control-sm text-center border-secondary text-dark" style="width: 80px;" placeholder="...">
+                                                    <input type="number" id="c2_45_rasio_45_1" class="form-control form-control-sm text-center border-secondary text-dark" style="width: 80px;" placeholder="...">
                                                     <span class="fw-bold text-dark">:</span>
-                                                    <input type="number" id="c2_rasio_45_2" class="form-control form-control-sm text-center border-secondary text-dark" style="width: 80px;" placeholder="...">
-                                                    <span class="fw-bold text-dark">: &radic;</span>
-                                                    <input type="number" id="c2_rasio_90" class="form-control form-control-sm text-center border-secondary text-dark" style="width: 80px;" placeholder="...">
+                                                    <input type="number" id="c2_45_rasio_45_2" class="form-control form-control-sm text-center border-secondary text-dark" style="width: 80px;" placeholder="...">
+                                                    <span class="fw-bold text-dark">: \(\sqrt{}\)</span>
+                                                    <input type="number" id="c2_45_rasio_90" class="form-control form-control-sm text-center border-secondary text-dark" style="width: 80px;" placeholder="...">
                                                 </div>
-
                                                 <div class="text-muted mb-2">Sehingga perbandingan sisi AB dan AC dapat dituliskan:</div>
                                                 <div class="d-flex justify-content-center align-items-center gap-2 mb-2">
-                                                    <span class="fw-bold text-dark">AB : AC = &radic;</span>
-                                                    <input type="number" id="c2_perbandingan_atas" class="form-control form-control-sm text-center border-secondary text-dark" style="width: 80px;" placeholder="...">
+                                                    <span class="fw-bold text-dark">AB : AC = \(\sqrt{}\)</span>
+                                                    <input type="number" id="c2_45_perbandingan_atas" class="form-control form-control-sm text-center border-secondary text-dark" style="width: 80px;" placeholder="...">
                                                     <span class="fw-bold text-dark"> : </span>
-                                                    <input type="number" id="c2_perbandingan_bawah" class="form-control form-control-sm text-center border-secondary text-dark" style="width: 80px;" placeholder="...">
+                                                    <input type="number" id="c2_45_perbandingan_bawah" class="form-control form-control-sm text-center border-secondary text-dark" style="width: 80px;" placeholder="...">
                                                 </div>
                                             </div>
-
                                             <div class="p-3 mb-3 bg-white border border-secondary rounded-3 shadow-sm text-center small">
                                                 <span class="d-block fw-bold text-dark mb-2 border-bottom border-secondary pb-2">2. Substitusi Nilai dan Pindah Ruas</span>
                                                 <div class="mt-2 text-muted mb-3">Masukkan nilai sisi (AC) yang diketahui ke dalam perbandingan:</div>
-
                                                 <div class="d-flex justify-content-center align-items-center gap-2 mb-3">
                                                     <span class="fw-bold text-dark">AB : </span>
-                                                    <input type="number" id="c2_sub_ac" class="form-control form-control-sm text-center border-secondary text-dark" style="width: 80px;" placeholder="...">
-                                                    <span class="fw-bold text-dark"> = &radic;</span>
-                                                    <input type="number" id="c2_sub_rasio_ab" class="form-control form-control-sm text-center border-secondary text-dark" style="width: 80px;" placeholder="...">
+                                                    <input type="number" id="c2_45_sub_ac" class="form-control form-control-sm text-center border-secondary text-dark" style="width: 80px;" placeholder="...">
+                                                    <span class="fw-bold text-dark"> = \(\sqrt{}\)</span>
+                                                    <input type="number" id="c2_45_sub_rasio_ab" class="form-control form-control-sm text-center border-secondary text-dark" style="width: 80px;" placeholder="...">
                                                     <span class="fw-bold text-dark"> : </span>
-                                                    <input type="number" id="c2_sub_rasio_ac" class="form-control form-control-sm text-center border-secondary text-dark" style="width: 80px;" placeholder="...">
+                                                    <input type="number" id="c2_45_sub_rasio_ac" class="form-control form-control-sm text-center border-secondary text-dark" style="width: 80px;" placeholder="...">
                                                 </div>
-
                                                 <div class="text-muted mb-2">Ubah bentuk perbandingan menjadi pecahan:</div>
                                                 <div class="d-flex justify-content-center align-items-center gap-3 mb-3">
                                                     <div class="d-flex flex-column text-center">
                                                         <div class="border-bottom border-dark pb-1 px-2 fw-bold text-dark">AB</div>
                                                         <div class="pt-1">
-                                                            <input type="number" id="c2_pecahan_ac" class="form-control form-control-sm text-center border-secondary text-dark" style="width: 80px;" placeholder="...">
+                                                            <input type="number" id="c2_45_pecahan_ac" class="form-control form-control-sm text-center border-secondary text-dark" style="width: 80px;" placeholder="...">
                                                         </div>
                                                     </div>
                                                     <span class="fw-bold text-dark">=</span>
                                                     <div class="d-flex flex-column text-center">
                                                         <div class="border-bottom border-dark pb-1 d-flex align-items-center justify-content-center">
-                                                            <span class="fw-bold text-dark">&radic;</span>
-                                                            <input type="number" id="c2_pecahan_rasio_ab" class="form-control form-control-sm text-center border-secondary text-dark ms-1" style="width: 80px;" placeholder="...">
+                                                            <span class="fw-bold text-dark">\(\sqrt{}\)</span>
+                                                            <input type="number" id="c2_45_pecahan_rasio_ab" class="form-control form-control-sm text-center border-secondary text-dark ms-1" style="width: 80px;" placeholder="...">
                                                         </div>
                                                         <div class="pt-1">
-                                                            <input type="number" id="c2_pecahan_rasio_ac" class="form-control form-control-sm text-center border-secondary text-dark" style="width: 80px;" placeholder="...">
+                                                            <input type="number" id="c2_45_pecahan_rasio_ac" class="form-control form-control-sm text-center border-secondary text-dark" style="width: 80px;" placeholder="...">
                                                         </div>
                                                     </div>
                                                 </div>
-
                                                 <div class="text-muted mb-2">Pindahkan ruas untuk mencari nilai sisi AB:</div>
                                                 <div class="d-flex justify-content-center align-items-center gap-2 mb-2">
                                                     <span class="fw-bold text-dark">AB = </span>
                                                     <div class="d-flex flex-column text-center">
                                                         <div class="border-bottom border-dark pb-1 px-2 d-flex align-items-center justify-content-center gap-1">
-                                                            <span class="fw-bold text-dark">&radic;</span>
-                                                            <input type="number" id="c2_pindah_rasio_ab" class="form-control form-control-sm text-center border-secondary text-dark" style="width: 80px;" placeholder="...">
+                                                            <span class="fw-bold text-dark">\(\sqrt{}\)</span>
+                                                            <input type="number" id="c2_45_pindah_rasio_ab" class="form-control form-control-sm text-center border-secondary text-dark" style="width: 80px;" placeholder="...">
                                                             <span class="fw-bold text-dark">&times;</span>
-                                                            <input type="number" id="c2_pindah_angka_ac" class="form-control form-control-sm text-center border-secondary text-dark" style="width: 80px;" placeholder="...">
+                                                            <input type="number" id="c2_45_pindah_angka_ac" class="form-control form-control-sm text-center border-secondary text-dark" style="width: 80px;" placeholder="...">
                                                         </div>
                                                         <div class="pt-1 d-flex align-items-center justify-content-center">
-                                                            <input type="number" id="c2_pindah_rasio_ac" class="form-control form-control-sm text-center border-secondary text-dark" style="width: 80px;" placeholder="...">
+                                                            <input type="number" id="c2_45_pindah_rasio_ac" class="form-control form-control-sm text-center border-secondary text-dark" style="width: 80px;" placeholder="...">
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
-
                                             <div class="p-3 mb-3 bg-white border border-secondary rounded-3 shadow-sm text-center small">
-                                                <span class="d-block fw-bold text-dark mb-2 border-bottom border-secondary pb-2">3. Rasionalkan Bentuk Akar (Opsional)</span>
-                                                <div class="mt-2 text-muted mb-3">Jika perlu, kalikan pembilang dan penyebut dengan sekawannya:</div>
-
+                                                <span class="d-block fw-bold text-dark mb-2 border-bottom border-secondary pb-2">3. Rasionalkan Bentuk Akar (Jika Perlu)</span>
+                                                <div class="mt-2 text-muted mb-3">Kalikan pembilang dan penyebut dengan sekawannya:</div>
                                                 <div class="d-flex justify-content-center align-items-center gap-3">
                                                     <span class="fw-bold text-dark">AB = </span>
                                                     <div class="d-flex flex-column text-center">
                                                         <div class="border-bottom border-dark pb-1 px-2">
-                                                            <input type="number" id="c2_ras_val_atas" class="form-control form-control-sm text-center border-secondary text-dark" style="width: 80px;" placeholder="...">
+                                                            <input type="number" id="c2_45_ras_val_atas" class="form-control form-control-sm text-center border-secondary text-dark" style="width: 80px;" placeholder="...">
                                                         </div>
                                                         <div class="pt-1 d-flex align-items-center justify-content-center">
-                                                            <span class="fw-bold text-dark">&radic;</span>
-                                                            <input type="number" id="c2_ras_val_bawah" class="form-control form-control-sm text-center border-secondary text-dark ms-1" style="width: 80px;" placeholder="...">
+                                                            <span class="fw-bold text-dark">\(\sqrt{}\)</span>
+                                                            <input type="number" id="c2_45_ras_val_bawah" class="form-control form-control-sm text-center border-secondary text-dark ms-1" style="width: 80px;" placeholder="...">
                                                         </div>
                                                     </div>
                                                     <span class="fw-bold text-dark">&times;</span>
                                                     <div class="d-flex flex-column text-center">
                                                         <div class="border-bottom border-dark pb-1 d-flex align-items-center justify-content-center">
-                                                            <span class="fw-bold text-dark">&radic;</span>
-                                                            <input type="number" id="c2_rasionalkan_atas" class="form-control form-control-sm text-center border-secondary text-dark ms-1" style="width: 80px;" placeholder="...">
+                                                            <span class="fw-bold text-dark">\(\sqrt{}\)</span>
+                                                            <input type="number" id="c2_45_rasionalkan_atas" class="form-control form-control-sm text-center border-secondary text-dark ms-1" style="width: 80px;" placeholder="...">
                                                         </div>
                                                         <div class="pt-1 d-flex align-items-center justify-content-center">
-                                                            <span class="fw-bold text-dark">&radic;</span>
-                                                            <input type="number" id="c2_rasionalkan_bawah" class="form-control form-control-sm text-center border-secondary text-dark ms-1" style="width: 80px;" placeholder="...">
+                                                            <span class="fw-bold text-dark">\(\sqrt{}\)</span>
+                                                            <input type="number" id="c2_45_rasionalkan_bawah" class="form-control form-control-sm text-center border-secondary text-dark ms-1" style="width: 80px;" placeholder="...">
                                                         </div>
                                                     </div>
                                                 </div>
-
                                                 <div class="d-flex justify-content-center align-items-center gap-2 mt-4">
                                                     <span class="fw-bold text-dark">AB = </span>
                                                     <div class="d-flex flex-column text-center">
                                                         <div class="border-bottom border-dark pb-1 px-2 d-flex align-items-center justify-content-center gap-1">
-                                                            <input type="number" id="c2_hasil_pembilang_angka" class="form-control form-control-sm text-center border-secondary text-dark" style="width: 80px;" placeholder="...">
-                                                            <span class="fw-bold text-dark">&radic;</span>
-                                                            <input type="number" id="c2_hasil_pembilang_akar" class="form-control form-control-sm text-center border-secondary text-dark" style="width: 80px;" placeholder="...">
+                                                            <input type="number" id="c2_45_hasil_pembilang_angka" class="form-control form-control-sm text-center border-secondary text-dark" style="width: 80px;" placeholder="...">
+                                                            <span class="fw-bold text-dark">\(\sqrt{}\)</span>
+                                                            <input type="number" id="c2_45_hasil_pembilang_akar" class="form-control form-control-sm text-center border-secondary text-dark" style="width: 80px;" placeholder="...">
                                                         </div>
                                                         <div class="pt-1">
-                                                            <input type="number" id="c2_hasil_penyebut" class="form-control form-control-sm text-center border-secondary text-dark mx-auto" style="width: 80px;" placeholder="...">
+                                                            <input type="number" id="c2_45_hasil_penyebut" class="form-control form-control-sm text-center border-secondary text-dark mx-auto" style="width: 80px;" placeholder="...">
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
-
                                             <div class="p-3 bg-white border border-secondary rounded-3 shadow-sm text-center small">
                                                 <span class="d-block fw-bold text-dark mb-2 border-bottom border-secondary pb-2">4. Hasil Akhir</span>
                                                 <div class="alert alert-light border border-secondary d-flex flex-wrap justify-content-center align-items-center gap-2 mb-0 py-2">
                                                     <span class="text-dark">Jadi, panjang AB adalah</span>
                                                     <div class="d-flex align-items-center">
-                                                        <input type="number" id="c2_hasil_akhir_angka" class="form-control form-control-sm text-center fw-bold text-dark border-secondary shadow-sm" style="width: 80px;" placeholder="...">
-                                                        <span class="fw-bold text-dark ms-1 me-1">&radic;</span>
-                                                        <input type="number" id="c2_hasil_akhir_akar" class="form-control form-control-sm text-center fw-bold text-dark border-secondary shadow-sm" style="width: 80px;" placeholder="...">
+                                                        <input type="number" id="c2_45_hasil_akhir_angka" class="form-control form-control-sm text-center fw-bold text-dark border-secondary shadow-sm" style="width: 80px;" placeholder="...">
+                                                        <span class="fw-bold text-dark ms-1 me-1">\(\sqrt{}\)</span>
+                                                        <input type="number" id="c2_45_hasil_akhir_akar" class="form-control form-control-sm text-center fw-bold text-dark border-secondary shadow-sm" style="width: 80px;" placeholder="...">
                                                         <span class="ms-2 text-dark">cm.</span>
                                                     </div>
                                                 </div>
                                             </div>
-
                                             <div class="mt-4 d-flex flex-column flex-xl-row justify-content-between align-items-center border-top pt-3">
-                                                <div id="c2_feedback" class="small fw-bold mb-3 mb-xl-0"></div>
-                                                <button class="btn btn-success px-4 fw-bold shadow-sm" onclick="cekContoh2Istimewa()">
+                                                <div id="c2_45_feedback" class="small fw-bold mb-3 mb-xl-0"></div>
+                                                <button class="btn btn-success px-4 fw-bold shadow-sm" onclick="cekContoh2_45()">
                                                     Cek Jawaban
                                                 </button>
                                             </div>
-
                                         </div>
                                     </div>
                                 </div>
-
                             </div>
                         </div>
                     </div>
@@ -752,28 +732,22 @@
                         <div class="card-header text-center bg-light">
                             <h4 class="mb-0">Contoh 1</h4>
                         </div>
-
                         <div class="card-body">
                             <div class="alert alert-light shadow-sm border-start border-success border-4" role="alert">
                                 <div class="small">
                                     <strong>Petunjuk:</strong> Perhatikan soal dan ilustrasi gambar di bawah ini, kemudian lengkapi data yang diketahui dan selesaikan langkah perhitungannya dengan mengisi kotak yang kosong.
                                 </div>
                             </div>
-
                             <div class="row mt-4">
-
                                 <div class="col-md-5 mb-4 mb-md-0">
-
                                     <div class="text-justify mb-3">
                                         <p class="text-dark mb-0">
                                             Perhatikan soal berikut! Diketahui \(\Delta ABC\) siku-siku di \(C\) dengan \(\angle ABC = 30^\circ\) dan panjang \(BC = 15 \text{ cm}\). Tentukan panjang AC!
                                         </p>
                                     </div>
-
                                     <div class="bg-white rounded-3 shadow-sm border p-3 d-flex justify-content-center align-items-center mb-4 overflow-hidden">
                                         <img src="/images/contoh_soal_istimewa_2.png" class="img-fluid w-50" alt="Contoh 1">
                                     </div>
-
                                     <div class="card border mb-4 shadow-sm">
                                         <div class="card-header border-bottom bg-light">
                                             <h6 class="fw-bold mb-0 small text-dark">Diketahui</h6>
@@ -781,7 +755,7 @@
                                         <div class="card-body small">
                                             <div class="d-flex align-items-center mb-3">
                                                 <span style="width: 130px;">Panjang Sisi BC:</span>
-                                                <select id="c2_dik_bc" class="form-select form-select-sm text-center border-secondary mx-2 text-dark" style="width: 80px;">
+                                                <select id="c1_30_dik_bc" class="form-select form-select-sm text-center border-secondary mx-2 text-dark" style="width: 100px;">
                                                     <option value=""></option>
                                                     <option value="10">10</option>
                                                     <option value="15">15</option>
@@ -791,7 +765,7 @@
                                             </div>
                                             <div class="d-flex align-items-center mb-3">
                                                 <span style="width: 130px;">Besar \(\angle ABC\):</span>
-                                                <select id="c2_dik_sudut" class="form-select form-select-sm text-center border-secondary mx-2 text-dark" style="width: 80px;">
+                                                <select id="c1_30_dik_sudut" class="form-select form-select-sm text-center border-secondary mx-2 text-dark" style="width: 100px;">
                                                     <option value=""></option>
                                                     <option value="30">30&deg;</option>
                                                     <option value="45">45&deg;</option>
@@ -800,7 +774,7 @@
                                             </div>
                                             <div class="d-flex align-items-center">
                                                 <span style="width: 130px;">Siku-siku di titik:</span>
-                                                <select id="c2_dik_siku" class="form-select form-select-sm text-center border-secondary mx-2 text-dark" style="width: 80px;">
+                                                <select id="c1_30_dik_siku" class="form-select form-select-sm text-center border-secondary mx-2 text-dark" style="width: 100px;">
                                                     <option value=""></option>
                                                     <option value="A">A</option>
                                                     <option value="B">B</option>
@@ -809,7 +783,6 @@
                                             </div>
                                         </div>
                                     </div>
-
                                     <div class="card border shadow-sm">
                                         <div class="card-header border-bottom bg-light">
                                             <h6 class="fw-bold mb-0 small text-dark">Ditanya</h6>
@@ -820,149 +793,133 @@
                                             </p>
                                         </div>
                                     </div>
-
                                 </div>
-
                                 <div class="col-md-7">
                                     <div class="card h-100 border shadow-sm">
                                         <div class="card-header bg-light py-2">
                                             <h6 class="fw-bold mb-0 small text-dark"><i class="fas fa-calculator me-2"></i>Langkah Penyelesaian</h6>
                                         </div>
                                         <div class="card-body bg-light">
-
                                             <div class="p-3 mb-3 bg-white border border-secondary rounded-3 shadow-sm text-center small">
                                                 <span class="d-block fw-bold text-dark mb-2 border-bottom border-secondary pb-2">1. Tentukan Perbandingan Sisi</span>
                                                 <div class="mt-2 text-muted mb-3">
-                                                    Berdasarkan perbandingan segitiga istimewa 30&deg;-60&deg;-90&deg;, perbandingan sisi di depan sudut tersebut berturut-turut adalah:
+                                                    Berdasarkan perbandingan segitiga istimewa \(30^\circ, 60^\circ, \) dan \(90^\circ\), perbandingan sisi di depan sudut tersebut berturut-turut adalah:
                                                 </div>
                                                 <div class="d-flex justify-content-center align-items-center gap-2 mb-3">
-                                                    <input type="number" id="c2_rasio_30" class="form-control form-control-sm text-center border-secondary text-dark" style="width: 80px;" placeholder="...">
-                                                    <span class="fw-bold text-dark">: &radic;</span>
-                                                    <input type="number" id="c2_rasio_60" class="form-control form-control-sm text-center border-secondary text-dark" style="width: 80px;" placeholder="...">
+                                                    <input type="number" id="c1_30_rasio_30" class="form-control form-control-sm text-center border-secondary text-dark" style="width: 100px;" placeholder="...">
+                                                    <span class="fw-bold text-dark">: \(\sqrt{}\)</span>
+                                                    <input type="number" id="c1_30_rasio_60" class="form-control form-control-sm text-center border-secondary text-dark" style="width: 100px;" placeholder="...">
                                                     <span class="fw-bold text-dark">:</span>
-                                                    <input type="number" id="c2_rasio_90" class="form-control form-control-sm text-center border-secondary text-dark" style="width: 80px;" placeholder="...">
+                                                    <input type="number" id="c1_30_rasio_90" class="form-control form-control-sm text-center border-secondary text-dark" style="width: 100px;" placeholder="...">
                                                 </div>
-
                                                 <div class="text-muted mb-2">Sehingga perbandingan sisi AC dan BC dapat dituliskan:</div>
                                                 <div class="d-flex justify-content-center align-items-center gap-2 mb-2">
                                                     <span class="fw-bold text-dark">AC : BC = </span>
-                                                    <input type="number" id="c2_perbandingan_atas" class="form-control form-control-sm text-center border-secondary text-dark" style="width: 80px;" placeholder="...">
-                                                    <span class="fw-bold text-dark"> : &radic;</span>
-                                                    <input type="number" id="c2_perbandingan_bawah" class="form-control form-control-sm text-center border-secondary text-dark" style="width: 80px;" placeholder="...">
+                                                    <input type="number" id="c1_30_perbandingan_atas" class="form-control form-control-sm text-center border-secondary text-dark" style="width: 80px;" placeholder="...">
+                                                    <span class="fw-bold text-dark"> : \(\sqrt{}\)</span>
+                                                    <input type="number" id="c1_30_perbandingan_bawah" class="form-control form-control-sm text-center border-secondary text-dark" style="width: 80px;" placeholder="...">
                                                 </div>
                                             </div>
-
                                             <div class="p-3 mb-3 bg-white border border-secondary rounded-3 shadow-sm text-center small">
                                                 <span class="d-block fw-bold text-dark mb-2 border-bottom border-secondary pb-2">2. Substitusi Nilai dan Pindah Ruas</span>
                                                 <div class="mt-2 text-muted mb-3">Masukkan nilai sisi (BC) yang diketahui ke dalam perbandingan:</div>
-
                                                 <div class="d-flex justify-content-center align-items-center gap-2 mb-3">
                                                     <span class="fw-bold text-dark">AC : </span>
-                                                    <input type="number" id="c2_sub_bc" class="form-control form-control-sm text-center border-secondary text-dark" style="width: 80px;" placeholder="...">
+                                                    <input type="number" id="c1_30_sub_bc" class="form-control form-control-sm text-center border-secondary text-dark" style="width: 80px;" placeholder="...">
                                                     <span class="fw-bold text-dark"> = </span>
-                                                    <input type="number" id="c2_sub_rasio_ac" class="form-control form-control-sm text-center border-secondary text-dark" style="width: 80px;" placeholder="...">
-                                                    <span class="fw-bold text-dark"> : &radic;</span>
-                                                    <input type="number" id="c2_sub_rasio_bc" class="form-control form-control-sm text-center border-secondary text-dark" style="width: 80px;" placeholder="...">
+                                                    <input type="number" id="c1_30_sub_rasio_ac" class="form-control form-control-sm text-center border-secondary text-dark" style="width: 80px;" placeholder="...">
+                                                    <span class="fw-bold text-dark"> : \(\sqrt{}\)</span>
+                                                    <input type="number" id="c1_30_sub_rasio_bc" class="form-control form-control-sm text-center border-secondary text-dark" style="width: 80px;" placeholder="...">
                                                 </div>
-
                                                 <div class="text-muted mb-2">Ubah bentuk perbandingan menjadi pecahan:</div>
                                                 <div class="d-flex justify-content-center align-items-center gap-3 mb-3">
                                                     <div class="d-flex flex-column text-center">
                                                         <div class="border-bottom border-dark pb-1 px-2 fw-bold text-dark">AC</div>
                                                         <div class="pt-1">
-                                                            <input type="number" id="c2_pecahan_bc" class="form-control form-control-sm text-center border-secondary text-dark" style="width: 80px;" placeholder="...">
+                                                            <input type="number" id="c1_30_pecahan_bc" class="form-control form-control-sm text-center border-secondary text-dark" style="width: 80px;" placeholder="...">
                                                         </div>
                                                     </div>
                                                     <span class="fw-bold text-dark">=</span>
                                                     <div class="d-flex flex-column text-center">
                                                         <div class="border-bottom border-dark pb-1 d-flex align-items-center justify-content-center">
-                                                            <input type="number" id="c2_pecahan_rasio_ac" class="form-control form-control-sm text-center border-secondary text-dark" style="width: 80px;" placeholder="...">
+                                                            <input type="number" id="c1_30_pecahan_rasio_ac" class="form-control form-control-sm text-center border-secondary text-dark" style="width: 80px;" placeholder="...">
                                                         </div>
                                                         <div class="pt-1 d-flex align-items-center justify-content-center">
-                                                            <span class="fw-bold text-dark">&radic;</span>
-                                                            <input type="number" id="c2_pecahan_rasio_bc" class="form-control form-control-sm text-center border-secondary text-dark ms-1" style="width: 80px;" placeholder="...">
+                                                            <span class="fw-bold text-dark">\(\sqrt{}\)</span>
+                                                            <input type="number" id="c1_30_pecahan_rasio_bc" class="form-control form-control-sm text-center border-secondary text-dark ms-1" style="width: 80px;" placeholder="...">
                                                         </div>
                                                     </div>
                                                 </div>
-
                                                 <div class="text-muted mb-2">Pindahkan ruas untuk mencari nilai sisi AC:</div>
                                                 <div class="d-flex justify-content-center align-items-center gap-2 mb-2">
                                                     <span class="fw-bold text-dark">AC = </span>
                                                     <div class="d-flex flex-column text-center">
                                                         <div class="border-bottom border-dark pb-1 px-2 d-flex align-items-center justify-content-center gap-1">
-                                                            <input type="number" id="c2_pindah_rasio_ac" class="form-control form-control-sm text-center border-secondary text-dark" style="width: 80px;" placeholder="...">
+                                                            <input type="number" id="c1_30_pindah_rasio_ac" class="form-control form-control-sm text-center border-secondary text-dark" style="width: 80px;" placeholder="...">
                                                             <span class="fw-bold text-dark">&times;</span>
-                                                            <input type="number" id="c2_pindah_angka_bc" class="form-control form-control-sm text-center border-secondary text-dark" style="width: 80px;" placeholder="...">
+                                                            <input type="number" id="c1_30_pindah_angka_bc" class="form-control form-control-sm text-center border-secondary text-dark" style="width: 80px;" placeholder="...">
                                                         </div>
                                                         <div class="pt-1 d-flex align-items-center justify-content-center">
-                                                            <span class="fw-bold text-dark">&radic;</span>
-                                                            <input type="number" id="c2_pindah_rasio_bc" class="form-control form-control-sm text-center border-secondary text-dark ms-1" style="width: 80px;" placeholder="...">
+                                                            <span class="fw-bold text-dark">\(\sqrt{}\)</span>
+                                                            <input type="number" id="c1_30_pindah_rasio_bc" class="form-control form-control-sm text-center border-secondary text-dark ms-1" style="width: 80px;" placeholder="...">
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
-
                                             <div class="p-3 mb-3 bg-white border border-secondary rounded-3 shadow-sm text-center small">
                                                 <span class="d-block fw-bold text-dark mb-2 border-bottom border-secondary pb-2">3. Rasionalkan Bentuk Akar</span>
                                                 <div class="mt-2 text-muted mb-3">Kalikan pembilang dan penyebut dengan sekawannya:</div>
-
                                                 <div class="d-flex justify-content-center align-items-center gap-3">
                                                     <span class="fw-bold text-dark">AC =</span>
                                                     <div class="d-flex flex-column text-center">
                                                         <div class="border-bottom border-dark pb-1 px-2 fw-bold text-dark">15</div>
                                                         <div class="pt-1 d-flex align-items-center justify-content-center">
-                                                            <span class="fw-bold text-dark">&radic;</span>
-                                                            <span class="fw-bold text-dark ms-1">3</span>
+                                                            <span class="fw-bold text-dark">\(\sqrt{3}\)</span>
                                                         </div>
                                                     </div>
                                                     <span class="fw-bold text-dark px-1">&times;</span>
                                                     <div class="d-flex flex-column text-center">
                                                         <div class="border-bottom border-dark pb-1 d-flex align-items-center">
-                                                            <span class="fw-bold text-dark">&radic;</span>
-                                                            <input type="number" id="c2_rasional_atas" class="form-control form-control-sm text-center border-secondary text-dark ms-1" style="width: 80px;" placeholder="...">
+                                                            <span class="fw-bold text-dark">\(\sqrt{}\)</span>
+                                                            <input type="number" id="c1_30_rasional_atas" class="form-control form-control-sm text-center border-secondary text-dark ms-1" style="width: 80px;" placeholder="...">
                                                         </div>
                                                         <div class="pt-1 d-flex align-items-center">
-                                                            <span class="fw-bold text-dark">&radic;</span>
-                                                            <input type="number" id="c2_rasional_bawah" class="form-control form-control-sm text-center border-secondary text-dark ms-1" style="width: 80px;" placeholder="...">
+                                                            <span class="fw-bold text-dark">\(\sqrt{}\)</span>
+                                                            <input type="number" id="c1_30_rasional_bawah" class="form-control form-control-sm text-center border-secondary text-dark ms-1" style="width: 80px;" placeholder="...">
                                                         </div>
                                                     </div>
                                                 </div>
-
                                                 <div class="d-flex justify-content-center align-items-center gap-2 mt-4">
                                                     <span class="fw-bold text-dark">AC =</span>
                                                     <div class="d-flex flex-column text-center">
-                                                        <div class="border-bottom border-dark pb-1 px-2 fw-bold text-dark">15&radic;3</div>
+                                                        <div class="border-bottom border-dark pb-1 px-2 fw-bold text-dark">\(15\sqrt{3}\)</div>
                                                         <div class="pt-1">
-                                                            <input type="number" id="c2_hasil_bagi" class="form-control form-control-sm text-center border-secondary text-dark mx-auto" style="width: 80px;" placeholder="...">
+                                                            <input type="number" id="c1_30_hasil_bagi" class="form-control form-control-sm text-center border-secondary text-dark mx-auto" style="width: 80px;" placeholder="...">
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
-
                                             <div class="p-3 bg-white border border-secondary rounded-3 shadow-sm text-center small">
                                                 <span class="d-block fw-bold text-dark mb-2 border-bottom border-secondary pb-2">4. Hasil Akhir</span>
                                                 <div class="alert alert-light border border-secondary d-flex flex-wrap justify-content-center align-items-center gap-2 mb-0 py-2">
                                                     <span class="text-dark">Jadi, panjang AC adalah</span>
                                                     <div class="d-flex align-items-center">
-                                                        <input type="number" id="c2_hasil_akhir_angka" class="form-control form-control-sm text-center fw-bold text-dark border-secondary shadow-sm" style="width: 80px;" placeholder="...">
-                                                        <span class="fw-bold text-dark ms-1 me-1">&radic;</span>
-                                                        <input type="number" id="c2_hasil_akhir_akar" class="form-control form-control-sm text-center fw-bold text-dark border-secondary shadow-sm" style="width: 80px;" placeholder="...">
+                                                        <input type="number" id="c1_30_hasil_akhir_angka" class="form-control form-control-sm text-center fw-bold text-dark border-secondary shadow-sm" style="width: 80px;" placeholder="...">
+                                                        <span class="fw-bold text-dark ms-1 me-1">\(\sqrt{}\)</span>
+                                                        <input type="number" id="c1_30_hasil_akhir_akar" class="form-control form-control-sm text-center fw-bold text-dark border-secondary shadow-sm" style="width: 80px;" placeholder="...">
                                                         <span class="ms-2 text-dark">cm.</span>
                                                     </div>
                                                 </div>
                                             </div>
-
                                             <div class="mt-4 d-flex flex-column flex-xl-row justify-content-between align-items-center border-top pt-3">
-                                                <div id="c2_feedback" class="small fw-bold mb-3 mb-xl-0"></div>
-                                                <button class="btn btn-success px-4 fw-bold shadow-sm" onclick="cekContoh2Istimewa()">
+                                                <div id="c1_30_feedback" class="small fw-bold mb-3 mb-xl-0"></div>
+                                                <button class="btn btn-success px-4 fw-bold shadow-sm" onclick="cekContoh1_30()">
                                                     Cek Jawaban
                                                 </button>
                                             </div>
-
                                         </div>
                                     </div>
                                 </div>
-
                             </div>
                         </div>
                     </div>
@@ -1070,14 +1027,14 @@
                                                 <input type="number" id="s1_rasio_45_1" class="form-control form-control-sm text-center border-secondary text-dark" style="width: 80px;" placeholder="...">
                                                 <span class="fw-bold text-dark">:</span>
                                                 <input type="number" id="s1_rasio_45_2" class="form-control form-control-sm text-center border-secondary text-dark" style="width: 80px;" placeholder="...">
-                                                <span class="fw-bold text-dark">: &radic;</span>
+                                                <span class="fw-bold text-dark">: \(\sqrt{}\)</span>
                                                 <input type="number" id="s1_rasio_90" class="form-control form-control-sm text-center border-secondary text-dark" style="width: 80px;" placeholder="...">
                                             </div>
 
                                             <div class="d-flex justify-content-center align-items-center gap-2 mb-3">
                                                 <span class="fw-bold text-dark">AB : AC = </span>
                                                 <div class="d-flex align-items-center justify-content-center gap-1">
-                                                    <span class="fw-bold text-dark">&radic;</span>
+                                                    <span class="fw-bold text-dark">\(\sqrt{}\)</span>
                                                     <input type="number" id="s1_perbandingan_atas" class="form-control form-control-sm text-center border-secondary text-dark" style="width: 80px;" placeholder="...">
                                                 </div>
                                                 <span class="fw-bold text-dark"> : </span>
@@ -1092,7 +1049,7 @@
                                                 <span class="fw-bold text-dark">=</span>
                                                 <div class="d-flex flex-column text-center">
                                                     <div class="border-bottom border-dark pb-1 d-flex align-items-center justify-content-center">
-                                                        <span class="fw-bold text-dark">&radic;</span>
+                                                        <span class="fw-bold text-dark">\(\sqrt{}\)</span>
                                                         <input type="number" id="s1_pecahan_rasio_ab" class="form-control form-control-sm text-center border-secondary text-dark ms-1" style="width: 80px;" placeholder="...">
                                                     </div>
                                                     <div class="pt-1">
@@ -1115,7 +1072,7 @@
                                                 <span class="fw-bold text-dark">=</span>
                                                 <div class="d-flex flex-column text-center">
                                                     <div class="border-bottom border-dark pb-1 d-flex align-items-center justify-content-center">
-                                                        <span class="fw-bold text-dark">&radic;</span>
+                                                        <span class="fw-bold text-dark">\(\sqrt{}\)</span>
                                                         <input type="number" id="s1_pecahan_rasio_ab" class="form-control form-control-sm text-center border-secondary text-dark ms-1" style="width: 80px;" placeholder="...">
                                                     </div>
                                                     <div class="pt-1">
@@ -1128,7 +1085,7 @@
                                                 <span class="fw-bold text-dark">AB = </span>
                                                 <div class="d-flex flex-column text-center">
                                                     <div class="border-bottom border-dark pb-1 px-2 d-flex align-items-center justify-content-center gap-1">
-                                                        <span class="fw-bold text-dark">&radic;</span>
+                                                        <span class="fw-bold text-dark">\(\sqrt{}\)</span>
                                                         <input type="number" id="s1_pindah_rasio_ab" class="form-control form-control-sm text-center border-secondary text-dark" style="width: 80px;" placeholder="...">
                                                         <span class="fw-bold text-dark">&times;</span>
                                                         <input type="number" id="s1_pindah_angka_ac" class="form-control form-control-sm text-center border-secondary text-dark" style="width: 80px;" placeholder="...">
@@ -1146,7 +1103,7 @@
                                             <div class="d-flex justify-content-center align-items-center gap-2">
                                                 <span class="fw-bold text-dark">AB = </span>
                                                 <input type="number" id="s1_hasil_hitung_angka" class="form-control form-control-sm text-center border-secondary text-dark" style="width: 80px;" placeholder="...">
-                                                <span class="fw-bold text-dark">&radic;</span>
+                                                <span class="fw-bold text-dark">\(\sqrt{}\)</span>
                                                 <input type="number" id="s1_hasil_hitung_akar" class="form-control form-control-sm text-center border-secondary text-dark" style="width: 80px;" placeholder="...">
                                             </div>
                                         </div>
@@ -1157,7 +1114,7 @@
                                                 <span class="text-dark">Jadi, panjang sisi AB adalah</span>
                                                 <div class="d-flex align-items-center">
                                                     <input type="number" id="s1_final_angka" class="form-control form-control-sm text-center fw-bold text-dark border-secondary shadow-sm" style="width: 80px;" placeholder="...">
-                                                    <span class="fw-bold text-dark ms-1 me-1">&radic;</span>
+                                                    <span class="fw-bold text-dark ms-1 me-1">\(\sqrt{}\)</span>
                                                     <input type="number" id="s1_final_akar" class="form-control form-control-sm text-center fw-bold text-dark border-secondary shadow-sm" style="width: 80px;" placeholder="...">
                                                     <span class="ms-2 text-dark">cm.</span>
                                                 </div>
@@ -1259,7 +1216,7 @@
 
                                             <div class="d-flex justify-content-center align-items-center gap-2 mb-3">
                                                 <input type="number" id="s2_rasio_30" class="form-control form-control-sm text-center border-secondary text-dark" style="width: 80px;" placeholder="...">
-                                                <span class="fw-bold text-dark">: &radic;</span>
+                                                <span class="fw-bold text-dark">: \(\sqrt{}\)</span>
                                                 <input type="number" id="s2_rasio_60" class="form-control form-control-sm text-center border-secondary text-dark" style="width: 80px;" placeholder="...">
                                                 <span class="fw-bold text-dark">:</span>
                                                 <input type="number" id="s2_rasio_90" class="form-control form-control-sm text-center border-secondary text-dark" style="width: 80px;" placeholder="...">
@@ -1374,62 +1331,106 @@
         <div class="row justify-content-center">
             <div class="col-md-12 mb-4">
                 <div class="card shadow-sm">
+
                     <div class="card-header text-center">
                         <h4>Rangkuman</h4>
                     </div>
 
                     <div class="card-body p-4 bg-white">
 
-                        <!-- Poin 1: Konsep Dasar -->
+                        <!-- Poin 1 -->
                         <div class="d-flex align-items-start mb-4">
-                            <div class="bg-success text-white rounded-circle d-flex align-items-center justify-content-center flex-shrink-0 mt-1" style="width: 32px; height: 32px; font-size: 1rem;">1</div>
+
+                            <div class="bg-success text-white rounded-circle d-flex align-items-center justify-content-center flex-shrink-0 mt-1"
+                                style="width: 32px; height: 32px; font-size: 1rem;">
+                                1
+                            </div>
+
                             <div class="ms-3">
                                 <p class="text-muted mb-0" style="line-height: 1.6;">
                                     <strong>Perbandingan Segitiga Istimewa</strong><br>
-                                    Pada teorema Pythagoras, jika hanya satu sisi segitiga siku-siku yang diketahui, kita bisa menentukan panjang sisi lainnya
-                                    menggunakan <strong>perbandingan tetap</strong> pada segitiga istimewa (45°-45°-90° dan 30°-60°-90°), tanpa perlu menghitung kuadrat dan akar.
+
+                                    Pada teorema Pythagoras, jika hanya satu sisi segitiga siku-siku yang diketahui,
+                                    kita bisa menentukan panjang sisi lainnya menggunakan
+                                    <strong>perbandingan tetap</strong> pada segitiga istimewa
+                                    (\(45^\circ\),\(45^\circ\), dan \(90^\circ\) serta
+                                    \(30^\circ\), \(60^\circ\), dan \(90^\circ\)),
+                                    tanpa perlu menghitung kuadrat dan akar.
                                 </p>
                             </div>
+
                         </div>
 
                         <hr class="border-secondary opacity-10 my-3">
 
-                        <!-- Poin 2: Segitiga 45-45-90 -->
+                        <!-- Poin 2 -->
                         <div class="d-flex align-items-start mb-4">
-                            <div class="bg-success text-white rounded-circle d-flex align-items-center justify-content-center flex-shrink-0 mt-1" style="width: 32px; height: 32px; font-size: 1rem;">2</div>
+
+                            <div class="bg-success text-white rounded-circle d-flex align-items-center justify-content-center flex-shrink-0 mt-1"
+                                style="width: 32px; height: 32px; font-size: 1rem;">
+                                2
+                            </div>
+
                             <div class="ms-3 w-100">
+
                                 <div class="row align-items-center">
+
                                     <div class="col-md-7">
                                         <p class="text-muted mb-0" style="line-height: 1.6;">
-                                            <strong>Segitiga siku-siku 45°–45°–90°</strong><br>
-                                            Perbandingan sisi : <strong>1 : 1 : √2</strong>
+                                            <strong>Segitiga siku-siku \(45^\circ\), \(45^\circ\), dan \(90^\circ\)</strong><br>
+
+                                            Perbandingan sisi :
+                                            <strong>\(1 : 1 : \sqrt{2}\)</strong>
                                         </p>
                                     </div>
+
                                     <div class="col-md-5 text-center">
-                                        <img src="/images/segitiga_istimewa_1.png" alt="Segitiga 45-45-90" class="img-fluid" style="max-height: 150px;">
+                                        <img src="/images/segitiga_istimewa_1.png"
+                                            alt="Segitiga 45-45-90"
+                                            class="img-fluid"
+                                            style="max-height: 150px;">
                                     </div>
+
                                 </div>
+
                             </div>
+
                         </div>
 
                         <hr class="border-secondary opacity-10 my-3">
 
-                        <!-- Poin 3: Segitiga 30-60-90 -->
+                        <!-- Poin 3 -->
                         <div class="d-flex align-items-start">
-                            <div class="bg-success text-white rounded-circle d-flex align-items-center justify-content-center flex-shrink-0 mt-1" style="width: 32px; height: 32px; font-size: 1rem;">3</div>
+
+                            <div class="bg-success text-white rounded-circle d-flex align-items-center justify-content-center flex-shrink-0 mt-1"
+                                style="width: 32px; height: 32px; font-size: 1rem;">
+                                3
+                            </div>
+
                             <div class="ms-3 w-100">
+
                                 <div class="row align-items-center">
+
                                     <div class="col-md-7">
                                         <p class="text-muted mb-0" style="line-height: 1.6;">
-                                            <strong>Segitiga siku-siku 30°–60°–90°</strong><br>
-                                            Perbandingan sisi : <strong>1 : √3 : 2</strong>
+                                            <strong>Segitiga siku-siku \(30^\circ\), \(60^\circ\), dan \(90^\circ\)</strong><br>
+
+                                            Perbandingan sisi :
+                                            <strong>\(1 : \sqrt{3} : 2\)</strong>
                                         </p>
                                     </div>
+
                                     <div class="col-md-5 text-center">
-                                        <img src="/images/pembuktian_30_60_90.png" alt="Segitiga 30-60-90" class="img-fluid" style="max-height: 150px;">
+                                        <img src="/images/pembuktian_30_60_90.png"
+                                            alt="Segitiga 30-60-90"
+                                            class="img-fluid"
+                                            style="max-height: 150px;">
                                     </div>
+
                                 </div>
+
                             </div>
+
                         </div>
 
                     </div>
@@ -1442,31 +1443,7 @@
                         <h4 class="mb-0">Refleksi Belajar</h4>
                         <small class="text-muted">Jawablah jujur sesuai pemahaman dan imajinasimu hari ini!</small>
                     </div>
-                    <div class="card-body p-4">
 
-                        <div class="mb-4">
-                            <label class="fw-semibold mb-2">
-                                1. Setelah mempelajari segitiga istimewa, coba ceritakan dengan bahasamu sendiri: mengapa perbandingan sisi-sisinya (seperti sudut 30°-60°-90° atau 45°-45°-90°) selalu tetap meskipun ukuran segitiganya diperbesar atau diperkecil?
-                            </label>
-                            <textarea class="form-control" rows="3" id="ref_istimewa_1" placeholder="Tuliskan pemahamanmu di sini..."></textarea>
-                        </div>
-
-                        <div class="mb-4">
-                            <label class="fw-semibold mb-2">
-                                2. Apakah kamu bisa membayangkan contoh penerapan konsep segitiga istimewa ini di dunia nyata atau lingkungan sekitarmu? Ceritakan idemu!
-                            </label>
-                            <textarea class="form-control" rows="3" id="ref_istimewa_2" placeholder="Misalnya: untuk membuat atap rumah, desain tangga, dll..."></textarea>
-                        </div>
-
-                        <div class="text-center mt-4">
-                            <button class="btn btn-success fw-bold px-4" onclick="simpanRefleksiIstimewa()">Simpan Refleksi</button>
-                        </div>
-
-                        <div class="text-center mt-4 pt-3 border-top">
-                            <p class="text-muted mb-0">Setelah menyimpan refleksi, silakan lanjut kerjakan Kuis 3 untuk menguji pemahamanmu!</p>
-                        </div>
-
-                    </div>
                 </div>
             </div>
         </div>

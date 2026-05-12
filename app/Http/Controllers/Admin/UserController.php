@@ -14,27 +14,30 @@ class UserController extends Controller
 {
     public function index(Request $request)
     {
-        $kelasList = Kelas::orderBy('nama_kelas')->get(); // tambahkan ini
-        return view('admin.users.index', compact('kelasList'));
+        // Tidak perlu mengirim daftar kelas
+        return view('admin.users.index');
     }
+
 
     public function data(Request $request)
     {
         $users = User::with('kelas')->select('users.*');
         return DataTables::of($users)
-            ->addIndexColumn()  // <-- Tambahkan ini untuk nomor urut
-            ->addColumn('kelas_name', function ($user) {
-                return $user->kelas ? $user->kelas->nama_kelas : '-';
-            })
+            ->addIndexColumn()
+            // Hapus kolom 'kelas_name' jika tidak ingin menampilkan kelas sama sekali
+            // ->addColumn('kelas_name', function ($user) {
+            //     return $user->kelas ? $user->kelas->nama_kelas : '-';
+            // })
             ->addColumn('actions', function ($user) {
-                $btn = '<button class="btn btn-sm btn-primary edit-user" data-id="'.$user->id.'" data-bs-toggle="modal" data-bs-target="#userModal"><i class="bi bi-pencil"></i></button> ';
-                $btn .= '<button class="btn btn-sm btn-warning reset-pwd" data-id="'.$user->id.'" data-name="'.$user->name.'"><i class="bi bi-key"></i></button> ';
-                $btn .= '<button class="btn btn-sm btn-danger delete-user" data-id="'.$user->id.'" data-name="'.$user->name.'"><i class="bi bi-trash"></i></button>';
+                $btn = '<button class="btn btn-sm btn-primary edit-user" data-id="' . $user->id . '" data-bs-toggle="modal" data-bs-target="#userModal"><i class="bi bi-pencil"></i></button> ';
+                $btn .= '<button class="btn btn-sm btn-warning reset-pwd" data-id="' . $user->id . '" data-name="' . $user->name . '"><i class="bi bi-key"></i></button> ';
+                $btn .= '<button class="btn btn-sm btn-danger delete-user" data-id="' . $user->id . '" data-name="' . $user->name . '"><i class="bi bi-trash"></i></button>';
                 return $btn;
             })
             ->rawColumns(['actions'])
             ->make(true);
     }
+
 
     public function create()
     {
@@ -48,7 +51,7 @@ class UserController extends Controller
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users',
             'role' => 'required|in:siswa,guru,admin',
-            'kelas_id' => 'nullable|exists:kelas,id', // hanya untuk siswa
+            // 'kelas_id' dihapus
             'password' => 'required|min:6|confirmed',
         ]);
 
@@ -57,11 +60,12 @@ class UserController extends Controller
             'email' => $request->email,
             'password' => Hash::make($request->password),
             'role' => $request->role,
-            'kelas_id' => $request->kelas_id,
+            // 'kelas_id' => $request->kelas_id,  // dihapus, biarkan null
         ]);
 
         return redirect()->route('admin.users.index')->with('success', 'User berhasil dibuat.');
     }
+
 
     public function edit($id)
     {
@@ -75,11 +79,11 @@ class UserController extends Controller
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email,' . $user->id,
             'role' => 'required|in:siswa,guru,admin',
-            'kelas_id' => 'nullable|exists:kelas,id',
+            // 'kelas_id' dihapus
             'password' => 'nullable|min:6|confirmed',
         ]);
 
-        $data = $request->only('name', 'email', 'role', 'kelas_id');
+        $data = $request->only('name', 'email', 'role'); // tanpa 'kelas_id'
         if ($request->filled('password')) {
             $data['password'] = Hash::make($request->password);
         }
@@ -91,7 +95,7 @@ class UserController extends Controller
     public function destroy(User $user)
     {
         // Cegah menghapus diri sendiri
-         if ($user->id === Auth::id()) {
+        if ($user->id === Auth::id()) {
             return back()->with('error', 'Anda tidak bisa menghapus akun sendiri.');
         }
         $user->delete();

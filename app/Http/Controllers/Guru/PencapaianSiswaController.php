@@ -285,13 +285,13 @@ class PencapaianSiswaController extends Controller
             ]);
         }
 
-        $badge = Badge::with(['users' => function($query) use ($kelasIds) {
+        $badge = Badge::with(['users' => function ($query) use ($kelasIds) {
             $query->select('users.id', 'users.name', 'users.kelas_id')
                 ->with('kelas')
                 ->whereIn('users.kelas_id', $kelasIds); // Filter hanya siswa di kelas guru
         }])->findOrFail($badge_id);
 
-        $peraih = $badge->users->map(function($user) {
+        $peraih = $badge->users->map(function ($user) {
             return [
                 'nama' => $user->name,
                 'kelas' => $user->kelas ? $user->kelas->nama_kelas : 'Tanpa Kelas'
@@ -302,6 +302,257 @@ class PencapaianSiswaController extends Controller
             'nama_badge' => $badge->name,
             'gambar_badge' => $badge->image_path ? asset('images/badges/' . $badge->image_path) : null,
             'peraih' => $peraih
+        ]);
+    }
+
+    // PencapaianSiswaController.php
+
+    public function dataPemahaman(Request $request)
+    {
+        $guruId = Auth::id();
+        $kelasIds = Kelas::where('guru_id', $guruId)->pluck('id')->toArray();
+
+        if (empty($kelasIds)) {
+            return response()->json(['data' => []]);
+        }
+
+        $query = User::with('kelas')
+            ->where('role', 'siswa')
+            ->whereIn('kelas_id', $kelasIds);
+
+        if ($request->filled('kelas_id') && in_array($request->kelas_id, $kelasIds)) {
+            $query->where('kelas_id', $request->kelas_id);
+        }
+
+        $siswa = $query->get();
+
+        // Konfigurasi checkpoint (sama seperti di ProgressController)
+        $totalCheckpoint = [
+            'materi_1_konsep_pythagoras'   => 16,
+            'materi_2_tripel_pythagoras'   => 8,
+            'materi_3_segitiga_istimewa'   => 6,
+            'materi_4_penerapan_pythagoras' => 8,
+        ];
+
+        $semuaPaket = PaketSoal::orderBy('id', 'asc')->get();
+        $data = [];
+
+        foreach ($siswa as $index => $s) {
+            // 1. Hitung progres materi (sama seperti ProgressController)
+            $totalMateriPersen = 0;
+            foreach ($totalCheckpoint as $materiId => $total) {
+                $selesai = progres_siswa::where('user_id', $s->id)
+                    ->where('materi_id', $materiId)
+                    ->count();
+                $persen = ($total > 0) ? round(($selesai / $total) * 100) : 0;
+                $persen = min($persen, 100);
+                $totalMateriPersen += $persen;
+            }
+
+            // 2. Hitung progres kuis (binary 0/100 per paket, seperti di ProgressController)
+            $progKuis = [0, 0, 0, 0, 0]; // indeks: kuis1, kuis2, kuis3, kuis4, eval
+            $nilaiKuis = [];
+            foreach ($semuaPaket as $paket) {
+                $namaPaket = strtolower($paket->nama_paket ?? $paket->judul);
+
+                $attempts = HasilPengerjaan::where('paket_soal_id', $paket->id)
+                    ->where('user_id', $s->id)
+                    ->orderBy('created_at', 'asc')
+                    ->get();
+
+                if ($attempts->isNotEmpty()) {
+                    $skorPertama = $attempts->first()->skor_akhir;
+                    $kkm = 70;
+
+                    if ($skorPertama >= $kkm) {
+                        $finalScore = $skorPertama;
+                    } else {
+                        $skorTertinggi = $attempts->max('skor_akhir');
+                        $finalScore = ($skorTertinggi >= $kkm) ? $kkm : $skorTertinggi;
+                    }
+
+                    if (preg_match('/kuis[\s\-_]*1\b/i', $namaPaket)) {
+                        $progKuis[0] = 100;
+                        $nilaiKuis[] = $finalScore;
+                    } elseif (preg_match('/kuis[\s\-_]*2\b/i', $namaPaket)) {
+                        $progKuis[1] = 100;
+                        $nilaiKuis[] = $finalScore;
+                    } elseif (preg_match('/kuis[\s\-_]*3\b/i', $namaPaket)) {
+                        $progKuis[2] = 100;
+                        $nilaiKuis[] = $finalScore;
+                    } elseif (preg_match('/kuis[\s\-_]*4\b/i', $namaPaket)) {
+                        $progKuis[3] = 100;
+                        $nilaiKuis[] = $finalScore;
+                    } elseif (str_contains($namaPaket, 'evaluasi')) {
+                        $progKuis[4] = 100;
+                        $nilaiKuis[] = $finalScore;
+                    }
+                }
+            }
+
+            $totalKuisPersen = array_sum($progKuis); // maks 500
+            // Total komponen = 4 materi + 5 kuis = 9
+            $totalSemuaPersen = $totalMateriPersen + $totalKuisPersen;
+            $progresTotal = round($totalSemuaPersen / 9);
+
+            // Rata‑rata nilai kuis (hanya kuis yang sudah dikerjakan)
+            $rataNilai = count($nilaiKuis) > 0 ? round(array_sum($nilaiKuis) / count($nilaiKuis), 1) : 0;
+
+            // Tentukan status berdasarkan progres dan rata‑rata nilai
+            if ($rataNilai === null) {
+                $status = '<span class="badge bg-secondary">Belum Ada Nilai</span>';
+            } elseif ($progresTotal >= 70 && $rataNilai >= 70) {
+                $status = '<span class="badge bg-success">Baik</span>';
+            } elseif ($progresTotal >= 70 && $rataNilai < 70) {
+                $status = '<span class="badge bg-warning text-dark">Memerlukan Perhatian</span>';
+            } elseif ($progresTotal < 70 && $rataNilai >= 70) {
+                $status = '<span class="badge bg-info text-white">Materi Belum Tuntas</span>';
+            } else { // progres < 70 dan nilai < 70
+                $status = '<span class="badge bg-danger">Memerlukan Bimbingan</span>';
+            }
+
+            $data[] = [
+                'DT_RowIndex' => $index + 1,
+                'nama'        => $s->name,
+                'kelas'       => $s->kelas ? $s->kelas->nama_kelas : '<span class="badge bg-secondary">-</span>',
+                'user_id'     => $s->id,
+                'progres'     => $progresTotal . '%',
+                'rata_nilai'  => $rataNilai !== null ? $rataNilai : '-',
+                'status'      => $status,
+                'aksi'        => '<button class="btn btn-sm btn-info text-white shadow-sm" onclick="showGrafikModal(' . $s->id . ')">
+                                <i class="bi bi-bar-chart-fill me-1"></i> Detail</button>'
+            ];
+        }
+
+        return response()->json(['data' => $data]);
+    }
+
+    public function grafikPenguasaan($user_id)
+    {
+        $guruId = Auth::id();
+        $kelasIds = Kelas::where('guru_id', $guruId)->pluck('id')->toArray();
+
+        $siswa = User::with('kelas')->findOrFail($user_id);
+        if (!in_array($siswa->kelas_id, $kelasIds)) {
+            return response()->json(['success' => false, 'message' => 'Tidak berhak.'], 403);
+        }
+
+        // === HITUNG DATA INDIVIDU ===
+        $totalCheckpoint = [
+            'materi_1_konsep_pythagoras'   => 16,
+            'materi_2_tripel_pythagoras'   => 8,
+            'materi_3_segitiga_istimewa'   => 6,
+            'materi_4_penerapan_pythagoras' => 8,
+        ];
+
+        // Progres materi individu
+        $totalMateriPersen = 0;
+        foreach ($totalCheckpoint as $materiId => $total) {
+            $selesai = progres_siswa::where('user_id', $user_id)
+                ->where('materi_id', $materiId)
+                ->count();
+            $persen = ($total > 0) ? round(($selesai / $total) * 100) : 0;
+            $persen = min($persen, 100);
+            $totalMateriPersen += $persen;
+        }
+
+        // Progres kuis dan nilai individu
+        $progKuis = [0, 0, 0, 0, 0];
+        $nilaiKuis = []; // untuk menyimpan nilai final per kuis (KKM)
+
+        $semuaPaket = PaketSoal::orderBy('id', 'asc')->get();
+        foreach ($semuaPaket as $paket) {
+            $namaPaket = strtolower($paket->nama_paket ?? $paket->judul);
+            $attempts = HasilPengerjaan::where('paket_soal_id', $paket->id)
+                ->where('user_id', $user_id)
+                ->orderBy('created_at', 'asc')
+                ->get();
+            if ($attempts->isNotEmpty()) {
+                $skorPertama = $attempts->first()->skor_akhir;
+                $kkm = 70;
+                if ($skorPertama >= $kkm) {
+                    $finalScore = $skorPertama;
+                } else {
+                    $skorTertinggi = $attempts->max('skor_akhir');
+                    $finalScore = ($skorTertinggi >= $kkm) ? $kkm : $skorTertinggi;
+                }
+                $nilaiKuis[] = $finalScore;
+
+                if (preg_match('/kuis[\s\-_]*1\b/i', $namaPaket)) $progKuis[0] = 100;
+                elseif (preg_match('/kuis[\s\-_]*2\b/i', $namaPaket)) $progKuis[1] = 100;
+                elseif (preg_match('/kuis[\s\-_]*3\b/i', $namaPaket)) $progKuis[2] = 100;
+                elseif (preg_match('/kuis[\s\-_]*4\b/i', $namaPaket)) $progKuis[3] = 100;
+                elseif (str_contains($namaPaket, 'evaluasi')) $progKuis[4] = 100;
+            }
+        }
+
+        $totalKuisPersen = array_sum($progKuis);
+        $progresTotal = round(($totalMateriPersen + $totalKuisPersen) / 9);
+        $rataNilai = count($nilaiKuis) > 0 ? round(array_sum($nilaiKuis) / count($nilaiKuis), 1) : 0;
+
+        // === HITUNG RATA-RATA KELAS ===
+        $siswaSekelas = User::where('role', 'siswa')
+            ->where('kelas_id', $siswa->kelas_id)
+            ->where('id', '!=', $user_id) // boleh termasuk diri sendiri, tapi opsional
+            ->get();
+
+        $arrProgresKelas = [];
+        $arrNilaiKelas = [];
+
+        foreach ($siswaSekelas as $s) {
+            // Hitung progres_total untuk setiap siswa di kelas
+            $totalMateriK = 0;
+            foreach ($totalCheckpoint as $materiId => $total) {
+                $selesai = progres_siswa::where('user_id', $s->id)
+                    ->where('materi_id', $materiId)
+                    ->count();
+                $persen = ($total > 0) ? round(($selesai / $total) * 100) : 0;
+                $totalMateriK += min($persen, 100);
+            }
+            $progKuisK = [0, 0, 0, 0, 0];
+            $nilaiKuisK = [];
+            foreach ($semuaPaket as $paket) {
+                $namaPaket = strtolower($paket->nama_paket ?? $paket->judul);
+                $attempts = HasilPengerjaan::where('paket_soal_id', $paket->id)
+                    ->where('user_id', $s->id)
+                    ->orderBy('created_at', 'asc')
+                    ->get();
+                if ($attempts->isNotEmpty()) {
+                    $skorPertama = $attempts->first()->skor_akhir;
+                    $kkm = 70;
+                    if ($skorPertama >= $kkm) {
+                        $finalScore = $skorPertama;
+                    } else {
+                        $skorTertinggi = $attempts->max('skor_akhir');
+                        $finalScore = ($skorTertinggi >= $kkm) ? $kkm : $skorTertinggi;
+                    }
+                    $nilaiKuisK[] = $finalScore;
+                    if (preg_match('/kuis[\s\-_]*1\b/i', $namaPaket)) $progKuisK[0] = 100;
+                    elseif (preg_match('/kuis[\s\-_]*2\b/i', $namaPaket)) $progKuisK[1] = 100;
+                    elseif (preg_match('/kuis[\s\-_]*3\b/i', $namaPaket)) $progKuisK[2] = 100;
+                    elseif (preg_match('/kuis[\s\-_]*4\b/i', $namaPaket)) $progKuisK[3] = 100;
+                    elseif (str_contains($namaPaket, 'evaluasi')) $progKuisK[4] = 100;
+                }
+            }
+            $totalKuisK = array_sum($progKuisK);
+            $progresTotalK = round(($totalMateriK + $totalKuisK) / 9);
+            $arrProgresKelas[] = $progresTotalK;
+            $rataNilaiK = count($nilaiKuisK) > 0 ? round(array_sum($nilaiKuisK) / count($nilaiKuisK), 1) : 0;
+            if ($rataNilaiK > 0) {
+                $arrNilaiKelas[] = $rataNilaiK;
+            }
+        }
+
+        $rataKelasProgres = count($arrProgresKelas) > 0 ? round(array_sum($arrProgresKelas) / count($arrProgresKelas)) : $progresTotal;
+        $rataKelasNilai = count($arrNilaiKelas) > 0 ? round(array_sum($arrNilaiKelas) / count($arrNilaiKelas), 1) : $rataNilai;
+
+        return response()->json([
+            'nama'              => $siswa->name,
+            'kelas'             => $siswa->kelas->nama_kelas ?? '-',
+            'progres_total'     => $progresTotal,
+            'rata_nilai'        => $rataNilai,
+            'rata_kelas_progres' => $rataKelasProgres,
+            'rata_kelas_nilai'  => $rataKelasNilai,
         ]);
     }
 
