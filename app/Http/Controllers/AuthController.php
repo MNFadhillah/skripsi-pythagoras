@@ -33,19 +33,20 @@ class AuthController extends Controller
         if (Auth::attempt($credentials, $request->remember)) {
             $request->session()->regenerate();
 
-            // Setelah login sukses, baru cek role
-            if (Auth::user()->role === 'guru') {
+            // Tambahkan pesan sukses
+            session()->flash('success', 'Login berhasil! Selamat datang, ' . Auth::user()->name);
+
+            // Redirect berdasarkan role
+            $role = Auth::user()->role;
+            if ($role === 'guru') {
                 return redirect()->route('guru.dashboard');
-            }
-            if (Auth::user()->role === 'admin') {
+            } elseif ($role === 'admin') {
                 return redirect()->route('admin.dashboard');
             }
             return redirect()->route('siswa.menu.dashboard');
         }
 
-        return back()->withErrors([
-            'email' => 'Email atau password salah.',
-        ]);
+        return back()->withErrors(['email' => 'Email atau password salah.']);
     }
 
     /* =====================
@@ -73,7 +74,7 @@ class AuthController extends Controller
                     if ($request->role === 'guru') {
                         // Cek token di database
                         $tokenSetting = Setting::where('key', 'guru_token')->first();
-                        
+
                         // Jika Admin BELUM mengatur token sama sekali di database
                         if (!$tokenSetting || empty($tokenSetting->value)) {
                             $fail('Pendaftaran Guru saat ini ditutup karena Token belum dikonfigurasi oleh Admin.');
