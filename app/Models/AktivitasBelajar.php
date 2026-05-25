@@ -31,6 +31,7 @@ class AktivitasBelajar extends Model
         'waktu_mulai' => 'datetime:Y-m-d H:i:s',
         'waktu_selesai' => 'datetime:Y-m-d H:i:s',
         'status' => 'boolean',
+        'durasi_menit' => 'integer',
     ];
 
     protected $appends = ['is_currently_active'];

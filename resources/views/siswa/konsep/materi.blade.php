@@ -696,7 +696,7 @@
                                                     type="text"
                                                     class="form-control form-control-sm border-success"
                                                     id="inputTitikSudut"
-                                                    placeholder="Jawab di sini...">
+                                                    placeholder="...">
 
                                             </div>
                                         </div>
@@ -1749,14 +1749,14 @@
                                     </div>
                                     <div class="card-body">
                                         <div class="d-flex align-items-center mb-2">
-                                            <span class="flex-grow-1" style="max-width: 200px;">Jarak ujung tangga (AC):</span>
+                                            <span class="flex-grow-1" style="max-width: 200px;">Jarak ujung tangga atau panjang AC =</span>
                                             <input type="number" id="c1_dik_b" class="form-control form-control-sm text-center border-secondary mx-2" style="width: 70px;" placeholder="...">
-                                            <span>m</span>
+                                            <span>m.</span>
                                         </div>
                                         <div class="d-flex align-items-center">
-                                            <span class="flex-grow-1" style="max-width: 200px;">Tinggi Dinding (BC):</span>
+                                            <span class="flex-grow-1" style="max-width: 200px;">Tinggi Dinding atau panjang BC =</span>
                                             <input type="number" id="c1_dik_a" class="form-control form-control-sm text-center border-secondary mx-2" style="width: 70px;" placeholder="...">
-                                            <span>m</span>
+                                            <span>m.</span>
                                         </div>
                                     </div>
                                 </div>
@@ -1766,7 +1766,7 @@
                                     </div>
                                     <div class="card-body">
                                         <div class="d-flex align-items-center">
-                                            <p class="mb-0 text-muted small">Panjang sisi miring (AB) = ... ?</p>
+                                            <p class="mb-0 text-muted small">Panjang sisi miring AB.</p>
                                         </div>
                                     </div>
                                 </div>
@@ -1884,19 +1884,19 @@
                                     </div>
                                     <div class="card-body">
                                         <div class="d-flex align-items-center mb-2">
-                                            <span class="flex-grow-1" style="max-width: 200px;">Sisi Miring (AB):</span>
+                                            <span class="flex-grow-1" style="max-width: 200px;">Panjang sisi miring AB =</span>
                                             <input type="number" id="c2_dik_ab" class="form-control form-control-sm text-center border-secondary mx-2" style="width: 70px;" placeholder="...">
-                                            <span>cm</span>
+                                            <span>cm.</span>
                                         </div>
                                         <div class="d-flex align-items-center mb-2">
-                                            <span class="flex-grow-1" style="max-width: 200px;">Sisi Siku-siku (AC):</span>
+                                            <span class="flex-grow-1" style="max-width: 200px;">Panjang sisi siku-siku AC =</span>
                                             <input type="number" id="c2_dik_ac" class="form-control form-control-sm text-center border-secondary mx-2" style="width: 70px;" placeholder="...">
-                                            <span>cm</span>
+                                            <span>cm.</span>
                                         </div>
                                         <div class="d-flex align-items-center">
-                                            <span class="flex-grow-1" style="max-width: 200px;">Sisi Siku-siku (CD):</span>
+                                            <span class="flex-grow-1" style="max-width: 200px;">Panjang sisi siku-siku CD =</span>
                                             <input type="number" id="c2_dik_cd" class="form-control form-control-sm text-center border-secondary mx-2" style="width: 70px;" placeholder="...">
-                                            <span>cm</span>
+                                            <span>cm.</span>
                                         </div>
                                     </div>
                                 </div>

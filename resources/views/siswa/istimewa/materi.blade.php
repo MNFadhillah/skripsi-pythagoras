@@ -298,17 +298,17 @@
                                         </div>
                                         <div class="card-body small">
                                             <div class="d-flex align-items-center mb-3">
-                                                <span style="width: 150px;">Panjang Hipotenusa (AB):</span>
+                                                <span style="width: 150px;">Hipotenusa atau panjang AB =</span>
                                                 <select id="c1i_dik_ab" class="form-select form-select-sm text-center border-secondary mx-2 text-dark" style="width: 90px;">
                                                     <option value=""></option>
                                                     <option value="15sqrt2">15&radic;2</option>
                                                     <option value="20sqrt2">20&radic;2</option>
                                                     <option value="25sqrt2">25&radic;2</option>
                                                 </select>
-                                                <span>cm</span>
+                                                <span>cm.</span>
                                             </div>
                                             <div class="d-flex align-items-center mb-3">
-                                                <span style="width: 150px;">Besar Sudut A & B:</span>
+                                                <span style="width: 150px;">Besar sudut A dan C = ...</span>
                                                 <select id="c1i_dik_sudut" class="form-select form-select-sm text-center border-secondary mx-2 text-dark" style="width: 80px;">
                                                     <option value=""></option>
                                                     <option value="30">30&deg;</option>
@@ -325,7 +325,7 @@
                                         </div>
                                         <div class="card-body">
                                             <p class="mb-0 text-muted small">
-                                                Panjang Sisi Siku-siku (AC) = ...?
+                                                Panjang Sisi Siku-siku AC adalah ... 
                                             </p>
                                         </div>
                                     </div>
@@ -431,7 +431,7 @@
                                             </div>
 
                                             <div class="p-3 bg-white border border-secondary rounded-3 shadow-sm text-center small">
-                                                <span class="d-block fw-bold text-dark mb-2 border-bottom border-secondary pb-2">4. Kesimpulan</span>
+                                                <span class="d-block fw-bold text-dark mb-2 border-bottom border-secondary pb-2">4. Hasil akhir</span>
                                                 <div class="alert alert-light border border-secondary d-flex flex-wrap justify-content-center align-items-center gap-2 mb-0 py-2">
                                                     <span class="text-dark">Jadi, panjang sisi AC adalah</span>
                                                     <div class="d-flex align-items-center">
@@ -489,17 +489,17 @@
                                         </div>
                                         <div class="card-body small">
                                             <div class="d-flex align-items-center mb-3">
-                                                <span style="width: 120px;">Panjang Sisi AC:</span>
+                                                <span style="width: 120px;">Panjang sisi miring AC =</span>
                                                 <select id="c2_45_dik_ac" class="form-select form-select-sm text-center border-secondary mx-2 text-dark" style="width: 80px;">
                                                     <option value=""></option>
                                                     <option value="10">10</option>
                                                     <option value="20">20</option>
                                                     <option value="30">30</option>
                                                 </select>
-                                                <span>cm</span>
+                                                <span>cm.</span>
                                             </div>
                                             <div class="d-flex align-items-center mb-3">
-                                                <span style="width: 120px;">Besar Sudut A & C:</span>
+                                                <span style="width: 120px;">Besar sudut A dan C = ....</span>
                                                 <select id="c2_45_dik_sudut" class="form-select form-select-sm text-center border-secondary mx-2 text-dark" style="width: 80px;">
                                                     <option value=""></option>
                                                     <option value="30">30&deg;</option>
@@ -515,7 +515,7 @@
                                         </div>
                                         <div class="card-body">
                                             <p class="mb-0 text-muted small">
-                                                Panjang AB = ...?
+                                                Panjang sisi siku-siku AB.
                                             </p>
                                         </div>
                                     </div>
@@ -754,17 +754,17 @@
                                         </div>
                                         <div class="card-body small">
                                             <div class="d-flex align-items-center mb-3">
-                                                <span style="width: 130px;">Panjang Sisi BC:</span>
+                                                <span style="width: 130px;">Panjang sisi siku-siku BC =</span>
                                                 <select id="c1_30_dik_bc" class="form-select form-select-sm text-center border-secondary mx-2 text-dark" style="width: 100px;">
                                                     <option value=""></option>
                                                     <option value="10">10</option>
                                                     <option value="15">15</option>
                                                     <option value="20">20</option>
                                                 </select>
-                                                <span>cm</span>
+                                                <span>cm.</span>
                                             </div>
                                             <div class="d-flex align-items-center mb-3">
-                                                <span style="width: 130px;">Besar \(\angle ABC\):</span>
+                                                <span style="width: 130px;">Besar \(\angle ABC\) = ....</span>
                                                 <select id="c1_30_dik_sudut" class="form-select form-select-sm text-center border-secondary mx-2 text-dark" style="width: 100px;">
                                                     <option value=""></option>
                                                     <option value="30">30&deg;</option>
@@ -773,7 +773,7 @@
                                                 </select>
                                             </div>
                                             <div class="d-flex align-items-center">
-                                                <span style="width: 130px;">Siku-siku di titik:</span>
+                                                <span style="width: 130px;">Siku-siku berada pada titik ....</span>
                                                 <select id="c1_30_dik_siku" class="form-select form-select-sm text-center border-secondary mx-2 text-dark" style="width: 100px;">
                                                     <option value=""></option>
                                                     <option value="A">A</option>

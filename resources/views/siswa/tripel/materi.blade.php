@@ -518,34 +518,34 @@
                                         </div>
                                         <div class="card-body">
                                             <div class="d-flex align-items-center mb-3">
-                                                <span style="width: 60px;">Sisi a:</span>
+                                                <span style="width: 60px;">Panjang sisi a =</span>
                                                 <select id="c1_dik_a" class="form-select form-select-sm text-center border-secondary mx-2" style="width: 80px;">
                                                     <option value=""></option>
                                                     <option value="17">17</option>
                                                     <option value="25">25</option>
                                                     <option value="38">38</option>
                                                 </select>
-                                                <span>cm</span>
+                                                <span>cm.</span>
                                             </div>
                                             <div class="d-flex align-items-center mb-3">
-                                                <span style="width: 60px;">Sisi b:</span>
+                                                <span style="width: 60px;">Panjang sisi b =</span>
                                                 <select id="c1_dik_b" class="form-select form-select-sm text-center border-secondary mx-2" style="width: 80px;">
                                                     <option value=""></option>
                                                     <option value="17">17</option>
                                                     <option value="25">25</option>
                                                     <option value="38">38</option>
                                                 </select>
-                                                <span>cm</span>
+                                                <span>cm.</span>
                                             </div>
                                             <div class="d-flex align-items-center">
-                                                <span style="width: 60px;">Sisi c:</span>
+                                                <span style="width: 60px;">Panjang sisi c =</span>
                                                 <select id="c1_dik_c" class="form-select form-select-sm text-center border-secondary mx-2" style="width: 80px;">
                                                     <option value=""></option>
                                                     <option value="17">17</option>
                                                     <option value="25">25</option>
                                                     <option value="38">38</option>
                                                 </select>
-                                                <span>cm</span>
+                                                <span>cm.</span>
                                             </div>
                                         </div>
                                     </div>
@@ -556,7 +556,7 @@
                                         </div>
                                         <div class="card-body">
                                             <p class="mb-0 text-muted small">
-                                                Jenis segitiga berdasarkan panjang sisi-sisinya = ...?
+                                                Jenis segitiga ABC berdasarkan panjang sisi-sisinya.
                                             </p>
                                         </div>
                                     </div>
@@ -836,9 +836,6 @@
 
                             <div class="col-md-6 mb-3">
                                 <div class="card h-100 border-success shadow-sm">
-                                    <div class="card-header text-center fw-bold bg-light">
-                                        Contoh 1
-                                    </div>
                                     <div class="card-body bg-light d-flex flex-column">
                                         <p class="mb-3 text-center">Apakah <strong>8, 16, dan 17</strong> adalah Tripel Pythagoras?</p>
 
@@ -914,9 +911,6 @@
 
                             <div class="col-md-6 mb-3">
                                 <div class="card h-100 border-success shadow-sm">
-                                    <div class="card-header text-center fw-bold bg-light">
-                                        Contoh 2
-                                    </div>
                                     <div class="card-body bg-light d-flex flex-column">
                                         <p class="mb-3 text-center">Apakah <strong>10, 24, dan 26</strong> adalah Tripel Pythagoras?</p>
 

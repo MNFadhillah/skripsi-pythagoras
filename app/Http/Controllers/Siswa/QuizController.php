@@ -105,12 +105,12 @@ class QuizController extends Controller
                             ->whereNull('waktu_selesai')
                             ->first();
 
-        $sisaDetik = $aktivitas->durasi_menit * 60; // Default sisa waktu
+        $sisaDetik = (int) $aktivitas->durasi_menit * 60; // Default sisa waktu
 
         if ($pengerjaanAktif) {
             // Hitung apakah waktu sebenarnya sudah habis sejak dia pertama kali klik "Mulai"
             $waktuMulaiDb = Carbon::parse($pengerjaanAktif->waktu_mulai);
-            $batasWaktu = $waktuMulaiDb->copy()->addMinutes($aktivitas->durasi_menit);
+            $batasWaktu = $waktuMulaiDb->copy()->addMinutes((int) $aktivitas->durasi_menit);
 
             if ($now->greaterThanOrEqualTo($batasWaktu)) {
                 // JIKA WAKTU HABIS SAAT DITINGGALKAN: Auto Submit Paksa (Nilai 0)
