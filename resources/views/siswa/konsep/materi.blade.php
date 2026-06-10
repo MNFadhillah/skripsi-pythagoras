@@ -14,42 +14,67 @@
 
 @section('content')
 <div class="container">
-    <div class="row align-items-center">
-        <div class="col-lg-12">
-            <h3 class="text-center">Menemukan Konsep Pythagoras</h3>
+    <div class="card shadow-sm border-1 mb-4">
+        <div class="card-body p-4">
+            <div class="row align-items-center">
+                {{-- KIRI: Progress Bar --}}
+                <div class="col-lg-3">
+                    <div class="d-flex flex-column">
+                        <small class="text-muted fw-bold mb-2">Progres Materi Anda</small>
+                        <div class="progress" style="height: 15px; border-radius: 10px;">
+                            @php $progressVal = $materiProgress ?? 0; @endphp
+
+                            {{-- TAMBAHKAN ID materiProgressBar DI SINI --}}
+                            <div id="materiProgressBar"
+                                class="progress-bar bg-success"
+                                role="progressbar"
+                                style="--w: {{ $progressVal }}%; width: var(--w);"
+                                aria-valuenow="{{ $progressVal }}"
+                                aria-valuemin="0"
+                                aria-valuemax="100">
+                            </div>
+                        </div>
+
+                        {{-- TAMBAHKAN ID materiProgressText DI SINI --}}
+                        <small id="materiProgressText" class="text-success fw-bold mt-1">
+                            {{ $progressVal }}% Selesai
+                        </small>
+                    </div>
+                </div>
+
+                {{-- TENGAH: Judul & Navigasi --}}
+                <div class="col-lg-6 text-center mt-3 mt-lg-0">
+                    <h4 class="fw-bold mb-3">Menemukan Konsep Pythagoras</h4>
+                    <nav>
+                        <ul class="pagination justify-content-center mb-0 flex-wrap gap-2 materi-pagination">
+                            <li class="page-item">
+                                <button class="page-link px-3 py-2 prev-btn rounded shadow-sm">Sebelumnya</button>
+                            </li>
+                            {{-- Looping 6 Halaman (0 sampai 5) --}}
+                            @for ($i = 0; $i <= 5; $i++)
+                                <li class="page-item {{ $i == 0 ? 'active' : '' }}">
+                                <button class="page-link px-3 py-2 page-btn rounded shadow-sm" data-page="{{ $i }}">{{ $i + 1 }}</button>
+                                </li>
+                                @endfor
+                                <li class="page-item">
+                                    <button class="page-link px-3 py-2 next-btn rounded shadow-sm">Berikutnya</button>
+                                </li>
+                        </ul>
+                    </nav>
+                </div>
+
+                {{-- KANAN: Poin --}}
+                <div class="col-lg-3 text-lg-end text-center mt-3 mt-lg-0">
+                    <div class="d-inline-block badge bg-success text-white px-4 py-3 rounded-pill shadow-sm fs-6">
+                        <i class="bi bi-coin me-2 fs-5 align-middle"></i>
+                        {{-- TAMBAHKAN ID DI SINI --}}
+                        <span id="poinDisplay" class="fw-bold align-middle">{{ auth()->user()->points }} Poin</span>
+                    </div>
+                </div>
+
+            </div>
         </div>
     </div>
-
-    <nav>
-        <ul class="pagination justify-content-center materi-pagination">
-            <li class="page-item">
-                <button class="page-link prev-btn">‹</button>
-            </li>
-
-            <li class="page-item active">
-                <button class="page-link page-btn" data-page="0">1</button>
-            </li>
-            <li class="page-item">
-                <button class="page-link page-btn" data-page="1">2</button>
-            </li>
-            <li class="page-item">
-                <button class="page-link page-btn" data-page="2">3</button>
-            </li>
-            <li class="page-item">
-                <button class="page-link page-btn" data-page="3">4</button>
-            </li>
-            <li class="page-item">
-                <button class="page-link page-btn" data-page="4">5</button>
-            </li>
-            <li class="page-item">
-                <button class="page-link page-btn" data-page="5">6</button>
-            </li>
-
-            <li class="page-item">
-                <button class="page-link next-btn">›</button>
-            </li>
-        </ul>
-    </nav>
 
     <!-- HALAMAN 1 -->
     <section class="materi-page" data-page="0">
@@ -587,59 +612,62 @@
 
                     <div id="akar-container">
                         <div class="row g-3 justify-content-center">
-                            <div class="col-6 col-md-4">
-                                <div class="card bg-white border text-center h-100 py-4 shadow-sm">
-                                    <div class="d-flex justify-content-center align-items-center gap-2">
+
+                            <div class="col-12 col-sm-6 col-md-4">
+                                <div class="card bg-white border text-center h-100 py-4 shadow-sm px-2">
+                                    <div class="d-flex flex-wrap justify-content-center align-items-center gap-2">
                                         <label class="form-label fw-bold mb-0 fs-5">\(\sqrt{36}\)</label>
                                         <span class="fw-bold fs-5">=</span>
                                         <input type="number" class="form-control text-center input-akar fw-bold"
-                                            style="width: 80px;" data-answer="6" placeholder="...">
+                                            style="max-width: 80px; width: 100%;" data-answer="6" placeholder="...">
                                     </div>
                                 </div>
                             </div>
 
-                            <div class="col-6 col-md-4">
-                                <div class="card bg-white border text-center h-100 py-4 shadow-sm">
-                                    <div class="d-flex justify-content-center align-items-center gap-2">
+                            <div class="col-12 col-sm-6 col-md-4">
+                                <div class="card bg-white border text-center h-100 py-4 shadow-sm px-2">
+                                    <div class="d-flex flex-wrap justify-content-center align-items-center gap-2">
                                         <label class="form-label fw-bold mb-0 fs-5">\(\sqrt{49}\)</label>
                                         <span class="fw-bold fs-5">=</span>
                                         <input type="number" class="form-control text-center input-akar fw-bold"
-                                            style="width: 80px;" data-answer="7" placeholder="...">
+                                            style="max-width: 80px; width: 100%;" data-answer="7" placeholder="...">
                                     </div>
                                 </div>
                             </div>
 
-                            <div class="col-6 col-md-4">
-                                <div class="card bg-white border text-center h-100 py-4 shadow-sm">
-                                    <div class="d-flex justify-content-center align-items-center gap-2">
+                            <div class="col-12 col-sm-6 col-md-4">
+                                <div class="card bg-white border text-center h-100 py-4 shadow-sm px-2">
+                                    <div class="d-flex flex-wrap justify-content-center align-items-center gap-2">
                                         <label class="form-label fw-bold mb-0 fs-5">\(\sqrt{81}\)</label>
                                         <span class="fw-bold fs-5">=</span>
                                         <input type="number" class="form-control text-center input-akar fw-bold"
-                                            style="width: 80px;" data-answer="9" placeholder="...">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-6 col-md-4">
-                                <div class="card bg-white border text-center h-100 py-4 shadow-sm">
-                                    <div class="d-flex justify-content-center align-items-center gap-2">
-                                        <label class="form-label fw-bold mb-0 fs-6">\(\sqrt{4} \times \sqrt{9}\)</label>
-                                        <span class="fw-bold fs-5">=</span>
-                                        <input type="number" class="form-control text-center input-akar fw-bold"
-                                            style="width: 80px;" data-answer="6" placeholder="...">
+                                            style="max-width: 80px; width: 100%;" data-answer="9" placeholder="...">
                                     </div>
                                 </div>
                             </div>
 
-                            <div class="col-6 col-md-4">
-                                <div class="card bg-white border text-center h-100 py-4 shadow-sm">
-                                    <div class="d-flex justify-content-center align-items-center gap-2">
-                                        <label class="form-label fw-bold mb-0 fs-6">\(\sqrt{4 \times 25}\)</label>
+                            <div class="col-12 col-sm-6 col-md-4">
+                                <div class="card bg-white border text-center h-100 py-4 shadow-sm px-2">
+                                    <div class="d-flex flex-wrap justify-content-center align-items-center gap-2">
+                                        <label class="form-label fw-bold mb-0 fs-6">\(\sqrt{4} \times \sqrt{9}\)</label>
                                         <span class="fw-bold fs-5">=</span>
                                         <input type="number" class="form-control text-center input-akar fw-bold"
-                                            style="width: 90px;" data-answer="10" placeholder="...">
+                                            style="max-width: 80px; width: 100%;" data-answer="6" placeholder="...">
                                     </div>
                                 </div>
                             </div>
+
+                            <div class="col-12 col-sm-6 col-md-4">
+                                <div class="card bg-white border text-center h-100 py-4 shadow-sm px-2">
+                                    <div class="d-flex flex-wrap justify-content-center align-items-center gap-2">
+                                        <label class="form-label fw-bold mb-0 fs-6">\(\sqrt{4 \times 25}\)</label>
+                                        <span class="fw-bold fs-5">=</span>
+                                        <input type="number" class="form-control text-center input-akar fw-bold"
+                                            style="max-width: 90px; width: 100%;" data-answer="10" placeholder="...">
+                                    </div>
+                                </div>
+                            </div>
+
                         </div>
 
                         <div class="text-center mt-4 mb-3">
@@ -835,7 +863,7 @@
                             {{-- KOLOM KIRI: CANVAS --}}
                             <div class="col-lg-8">
                                 <div id="canvasContainer" class="position-relative bg-white border rounded shadow-sm" style="width: 100%; min-height: 400px;">
-                                    <canvas id="triangleCanvas" style="cursor: crosshair; display: block;"></canvas>
+                                    <canvas id="triangleCanvas" style="cursor: crosshair; display: block; width: 100%; height: 100%; touch-action: none;"></canvas>
                                 </div>
                                 <div class="d-flex justify-content-between align-items-center mt-2">
                                     <button class="btn btn-warning btn-sm shadow-sm fw-bold" onclick="resetCanvas()">
@@ -2230,23 +2258,23 @@
 
                                                     </div>
 
-                                                    <div class="p-3 bg-light border border-dark rounded">
-                                                        <p class="text-dark small">Karena kita mencari sisi miring, susun rumus Pythagoras yang tepat dengan menarik nama-nama sisi ke dalam kotak di bawah ini!</p>
+                                                    <div class="p-3 bg-light border border-dark rounded overflow-x-auto">
+                                                        <p class="text-dark small text-center mb-3">Karena kita mencari sisi miring, susun rumus Pythagoras yang tepat dengan menarik nama-nama sisi ke dalam kotak di bawah ini!</p>
 
-                                                        <div class="d-flex align-items-center justify-content-center gap-2 mb-2 p-2 bg-white border border-dark rounded shadow-sm">
+                                                        <div class="d-flex flex-wrap align-items-center justify-content-center gap-2 mb-3 p-2 bg-white border border-dark rounded shadow-sm">
                                                             <div class="d-flex align-items-start">
                                                                 <div class="drop-zone bg-white border border-dark rounded border-dashed d-flex align-items-center justify-content-center p-1" style="min-width: 80px; min-height: 42px;" data-target="s2_rumus_miring"></div>
                                                                 <span class="text-dark fw-bold ms-1" style="font-size: 1.2rem;">²</span>
                                                             </div>
 
-                                                            <span class="fw-bold text-dark mx-2" style="font-size: 1.2rem;">=</span>
+                                                            <span class="fw-bold text-dark mx-1" style="font-size: 1.2rem;">=</span>
 
                                                             <div class="d-flex align-items-start">
                                                                 <div class="drop-zone bg-light border border-dark rounded border-dashed d-flex align-items-center justify-content-center" style="width: 80px; height: 40px;" data-target="s2_rumus_tegak1"></div>
                                                                 <span class="text-dark fw-bold ms-1" style="font-size: 1.2rem;">²</span>
                                                             </div>
 
-                                                            <span class="fw-bold text-dark mx-2" style="font-size: 1.2rem;">+</span>
+                                                            <span class="fw-bold text-dark mx-1" style="font-size: 1.2rem;">+</span>
 
                                                             <div class="d-flex align-items-start">
                                                                 <div class="drop-zone bg-light border border-dark rounded border-dashed d-flex align-items-center justify-content-center" style="width: 80px; height: 40px;" data-target="s2_rumus_tegak2"></div>
@@ -2254,44 +2282,44 @@
                                                             </div>
                                                         </div>
 
-                                                        <div class="d-flex align-items-center gap-2 mb-2">
-                                                            <div class="input-group input-group-sm" style="width: 80px;">
+                                                        <div class="d-flex flex-wrap align-items-center justify-content-center gap-2 mb-2">
+                                                            <div class="input-group input-group-sm" style="width: 87px;">
                                                                 <input type="text" id="s2_inp_mo_1" class="form-control text-center bg-white border-dark shadow-sm fw-bold" placeholder="...">
                                                                 <span class="input-group-text bg-white border-dark text-dark fw-bold">²</span>
                                                             </div>
                                                             <span class="fw-bold text-dark">=</span>
-                                                            <div class="input-group input-group-sm" style="width: 80px;">
+                                                            <div class="input-group input-group-sm" style="width: 86px;">
                                                                 <input type="number" id="s2_inp_mn" class="form-control text-center bg-white border-dark shadow-sm" placeholder="...">
                                                                 <span class="input-group-text bg-white border-dark text-dark fw-bold">²</span>
                                                             </div>
                                                             <span class="fw-bold text-dark">+</span>
-                                                            <div class="input-group input-group-sm" style="width: 80px;">
+                                                            <div class="input-group input-group-sm" style="width: 85px;">
                                                                 <input type="number" id="s2_inp_no" class="form-control text-center bg-white border-dark shadow-sm" placeholder="...">
                                                                 <span class="input-group-text bg-white border-dark text-dark fw-bold">²</span>
                                                             </div>
                                                         </div>
 
-                                                        <div class="d-flex align-items-center gap-2 mb-2">
-                                                            <div class="input-group input-group-sm" style="width: 80px;">
+                                                        <div class="d-flex flex-wrap align-items-center justify-content-center gap-2 mb-2">
+                                                            <div class="input-group input-group-sm" style="width: 87px;">
                                                                 <input type="text" id="s2_inp_mo_2" class="form-control text-center bg-white border-dark shadow-sm fw-bold" placeholder="...">
                                                                 <span class="input-group-text bg-white border-dark text-dark fw-bold">²</span>
                                                             </div>
                                                             <span class="fw-bold text-dark">=</span>
-                                                            <input type="number" id="s2_res_mn_sq" class="form-control form-control-sm text-center bg-white border-dark shadow-sm" style="width:80px;" placeholder="...">
+                                                            <input type="number" id="s2_res_mn_sq" class="form-control form-control-sm text-center bg-white border-dark shadow-sm" style="width:86px;" placeholder="...">
                                                             <span class="fw-bold text-dark">+</span>
                                                             <input type="number" id="s2_res_no_sq" class="form-control form-control-sm text-center bg-white border-dark shadow-sm" style="width:80px;" placeholder="...">
                                                         </div>
 
-                                                        <div class="d-flex align-items-center gap-2 mb-2">
-                                                            <div class="input-group input-group-sm" style="width: 80px;">
+                                                        <div class="d-flex flex-wrap align-items-center justify-content-center gap-2 mb-2">
+                                                            <div class="input-group input-group-sm" style="width: 87px;">
                                                                 <input type="text" id="s2_inp_mo_3" class="form-control text-center bg-white border-dark shadow-sm fw-bold" placeholder="...">
                                                                 <span class="input-group-text bg-white border-dark text-dark fw-bold">²</span>
                                                             </div>
                                                             <span class="fw-bold text-dark">=</span>
-                                                            <input type="number" id="s2_res_sum" class="form-control form-control-sm text-center bg-white border-dark fw-bold shadow-sm" style="width:185px;" placeholder="...">
+                                                            <input type="number" id="s2_res_sum" class="form-control form-control-sm text-center bg-white border-dark fw-bold shadow-sm" style="max-width: 185px; width: 100%; min-width: 100px;" placeholder="...">
                                                         </div>
 
-                                                        <div class="d-flex align-items-center gap-2 mb-3">
+                                                        <div class="d-flex flex-wrap align-items-center justify-content-center gap-2 mb-3">
                                                             <input type="text" id="s2_inp_mo_4" class="form-control form-control-sm text-center bg-white border-dark shadow-sm fw-bold" style="width:80px;" placeholder="...">
                                                             <span class="fw-bold text-dark">=</span>
                                                             <span class="text-dark fw-bold">√</span>
@@ -2300,7 +2328,6 @@
                                                             <input type="number" id="s2_final" class="form-control form-control-sm text-center bg-white fw-bold text-dark border-dark shadow-sm" style="width:90px;" placeholder="...">
                                                             <span class="fw-bold text-dark">cm</span>
                                                         </div>
-
                                                     </div>
                                                 </div>
 
@@ -2427,13 +2454,14 @@
 
                                                 <h6 class="fw-bold mb-3 text-dark border-bottom pb-2">Langkah Penyelesaian:</h6>
 
-                                                <ol class="ps-3 mb-0 text-muted list-group-numbered-custom fw-bold text-dark">
+                                                <ol class="ps-0 ps-md-3 mb-0 text-muted list-group-numbered-custom fw-bold text-dark">
 
-                                                    <li class="mb-4">
+                                                    {{-- LANKAH 1: AC --}}
+                                                    <li class="mb-4 ms-3 ms-md-0">
                                                         <span class="text-dark">Mencari sisi miring AC pada \(\triangle AEC\):</span>
 
-                                                        <div class="mt-2 p-3 bg-light border border-dark rounded shadow-sm">
-                                                            <div class="d-flex align-items-center gap-1 mb-2 bg-white p-2 rounded border border-dark justify-content-start">
+                                                        <div class="mt-2 p-3 bg-light border border-dark rounded shadow-sm overflow-x-auto">
+                                                            <div class="d-flex flex-wrap align-items-center gap-2 mb-3 bg-white p-2 rounded border border-dark justify-content-center">
                                                                 <span class="fw-bold text-dark" style="min-width: 60px;">\( AC^2 = \)</span>
                                                                 <div class="d-flex align-items-start">
                                                                     <div class="drop-zone bg-light border border-dark rounded border-dashed d-flex align-items-center justify-content-center" style="width: 60px; height: 32px;" data-target="s3_ac_drop1"></div>
@@ -2446,7 +2474,7 @@
                                                                 </div>
                                                             </div>
 
-                                                            <div class="d-flex align-items-center gap-1 mb-2 justify-content-start">
+                                                            <div class="d-flex flex-wrap align-items-center gap-2 mb-2 justify-content-center">
                                                                 <span class="fw-bold text-dark" style="min-width: 60px;">\( AC^2 = \)</span>
                                                                 <div class="input-group input-group-sm" style="width: 85px;">
                                                                     <input type="number" id="s3_ac_sq1" class="form-control text-center bg-white border-dark px-1">
@@ -2459,19 +2487,19 @@
                                                                 </div>
                                                             </div>
 
-                                                            <div class="d-flex align-items-center gap-1 mb-2 justify-content-start">
+                                                            <div class="d-flex flex-wrap align-items-center gap-2 mb-2 justify-content-center">
                                                                 <span class="fw-bold text-dark" style="min-width: 60px;">\( AC^2 = \)</span>
                                                                 <input type="number" id="s3_ac_sum1" class="form-control form-control-sm text-center bg-white border-dark" style="width: 85px;">
                                                                 <span class="text-dark fw-bold mx-1">+</span>
                                                                 <input type="number" id="s3_ac_sum2" class="form-control form-control-sm text-center bg-white border-dark" style="width: 85px;">
                                                             </div>
 
-                                                            <div class="d-flex align-items-center gap-1 mb-2 justify-content-start">
+                                                            <div class="d-flex flex-wrap align-items-center gap-2 mb-2 justify-content-center">
                                                                 <span class="fw-bold text-dark" style="min-width: 60px;">\( AC^2 = \)</span>
-                                                                <input type="number" id="s3_ac_total" class="form-control form-control-sm text-center bg-white border-dark fw-bold" style="width: 190px;">
+                                                                <input type="number" id="s3_ac_total" class="form-control form-control-sm text-center bg-white border-dark fw-bold" style="max-width: 190px; width: 100%; min-width: 100px;">
                                                             </div>
 
-                                                            <div class="d-flex align-items-center gap-1 justify-content-start">
+                                                            <div class="d-flex flex-wrap align-items-center gap-2 justify-content-center">
                                                                 <span class="fw-bold text-dark" style="min-width: 60px;">\( AC = \)</span>
                                                                 <span class="fw-bold text-dark">\(\sqrt{}\)</span>
                                                                 <input type="number" id="s3_ac_sqrt_val" class="form-control form-control-sm text-center bg-white border-dark fw-bold" style="width: 75px;">
@@ -2482,11 +2510,12 @@
                                                         </div>
                                                     </li>
 
-                                                    <li class="mb-4">
+                                                    {{-- LANKAH 2: AB --}}
+                                                    <li class="mb-4 ms-3 ms-md-0">
                                                         <span class="text-dark">Mencari sisi miring AB pada \(\triangle ADB\):</span>
 
-                                                        <div class="mt-2 p-3 bg-light border border-dark rounded shadow-sm">
-                                                            <div class="d-flex align-items-center gap-1 mb-3 bg-white p-2 rounded border border-dark justify-content-start">
+                                                        <div class="mt-2 p-3 bg-light border border-dark rounded shadow-sm overflow-x-auto">
+                                                            <div class="d-flex flex-wrap align-items-center gap-2 mb-3 bg-white p-2 rounded border border-dark justify-content-center">
                                                                 <span class="fw-bold text-dark" style="min-width: 60px;">\( AB^2 = \)</span>
                                                                 <div class="d-flex align-items-start">
                                                                     <div class="drop-zone bg-light border border-dark rounded border-dashed d-flex align-items-center justify-content-center" style="width: 60px; height: 32px;" data-target="s3_ab_drop1"></div>
@@ -2499,7 +2528,7 @@
                                                                 </div>
                                                             </div>
 
-                                                            <div class="d-flex align-items-center gap-1 mb-2 justify-content-start">
+                                                            <div class="d-flex flex-wrap align-items-center gap-2 mb-2 justify-content-center">
                                                                 <span class="fw-bold text-dark" style="min-width: 60px;">\( AB^2 = \)</span>
                                                                 <div class="input-group input-group-sm" style="width: 85px;">
                                                                     <input type="number" id="s3_ab_sq1" class="form-control text-center bg-white border-dark px-1">
@@ -2512,19 +2541,19 @@
                                                                 </div>
                                                             </div>
 
-                                                            <div class="d-flex align-items-center gap-1 mb-2 justify-content-start">
+                                                            <div class="d-flex flex-wrap align-items-center gap-2 mb-2 justify-content-center">
                                                                 <span class="fw-bold text-dark" style="min-width: 60px;">\( AB^2 = \)</span>
                                                                 <input type="number" id="s3_ab_sum1" class="form-control form-control-sm text-center bg-white border-dark" style="width: 85px;">
                                                                 <span class="text-dark fw-bold mx-1">+</span>
                                                                 <input type="number" id="s3_ab_sum2" class="form-control form-control-sm text-center bg-white border-dark" style="width: 85px;">
                                                             </div>
 
-                                                            <div class="d-flex align-items-center gap-1 mb-2 justify-content-start">
+                                                            <div class="d-flex flex-wrap align-items-center gap-2 mb-2 justify-content-center">
                                                                 <span class="fw-bold text-dark" style="min-width: 60px;">\( AB^2 = \)</span>
-                                                                <input type="number" id="s3_ab_total" class="form-control form-control-sm text-center bg-white border-dark fw-bold" style="width: 190px;">
+                                                                <input type="number" id="s3_ab_total" class="form-control form-control-sm text-center bg-white border-dark fw-bold" style="max-width: 190px; width: 100%; min-width: 100px;">
                                                             </div>
 
-                                                            <div class="d-flex align-items-center gap-1 justify-content-start">
+                                                            <div class="d-flex flex-wrap align-items-center gap-2 justify-content-center">
                                                                 <span class="fw-bold text-dark" style="min-width: 60px;">\( AB = \)</span>
                                                                 <span class="fw-bold text-dark">\(\sqrt{}\)</span>
                                                                 <input type="number" id="s3_ab_sqrt_val" class="form-control form-control-sm text-center bg-white border-dark fw-bold" style="width: 75px;">
@@ -2535,11 +2564,12 @@
                                                         </div>
                                                     </li>
 
-                                                    <li class="mb-2">
+                                                    {{-- LANKAH 3: BC --}}
+                                                    <li class="mb-2 ms-3 ms-md-0">
                                                         <span class="text-dark">Mencari sisi siku-siku BC pada \(\triangle ABC\):</span>
 
-                                                        <div class="mt-2 p-3 bg-light border border-dark rounded shadow-sm">
-                                                            <div class="d-flex align-items-center gap-1 mb-3 bg-white p-2 rounded border border-dark justify-content-start">
+                                                        <div class="mt-2 p-3 bg-light border border-dark rounded shadow-sm overflow-x-auto">
+                                                            <div class="d-flex flex-wrap align-items-center gap-2 mb-3 bg-white p-2 rounded border border-dark justify-content-center">
                                                                 <span class="fw-bold text-dark" style="min-width: 60px;">\( BC^2 = \)</span>
                                                                 <div class="d-flex align-items-start">
                                                                     <div class="drop-zone bg-light border border-dark rounded border-dashed d-flex align-items-center justify-content-center" style="width: 60px; height: 32px;" data-target="s3_bc_drop1"></div>
@@ -2552,7 +2582,7 @@
                                                                 </div>
                                                             </div>
 
-                                                            <div class="d-flex align-items-center gap-1 mb-2 justify-content-start">
+                                                            <div class="d-flex flex-wrap align-items-center gap-2 mb-2 justify-content-center">
                                                                 <span class="fw-bold text-dark" style="min-width: 60px;">\( BC^2 = \)</span>
                                                                 <div class="input-group input-group-sm" style="width: 85px;">
                                                                     <input type="number" id="s3_bc_sq1" class="form-control text-center bg-white border-dark px-1">
@@ -2565,19 +2595,19 @@
                                                                 </div>
                                                             </div>
 
-                                                            <div class="d-flex align-items-center gap-1 mb-2 justify-content-start">
+                                                            <div class="d-flex flex-wrap align-items-center gap-2 mb-2 justify-content-center">
                                                                 <span class="fw-bold text-dark" style="min-width: 60px;">\( BC^2 = \)</span>
                                                                 <input type="number" id="s3_bc_diff1" class="form-control form-control-sm text-center bg-white border-dark" style="width: 85px;">
                                                                 <span class="text-danger fw-bold mx-1">-</span>
                                                                 <input type="number" id="s3_bc_diff2" class="form-control form-control-sm text-center bg-white border-dark" style="width: 85px;">
                                                             </div>
 
-                                                            <div class="d-flex align-items-center gap-1 mb-2 justify-content-start">
+                                                            <div class="d-flex flex-wrap align-items-center gap-2 mb-2 justify-content-center">
                                                                 <span class="fw-bold text-dark" style="min-width: 60px;">\( BC^2 = \)</span>
-                                                                <input type="number" id="s3_bc_total" class="form-control form-control-sm text-center bg-white border-dark fw-bold" style="width: 190px;">
+                                                                <input type="number" id="s3_bc_total" class="form-control form-control-sm text-center bg-white border-dark fw-bold" style="max-width: 190px; width: 100%; min-width: 100px;">
                                                             </div>
 
-                                                            <div class="d-flex align-items-center gap-1 justify-content-start">
+                                                            <div class="d-flex flex-wrap align-items-center gap-2 justify-content-center">
                                                                 <span class="fw-bold text-dark" style="min-width: 60px;">\( BC = \)</span>
                                                                 <span class="fw-bold text-dark">\(\sqrt{}\)</span>
                                                                 <input type="number" id="s3_bc_sqrt_val" class="form-control form-control-sm text-center bg-white border-dark fw-bold" style="width: 75px;">
@@ -2752,36 +2782,24 @@
 
 
 <!-- Pagination -->
-<nav class="mt-4">
-    <ul class="pagination justify-content-center materi-pagination">
-        <li class="page-item">
-            <button class="page-link prev-btn">‹</button>
-        </li>
-
-        <li class="page-item active">
-            <button class="page-link page-btn" data-page="0">1</button>
-        </li>
-        <li class="page-item">
-            <button class="page-link page-btn" data-page="1">2</button>
-        </li>
-        <li class="page-item">
-            <button class="page-link page-btn" data-page="2">3</button>
-        </li>
-        <li class="page-item">
-            <button class="page-link page-btn" data-page="3">4</button>
-        </li>
-        <li class="page-item">
-            <button class="page-link page-btn" data-page="4">5</button>
-        </li>
-        <li class="page-item">
-            <button class="page-link page-btn" data-page="5">6</button>
-        </li>
-
-        <li class="page-item">
-            <button class="page-link next-btn">›</button>
-        </li>
-    </ul>
-</nav>
+<div class="d-flex justify-content-center align-items-center mt-5 mb-5 pt-4 border-top">
+    <nav>
+        <ul class="pagination justify-content-center mb-0 flex-wrap gap-2 materi-pagination">
+            <li class="page-item">
+                <button class="page-link px-3 py-2 prev-btn rounded shadow-sm">Sebelumnya</button>
+            </li>
+            {{-- Looping 6 Halaman (0 sampai 5) --}}
+            @for ($i = 0; $i <= 5; $i++)
+                <li class="page-item {{ $i == 0 ? 'active' : '' }}">
+                <button class="page-link px-3 py-2 page-btn rounded shadow-sm" data-page="{{ $i }}">{{ $i + 1 }}</button>
+                </li>
+                @endfor
+                <li class="page-item">
+                    <button class="page-link px-3 py-2 next-btn rounded shadow-sm">Berikutnya</button>
+                </li>
+        </ul>
+    </nav>
+</div>
 </div>
 
 @endsection

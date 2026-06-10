@@ -3,35 +3,31 @@
 namespace App\Http\Controllers\Guru;
 
 use App\Http\Controllers\Controller;
-use App\Models\AktivitasBelajar;
+use App\Models\AktivitasBelajar; // Tetap gunakan model ini agar database tidak perlu bermigrasi
 use App\Models\PaketSoal;
 use App\Models\Kelas;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class AktivitasController extends Controller
+class KuisEvaluasiController extends Controller
 {
-public function index()
+    public function index()
     {
         $guruId = Auth::id();
-        // Hanya kelas yang diampu guru
         $kelasIds = Kelas::where('guru_id', $guruId)->pluck('id')->toArray();
-
-        // CEK APAKAH GURU PUNYA KELAS (True/False)
         $hasClass = !empty($kelasIds);
 
-        // Ambil aktivitas hanya untuk kelas-kelas tersebut
+        // Pengambilan data tetap memakai model AktivitasBelajar
         $aktivitas = AktivitasBelajar::with(['paket_soal', 'kelas'])
             ->whereIn('kelas_id', $kelasIds)
             ->latest()
             ->get();
 
         $listPaket = PaketSoal::orderBy('judul')->get();
-        // List kelas untuk dropdown (hanya kelas yang diampu)
         $listKelas = Kelas::whereIn('id', $kelasIds)->orderBy('nama_kelas')->get();
 
-        // PASTIKAN hasClass IKUT DIKIRIM
-        return view('guru.aktivitas', compact('aktivitas', 'listPaket', 'listKelas', 'hasClass'));
+        // Mengarahkan ke file view yang baru: kuis_evaluasi.blade.php
+        return view('guru.kuis_evaluasi', compact('aktivitas', 'listPaket', 'listKelas', 'hasClass'));
     }
 
     public function store(Request $request)
@@ -44,9 +40,9 @@ public function index()
             'kategori' => 'required|in:konsep,tripel,istimewa,penerapan,evaluasi',
             'kelas_id' => 'required|exists:kelas,id',
             'durasi_menit' => 'nullable|integer|min:1',
+            'kkm' => 'required|integer|min:0|max:100', // TAMBAHKAN VALIDASI KKM
         ]);
 
-        // Pastikan kelas_id milik guru
         if (!in_array($request->kelas_id, $kelasIds)) {
             return response()->json(['success' => false, 'message' => 'Kelas tidak valid'], 403);
         }
@@ -61,7 +57,7 @@ public function index()
         }
 
         AktivitasBelajar::create($data);
-        return response()->json(['success' => true, 'message' => 'Aktivitas berhasil dibuat!']);
+        return response()->json(['success' => true, 'message' => 'Kuis/Evaluasi berhasil diterbitkan!']);
     }
 
     public function edit($id)
@@ -94,9 +90,9 @@ public function index()
             'tipe' => 'required',
             'poin_didapat' => 'required|integer',
             'durasi_menit' => 'nullable|integer|min:1',
+            'kkm' => 'required|integer|min:0|max:100', // TAMBAHKAN VALIDASI KKM
         ]);
 
-        // Pastikan kelas_id masih milik guru (jika diubah)
         if (!in_array($request->kelas_id, $kelasIds)) {
             return response()->json(['success' => false, 'message' => 'Kelas tidak valid'], 403);
         }
@@ -114,7 +110,7 @@ public function index()
         }
 
         $aktivitas->update($data);
-        return response()->json(['success' => true, 'message' => 'Aktivitas diperbarui']);
+        return response()->json(['success' => true, 'message' => 'Data Kuis/Evaluasi berhasil diperbarui']);
     }
 
     public function destroy($id)
@@ -124,6 +120,6 @@ public function index()
 
         $aktivitas = AktivitasBelajar::whereIn('kelas_id', $kelasIds)->findOrFail($id);
         $aktivitas->delete();
-        return response()->json(['success' => true, 'message' => 'Aktivitas dihapus']);
+        return response()->json(['success' => true, 'message' => 'Kuis/Evaluasi berhasil dihapus']);
     }
 }

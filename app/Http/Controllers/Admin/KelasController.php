@@ -31,8 +31,7 @@ class KelasController extends Controller
             ->addColumn('actions', function ($kelas) {
                 $btn = '<button class="btn btn-sm btn-info detail-kelas text-white mb-1" data-id="' . $kelas->id . '" data-nama="' . $kelas->nama_kelas . '" title="Detail"><i class="bi bi-eye"></i></button> ';
 
-                // TOMBOL BARU: KELOLA GURU
-                $btn .= '<button class="btn btn-sm btn-outline-success kelola-guru mb-1" data-id="' . $kelas->id . '" data-nama="' . $kelas->nama_kelas . '" title="Kelola Guru"><i class="bi bi-person-badge"></i> Guru</button> ';
+                $btn .= '<button class="btn btn-sm btn-outline-success manage-guru mb-1" data-id="' . $kelas->id . '" data-nama="' . $kelas->nama_kelas . '" title="Kelola Guru"><i class="bi bi-person-badge"></i> Guru</button> ';
 
                 $btn .= '<button class="btn btn-sm btn-success manage-siswa mb-1" data-id="' . $kelas->id . '" data-nama="' . $kelas->nama_kelas . '"><i class="bi bi-people"></i> Siswa</button> ';
                 $btn .= '<button class="btn btn-sm btn-secondary edit-kelas mb-1" data-id="' . $kelas->id . '" title="Edit"><i class="bi bi-pencil"></i></button> ';
@@ -208,5 +207,64 @@ class KelasController extends Controller
             'success' => true,
             'message' => 'Token Registrasi Guru berhasil diperbarui!'
         ]);
+    }
+
+    // ===================== MANAJEMEN GURU DALAM KELAS =====================
+    // ===================== MANAJEMEN GURU DALAM KELAS =====================
+    public function manageTeachers($id)
+    {
+        $kelas = Kelas::with('waliKelas')->findOrFail($id);
+        $guruSaatIni = $kelas->waliKelas;
+
+        // Ambil semua pengguna dengan role guru BESERTA informasi kelas yang sedang mereka ampu
+        // Asumsi relasi di model User: public function kelasYangDiampu() { return $this->hasOne(Kelas::class, 'guru_id'); }
+        // Karena struktur DB Anda menyimpan guru_id di tabel kelas, kita bisa ambil manual jika belum ada relasinya.
+
+        $guruDaftar = User::where('role', 'guru')->get();
+
+        // Looping untuk mencari tahu kelas mana yang sedang diampu masing-masing guru
+        foreach ($guruDaftar as $guru) {
+            $kelasDiampu = Kelas::where('guru_id', $guru->id)->first();
+            $guru->kelas_yang_diampu = $kelasDiampu ? $kelasDiampu->nama_kelas : null;
+            $guru->is_assigned = $kelasDiampu ? true : false;
+        }
+
+        return view('admin.kelas.teachers', compact('kelas', 'guruSaatIni', 'guruDaftar'));
+    }
+
+    public function addTeacher(Request $request, $id)
+    {
+        $request->validate([
+            'guru_id' => 'required|exists:users,id'
+        ]);
+
+        $guru = User::findOrFail($request->guru_id);
+        if ($guru->role !== 'guru') {
+            return response()->json(['success' => false, 'message' => 'User bukan berstatus guru'], 422);
+        }
+
+        // VALIDASI ONE-TO-ONE: Cek apakah guru ini sudah mengampu kelas lain
+        $kelasLain = Kelas::where('guru_id', $guru->id)->first();
+        if ($kelasLain && $kelasLain->id != $id) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Guru ini sedang mengampu kelas ' . $kelasLain->nama_kelas . '. Lepas tugas terlebih dahulu.'
+            ], 422);
+        }
+
+        $kelas = Kelas::findOrFail($id);
+        $kelas->guru_id = $request->guru_id;
+        $kelas->save();
+
+        return response()->json(['success' => true, 'message' => 'Guru berhasil ditugaskan sebagai pengampu kelas ini.']);
+    }
+
+    public function removeTeacher($id)
+    {
+        $kelas = Kelas::findOrFail($id);
+        $kelas->guru_id = null;
+        $kelas->save();
+
+        return response()->json(['success' => true, 'message' => 'Guru pengampu berhasil dilepas dari kelas ini.']);
     }
 }

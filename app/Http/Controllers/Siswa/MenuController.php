@@ -10,7 +10,6 @@ use App\Models\PaketSoal;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use App\Models\Kelas;
-use App\Models\progres_siswa;
 use App\Models\Badge;
 
 // Panggil ProgressController agar kita bisa mencontek datanya!
@@ -83,13 +82,27 @@ class MenuController extends Controller
             $progEval = 0;
         }
 
-        // --- LENCANA / BADGES ---
-        $totalBadgesCount = Badge::count();
-        $earnedBadgesCount = $user->badges()->count();
-        $latestBadge = $user->badges()->latest('badge_user.created_at')->first();
-        $lastBadgeName = $latestBadge ? $latestBadge->name : 'Belum ada lencana';
-        $allBadges = Badge::all();
+        // --- LENCANA / BADGES BERDASARKAN POIN ---
+
+        BadgeController::checkAndAwardBadgesByPoints($user);
+
+        $user->refresh();
+        $user->load('badges');
+
+        $allBadges = Badge::orderBy('id', 'asc')->get();
+
+        $totalBadgesCount = $allBadges->count();
+
         $earnedBadgeIds = $user->badges->pluck('id')->toArray();
+
+        $earnedBadgesCount = count($earnedBadgeIds);
+
+        $latestBadge = $user->badges()
+            ->orderByDesc('badge_user.created_at')
+            ->first();
+
+        $lastBadgeName = $latestBadge ? $latestBadge->name : 'Belum ada lencana';
+
         $userPoints = $user->points ?? 0;
 
         // --- BAGIAN 5: Kirim ke View ---
@@ -114,27 +127,47 @@ class MenuController extends Controller
 
     public function leaderboard()
     {
-        // 1. Ambil semua siswa + relasi kelas
-        $semuaSiswa = User::where('role', 'siswa')->with('kelas')->get();
+        $user = Auth::user();
+
+        // Jika siswa belum masuk kelas, leaderboard dikosongkan
+        if (!$user->kelas_id) {
+            $leaderboardSorted = collect();
+            $kelasAktif = 'Belum Masuk Kelas';
+
+            return view('siswa.menu.leaderboard', compact(
+                'leaderboardSorted',
+                'kelasAktif'
+            ));
+        }
+
+        $kelasAktif = $user->kelas ? $user->kelas->nama_kelas : 'Kelas Tidak Diketahui';
+
+        // Ambil hanya siswa yang berada di kelas yang sama dengan siswa login
+        $semuaSiswa = User::where('role', 'siswa')
+            ->where('kelas_id', $user->kelas_id)
+            ->with('kelas')
+            ->get();
 
         $leaderboardData = [];
 
         foreach ($semuaSiswa as $siswa) {
-            // 2. Langsung ambil poin siswa (jika null, jadikan 0)
-            $poin = $siswa->points ?? 0;
-
             $leaderboardData[] = [
                 'id' => $siswa->id,
                 'nama' => $siswa->name,
                 'kelas' => $siswa->kelas ? $siswa->kelas->nama_kelas : 'Belum Masuk Kelas',
-                'poin' => $poin, // Mengganti kunci 'rata_rata' menjadi 'poin'
+                'poin' => $siswa->points ?? 0,
+                'avatar' => $siswa->avatar,
             ];
         }
 
-        // 3. Urutkan berdasarkan poin tertinggi ke terendah
-        $leaderboardSorted = collect($leaderboardData)->sortByDesc('poin')->values();
+        $leaderboardSorted = collect($leaderboardData)
+            ->sortByDesc('poin')
+            ->values();
 
-        return view('siswa.menu.leaderboard', compact('leaderboardSorted'));
+        return view('siswa.menu.leaderboard', compact(
+            'leaderboardSorted',
+            'kelasAktif'
+        ));
     }
 
     public function nilai_siswa()
@@ -236,6 +269,4 @@ class MenuController extends Controller
 
         return redirect()->back()->with('success', 'Berhasil bergabung ke kelas ' . $kelas->nama_kelas);
     }
-
-    
 }

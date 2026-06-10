@@ -1,50 +1,3 @@
-// =====================================================
-// CEK APAKAH SISWA SUDAH MEMILIKI KELAS
-// =====================================================
-let userHasKelas = false;
-const kelasMeta = document.querySelector('meta[name="user-kelas-id"]');
-if (kelasMeta && kelasMeta.getAttribute('content') && kelasMeta.getAttribute('content') !== '') {
-    userHasKelas = true;
-}
-
-// Bungkus / override fungsi updateProgress agar tidak menyimpan jika belum punya kelas
-if (typeof window.updateProgress === 'undefined') {
-    window.updateProgress = function (materiId, checkpointCode, earnedPoints = 0) {
-        if (!userHasKelas) {
-            Swal.fire({
-                icon: 'info',
-                title: 'Progres Tidak Tersimpan',
-                text: 'Anda belum bergabung ke kelas. Progres latihan tidak akan disimpan. Silakan hubungi guru untuk bergabung ke kelas.',
-                confirmButtonColor: '#0d6efd'
-            });
-            return Promise.resolve();
-        }
-        // Kirim request ke server jika sudah punya kelas
-        return fetch('/progress/update', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-            },
-            body: JSON.stringify({ materi_id: materiId, checkpoint: checkpointCode, points: earnedPoints })
-        }).catch(err => console.error('Error update progress:', err));
-    };
-} else {
-    const originalUpdateProgress = window.updateProgress;
-    window.updateProgress = function (materiId, checkpointCode, earnedPoints = 0) {
-        if (!userHasKelas) {
-            Swal.fire({
-                icon: 'info',
-                title: 'Progres Tidak Tersimpan',
-                text: 'Anda belum bergabung ke kelas. Progres latihan tidak akan disimpan. Silakan hubungi guru untuk bergabung ke kelas.',
-                confirmButtonColor: '#0d6efd'
-            });
-            return Promise.resolve();
-        }
-        return originalUpdateProgress(materiId, checkpointCode, earnedPoints);
-    };
-}
-
 /* =====================================================
    1. NAVIGASI HALAMAN & SIDEBAR (MATERI 1)
 ===================================================== */
@@ -167,6 +120,101 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 });
 
+function simpanProgressMateri1(checkpointCode, points = 0, isSilent = true) {
+    if (typeof window.updateProgress === 'function') {
+        return window.updateProgress(
+            'materi_1_konsep_pythagoras',
+            checkpointCode,
+            points,
+            isSilent
+        );
+    }
+
+    console.warn('window.updateProgress belum tersedia. Pastikan script.js global sudah dimuat.');
+    return Promise.resolve();
+}
+
+function selesaikanAktivitasMateri1(buttonSelector, resetCallback) {
+    if (typeof window.tampilkanLatihanSelesai === 'function') {
+        window.tampilkanLatihanSelesai(buttonSelector, resetCallback);
+    }
+}
+
+function selesaikanKesempatanHabisMateri1(checkpointCode, buttonSelector, resetCallback) {
+    simpanProgressMateri1(checkpointCode, 0);
+
+    selesaikanAktivitasMateri1(
+        buttonSelector,
+        resetCallback
+    );
+}
+
+function sedangUlangLatihanMateri1(buttonSelector) {
+    const btn = document.querySelector(buttonSelector);
+    return !!(btn && btn.getAttribute('data-latihan-ulang') === 'true');
+}
+
+function swalLatihanMateri1(buttonSelector, options) {
+    const isUlang = sedangUlangLatihanMateri1(buttonSelector);
+    const finalOptions = { ...options };
+
+    if (isUlang) {
+        const title = String(finalOptions.title || '').trim();
+        const icon = String(finalOptions.icon || '').trim();
+
+        const isPopupPoin =
+            icon === 'success' &&
+            /^\+\d+\s*Poin!?$/i.test(title);
+
+        if (isPopupPoin) {
+            const isiLama = finalOptions.html || finalOptions.text || 'Jawabanmu benar.';
+
+            finalOptions.icon = 'success';
+            finalOptions.title = 'Jawaban Benar!';
+            delete finalOptions.text;
+            finalOptions.html = `
+                ${isiLama}
+                <br>
+                <small class="text-muted d-block mt-2">
+                    Ini latihan ulang, jadi poin dan progres tidak bertambah lagi.
+                </small>
+            `;
+            finalOptions.confirmButtonColor = '#198754';
+        }
+
+        const judulSalah = title.toLowerCase();
+        const isPopupSalah =
+            icon === 'error' &&
+            (
+                judulSalah.includes('kurang tepat') ||
+                judulSalah.includes('belum tepat') ||
+                judulSalah.includes('masih ada yang salah') ||
+                judulSalah.includes('jawaban kurang tepat') ||
+                judulSalah.includes('ada yang salah') ||
+                judulSalah.includes('ada yang keliru')
+            );
+
+        if (isPopupSalah) {
+            const isiLama = finalOptions.html || finalOptions.text || 'Jawabanmu masih belum tepat.';
+
+            finalOptions.icon = 'warning';
+            finalOptions.title = 'Latihan Ulang: Masih Perlu Diperbaiki';
+            delete finalOptions.text;
+            finalOptions.html = `
+                ${isiLama}
+                <br><br>
+                <small class="text-muted">
+                    Ini hanya latihan ulang, jadi tidak memengaruhi poin atau progresmu.
+                </small>
+            `;
+            finalOptions.confirmButtonText = 'Coba Perbaiki Lagi';
+            finalOptions.confirmButtonColor = '#ffc107';
+        }
+    }
+
+    return Swal.fire(finalOptions);
+}
+
 
 /* =====================================================
    MATERI 1: VISUAL JEMBATAN DAN TAMPILAN TEKS
@@ -233,7 +281,7 @@ function cekJawabanSegitigaSikuSiku() {
             penjelasanBox.classList.remove('d-none');
             setTimeout(() => penjelasanBox.scrollIntoView({ behavior: 'smooth', block: 'nearest' }), 300);
         }
-        if (typeof updateProgress === 'function') updateProgress('materi_1_konsep_pythagoras', 'm1_cp1_segitiga_jembatan', 10);
+        simpanProgressMateri1('m1_cp1_segitiga_jembatan', 10);
     } else {
         feedback.classList.add('text-danger');
         feedback.innerHTML = 'Kurang tepat. Coba perhatikan kembali setiap sudut yang ada pada segitiga.';
@@ -241,6 +289,83 @@ function cekJawabanSegitigaSikuSiku() {
     }
 }
 
+const MATERI1_AKTIVITAS = {
+    cp1: {
+        checkpoint: 'm1_cp1_segitiga_jembatan',
+        selector: 'button[onclick="cekJawabanSegitigaSikuSiku()"]',
+        poin: 10
+    },
+    cp2: {
+        checkpoint: 'm1_cp2_dragdrop_sisi',
+        selector: '#check-matching',
+        poin: 10
+    },
+    cp3: {
+        checkpoint: 'm1_cp3_tabel_kuadrat',
+        selector: '#btnCekKuadrat',
+        poin: 10
+    },
+    cp4: {
+        checkpoint: 'm1_cp4_isian_akar',
+        selector: '#btnCekAkar',
+        poin: 10
+    },
+    cp5: {
+        checkpoint: 'm1_cp5_titik_siku',
+        selector: 'button[onclick="cekJawabanSikusiku()"]',
+        poin: 10
+    },
+    cp6: {
+        checkpoint: 'm1_cp6_kuis_canvas',
+        selector: '#btnPeriksaQuiz',
+        poin: 15
+    },
+    cp7: {
+        checkpoint: 'm1_cp7_tabel_penamaan_sisi',
+        selector: 'button[onclick="checkAllAnswers()"]',
+        poin: 15
+    },
+    cp8: {
+        checkpoint: 'm1_cp8_tabel_luas_geogebra',
+        selector: 'button[onclick="cekTabelGeoGebra()"]',
+        poin: 15
+    },
+    cp9: {
+        checkpoint: 'm1_cp9_kesimpulan_luas',
+        selector: 'button[onclick*="cekPilihan"]',
+        poin: 10
+    },
+    cp10: {
+        checkpoint: 'm1_cp10_contoh_soal_1',
+        selector: 'button[onclick="cekContoh1()"]',
+        poin: 15
+    },
+    cp11: {
+        checkpoint: 'm1_cp11_contoh_soal_2',
+        selector: 'button[onclick="cekContoh2()"]',
+        poin: 15
+    },
+    cp12: {
+        checkpoint: 'm1_cp12_latihan_1',
+        selector: 'button[onclick="cekLatihanAnalisis1()"]',
+        poin: 20
+    },
+    cp13: {
+        checkpoint: 'm1_cp13_latihan_2',
+        selector: 'button[onclick="cekLatihanAnalisis2()"]',
+        poin: 20
+    },
+    cp14: {
+        checkpoint: 'm1_cp14_latihan_3',
+        selector: 'button[onclick="cekLatihanAnalisis3()"]',
+        poin: 20
+    },
+    cp15: {
+        checkpoint: 'm1_cp15_refleksi_akhir',
+        selector: 'button[onclick="cekRefleksi()"]',
+        poin: 10
+    }
+};
 
 /* =====================================================
    2. MATERI 1: DRAG & DROP SISI
@@ -370,21 +495,29 @@ function initDragAndDropPage1() {
 
         attemptCount++;
         if (correctCount === dropZones.length) {
+            simpanProgressMateri1('m1_cp2_dragdrop_sisi', 10);
             isGameLocked = true;
             checkBtn.disabled = true;
-            if (typeof updateProgress === 'function') updateProgress('materi_1_konsep_pythagoras', 'm1_cp2_dragdrop_sisi', 10);
-            Swal.fire({
+            swalLatihanMateri1('#check-matching', {
                 icon: 'success',
                 title: '+10 Poin!',
                 html: 'Kamu berhasil mencocokkan sisi-sisi segitiga siku-siku!<br><small class="text-muted">Terus semangat belajar!</small>',
                 confirmButtonColor: '#198754'
-            }).then(() => {
-                const penguatan = document.getElementById('penguatan-materi-dragdrop');
-                if (penguatan) {
-                    penguatan.classList.remove('d-none');
-                    penguatan.classList.add('animate__animated', 'animate__fadeInUp');
-                    setTimeout(() => penguatan.scrollIntoView({ behavior: 'smooth', block: 'center' }), 300);
+            }).then((result) => {
+                // Pindah ke SINI
+                if (result.isConfirmed) {
+
+                    const penguatan = document.getElementById('penguatan-materi-dragdrop');
+                    if (penguatan) {
+                        penguatan.classList.remove('d-none');
+                        penguatan.classList.add('animate__animated', 'animate__fadeInUp');
+                        setTimeout(() => penguatan.scrollIntoView({ behavior: 'smooth', block: 'center' }), 300);
+                    }
                 }
+
+                selesaikanAktivitasMateri1('#check-matching', function () {
+                    if (resetBtn) resetBtn.click();
+                });
             });
         } else if (attemptCount >= maxAttempts) {
             isGameLocked = true;
@@ -405,16 +538,34 @@ function initDragAndDropPage1() {
                     if (fb) fb.innerHTML = '<span class="text-primary small fw-bold">Ini jawaban yang benar</span>';
                 }
             });
-            Swal.fire({ icon: 'info', title: 'Kesempatan Habis', text: 'Jangan menyerah, jawaban yang benar telah ditampilkan.', confirmButtonColor: '#0d6efd' }).then(() => {
+            Swal.fire({
+                icon: 'info',
+                title: 'Kesempatan Habis',
+                text: 'Jangan menyerah, jawaban yang benar telah ditampilkan.',
+                confirmButtonColor: '#0d6efd'
+            }).then(() => {
                 const penguatan = document.getElementById('penguatan-materi-dragdrop');
                 if (penguatan) {
                     penguatan.classList.remove('d-none');
                     penguatan.classList.add('animate__animated', 'animate__fadeInUp');
                     setTimeout(() => penguatan.scrollIntoView({ behavior: 'smooth', block: 'center' }), 300);
                 }
+
+                selesaikanKesempatanHabisMateri1(
+                    'm1_cp2_dragdrop_sisi',
+                    '#check-matching',
+                    function () {
+                        if (resetBtn) resetBtn.click();
+                    }
+                );
             });
         } else {
-            Swal.fire({ icon: 'error', title: 'Jawaban Kurang Tepat', text: `Sisa kesempatan mencoba: ${maxAttempts - attemptCount} kali. Ayo perbaiki kotak yang berwarna merah!`, confirmButtonColor: '#dc3545' });
+            swalLatihanMateri1('#check-matching', {
+                icon: 'error',
+                title: 'Jawaban Kurang Tepat',
+                text: `Sisa kesempatan mencoba: ${maxAttempts - attemptCount} kali. Ayo perbaiki kotak yang berwarna merah!`,
+                confirmButtonColor: '#dc3545'
+            });
         }
     };
 }
@@ -453,12 +604,20 @@ function initPageKuadrat() {
             input.classList.add('is-valid');
             input.disabled = true;
         });
+
         checkBtn.disabled = true;
         checkBtn.innerHTML = "Selesai";
+
         if (penguatanMateri) {
             penguatanMateri.classList.remove('d-none');
             setTimeout(() => penguatanMateri.scrollIntoView({ behavior: 'smooth', block: 'center' }), 300);
         }
+
+        selesaikanKesempatanHabisMateri1(
+            'm1_cp3_tabel_kuadrat',
+            '#btnCekKuadrat',
+            resetKuadrat
+        );
     }
 
     checkBtn.onclick = function () {
@@ -486,8 +645,9 @@ function initPageKuadrat() {
 
         attemptCount++;
         if (allCorrect) {
-            if (typeof updateProgress === 'function') updateProgress('materi_1_konsep_pythagoras', 'm1_cp3_tabel_kuadrat', 10);
-            Swal.fire({
+            simpanProgressMateri1('m1_cp3_tabel_kuadrat', 10);
+
+            swalLatihanMateri1('#btnCekKuadrat', {
                 icon: 'success',
                 title: '+10 Poin!',
                 html: 'Hebat! Kamu berhasil melengkapi pola bilangan kuadrat.<br><small class="text-muted">Pertahankan prestasimu!</small>',
@@ -497,16 +657,28 @@ function initPageKuadrat() {
                 checkBtn.disabled = true;
                 checkBtn.innerHTML = "Selesai";
                 allInputs.forEach(el => el.disabled = true);
+
                 if (penguatanMateri) {
                     penguatanMateri.classList.remove('d-none');
                     setTimeout(() => penguatanMateri.scrollIntoView({ behavior: 'smooth', block: 'center' }), 500);
                 }
+
+                selesaikanAktivitasMateri1(
+                    '#btnCekKuadrat',
+                    resetKuadrat
+                );
             });
         } else {
             if (attemptCount >= maxAttempts) {
                 Swal.fire({ icon: 'info', title: 'Kesempatan Habis', html: `Kamu sudah mencoba ${maxAttempts} kali. Mari kita lihat jawabannya.`, confirmButtonText: 'Tampilkan Jawaban', confirmButtonColor: '#0d6efd', allowOutsideClick: false }).then(() => showAnswersKuadrat());
             } else {
-                Swal.fire({ icon: 'error', title: 'Jawaban Kurang Tepat', text: `Cek kembali kotak yang berwarna merah. Sisa kesempatan: ${maxAttempts - attemptCount} kali.`, confirmButtonText: 'Coba Lagi', confirmButtonColor: '#dc3545' });
+                swalLatihanMateri1('#btnCekKuadrat', {
+                    icon: 'error',
+                    title: 'Jawaban Kurang Tepat',
+                    text: `Cek kembali kotak yang berwarna merah. Sisa kesempatan: ${maxAttempts - attemptCount} kali.`,
+                    confirmButtonText: 'Coba Lagi',
+                    confirmButtonColor: '#dc3545'
+                });
             }
         }
     };
@@ -544,16 +716,24 @@ function initPageAkar() {
             input.classList.add('is-valid');
             input.disabled = true;
         });
+
         container.querySelectorAll('.select-akar').forEach(sel => {
             sel.value = sel.getAttribute('data-answer');
             sel.classList.remove('is-invalid');
             sel.classList.add('is-valid');
             sel.disabled = true;
         });
+
         checkBtn.disabled = true;
+
+        selesaikanKesempatanHabisMateri1(
+            'm1_cp4_isian_akar',
+            '#btnCekAkar',
+            resetAkar
+        );
     }
 
-    checkBtn.addEventListener('click', function () {
+    checkBtn.onclick = function () {
         let isKosong = false;
         container.querySelectorAll('.input-akar, .select-akar').forEach(el => {
             if (el.value.trim() === '') isKosong = true;
@@ -587,8 +767,9 @@ function initPageAkar() {
 
         attemptCount++;
         if (allCorrect) {
-            if (typeof updateProgress === 'function') updateProgress('materi_1_konsep_pythagoras', 'm1_cp4_isian_akar', 10);
-            Swal.fire({
+            simpanProgressMateri1('m1_cp4_isian_akar', 10);
+
+            swalLatihanMateri1('#btnCekAkar', {
                 icon: 'success',
                 title: '+10 Poin!',
                 html: 'Semua jawaban benar.<br><small class="text-muted">Luar biasa, teruslah berlatih!</small>',
@@ -596,15 +777,26 @@ function initPageAkar() {
             }).then(() => {
                 checkBtn.disabled = true;
                 container.querySelectorAll('input, select').forEach(el => el.disabled = true);
+
+                selesaikanAktivitasMateri1(
+                    '#btnCekAkar',
+                    resetAkar
+                );
             });
         } else {
             if (attemptCount >= maxAttempts) {
                 Swal.fire({ icon: 'info', title: 'Kesempatan Habis', html: 'Sisa percobaan habis.<br>Mari kita lihat jawabannya.', confirmButtonText: 'Tampilkan Jawaban', confirmButtonColor: '#0d6efd', allowOutsideClick: false }).then(() => showAnswersAkar());
             } else {
-                Swal.fire({ icon: 'error', title: 'Jawaban Kurang Tepat', text: `Perbaiki bagian yang berwarna merah. Sisa kesempatan: ${maxAttempts - attemptCount} kali.`, confirmButtonText: 'Coba Lagi', confirmButtonColor: '#dc3545' });
+                swalLatihanMateri1('#btnCekAkar', {
+                    icon: 'error',
+                    title: 'Jawaban Kurang Tepat',
+                    text: `Perbaiki bagian yang berwarna merah. Sisa kesempatan: ${maxAttempts - attemptCount} kali.`,
+                    confirmButtonText: 'Coba Lagi',
+                    confirmButtonColor: '#dc3545'
+                });
             }
         }
-    });
+    };
 }
 document.addEventListener('DOMContentLoaded', initPageAkar);
 
@@ -646,6 +838,45 @@ function pilihRumusAnalisis(status, btn) {
     btn.classList.remove('btn-outline-dark');
     btn.classList.add('btn-dark', 'text-white', 'is-selected');
     btn.dataset.status = status;
+}
+
+function resetLatihanAnalisis1() {
+    const tanya = document.getElementById('s1_tanya');
+    const diket1 = document.getElementById('s1_diketahui_1');
+    const diket2 = document.getElementById('s1_diketahui_2');
+    const feedback = document.getElementById('s1_feedback');
+
+    [tanya, diket1, diket2].forEach(el => {
+        if (el) {
+            el.value = '';
+            el.disabled = false;
+            el.classList.remove(
+                'is-valid', 'is-invalid',
+                'border-success', 'border-danger',
+                'text-success', 'text-danger',
+                'border-secondary', 'bg-light', 'text-muted'
+            );
+        }
+    });
+
+    const cardBody = tanya ? tanya.closest('.card-body') : null;
+    if (cardBody) {
+        cardBody.querySelectorAll('.btn-pilihan').forEach(btn => {
+            btn.disabled = false;
+            btn.dataset.status = 'salah';
+            btn.classList.remove(
+                'btn-success', 'btn-danger', 'btn-dark',
+                'text-white', 'is-selected',
+                'is-valid', 'is-invalid',
+                'border-success', 'border-danger'
+            );
+            btn.classList.add('btn-outline-dark');
+        });
+    }
+
+    if (feedback) feedback.innerText = '';
+
+    attemptLatihan1 = 0;
 }
 
 function cekLatihanAnalisis1() {
@@ -695,12 +926,18 @@ function cekLatihanAnalisis1() {
 
     if (benarSemua) {
         document.getElementById('s1_feedback').innerText = "Tepat sekali!";
-        if (typeof updateProgress === 'function') updateProgress('materi_1_konsep_pythagoras', 'm1_cp13_latihan_1', 20);
-        Swal.fire({
+        simpanProgressMateri1('m1_cp12_latihan_1', 20);
+
+        swalLatihanMateri1('button[onclick="cekLatihanAnalisis1()"]', {
             icon: 'success',
             title: '+20 Poin!',
             html: 'Semua analisismu benar.<br><small class="text-muted">Keren! Kamu sangat teliti.</small>',
             confirmButtonColor: '#198754'
+        }).then(() => {
+            selesaikanAktivitasMateri1(
+                'button[onclick="cekLatihanAnalisis1()"]',
+                resetLatihanAnalisis1
+            );
         });
     } else if (attemptLatihan1 >= MAX_ATTEMPT_LATIHAN) {
         Swal.fire({ icon: 'info', title: 'Kesempatan Habis', text: 'Mari kita lihat jawaban yang tepat.', confirmButtonText: 'Tampilkan Jawaban', confirmButtonColor: '#0d6efd', allowOutsideClick: false }).then(() => {
@@ -732,9 +969,20 @@ function cekLatihanAnalisis1() {
             diket1.disabled = true;
             diket2.disabled = true;
             btnGroups.forEach(row => row.querySelectorAll('button').forEach(b => b.disabled = true));
+
+            selesaikanKesempatanHabisMateri1(
+                'm1_cp12_latihan_1',
+                'button[onclick="cekLatihanAnalisis1()"]',
+                resetLatihanAnalisis1
+            );
         });
     } else {
-        Swal.fire({ icon: 'error', title: 'Kurang Tepat', text: `Jawabanmu ada yang salah. Sisa kesempatan: ${MAX_ATTEMPT_LATIHAN - attemptLatihan1}`, confirmButtonColor: '#dc3545' });
+        swalLatihanMateri1('button[onclick="cekLatihanAnalisis1()"]', {
+            icon: 'error',
+            title: 'Kurang Tepat',
+            text: `Jawabanmu ada yang salah. Sisa kesempatan: ${MAX_ATTEMPT_LATIHAN - attemptLatihan1}`,
+            confirmButtonColor: '#dc3545'
+        });
     }
 }
 
@@ -807,6 +1055,69 @@ function setupDragAndDrop(containerId, targetPrefix) {
 function initDragDropSoal3() {
     setupDragAndDrop('drag-items-container', 's2_');
     setupDragAndDrop('drag-items-container-s3', 's3_');
+}
+
+function resetLatihanAnalisis2() {
+    const idsInput = [
+        's2_inp_mo_1',
+        's2_inp_mo_2',
+        's2_inp_mo_3',
+        's2_inp_mo_4',
+        's2_inp_mn',
+        's2_inp_no',
+        's2_res_mn_sq',
+        's2_res_no_sq',
+        's2_res_sum',
+        's2_res_sqrt',
+        's2_final'
+    ];
+
+    idsInput.forEach(id => {
+        const el = document.getElementById(id);
+        if (el) {
+            el.value = '';
+            el.disabled = false;
+            el.classList.remove(
+                'is-valid', 'is-invalid',
+                'border-success', 'border-danger',
+                'text-success', 'text-danger',
+                'border-secondary', 'bg-light', 'text-muted'
+            );
+            el.classList.add('border-dark');
+        }
+    });
+
+    const dragContainer = document.getElementById('drag-items-container');
+    if (dragContainer) {
+        document.querySelectorAll('.drop-zone[data-target^="s2_"] .draggable-item').forEach(item => {
+            item.classList.replace('p-1', 'p-2');
+            item.style.margin = '';
+            dragContainer.appendChild(item);
+        });
+    }
+
+    document.querySelectorAll('.drop-zone[data-target^="s2_"]').forEach(zone => {
+        zone.innerHTML = '';
+        zone.style.borderStyle = 'dashed';
+        zone.style.backgroundColor = '';
+        zone.classList.remove(
+            'border-success',
+            'border-danger',
+            'bg-light-danger',
+            'is-valid',
+            'is-invalid'
+        );
+        zone.classList.add('border-dark');
+    });
+
+    const feedback = document.getElementById('s2_feedback');
+    if (feedback) feedback.innerText = '';
+
+    attemptLatihan2 = 0;
+
+    if (typeof setupDragAndDrop === 'function') {
+        setupDragAndDrop('drag-items-container', 's2_');
+    }
 }
 
 function cekLatihanAnalisis2() {
@@ -899,13 +1210,22 @@ function cekLatihanAnalisis2() {
     }
 
     if (benarSemua) {
-        if (document.getElementById('s2_feedback')) document.getElementById('s2_feedback').innerText = "Perhitungan Sempurna!";
-        if (typeof updateProgress === 'function') updateProgress('materi_1_konsep_pythagoras', 'm1_cp14_latihan_2', 20);
-        Swal.fire({
+        if (document.getElementById('s2_feedback')) {
+            document.getElementById('s2_feedback').innerText = "Perhitungan Sempurna!";
+        }
+
+        simpanProgressMateri1('m1_cp13_latihan_2', 20);
+
+        swalLatihanMateri1('button[onclick="cekLatihanAnalisis2()"]', {
             icon: 'success',
             title: '+20 Poin!',
             html: 'Susunan rumus dan perhitunganmu tepat.<br><small class="text-muted">Luar biasa, kamu menguasai materi!</small>',
             confirmButtonColor: '#198754'
+        }).then(() => {
+            selesaikanAktivitasMateri1(
+                'button[onclick="cekLatihanAnalisis2()"]',
+                resetLatihanAnalisis2
+            );
         });
         return;
     }
@@ -948,9 +1268,20 @@ function cekLatihanAnalisis2() {
             fillDrop('s2_rumus_miring', 'MO');
             fillDrop('s2_rumus_tegak1', 'MN');
             fillDrop('s2_rumus_tegak2', 'NO');
+
+            selesaikanKesempatanHabisMateri1(
+                'm1_cp13_latihan_2',
+                'button[onclick="cekLatihanAnalisis2()"]',
+                resetLatihanAnalisis2
+            );
         });
     } else {
-        Swal.fire({ icon: 'error', title: 'Kurang Tepat', text: `Periksa kembali yang berwarna merah. (Sisa kesempatan: ${MAX_ATTEMPT_LATIHAN - attemptLatihan2})`, confirmButtonColor: '#dc3545' });
+        swalLatihanMateri1('button[onclick="cekLatihanAnalisis2()"]', {
+            icon: 'error',
+            title: 'Kurang Tepat',
+            text: `Periksa kembali yang berwarna merah. (Sisa kesempatan: ${MAX_ATTEMPT_LATIHAN - attemptLatihan2})`,
+            confirmButtonColor: '#dc3545'
+        });
     }
 }
 
@@ -1094,12 +1425,18 @@ function cekLatihanAnalisis3() {
 
     if (benarSemua) {
         if (document.getElementById('s3_feedback')) document.getElementById('s3_feedback').innerText = "Sempurna!";
-        if (typeof updateProgress === 'function') updateProgress('materi_1_konsep_pythagoras', 'm1_cp15_latihan_3', 20);
-        Swal.fire({
+        simpanProgressMateri1('m1_cp14_latihan_3', 20);
+
+        swalLatihanMateri1('button[onclick="cekLatihanAnalisis3()"]', {
             icon: 'success',
             title: '+20 Poin!',
             html: 'Semua jawaban benar. Luar biasa!<br><small class="text-muted">Selamat! Kamu sudah mahir.</small>',
             confirmButtonColor: '#198754'
+        }).then(() => {
+            selesaikanAktivitasMateri1(
+                'button[onclick="cekLatihanAnalisis3()"]',
+                resetSoal3
+            );
         });
     } else {
         if (attemptLatihan3 >= MAX_ATTEMPT_LATIHAN) {
@@ -1158,9 +1495,20 @@ function cekLatihanAnalisis3() {
                 fillDrop('s3_ab_drop2', 'BD');
                 fillDrop('s3_bc_drop1', 'AC');
                 fillDrop('s3_bc_drop2', 'AB');
+
+                selesaikanKesempatanHabisMateri1(
+                    'm1_cp14_latihan_3',
+                    'button[onclick="cekLatihanAnalisis3()"]',
+                    resetSoal3
+                );
             });
         } else {
-            Swal.fire({ title: 'Ada yang keliru', text: `Sisa percobaan: ${MAX_ATTEMPT_LATIHAN - attemptLatihan3}`, icon: 'error', confirmButtonColor: '#dc3545' });
+            swalLatihanMateri1('button[onclick="cekLatihanAnalisis3()"]', {
+                icon: 'error',
+                title: 'Ada yang keliru',
+                text: `Sisa percobaan: ${MAX_ATTEMPT_LATIHAN - attemptLatihan3}`,
+                confirmButtonColor: '#dc3545'
+            });
         }
     }
 }
@@ -1445,12 +1793,23 @@ function checkQuizAnswers() {
         feedback.style.display = 'block';
         feedback.className = "alert alert-success border-success mt-4 text-center animate__animated animate__fadeInUp";
         feedback.innerHTML = `<h6 class="fw-bold mb-1">Semua Jawaban Benar!</h6><p class="mb-0 small">Selanjutnya kita memahami penamaan segitiga siku-siku.</p>`;
-        if (typeof updateProgress === 'function') updateProgress('materi_1_konsep_pythagoras', 'm1_cp6_kuis_canvas', 15);
-        Swal.fire({
+
+        simpanProgressMateri1('m1_cp6_kuis_canvas', 15);
+
+        swalLatihanMateri1('#btnPeriksaQuiz', {
             icon: 'success',
             title: '+15 Poin!',
             html: 'Semua jawaban kuis kamu benar!<br><small class="text-muted">Kamu hebat, terus asah kemampuanmu!</small>',
             confirmButtonColor: '#198754'
+        }).then(() => {
+            selesaikanAktivitasMateri1('#btnPeriksaQuiz', function () {
+                if (typeof resetCanvas === 'function') resetCanvas();
+
+                setTimeout(() => {
+                    if (typeof lockQuiz === 'function') lockQuiz();
+                    attemptQuiz = 0;
+                }, 0);
+            });
         });
     } else {
         if (attemptQuiz >= MAX_ATTEMPT_LATIHAN) {
@@ -1462,12 +1821,30 @@ function checkQuizAnswers() {
                 feedback.style.display = 'block';
                 feedback.className = "alert alert-primary border-primary mt-4 text-center animate__animated animate__fadeInUp";
                 feedback.innerHTML = `<h6 class="fw-bold mb-1">Ini adalah jawaban yang benar</h6><p class="mb-0 small">Selanjutnya kita memahami penamaan segitiga siku-siku.</p>`;
+
+                selesaikanKesempatanHabisMateri1(
+                    'm1_cp6_kuis_canvas',
+                    '#btnPeriksaQuiz',
+                    function () {
+                        if (typeof resetCanvas === 'function') resetCanvas();
+
+                        setTimeout(() => {
+                            if (typeof lockQuiz === 'function') lockQuiz();
+                            attemptQuiz = 0;
+                        }, 0);
+                    }
+                );
             });
         } else {
             feedback.style.display = 'block';
             feedback.className = "alert alert-danger border-danger mt-4 text-center animate__animated animate__shakeX";
             feedback.innerHTML = `<span class="fw-bold small">Ada yang belum tepat.</span><p class="mb-0 small mt-1">Periksa lagi huruf pada sudut siku-siku di gambarmu.</p>`;
-            Swal.fire({ icon: 'error', title: 'Kurang Tepat', text: `Jawabanmu ada yang salah. Sisa kesempatan: ${MAX_ATTEMPT_LATIHAN - attemptQuiz}`, confirmButtonColor: '#dc3545' });
+            swalLatihanMateri1('#btnPeriksaQuiz', {
+                icon: 'error',
+                title: 'Kurang Tepat',
+                text: `Jawabanmu ada yang salah. Sisa kesempatan: ${MAX_ATTEMPT_LATIHAN - attemptQuiz}`,
+                confirmButtonColor: '#dc3545'
+            });
         }
     }
 }
@@ -1493,7 +1870,7 @@ function cekJawabanSikusiku() {
     if (jawabanBersih === 'b' || jawabanBersih === 'titikb') {
         feedbackBenar.classList.remove('d-none');
         feedbackBenar.querySelector('.alert div').innerHTML = '<strong>Tepat Sekali</strong>. Sudut B memiliki ukuran tepat 90° dan disebut sudut siku-siku. Oleh karena itu, segitiga tersebut merupakan <strong>segitiga siku-siku</strong>, karena memiliki salah satu sudut yang ukurannya tepat 90°.';
-        if (typeof updateProgress === 'function') updateProgress('materi_1_konsep_pythagoras', 'm1_cp5_titik_siku', 10);
+        simpanProgressMateri1('m1_cp5_titik_siku', 10);
     } else {
         feedbackSalah.classList.remove('d-none');
         feedbackSalah.querySelector('.alert').className = 'alert alert-danger d-flex align-items-center py-2 mb-0';
@@ -1505,6 +1882,22 @@ function normalizeSegment(str) {
     return str ? str.trim().toUpperCase().split('').sort().join('') : "";
 }
 let attemptSisi = 0;
+
+function resetPenamaanSisi() {
+    document.querySelectorAll('.sisi-input, .input-ruas').forEach(input => {
+        input.value = '';
+        input.disabled = false;
+        input.classList.remove('is-valid', 'is-invalid');
+    });
+
+    const feedbackEl = document.getElementById('final-feedback');
+    if (feedbackEl) {
+        feedbackEl.className = 'mt-3 fw-bold';
+        feedbackEl.innerHTML = '';
+    }
+
+    attemptSisi = 0;
+}
 
 function checkAllAnswers() {
     let totalErrors = 0;
@@ -1558,16 +1951,22 @@ function checkAllAnswers() {
 
     let feedbackEl = document.getElementById('final-feedback');
     if (totalErrors === 0) {
-        if (typeof updateProgress === 'function') updateProgress('materi_1_konsep_pythagoras', 'm1_cp7_tabel_penamaan_sisi', 15);
         if (feedbackEl) {
             feedbackEl.className = "mt-3 fw-bold text-success";
             feedbackEl.innerHTML = "Luar Biasa! Semua jawabanmu benar.";
         }
-        Swal.fire({
+        simpanProgressMateri1('m1_cp7_tabel_penamaan_sisi', 15);
+
+        swalLatihanMateri1('button[onclick="checkAllAnswers()"]', {
             icon: 'success',
             title: '+15 Poin!',
             html: 'Semua penamaan sisi segitiga benar. Kerja bagus!<br><small class="text-muted">Selamat! Kamu semakin paham.</small>',
             confirmButtonColor: '#198754'
+        }).then(() => {
+            selesaikanAktivitasMateri1(
+                'button[onclick="checkAllAnswers()"]',
+                resetPenamaanSisi
+            );
         });
     } else if (attemptSisi >= MAX_ATTEMPT_LATIHAN) {
         Swal.fire({ icon: 'info', title: 'Kesempatan Habis', text: 'Mari kita lihat jawaban yang tepat.', confirmButtonText: 'Tampilkan Jawaban', confirmButtonColor: '#0d6efd', allowOutsideClick: false }).then(() => {
@@ -1584,15 +1983,52 @@ function checkAllAnswers() {
             if (feedbackEl) {
                 feedbackEl.className = "mt-3 fw-bold text-primary";
                 feedbackEl.innerHTML = "Ini adalah penamaan yang benar.";
+
             }
+            selesaikanKesempatanHabisMateri1(
+                'm1_cp7_tabel_penamaan_sisi',
+                'button[onclick="checkAllAnswers()"]',
+                resetPenamaanSisi
+            );
         });
     } else {
         if (feedbackEl) {
             feedbackEl.className = "mt-3 fw-bold text-danger";
             feedbackEl.innerHTML = `Masih ada ${totalErrors} kotak yang belum tepat.`;
         }
-        Swal.fire({ icon: 'error', title: 'Masih ada kesalahan', text: `Perhatikan kotak yang berwarna merah. Sisa kesempatan: ${MAX_ATTEMPT_LATIHAN - attemptSisi}`, confirmButtonColor: '#dc3545' });
+        swalLatihanMateri1('button[onclick="checkAllAnswers()"]', {
+            icon: 'error',
+            title: 'Masih ada kesalahan',
+            text: `Perhatikan kotak yang berwarna merah. Sisa kesempatan: ${MAX_ATTEMPT_LATIHAN - attemptSisi}`,
+            confirmButtonColor: '#dc3545'
+        });
     }
+}
+
+function resetTabelGeoGebra() {
+    const ids = [
+        'sisi_a', 'sisi_b', 'sisi_c',
+        'luas_a_1', 'luas_a_2', 'luas_a_sq', 'luas_a_hasil',
+        'luas_b_1', 'luas_b_2', 'luas_b_sq', 'luas_b_hasil',
+        'luas_c_1', 'luas_c_2', 'luas_c_sq', 'luas_c_hasil'
+    ];
+
+    ids.forEach(id => {
+        const el = document.getElementById(id);
+        if (el) {
+            el.value = '';
+            el.disabled = false;
+            el.classList.remove('is-valid', 'is-invalid');
+        }
+    });
+
+    const feedbackBox = document.getElementById('feedbackTabelGeoGebra');
+    if (feedbackBox) {
+        feedbackBox.className = 'mt-2 fw-bold';
+        feedbackBox.innerHTML = '';
+    }
+
+    attemptTabelGeo = 0;
 }
 
 let attemptTabelGeo = 0;
@@ -1636,19 +2072,32 @@ function cekTabelGeoGebra() {
 
     const feedbackBox = document.getElementById('feedbackTabelGeoGebra');
     if (benarSemua) {
-        if (typeof updateProgress === 'function') updateProgress('materi_1_konsep_pythagoras', 'm1_cp8_tabel_luas_geogebra', 15);
         if (feedbackBox) {
             feedbackBox.className = "mt-2 fw-bold text-success animate__animated animate__fadeInUp";
             feedbackBox.innerHTML = "Luar biasa! Perhitungan luas persegimu sangat tepat.";
         }
-        Swal.fire({
+        simpanProgressMateri1('m1_cp8_tabel_luas_geogebra', 15);
+
+        swalLatihanMateri1('button[onclick="cekTabelGeoGebra()"]', {
             icon: 'success',
             title: '+15 Poin!',
             html: 'Kamu berhasil menjabarkan perhitungan luas ketiga persegi dengan konsep kuadrat yang benar.<br><small class="text-muted">Mantap! Lanjutkan!</small>',
             confirmButtonColor: '#198754'
+        }).then(() => {
+            selesaikanAktivitasMateri1(
+                'button[onclick="cekTabelGeoGebra()"]',
+                resetTabelGeoGebra
+            );
         });
     } else if (attemptTabelGeo >= MAX_ATTEMPT_LATIHAN) {
-        Swal.fire({ icon: 'info', title: 'Kesempatan Habis', text: 'Mari kita lihat jawaban yang tepat.', confirmButtonText: 'Tampilkan Jawaban', confirmButtonColor: '#0d6efd', allowOutsideClick: false }).then(() => {
+        Swal.fire({
+            icon: 'info',
+            title: 'Kesempatan Habis',
+            text: 'Mari kita lihat jawaban yang tepat.',
+            confirmButtonText: 'Tampilkan Jawaban',
+            confirmButtonColor: '#0d6efd',
+            allowOutsideClick: false
+        }).then(() => {
             for (let id in kunci) {
                 let el = document.getElementById(id);
                 if (el) {
@@ -1657,17 +2106,30 @@ function cekTabelGeoGebra() {
                     el.disabled = true;
                 }
             }
+
             if (feedbackBox) {
                 feedbackBox.className = "mt-2 fw-bold text-primary animate__animated animate__fadeInUp";
                 feedbackBox.innerHTML = "Ini adalah perhitungan yang benar.";
             }
+
+            selesaikanKesempatanHabisMateri1(
+                'm1_cp8_tabel_luas_geogebra',
+                'button[onclick="cekTabelGeoGebra()"]',
+                resetTabelGeoGebra
+            );
         });
     } else {
         if (feedbackBox) {
             feedbackBox.className = "mt-2 fw-bold text-danger animate__animated animate__shakeX";
             feedbackBox.innerHTML = "Masih ada angka yang keliru. Cek kotak yang berwarna merah.";
         }
-        Swal.fire({ icon: 'error', title: 'Masih ada yang salah', text: `Coba periksa kembali perhitungan pada kotak merah. Sisa kesempatan: ${MAX_ATTEMPT_LATIHAN - attemptTabelGeo}`, confirmButtonColor: '#dc3545' });
+
+        swalLatihanMateri1('button[onclick="cekTabelGeoGebra()"]', {
+            icon: 'error',
+            title: 'Masih ada yang salah',
+            text: `Coba periksa kembali perhitungan pada kotak merah. Sisa kesempatan: ${MAX_ATTEMPT_LATIHAN - attemptTabelGeo}`,
+            confirmButtonColor: '#dc3545'
+        });
     }
 }
 
@@ -1709,55 +2171,11 @@ function cekPilihan(status, btn) {
         btn.classList.add('btn-success', 'text-white');
         feedbackBenar.classList.remove('d-none');
         boxPenjelasan.classList.remove('d-none');
-        if (typeof updateProgress === 'function') updateProgress('materi_1_konsep_pythagoras', 'm1_cp9_kesimpulan_luas', 10);
+        simpanProgressMateri1('m1_cp9_kesimpulan_luas', 10);
         setTimeout(() => boxPenjelasan.scrollIntoView({ behavior: 'smooth', block: 'center' }), 300);
     } else {
         btn.classList.add('btn-danger', 'text-white');
         feedbackSalah.classList.remove('d-none');
-    }
-}
-
-let attemptBukti = 0;
-function cekJawabanPembuktian() {
-    var j1 = document.getElementById('jawaban1');
-    var j2 = document.getElementById('jawaban2');
-    var j3 = document.getElementById('jawaban3');
-    if (!j1 || !j2 || !j3) return;
-
-    if (j1.value.trim() === '' || j2.value.trim() === '' || j3.value.trim() === '') {
-        Swal.fire({ icon: 'warning', title: 'Belum Lengkap', text: 'Silakan isi semua kotak pembuktian rumus terlebih dahulu.', confirmButtonColor: '#ffc107' });
-        return;
-    }
-
-    attemptBukti++;
-    var feedback = document.getElementById('pesanFeedback');
-    feedback.style.display = 'block';
-    var sisiKiriBenar = (j1.value.toLowerCase() === 'c');
-    var sisiKananBenar = (j2.value.toLowerCase() === 'a' && j3.value.toLowerCase() === 'b') || (j2.value.toLowerCase() === 'b' && j3.value.toLowerCase() === 'a');
-
-    setValidasiElTripel(j1, sisiKiriBenar);
-    setValidasiElTripel(j2, sisiKananBenar);
-    setValidasiElTripel(j3, sisiKananBenar);
-
-    if (sisiKiriBenar && sisiKananBenar) {
-        feedback.className = "alert alert-success";
-        feedback.innerHTML = "<strong>Tepat Sekali!</strong> Kesimpulannya adalah c² = a² + b² (Teorema Pythagoras).";
-        if (typeof updateProgress === 'function') updateProgress('materi_1_konsep_pythagoras', 'm1_cp10_pembuktian_rumus', 15);
-    } else if (attemptBukti >= MAX_ATTEMPT_LATIHAN) {
-        Swal.fire({ icon: 'info', title: 'Kesempatan Habis', text: 'Mari kita lihat kesimpulan yang tepat.', confirmButtonText: 'Tampilkan Jawaban', confirmButtonColor: '#0d6efd', allowOutsideClick: false }).then(() => {
-            j1.value = 'c';
-            j2.value = 'a';
-            j3.value = 'b';
-            [j1, j2, j3].forEach(el => {
-                setValidasiElTripel(el, true);
-                el.disabled = true;
-            });
-            feedback.className = "alert alert-primary";
-            feedback.innerHTML = "<strong>Ini adalah kesimpulan yang benar.</strong> Teorema Pythagoras: c² = a² + b².";
-        });
-    } else {
-        feedback.className = "alert alert-danger";
-        feedback.innerHTML = `<strong>Masih keliru.</strong> Perhatikan kembali sisi miring (c) dan sisi tegaknya (a dan b). Sisa kesempatan: ${MAX_ATTEMPT_LATIHAN - attemptBukti}`;
     }
 }
 
@@ -1785,6 +2203,34 @@ function setValidasiElTripel(el, condition) {
         el.classList.add('is-invalid');
         el.classList.remove('is-valid');
     }
+}
+
+function resetContoh1() {
+    const ids = [
+        'c1_dik_a',
+        'c1_dik_b',
+        'c1_step1_a',
+        'c1_step1_b',
+        'c1_step2_a_sq',
+        'c1_step2_b_sq',
+        'c1_step3_sum',
+        'c1_step4_root',
+        'c1_final'
+    ];
+
+    ids.forEach(id => {
+        const el = document.getElementById(id);
+        if (el) {
+            el.value = '';
+            el.disabled = false;
+            el.classList.remove('is-valid', 'is-invalid');
+        }
+    });
+
+    const feedback = document.getElementById('c1_feedback');
+    if (feedback) feedback.innerHTML = '';
+
+    attemptContoh1 = 0;
 }
 
 let attemptContoh1 = 0;
@@ -1825,12 +2271,18 @@ function cekContoh1() {
     chk('c1_final', final === 5);
 
     if (benarSemua) {
-        if (typeof updateProgress === 'function') updateProgress('materi_1_konsep_pythagoras', 'm1_cp11_contoh_soal_1', 15);
-        Swal.fire({
+        simpanProgressMateri1('m1_cp10_contoh_soal_1', 15);
+
+        swalLatihanMateri1('button[onclick="cekContoh1()"]', {
             icon: 'success',
             title: '+15 Poin!',
             html: 'Jawaban kamu benar! Jarak yang ditempuh Ahmad adalah 5 meter.<br><small class="text-muted">Hebat, kamu jago matematika!</small>',
             confirmButtonColor: '#198754'
+        }).then(() => {
+            selesaikanAktivitasMateri1(
+                'button[onclick="cekContoh1()"]',
+                resetContoh1
+            );
         });
     } else if (attemptContoh1 >= MAX_ATTEMPT_LATIHAN) {
         Swal.fire({ icon: 'info', title: 'Kesempatan Habis', text: 'Mari kita lihat jawaban yang tepat.', confirmButtonText: 'Tampilkan Jawaban', confirmButtonColor: '#0d6efd', allowOutsideClick: false }).then(() => {
@@ -1841,10 +2293,55 @@ function cekContoh1() {
                 setValidasiElTripel(el, true);
                 el.disabled = true;
             }
+
+            selesaikanKesempatanHabisMateri1(
+                'm1_cp10_contoh_soal_1',
+                'button[onclick="cekContoh1()"]',
+                resetContoh1
+            );
         });
     } else {
-        Swal.fire({ icon: 'error', title: 'Ada yang Salah', text: `Periksa kotak berwarna merah. Sisa kesempatan: ${MAX_ATTEMPT_LATIHAN - attemptContoh1}`, confirmButtonColor: '#dc3545' });
+        swalLatihanMateri1('button[onclick="cekContoh1()"]', {
+            icon: 'error',
+            title: 'Ada yang Salah',
+            text: `Periksa kotak berwarna merah. Sisa kesempatan: ${MAX_ATTEMPT_LATIHAN - attemptContoh1}`,
+            confirmButtonColor: '#dc3545'
+        });
     }
+}
+
+function resetContoh2() {
+    const ids = [
+        'c2_dik_ab',
+        'c2_dik_ac',
+        'c2_dik_cd',
+        'c2_step1_ab',
+        'c2_step1_ac',
+        'c2_step1_res1',
+        'c2_step1_res2',
+        'c2_step1_sqrt',
+        'c2_bc_result',
+        'c2_step2_bc',
+        'c2_step2_cd',
+        'c2_step2_res1',
+        'c2_step2_res2',
+        'c2_step2_sqrt',
+        'c2_final'
+    ];
+
+    ids.forEach(id => {
+        const el = document.getElementById(id);
+        if (el) {
+            el.value = '';
+            el.disabled = false;
+            el.classList.remove('is-valid', 'is-invalid');
+        }
+    });
+
+    const feedback = document.getElementById('c2_feedback');
+    if (feedback) feedback.innerHTML = '';
+
+    attemptContoh2 = 0;
 }
 
 let attemptContoh2 = 0;
@@ -1880,12 +2377,18 @@ function cekContoh2() {
     chk('c2_final', parseFloat(document.getElementById('c2_final').value) === 4);
 
     if (benarSemua) {
-        if (typeof updateProgress === 'function') updateProgress('materi_1_konsep_pythagoras', 'm1_cp12_contoh_soal_2', 15);
-        Swal.fire({
+        simpanProgressMateri1('m1_cp11_contoh_soal_2', 15);
+
+        swalLatihanMateri1('button[onclick="cekContoh2()"]', {
             icon: 'success',
             title: '+15 Poin!',
             html: 'Kamu berhasil menyelesaikan soal bertingkat ini dengan benar.<br><small class="text-muted">Pertahankan semangat belajarmu!</small>',
             confirmButtonColor: '#198754'
+        }).then(() => {
+            selesaikanAktivitasMateri1(
+                'button[onclick="cekContoh2()"]',
+                resetContoh2
+            );
         });
     } else if (attemptContoh2 >= MAX_ATTEMPT_LATIHAN) {
         Swal.fire({ icon: 'info', title: 'Kesempatan Habis', text: 'Mari kita lihat jawaban yang tepat.', confirmButtonText: 'Tampilkan Jawaban', confirmButtonColor: '#0d6efd', allowOutsideClick: false }).then(() => {
@@ -1896,9 +2399,19 @@ function cekContoh2() {
                 setValidasiElTripel(el, true);
                 el.disabled = true;
             }
+            selesaikanKesempatanHabisMateri1(
+                'm1_cp11_contoh_soal_2',
+                'button[onclick="cekContoh2()"]',
+                resetContoh2
+            );
         });
     } else {
-        Swal.fire({ icon: 'error', title: 'Ada yang Salah', text: `Periksa kotak berwarna merah. Sisa kesempatan: ${MAX_ATTEMPT_LATIHAN - attemptContoh2}`, confirmButtonColor: '#dc3545' });
+        swalLatihanMateri1('button[onclick="cekContoh2()"]', {
+            icon: 'error',
+            title: 'Ada yang Salah',
+            text: `Periksa kotak berwarna merah. Sisa kesempatan: ${MAX_ATTEMPT_LATIHAN - attemptContoh2}`,
+            confirmButtonColor: '#dc3545'
+        });
     }
 }
 
@@ -1967,19 +2480,15 @@ async function cekRefleksi() {
 
         // 4. Jika berhasil disimpan di Database
         if (response.ok) {
-            // Update Progress (Gamifikasi)
-            if (typeof updateProgress === 'function') {
-                updateProgress('materi_1_konsep_pythagoras', 'm1_cp16_refleksi_akhir', 10);
-            }
+            simpanProgressMateri1('m1_cp15_refleksi_akhir', 10);
 
-            // Tampilkan pesan sukses
+            kunciFormRefleksi();
+
             Swal.fire({
                 icon: 'success',
                 title: '+10 Poin!',
                 html: 'Refleksimu berhasil disimpan. Terima kasih sudah berbagi!<br><small class="text-muted">Kamu hebat!</small>',
                 confirmButtonColor: '#198754'
-            }).then(() => {
-                kunciFormRefleksi();
             });
 
         } else {
@@ -2020,87 +2529,6 @@ function kunciFormRefleksi() {
         btn.innerText = "Refleksi Tersimpan";
     }
 }
-
-/* =====================================================
-   FITUR MODE REVIEW & ULANGI LATIHAN (ANTI DOBEL AMAN)
-===================================================== */
-window.setupReviewMode = function (checkpointCode, buttonSelector, showAnswerCallback, resetCallback) {
-    if (window.completedCheckpoints && window.completedCheckpoints.includes(checkpointCode)) {
-
-        const btnCek = document.querySelector(buttonSelector);
-        if (!btnCek) return;
-
-        // Jika tombol sudah punya stempel, hentikan agar tidak dobel!
-        // (Ini sudah cukup mengamankan tanpa perlu menghapus elemen tetangga)
-        if (btnCek.getAttribute('data-review-setup') === 'true') return;
-        btnCek.setAttribute('data-review-setup', 'true');
-
-        // Eksekusi fungsi untuk menampilkan jawaban benar
-        if (typeof showAnswerCallback === 'function') {
-            showAnswerCallback();
-        }
-
-        // Sembunyikan tombol aslinya
-        btnCek.style.display = 'none';
-
-        // Pastikan input text/select tidak melar
-        const container = btnCek.parentElement;
-        const inputEl = container.querySelector('.form-control, .form-select');
-        if (inputEl) {
-            inputEl.style.maxWidth = '250px';
-            inputEl.style.borderTopRightRadius = '0.375rem';
-            inputEl.style.borderBottomRightRadius = '0.375rem';
-        }
-
-        // Buat UI Review Baru (Badge Selesai & Tombol Ulangi)
-        const reviewUI = document.createElement('div');
-        reviewUI.className = 'review-mode-ui mt-3 animate__animated animate__fadeIn';
-        reviewUI.innerHTML = `
-            <div class="d-flex flex-column align-items-start">
-                <div class="alert alert-success border-success py-2 mb-0 shadow-sm" style="border-radius: 8px;">
-                    <i class="bi bi-check-circle-fill me-2"></i><strong class="small">Latihan Selesai!</strong>
-                </div>
-                <button class="btn btn-outline-success btn-sm fw-bold btn-ulangi mt-2 shadow-sm" type="button" style="border-radius: 8px;">
-                    <i class="bi bi-arrow-counterclockwise me-1"></i>Ulangi Latihan
-                </button>
-            </div>
-        `;
-
-        // Tempelkan tepat di bawah tombol target (tanpa menghapus punya latihan lain)
-        btnCek.insertAdjacentElement('afterend', reviewUI);
-
-        // Aksi Tombol Ulangi
-        reviewUI.querySelector('.btn-ulangi').addEventListener('click', function (e) {
-            e.preventDefault();
-
-            Swal.fire({
-                title: 'Ulangi Latihan?',
-                text: 'Mengulang latihan tidak akan mengubah nilai progresmu. Lanjut?',
-                icon: 'question',
-                showCancelButton: true,
-                confirmButtonColor: '#198754',
-                cancelButtonColor: '#6c757d',
-                confirmButtonText: 'Ya, Ulangi!',
-                cancelButtonText: 'Batal'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    if (typeof resetCallback === 'function') resetCallback();
-
-                    if (inputEl) {
-                        inputEl.style.maxWidth = '';
-                        inputEl.style.borderTopRightRadius = '';
-                        inputEl.style.borderBottomRightRadius = '';
-                    }
-
-                    btnCek.style.display = 'inline-block';
-                    btnCek.disabled = false;
-                    btnCek.removeAttribute('data-review-setup');
-                    reviewUI.remove();
-                }
-            });
-        });
-    }
-};
 
 /* =====================================================
    AKTIFASI MODE REVIEW UNTUK SETIAP LATIHAN
@@ -2533,7 +2961,7 @@ document.addEventListener('DOMContentLoaded', function () {
         // 11. Latihan: Contoh Soal 1 (Tangga)
         // ---------------------------------------------------------
         window.setupReviewMode(
-            'm1_cp11_contoh_soal_1',
+            'm1_cp10_contoh_soal_1',
             'button[onclick="cekContoh1()"]',
             function showAnswer() {
                 const ans1 = {
@@ -2576,7 +3004,7 @@ document.addEventListener('DOMContentLoaded', function () {
         // 12. Latihan: Contoh Soal 2 (Segitiga Gabungan)
         // ---------------------------------------------------------
         window.setupReviewMode(
-            'm1_cp12_contoh_soal_2',
+            'm1_cp11_contoh_soal_2',
             'button[onclick="cekContoh2()"]',
             function showAnswer() {
                 const ans2 = {
@@ -2621,7 +3049,7 @@ document.addEventListener('DOMContentLoaded', function () {
         // 13. Latihan Analisis: Soal 1 (Pilih Rumus)
         // ---------------------------------------------------------
         window.setupReviewMode(
-            'm1_cp13_latihan_1',
+            'm1_cp12_latihan_1',
             'button[onclick="cekLatihanAnalisis1()"]',
             function showAnswer() {
                 const tanya = document.getElementById('s1_tanya');
@@ -2675,7 +3103,7 @@ document.addEventListener('DOMContentLoaded', function () {
         // 14. Latihan Analisis: Soal 2 (Drag & Drop + Perhitungan 1)
         // ---------------------------------------------------------
         window.setupReviewMode(
-            'm1_cp14_latihan_2',
+            'm1_cp13_latihan_2',
             'button[onclick="cekLatihanAnalisis2()"]',
             function showAnswer() {
                 const checkAndFix = (elId, correctVal) => {
@@ -2739,7 +3167,7 @@ document.addEventListener('DOMContentLoaded', function () {
         // 15. Latihan Analisis: Soal 3 (Drag & Drop + Perhitungan Bertingkat)
         // ---------------------------------------------------------
         window.setupReviewMode(
-            'm1_cp15_latihan_3',
+            'm1_cp14_latihan_3',
             'button[onclick="cekLatihanAnalisis3()"]',
             function showAnswer() {
                 const checkAndFix = (elId, correctVal) => {
@@ -2783,33 +3211,6 @@ document.addEventListener('DOMContentLoaded', function () {
                 if (typeof resetSoal3 === 'function') resetSoal3();
             }
         );
-        // ---------------------------------------------------------
-        // 16. Refleksi
-        // ---------------------------------------------------------
-        window.setupReviewMode(
-            'm1_cp16_refleksi_akhir',
-            'button[onclick="cekRefleksi()"]',
-            function showAnswer() {
-                // Panggil fungsi kunci yang sama agar konsisten
-                kunciFormRefleksi();
-            },
-            function resetExercise() {
-                ['ref1_ya', 'ref1_tidak'].forEach(id => {
-                    const el = document.getElementById(id);
-                    if (el) { el.disabled = false; el.checked = false; el.classList.remove('is-valid'); }
-                });
-                ['ref1_text', 'ref2', 'ref3'].forEach(id => {
-                    const el = document.getElementById(id);
-                    if (el) { el.disabled = false; el.value = ''; el.classList.remove('is-valid'); }
-                });
-
-                const btn = document.querySelector('button[onclick="cekRefleksi()"]');
-                if (btn) {
-                    btn.disabled = false;
-                    btn.innerText = "Simpan Refleksi";
-                }
-            }
-        );
-
     }
 });
+

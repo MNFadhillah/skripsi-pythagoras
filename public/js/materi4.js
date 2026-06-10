@@ -1,3 +1,344 @@
+/* =====================================================
+   HELPER GLOBAL MATERI 4
+===================================================== */
+const MATERI4_ID = 'materi_4_penerapan_pythagoras';
+
+const MATERI4_AKTIVITAS = {
+    ap: {
+        checkpoint: 'm4_cp1_apersepsi',
+        selector: 'button[onclick="cekApersepsiLengkap()"]',
+        reset: resetApersepsi
+    },
+    c1: {
+        checkpoint: 'm4_cp2_contoh_1',
+        selector: 'button[onclick="cekContoh1Penerapan()"]',
+        reset: resetC1
+    },
+    c2: {
+        checkpoint: 'm4_cp3_contoh_2',
+        selector: 'button[onclick="cekContoh2Penerapan()"]',
+        reset: resetC2
+    },
+    c3: {
+        checkpoint: 'm4_cp4_contoh_3',
+        selector: 'button[onclick="cekContoh3Penerapan()"]',
+        reset: resetC3
+    },
+    s1: {
+        checkpoint: 'm4_cp5_latihan_1',
+        selector: 'button[onclick="cekSoal1()"]',
+        reset: resetS1
+    },
+    s2: {
+        checkpoint: 'm4_cp6_latihan_2',
+        selector: 'button[onclick="cekSoal2()"]',
+        reset: resetS2
+    },
+    s3: {
+        checkpoint: 'm4_cp7_latihan_3',
+        selector: 'button[onclick="cekSoal3()"]',
+        reset: resetS3
+    }
+};
+
+const JAWABAN_MATERI4 = {
+    ap: {
+        ap_step1: 'kabel',
+        ap_step2: 'tambah',
+        ap_step3: 'benar',
+        ap_t1: 24,
+        ap_j1: 10,
+        ap_t2: 576,
+        ap_j2: 100,
+        ap_jum: 676,
+        ap_akar: 676,
+        ap_final: 26
+    },
+    c1: {
+        c1_dik_ab: 40,
+        c1_dik_bc: 30,
+        c1_ditanya: 'AC',
+        c1_rumus: 'AC',
+        c1_ab: 40,
+        c1_bc: 30,
+        c1_ab_kuadrat: 1600,
+        c1_bc_kuadrat: 900,
+        c1_ac2: 2500,
+        c1_akar_val: 2500,
+        c1_ac: 50
+    },
+    c2: {
+        c2_dik_mn: 20,
+        c2_dik_no: 15,
+        c2_ditanya: 'MO',
+        c2_rumus: 'MO',
+        c2_mn: 20,
+        c2_no: 15,
+        c2_mn_kuadrat: 400,
+        c2_no_kuadrat: 225,
+        c2_mo2: 625,
+        c2_akar_val: 625,
+        c2_mo: 25
+    },
+    c3: {
+        c3_dik_dc: 15,
+        c3_dik_da: 25,
+        c3_dik_db: 17,
+        c3_ditanya: 'AB',
+        c3_da: 25,
+        c3_dc1: 15,
+        c3_da_kuadrat: 625,
+        c3_dc1_kuadrat: 225,
+        c3_ac2_val: 400,
+        c3_ac: 20,
+        c3_db: 17,
+        c3_dc2: 15,
+        c3_db_kuadrat: 289,
+        c3_dc2_kuadrat: 225,
+        c3_bc2_val: 64,
+        c3_bc: 8,
+        c3_ac_final: 20,
+        c3_bc_final: 8,
+        c3_ab: 12
+    },
+    s1: {
+        s1_dik_ab: 40,
+        s1_dik_bc: 30,
+        s1_ditanya: 'AC',
+        s1_rumus: 'AC',
+        s1_ab: 40,
+        s1_bc: 30,
+        s1_ab_kuadrat: 1600,
+        s1_bc_kuadrat: 900,
+        s1_ac2: 2500,
+        s1_akar_val: 2500,
+        s1_ac: 50
+    },
+    s2: {
+        s2_dik_ab: 24,
+        s2_dik_ac: 25,
+        s2_ditanya: 'BC',
+        s2_rumus: 'BC',
+        s2_ac: 25,
+        s2_ab: 24,
+        s2_ac_kuadrat: 625,
+        s2_ab_kuadrat: 576,
+        s2_bc2: 49,
+        s2_akar_val: 49,
+        s2_bc: 7
+    },
+    s3: {
+        s3_dik_da: 20,
+        s3_dik_ac: 16,
+        s3_dik_db: 15,
+        s3_ditanya: 'BC',
+        s3_da: 20,
+        s3_ac1: 16,
+        s3_da_kuadrat: 400,
+        s3_ac1_kuadrat: 256,
+        s3_dc2_val: 144,
+        s3_dc: 12,
+        s3_db: 15,
+        s3_dc2: 12,
+        s3_db_kuadrat: 225,
+        s3_dc2_kuadrat: 144,
+        s3_bc2_val: 81,
+        s3_bc: 9
+    }
+};
+
+function simpanProgressMateri4(checkpointCode, points = 0, isSilent = false) {
+    if (typeof window.updateProgress === 'function') {
+        return window.updateProgress(
+            MATERI4_ID,
+            checkpointCode,
+            points,
+            isSilent
+        );
+    }
+
+    console.warn('window.updateProgress belum tersedia. Pastikan script.js global sudah dimuat.');
+    return Promise.resolve();
+}
+
+function selesaikanAktivitasMateri4(buttonSelector, resetCallback) {
+    if (typeof window.tampilkanLatihanSelesai === 'function') {
+        window.tampilkanLatihanSelesai(buttonSelector, resetCallback);
+    }
+}
+
+function selesaikanKesempatanHabisMateri4(checkpointCode, buttonSelector, resetCallback) {
+    if (!sedangUlangLatihanMateri4(buttonSelector)) {
+        simpanProgressMateri4(checkpointCode, 0);
+    }
+
+    selesaikanAktivitasMateri4(
+        buttonSelector,
+        resetCallback
+    );
+}
+
+function sedangUlangLatihanMateri4(buttonSelector) {
+    const btn = document.querySelector(buttonSelector);
+    return !!(btn && btn.getAttribute('data-latihan-ulang') === 'true');
+}
+
+function swalLatihanMateri4(buttonSelector, options) {
+    const isUlang = sedangUlangLatihanMateri4(buttonSelector);
+    const finalOptions = { ...options };
+
+    if (isUlang) {
+        const title = String(finalOptions.title || '').trim();
+        const icon = String(finalOptions.icon || '').trim();
+
+        const isPopupPoin =
+            icon === 'success' &&
+            /^\+\d+\s*Poin!?$/i.test(title);
+
+        if (isPopupPoin) {
+            const isiLama = finalOptions.html || finalOptions.text || 'Jawabanmu benar.';
+
+            finalOptions.icon = 'success';
+            finalOptions.title = 'Jawaban Benar!';
+            delete finalOptions.text;
+            finalOptions.html = `
+                ${isiLama}
+                <br>
+                <small class="text-muted d-block mt-2">
+                    Ini latihan ulang, jadi poin dan progres tidak bertambah lagi.
+                </small>
+            `;
+            finalOptions.confirmButtonColor = '#198754';
+        }
+
+        const judulSalah = title.toLowerCase();
+        const isPopupSalah =
+            icon === 'error' &&
+            (
+                judulSalah.includes('kurang tepat') ||
+                judulSalah.includes('belum tepat') ||
+                judulSalah.includes('masih ada') ||
+                judulSalah.includes('jawaban kurang tepat') ||
+                judulSalah.includes('ada yang salah') ||
+                judulSalah.includes('keliru')
+            );
+
+        if (isPopupSalah) {
+            const isiLama = finalOptions.html || finalOptions.text || 'Jawabanmu masih belum tepat.';
+
+            finalOptions.icon = 'warning';
+            finalOptions.title = 'Latihan Ulang: Masih Perlu Diperbaiki';
+            delete finalOptions.text;
+            finalOptions.html = `
+                ${isiLama}
+                <br><br>
+                <small class="text-muted">
+                    Ini hanya latihan ulang, jadi tidak memengaruhi poin atau progresmu.
+                </small>
+            `;
+            finalOptions.confirmButtonText = 'Coba Perbaiki Lagi';
+            finalOptions.confirmButtonColor = '#ffc107';
+        }
+    }
+
+    return Swal.fire(finalOptions);
+}
+
+function pulihkanTombolMateri4(section) {
+    const config = MATERI4_AKTIVITAS[section];
+    if (!config) return;
+
+    const btn = document.querySelector(config.selector);
+    if (!btn) return;
+
+    btn.disabled = false;
+    btn.classList.remove('d-none', 'btn-info');
+    btn.classList.add('btn-success');
+    btn.innerHTML = 'Cek Jawaban';
+}
+
+function resetAktivitasMateri4(section, feedbackId = null) {
+    const jawaban = JAWABAN_MATERI4[section] || {};
+
+    Object.keys(jawaban).forEach(id => {
+        const el = document.getElementById(id);
+        if (el) {
+            el.value = '';
+            el.disabled = false;
+            el.classList.remove(
+                'is-valid',
+                'is-invalid',
+                'border-success',
+                'border-danger',
+                'text-success',
+                'text-danger'
+            );
+        }
+    });
+
+    if (section === 'ap') {
+        document.querySelectorAll('.btn-operator, .btn-rumus').forEach(btn => {
+            btn.disabled = false;
+            btn.classList.remove('active', 'btn-success', 'text-white');
+        });
+
+        const step2 = document.getElementById('ap_step2');
+        const step3 = document.getElementById('ap_step3');
+        if (step2) step2.value = '';
+        if (step3) step3.value = '';
+    }
+
+    if (feedbackId) {
+        const feedback = document.getElementById(feedbackId);
+        if (feedback) feedback.innerHTML = '';
+    }
+
+    attemptCounts[section] = 0;
+    pulihkanTombolMateri4(section);
+}
+
+function isiJawabanMateri4(section) {
+    const jawaban = JAWABAN_MATERI4[section] || {};
+
+    Object.entries(jawaban).forEach(([id, value]) => {
+        fillAnswer(id, value);
+    });
+
+    if (section === 'ap') {
+        document.querySelectorAll('.btn-operator, .btn-rumus').forEach(btn => {
+            btn.disabled = true;
+        });
+    }
+}
+
+function resetApersepsi() {
+    resetAktivitasMateri4('ap', 'ap_feedback');
+}
+
+function resetC1() {
+    resetAktivitasMateri4('c1', 'c1_feedback');
+}
+
+function resetC2() {
+    resetAktivitasMateri4('c2', 'c2_feedback');
+}
+
+function resetC3() {
+    resetAktivitasMateri4('c3', 'c3_feedback');
+}
+
+function resetS1() {
+    resetAktivitasMateri4('s1', 's1_feedback');
+}
+
+function resetS2() {
+    resetAktivitasMateri4('s2', 's2_feedback');
+}
+
+function resetS3() {
+    resetAktivitasMateri4('s3', 's3_feedback');
+}
+
 document.addEventListener('DOMContentLoaded', function () {
     // ==========================================
     // 1. SISTEM NAVIGASI HALAMAN (PAGINATION)
@@ -63,49 +404,6 @@ document.addEventListener('DOMContentLoaded', function () {
 let attemptCounts = { ap: 0, c1: 0, c2: 0, c3: 0, s1: 0, s2: 0, s3: 0 };
 const MAX_ATTEMPTS = 3;
 
-// CEK KELAS & WRAP updateProgress (sama seperti materi lain)
-let userHasKelas = false;
-const kelasMeta = document.querySelector('meta[name="user-kelas-id"]');
-if (kelasMeta && kelasMeta.getAttribute('content') && kelasMeta.getAttribute('content') !== '') {
-    userHasKelas = true;
-}
-
-if (typeof window.updateProgress === 'undefined') {
-    window.updateProgress = function (materiId, checkpointCode, earnedPoints = 0) {
-        if (!userHasKelas) {
-            Swal.fire({
-                icon: 'info',
-                title: 'Progres Tidak Tersimpan',
-                text: 'Anda belum bergabung ke kelas. Progres latihan tidak akan disimpan. Silakan hubungi guru untuk bergabung ke kelas.',
-                confirmButtonColor: '#0d6efd'
-            });
-            return Promise.resolve();
-        }
-        return fetch('/progress/update', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-            },
-            body: JSON.stringify({ materi_id: materiId, checkpoint: checkpointCode, points: earnedPoints })
-        }).catch(err => console.error('Error update progress:', err));
-    };
-} else {
-    const originalUpdateProgress = window.updateProgress;
-    window.updateProgress = function (materiId, checkpointCode, earnedPoints = 0) {
-        if (!userHasKelas) {
-            Swal.fire({
-                icon: 'info',
-                title: 'Progres Tidak Tersimpan',
-                text: 'Anda belum bergabung ke kelas. Progres latihan tidak akan disimpan. Silakan hubungi guru untuk bergabung ke kelas.',
-                confirmButtonColor: '#0d6efd'
-            });
-            return Promise.resolve();
-        }
-        return originalUpdateProgress(materiId, checkpointCode, earnedPoints);
-    };
-}
-
 // Mengecek apakah ada kotak yang kosong
 function checkCompleteness(idArray) {
     let isComplete = true;
@@ -169,63 +467,109 @@ function checkCommutativeWithSquares(id1, id2, id1Sq, id2Sq, exp1, exp2) {
 // Paksa isi jawaban benar jika kesempatan habis
 function fillAnswer(id, val) {
     const el = document.getElementById(id);
+    if (!el) return;
+
     el.value = val;
     markStatus(id, true);
 
+    if (el.type !== 'hidden') {
+        el.disabled = true;
+    }
+
     // Khusus untuk tombol pilihan Apersepsi
     if (id === 'ap_step2') {
-        document.querySelectorAll('.btn-operator').forEach(b => b.classList.remove('active', 'btn-success', 'text-white'));
-        document.querySelector(`.btn-operator[data-val="${val}"]`).classList.add('active', 'btn-success', 'text-white');
+        document.querySelectorAll('.btn-operator').forEach(b => {
+            b.classList.remove('active', 'btn-success', 'text-white');
+        });
+
+        const btn = document.querySelector(`.btn-operator[data-val="${val}"]`);
+        if (btn) btn.classList.add('active', 'btn-success', 'text-white');
     }
+
     if (id === 'ap_step3') {
-        document.querySelectorAll('.btn-rumus').forEach(b => b.classList.remove('active', 'btn-success', 'text-white'));
-        document.querySelector(`.btn-rumus[data-val="${val}"]`).classList.add('active', 'btn-success', 'text-white');
+        document.querySelectorAll('.btn-rumus').forEach(b => {
+            b.classList.remove('active', 'btn-success', 'text-white');
+        });
+
+        const btn = document.querySelector(`.btn-rumus[data-val="${val}"]`);
+        if (btn) btn.classList.add('active', 'btn-success', 'text-white');
     }
 }
 
 // Logika utama saat klik tombol periksa (dengan poin)
 function processValidation(section, isComplete, isAllCorrect, btnElement, answerCallback, cpName, successMsg, earnedPoints) {
+    const config = MATERI4_AKTIVITAS[section];
+    const buttonSelector = config ? config.selector : null;
+    const resetCallback = config ? config.reset : null;
+
     if (!isComplete) {
-        Swal.fire('Belum Lengkap!', 'Pilih dan isi semua kotak kosong terlebih dahulu ya!', 'warning');
+        Swal.fire({
+            icon: 'warning',
+            title: 'Belum Lengkap!',
+            text: 'Pilih dan isi semua kotak kosong terlebih dahulu ya!',
+            confirmButtonColor: '#ffc107'
+        });
         return;
     }
 
     if (isAllCorrect) {
-        Swal.fire({
+        if (buttonSelector && !sedangUlangLatihanMateri4(buttonSelector)) {
+            simpanProgressMateri4(cpName, earnedPoints);
+        }
+
+        swalLatihanMateri4(buttonSelector, {
             icon: 'success',
             title: `+${earnedPoints} Poin!`,
-            text: successMsg || 'Luar biasa! Jawaban dan perhitungan kamu tepat!'
+            text: successMsg || 'Luar biasa! Jawaban dan perhitungan kamu tepat!',
+            confirmButtonColor: '#198754'
         }).then(() => {
-            if (typeof updateProgress === 'function') updateProgress('materi_4_penerapan_pythagoras', cpName, earnedPoints);
+            if (buttonSelector && resetCallback) {
+                selesaikanAktivitasMateri4(
+                    buttonSelector,
+                    resetCallback
+                );
+            }
         });
-        btnElement.classList.add('d-none'); // Sembunyikan tombol kalau sudah benar
-    } else {
-        attemptCounts[section]++;
-        if (attemptCounts[section] >= MAX_ATTEMPTS) {
-            Swal.fire({
-                title: 'Kesempatan Habis',
-                text: 'Jangan menyerah! Silakan klik "Tampilkan Jawaban" untuk mempelajari penyelesaian yang benar.',
-                icon: 'error',
-                showCancelButton: true,
-                confirmButtonText: 'Tampilkan Jawaban',
-                cancelButtonText: 'Tutup'
-            }).then((result) => {
-                if (result.isConfirmed) {
+
+        return;
+    }
+
+    attemptCounts[section]++;
+
+    if (attemptCounts[section] >= MAX_ATTEMPTS) {
+        Swal.fire({
+            title: 'Kesempatan Habis',
+            text: 'Jangan menyerah! Mari kita lihat penyelesaian yang benar.',
+            icon: 'info',
+            confirmButtonText: 'Tampilkan Jawaban',
+            confirmButtonColor: '#0d6efd',
+            allowOutsideClick: false
+        }).then((result) => {
+            if (result.isConfirmed) {
+                if (typeof window[answerCallback] === 'function') {
                     window[answerCallback]();
                 }
-            });
 
-            // Ubah tombol jadi "Tampilkan Jawaban"
-            btnElement.innerHTML = '<i class="fas fa-eye me-1"></i> Tampilkan Jawaban';
-            btnElement.classList.remove('btn-success');
-            btnElement.classList.add('btn-info');
-            btnElement.setAttribute('onclick', answerCallback + '()');
-        } else {
-            Swal.fire('Kurang Tepat', `Masih ada isian kotak yang salah/merah. Ayo perbaiki! Sisa kesempatan: ${MAX_ATTEMPTS - attemptCounts[section]}`, 'error');
-        }
+                if (buttonSelector && resetCallback) {
+                    selesaikanKesempatanHabisMateri4(
+                        cpName,
+                        buttonSelector,
+                        resetCallback
+                    );
+                }
+            }
+        });
+
+        return;
     }
-}
 
+    swalLatihanMateri4(buttonSelector, {
+        icon: 'error',
+        title: 'Kurang Tepat',
+        text: `Masih ada isian kotak yang salah/merah. Ayo perbaiki! Sisa kesempatan: ${MAX_ATTEMPTS - attemptCounts[section]}`,
+        confirmButtonColor: '#dc3545'
+    });
+}
 // ==========================================
 // 3. APERSEPSI JEMBATAN BARITO (Poin 10)
 // ==========================================
@@ -248,12 +592,12 @@ function cekApersepsiLengkap() {
 }
 
 function showAnswerApersepsi() {
-    fillAnswer('ap_step1', 'kabel'); fillAnswer('ap_step2', 'tambah'); fillAnswer('ap_step3', 'benar');
-    fillAnswer('ap_t1', 24); fillAnswer('ap_j1', 10);
-    fillAnswer('ap_t2', 576); fillAnswer('ap_j2', 100);
-    fillAnswer('ap_jum', 676); fillAnswer('ap_akar', 676); fillAnswer('ap_final', 26);
-    document.querySelector('button[onclick="showAnswerApersepsi()"]').classList.add('d-none');
-    if (typeof updateProgress === 'function') updateProgress('materi_4_penerapan_pythagoras', 'm4_cp1_apersepsi', 10);
+    isiJawabanMateri4('ap');
+
+    const feedback = document.getElementById('ap_feedback');
+    if (feedback) {
+        feedback.innerHTML = '<span class="text-primary fw-bold">Ini adalah jawaban yang benar.</span>';
+    }
 }
 
 // ==========================================
@@ -277,11 +621,12 @@ function cekContoh1Penerapan() {
 }
 
 function showAnswerC1() {
-    fillAnswer('c1_dik_ab', 40); fillAnswer('c1_dik_bc', 30); fillAnswer('c1_ditanya', 'AC'); fillAnswer('c1_rumus', 'AC');
-    fillAnswer('c1_ab', 40); fillAnswer('c1_bc', 30); fillAnswer('c1_ab_kuadrat', 1600); fillAnswer('c1_bc_kuadrat', 900);
-    fillAnswer('c1_akar_val', 2500); fillAnswer('c1_ac', 50); document.getElementById('c1_ac2').value = 2500;
-    document.querySelector('button[onclick="showAnswerC1()"]').classList.add('d-none');
-    if (typeof updateProgress === 'function') updateProgress('materi_4_penerapan_pythagoras', 'm4_cp2_contoh_1', 15);
+    isiJawabanMateri4('c1');
+
+    const feedback = document.getElementById('c1_feedback');
+    if (feedback) {
+        feedback.innerHTML = '<span class="text-primary fw-bold">Ini adalah jawaban yang benar.</span>';
+    }
 }
 
 function cekContoh2Penerapan() {
@@ -304,23 +649,12 @@ function cekContoh2Penerapan() {
 }
 
 function showAnswerC2() {
-    // Penyesuaian Nilai Jawaban Otomatis
-    fillAnswer('c2_dik_mn', 20);
-    fillAnswer('c2_dik_no', 15);
-    fillAnswer('c2_ditanya', 'MO');
-    fillAnswer('c2_rumus', 'MO');
+    isiJawabanMateri4('c2');
 
-    fillAnswer('c2_mn', 20);
-    fillAnswer('c2_no', 15);
-    fillAnswer('c2_mn_kuadrat', 400);
-    fillAnswer('c2_no_kuadrat', 225);
-
-    fillAnswer('c2_akar_val', 625);
-    fillAnswer('c2_mo', 25);
-    document.getElementById('c2_mo2').value = 625;
-
-    document.querySelector('button[onclick="showAnswerC2()"]').classList.add('d-none');
-    if (typeof updateProgress === 'function') updateProgress('materi_4_penerapan_pythagoras', 'm4_cp3_contoh_2', 15);
+    const feedback = document.getElementById('c2_feedback');
+    if (feedback) {
+        feedback.innerHTML = '<span class="text-primary fw-bold">Ini adalah jawaban yang benar.</span>';
+    }
 }
 
 function cekContoh3Penerapan() {
@@ -342,12 +676,12 @@ function cekContoh3Penerapan() {
 }
 
 function showAnswerC3() {
-    fillAnswer('c3_dik_dc', 15); fillAnswer('c3_dik_da', 25); fillAnswer('c3_dik_db', 17); fillAnswer('c3_ditanya', 'AB');
-    fillAnswer('c3_da', 25); fillAnswer('c3_dc1', 15); fillAnswer('c3_da_kuadrat', 625); fillAnswer('c3_dc1_kuadrat', 225); fillAnswer('c3_ac2_val', 400); fillAnswer('c3_ac', 20);
-    fillAnswer('c3_db', 17); fillAnswer('c3_dc2', 15); fillAnswer('c3_db_kuadrat', 289); fillAnswer('c3_dc2_kuadrat', 225); fillAnswer('c3_bc2_val', 64); fillAnswer('c3_bc', 8);
-    fillAnswer('c3_ac_final', 20); fillAnswer('c3_bc_final', 8); fillAnswer('c3_ab', 12);
-    document.querySelector('button[onclick="showAnswerC3()"]').classList.add('d-none');
-    if (typeof updateProgress === 'function') updateProgress('materi_4_penerapan_pythagoras', 'm4_cp4_contoh_3', 15);
+    isiJawabanMateri4('c3');
+
+    const feedback = document.getElementById('c3_feedback');
+    if (feedback) {
+        feedback.innerHTML = '<span class="text-primary fw-bold">Ini adalah jawaban yang benar.</span>';
+    }
 }
 
 // ==========================================
@@ -370,11 +704,12 @@ function cekSoal1() {
 }
 
 function showAnswerS1() {
-    fillAnswer('s1_dik_ab', 40); fillAnswer('s1_dik_bc', 30); fillAnswer('s1_ditanya', 'AC'); fillAnswer('s1_rumus', 'AC');
-    fillAnswer('s1_ab', 40); fillAnswer('s1_bc', 30); fillAnswer('s1_ab_kuadrat', 1600); fillAnswer('s1_bc_kuadrat', 900);
-    fillAnswer('s1_akar_val', 2500); fillAnswer('s1_ac', 50); document.getElementById('s1_ac2').value = 2500;
-    document.querySelector('button[onclick="showAnswerS1()"]').classList.add('d-none');
-    if (typeof updateProgress === 'function') updateProgress('materi_4_penerapan_pythagoras', 'm4_cp5_latihan_1', 20);
+    isiJawabanMateri4('s1');
+
+    const feedback = document.getElementById('s1_feedback');
+    if (feedback) {
+        feedback.innerHTML = '<span class="text-primary fw-bold">Ini adalah jawaban yang benar.</span>';
+    }
 }
 
 function cekSoal2() {
@@ -394,11 +729,12 @@ function cekSoal2() {
 }
 
 function showAnswerS2() {
-    fillAnswer('s2_dik_ab', 24); fillAnswer('s2_dik_ac', 25); fillAnswer('s2_ditanya', 'BC'); fillAnswer('s2_rumus', 'BC');
-    fillAnswer('s2_ac', 25); fillAnswer('s2_ab', 24); fillAnswer('s2_ac_kuadrat', 625); fillAnswer('s2_ab_kuadrat', 576);
-    fillAnswer('s2_akar_val', 49); fillAnswer('s2_bc', 7); document.getElementById('s2_bc2').value = 49;
-    document.querySelector('button[onclick="showAnswerS2()"]').classList.add('d-none');
-    if (typeof updateProgress === 'function') updateProgress('materi_4_penerapan_pythagoras', 'm4_cp6_latihan_2', 20);
+    isiJawabanMateri4('s2');
+
+    const feedback = document.getElementById('s2_feedback');
+    if (feedback) {
+        feedback.innerHTML = '<span class="text-primary fw-bold">Ini adalah jawaban yang benar.</span>';
+    }
 }
 
 function cekSoal3() {
@@ -418,12 +754,14 @@ function cekSoal3() {
 }
 
 function showAnswerS3() {
-    fillAnswer('s3_dik_da', 20); fillAnswer('s3_dik_ac', 16); fillAnswer('s3_dik_db', 15); fillAnswer('s3_ditanya', 'BC');
-    fillAnswer('s3_da', 20); fillAnswer('s3_ac1', 16); fillAnswer('s3_da_kuadrat', 400); fillAnswer('s3_ac1_kuadrat', 256); fillAnswer('s3_dc2_val', 144); fillAnswer('s3_dc', 12);
-    fillAnswer('s3_db', 15); fillAnswer('s3_dc2', 12); fillAnswer('s3_db_kuadrat', 225); fillAnswer('s3_dc2_kuadrat', 144); fillAnswer('s3_bc2_val', 81); fillAnswer('s3_bc', 9);
-    document.querySelector('button[onclick="showAnswerS3()"]').classList.add('d-none');
-    if (typeof updateProgress === 'function') updateProgress('materi_4_penerapan_pythagoras', 'm4_cp7_latihan_3', 20);
+    isiJawabanMateri4('s3');
+
+    const feedback = document.getElementById('s3_feedback');
+    if (feedback) {
+        feedback.innerHTML = '<span class="text-primary fw-bold">Ini adalah jawaban yang benar.</span>';
+    }
 }
+
 // ==========================================
 // 6. VALIDASI REFLEKSI & SIMPAN PROGRESS (Materi 4)
 // ==========================================
@@ -475,6 +813,10 @@ async function cekRefleksiPenerapan() {
 
         // 4. Jika Berhasil
         if (response.ok) {
+
+            simpanProgressMateri4('m4_cp8_refleksi', 10);
+            kunciFormRefleksiPenerapan();
+            
             Swal.fire({
                 icon: 'success',
                 title: '+10 Poin!',
@@ -485,15 +827,8 @@ async function cekRefleksiPenerapan() {
             }).then((resultAlert) => {
                 if (resultAlert.isConfirmed) {
 
-                    // Kunci Form
                     kunciFormRefleksiPenerapan();
 
-                    // Update Progress Gamifikasi
-                    if (typeof updateProgress === 'function') {
-                        updateProgress('materi_4_penerapan_pythagoras', 'm4_cp8_refleksi', 10);
-                    }
-
-                    // Tampilkan Alert Persiapan Ujian
                     Swal.fire({
                         title: 'Siap Menguji Diri?',
                         text: 'Silakan persiapkan diri dengan baik sebelum beralih ke menu Evaluasi/Kuis Utama.',
@@ -754,33 +1089,13 @@ document.addEventListener('DOMContentLoaded', function () {
                 if (feedback) feedback.innerHTML = '';
             }
         );
-        // 8. Refleksi Review Mode
-        window.setupReviewMode(
-            'm4_cp8_refleksi',
-            'button[onclick="cekRefleksiPenerapan()"]',
-            function () {
-                // Panggil fungsi kunci jika materi sudah dituntaskan sebelumnya
-                kunciFormRefleksiPenerapan();
-            },
-            function () {
-                // Reset form jika di-restart
-                ['ref_penerapan_1_ya', 'ref_penerapan_1_tidak'].forEach(id => {
-                    const el = document.getElementById(id);
-                    if (el) { el.disabled = false; el.checked = false; }
-                });
 
-                ['ref_penerapan_1_text', 'ref_penerapan_2_text'].forEach(id => {
-                    const el = document.getElementById(id);
-                    if (el) { el.disabled = false; el.value = ''; el.classList.remove('is-valid'); }
-                });
+    }
 
-                const btn = document.querySelector('button[onclick="cekRefleksiPenerapan()"]');
-                if (btn) {
-                    btn.disabled = false;
-                    btn.innerHTML = '<i class="fas fa-save me-1"></i> Simpan Refleksi';
-                }
-            }
-        );
-
+    if (
+        Array.isArray(window.completedCheckpoints) &&
+        window.completedCheckpoints.includes('m4_cp8_refleksi')
+    ) {
+        kunciFormRefleksiPenerapan();
     }
 });

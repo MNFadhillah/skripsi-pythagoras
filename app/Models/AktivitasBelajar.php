@@ -20,6 +20,7 @@ class AktivitasBelajar extends Model
         'instruksi',
         'tipe',           // Dari ERD
         'poin_didapat',   // Dari ERD
+        'kkm',
         'waktu_mulai',
         'waktu_selesai',
         'durasi_menit',

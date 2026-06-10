@@ -7,43 +7,62 @@
     window.completedCheckpoints = <?php echo json_encode($completedCheckpoints ?? []); ?>;
 </script>
 
-<script src="{{ asset('js/materi2.js') }}"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="{{ asset('js/materi2.js') }}"></script>
 @endpush
 
 @section('content')
 <div class="container">
-    <div class="row align-items-center">
-        <div class="col-lg-12">
-            <h3 class="text-center">Tripel Pythagoras</h3>
+    <div class="card shadow-sm border-1 mb-4">
+        <div class="card-body p-4">
+            <div class="row align-items-center">
+
+                {{-- KIRI: Progress Bar --}}
+                <div class="col-lg-3">
+                    <div class="d-flex flex-column">
+                        <small class="text-muted fw-bold mb-2">Progres Materi Anda</small>
+                        <div class="progress" style="height: 15px; border-radius: 10px;">
+                            @php $progressVal = $materiProgress ?? 0; @endphp
+                            {{-- Tambahkan ID materiProgressBar --}}
+                            <div id="materiProgressBar" class="progress-bar bg-success" role="progressbar" style="--w: {{ $progressVal }}%; width: var(--w);" aria-valuenow="{{ $progressVal }}" aria-valuemin="0" aria-valuemax="100"></div>
+                        </div>
+                        {{-- Tambahkan ID materiProgressText --}}
+                        <small id="materiProgressText" class="text-success fw-bold mt-1">{{ $progressVal }}% Selesai</small>
+                    </div>
+                </div>
+                {{-- TENGAH: Judul & Navigasi --}}
+                <div class="col-lg-6 text-center mt-3 mt-lg-0">
+                    <h4 class="fw-bold mb-3">Tripel Pythagoras</h4>
+                    <nav>
+                        <ul class="pagination justify-content-center mb-0 flex-wrap gap-2 materi-pagination">
+                            <li class="page-item">
+                                <button class="page-link px-3 py-2 prev-btn rounded shadow-sm">Sebelumnya</button>
+                            </li>
+                            {{-- Looping 6 Halaman (0 sampai 5) --}}
+                            @for ($i = 0; $i <= 4; $i++)
+                                <li class="page-item {{ $i == 0 ? 'active' : '' }}">
+                                <button class="page-link px-3 py-2 page-btn rounded shadow-sm" data-page="{{ $i }}">{{ $i + 1 }}</button>
+                                </li>
+                                @endfor
+                                <li class="page-item">
+                                    <button class="page-link px-3 py-2 next-btn rounded shadow-sm">Berikutnya</button>
+                                </li>
+                        </ul>
+                    </nav>
+                </div>
+
+                {{-- KANAN: Poin --}}
+                <div class="col-lg-3 text-lg-end text-center mt-3 mt-lg-0">
+                    <div class="d-inline-block badge bg-success text-white px-4 py-3 rounded-pill shadow-sm fs-6">
+                        <i class="bi bi-coin me-2 fs-5 align-middle"></i>
+                        {{-- TAMBAHKAN ID DI SINI --}}
+                        <span id="poinDisplay" class="fw-bold align-middle">{{ auth()->user()->points }} Poin</span>
+                    </div>
+                </div>
+
+            </div>
         </div>
     </div>
-
-    <nav>
-        <ul class="pagination justify-content-center materi-pagination">
-            <li class="page-item">
-                <button class="page-link prev-btn">‹</button>
-            </li>
-            <li class="page-item active">
-                <button class="page-link page-btn" data-page="0">1</button>
-            </li>
-            <li class="page-item">
-                <button class="page-link page-btn" data-page="1">2</button>
-            </li>
-            <li class="page-item">
-                <button class="page-link page-btn" data-page="2">3</button>
-            </li>
-            <li class="page-item">
-                <button class="page-link page-btn" data-page="3">4</button>
-            </li>
-            <li class="page-item">
-                <button class="page-link page-btn" data-page="4">5</button>
-            </li>
-            <li class="page-item">
-                <button class="page-link next-btn">›</button>
-            </li>
-        </ul>
-    </nav>
 
     <section class="materi-page" data-page="0">
         <section class="mb-4">
@@ -519,7 +538,7 @@
                                         <div class="card-body">
                                             <div class="d-flex align-items-center mb-3">
                                                 <span style="width: 60px;">Panjang sisi a =</span>
-                                                <select id="c1_dik_a" class="form-select form-select-sm text-center border-secondary mx-2" style="width: 80px;">
+                                                <select id="c1_dik_a" class="form-select form-select-sm text-center border-secondary mx-2" style="width: 100px;">
                                                     <option value=""></option>
                                                     <option value="17">17</option>
                                                     <option value="25">25</option>
@@ -529,7 +548,7 @@
                                             </div>
                                             <div class="d-flex align-items-center mb-3">
                                                 <span style="width: 60px;">Panjang sisi b =</span>
-                                                <select id="c1_dik_b" class="form-select form-select-sm text-center border-secondary mx-2" style="width: 80px;">
+                                                <select id="c1_dik_b" class="form-select form-select-sm text-center border-secondary mx-2" style="width: 100px;">
                                                     <option value=""></option>
                                                     <option value="17">17</option>
                                                     <option value="25">25</option>
@@ -539,7 +558,7 @@
                                             </div>
                                             <div class="d-flex align-items-center">
                                                 <span style="width: 60px;">Panjang sisi c =</span>
-                                                <select id="c1_dik_c" class="form-select form-select-sm text-center border-secondary mx-2" style="width: 80px;">
+                                                <select id="c1_dik_c" class="form-select form-select-sm text-center border-secondary mx-2" style="width: 100px;">
                                                     <option value=""></option>
                                                     <option value="17">17</option>
                                                     <option value="25">25</option>
@@ -574,7 +593,7 @@
                                                 <span class="d-block fw-bold text-dark mb-2 border-bottom pb-2">Tentukan sisi terpanjang (sisi c)</span>
                                                 <div class="mt-2">
                                                     Sisi terpanjang adalah
-                                                    <select id="c1_sisi_c" class="form-select form-select-sm d-inline-block fw-bold text-center border-success text-success" style="width: 80px;">
+                                                    <select id="c1_sisi_c" class="form-select form-select-sm d-inline-block fw-bold text-center border-success text-success" style="width: 100px;">
                                                         <option value=""></option>
                                                         <option value="17">17</option>
                                                         <option value="25">25</option>
@@ -628,7 +647,7 @@
                                                 <span class="d-block fw-bold text-dark mb-2 border-bottom pb-2">Bandingkan dan Simpulkan</span>
                                                 <div class="d-flex justify-content-center align-items-center gap-3 mt-3 mb-3">
                                                     <span class="fw-bold fs-5">c²</span>
-                                                    <select id="c1_banding" class="form-select text-center fw-bold text-primary border-primary shadow-sm" style="width: 80px;">
+                                                    <select id="c1_banding" class="form-select text-center fw-bold text-primary border-primary shadow-sm" style="width: 100px;">
                                                         <option value="">?</option>
                                                         <option value="<">&lt;</option>
                                                         <option value="=">=</option>
@@ -842,7 +861,7 @@
                                         <p class="fw-bold mb-1 pb-1">Penyelesaian</p>
                                         <div class="mb-3 mt-2 d-flex align-items-center">
                                             <span class="me-2">Sisi terpanjang =</span>
-                                            <select id="tp1_sisi_c" class="form-select form-select-sm text-center border-success text-success fw-bold" style="width: 80px;">
+                                            <select id="tp1_sisi_c" class="form-select form-select-sm text-center border-success text-success fw-bold" style="width: 105px;">
                                                 <option value=""></option>
                                                 <option value="8">8</option>
                                                 <option value="16">16</option>
@@ -856,11 +875,11 @@
                                             </p>
 
                                             <div class="d-flex justify-content-center align-items-center gap-1 mb-2">
-                                                <input type="number" id="tp1_step1_c" class="form-control form-control-sm text-center" style="width: 55px;" placeholder="...">²
+                                                <input type="number" id="tp1_step1_c" class="form-control form-control-sm text-center" style="width: 70px;" placeholder="...">²
                                                 <span class="mx-1">=</span>
-                                                <input type="number" id="tp1_step1_b" class="form-control form-control-sm text-center" style="width: 55px;" placeholder="...">²
+                                                <input type="number" id="tp1_step1_b" class="form-control form-control-sm text-center" style="width: 70px;" placeholder="...">²
                                                 <span class="mx-1">+</span>
-                                                <input type="number" id="tp1_step1_a" class="form-control form-control-sm text-center" style="width: 55px;" placeholder="...">²
+                                                <input type="number" id="tp1_step1_a" class="form-control form-control-sm text-center" style="width: 70px;" placeholder="...">²
                                             </div>
 
                                             <div class="d-flex justify-content-center align-items-center gap-1 mb-2">
@@ -879,7 +898,7 @@
                                                 </div>
 
                                                 <div>
-                                                    <select id="tp1_sign" class="form-select form-select-sm text-center fw-bold text-primary border-primary shadow-sm" style="width: 65px;">
+                                                    <select id="tp1_sign" class="form-select form-select-sm text-center fw-bold text-primary border-primary shadow-sm" style="width: 85px;">
                                                         <option value="">?</option>
                                                         <option value="=">=</option>
                                                         <option value="!=">&ne;</option>
@@ -917,7 +936,7 @@
                                         <p class="fw-bold mb-1 pb-1">Penyelesaian</p>
                                         <div class="mb-3 mt-2 d-flex align-items-center">
                                             <span class="me-2">Sisi terpanjang =</span>
-                                            <select id="tp2_sisi_c" class="form-select form-select-sm text-center border-success text-success fw-bold" style="width: 80px;">
+                                            <select id="tp2_sisi_c" class="form-select form-select-sm text-center border-success text-success fw-bold" style="width: 105px;">
                                                 <option value=""></option>
                                                 <option value="10">10</option>
                                                 <option value="24">24</option>
@@ -931,11 +950,11 @@
                                             </p>
 
                                             <div class="d-flex justify-content-center align-items-center gap-1 mb-2">
-                                                <input type="number" id="tp2_step1_c" class="form-control form-control-sm text-center" style="width: 55px;" placeholder="...">²
+                                                <input type="number" id="tp2_step1_c" class="form-control form-control-sm text-center" style="width: 70px;" placeholder="...">²
                                                 <span class="mx-1">=</span>
-                                                <input type="number" id="tp2_step1_b" class="form-control form-control-sm text-center" style="width: 55px;" placeholder="...">²
+                                                <input type="number" id="tp2_step1_b" class="form-control form-control-sm text-center" style="width: 70px;" placeholder="...">²
                                                 <span class="mx-1">+</span>
-                                                <input type="number" id="tp2_step1_a" class="form-control form-control-sm text-center" style="width: 55px;" placeholder="...">²
+                                                <input type="number" id="tp2_step1_a" class="form-control form-control-sm text-center" style="width: 70px;" placeholder="...">²
                                             </div>
 
                                             <div class="d-flex justify-content-center align-items-center gap-1 mb-2">
@@ -954,7 +973,7 @@
                                                 </div>
 
                                                 <div>
-                                                    <select id="tp2_sign" class="form-select form-select-sm text-center fw-bold text-primary border-primary shadow-sm" style="width: 65px;">
+                                                    <select id="tp2_sign" class="form-select form-select-sm text-center fw-bold text-primary border-primary shadow-sm" style="width: 85px;">
                                                         <option value="">?</option>
                                                         <option value="=">=</option>
                                                         <option value="!=">&ne;</option>
@@ -1046,24 +1065,24 @@
                                             <div class="ps-1">
                                                 <div class="row align-items-center g-1 mb-2">
                                                     <div class="col-auto">\(c^2\) = </div>
-                                                    <div class="col-auto"><input type="number" class="form-control form-control-sm text-center px-1 input-soal1" style="width: 60px;"></div>
+                                                    <div class="col-auto"><input type="number" class="form-control form-control-sm text-center px-1 input-soal1" style="width: 75px;"></div>
                                                     <div class="col-auto">\(^2\) = </div>
                                                     <div class="col-auto"><input type="number" class="form-control form-control-sm text-center px-1 fw-bold input-soal1" style="width: 75px;"></div>
                                                 </div>
 
                                                 <div class="row align-items-center g-1 mb-2">
                                                     <div class="col-auto">\(a^2 + b^2\) =</div>
-                                                    <div class="col-auto"><input type="number" class="form-control form-control-sm text-center px-1 input-soal1" style="width: 50px;"></div>
+                                                    <div class="col-auto"><input type="number" class="form-control form-control-sm text-center px-1 input-soal1" style="width: 75px;"></div>
                                                     <div class="col-auto">\(^2\) + </div>
-                                                    <div class="col-auto"><input type="number" class="form-control form-control-sm text-center px-1 input-soal1" style="width: 50px;"></div>
+                                                    <div class="col-auto"><input type="number" class="form-control form-control-sm text-center px-1 input-soal1" style="width: 75px;"></div>
                                                     <div class="col-auto">\(^2\)</div>
                                                 </div>
 
                                                 <div class="row align-items-center g-1 mb-3 ps-5 ms-3">
                                                     <div class="col-auto">=</div>
-                                                    <div class="col-auto"><input type="number" class="form-control form-control-sm text-center px-1 input-soal1" style="width: 60px;"></div>
+                                                    <div class="col-auto"><input type="number" class="form-control form-control-sm text-center px-1 input-soal1" style="width: 75px;"></div>
                                                     <div class="col-auto">+</div>
-                                                    <div class="col-auto"><input type="number" class="form-control form-control-sm text-center px-1 input-soal1" style="width: 60px;"></div>
+                                                    <div class="col-auto"><input type="number" class="form-control form-control-sm text-center px-1 input-soal1" style="width: 75px;"></div>
                                                     <div class="col-auto">=</div>
                                                     <div class="col-auto"><input type="number" class="form-control form-control-sm text-center px-1 fw-bold text-primary input-soal1" style="width: 75px;"></div>
                                                 </div>
@@ -1114,24 +1133,24 @@
                                             <div class="ps-1">
                                                 <div class="row align-items-center g-1 mb-2">
                                                     <div class="col-auto">\(c^2\) = </div>
-                                                    <div class="col-auto"><input type="number" class="form-control form-control-sm text-center px-1 input-soal2" style="width: 60px;"></div>
+                                                    <div class="col-auto"><input type="number" class="form-control form-control-sm text-center px-1 input-soal2" style="width: 75px;"></div>
                                                     <div class="col-auto">\(^2\) = </div>
                                                     <div class="col-auto"><input type="number" class="form-control form-control-sm text-center px-1 fw-bold input-soal2" style="width: 75px;"></div>
                                                 </div>
 
                                                 <div class="row align-items-center g-1 mb-2">
                                                     <div class="col-auto">\(a^2 + b^2\) =</div>
-                                                    <div class="col-auto"><input type="number" class="form-control form-control-sm text-center px-1 input-soal2" style="width: 50px;"></div>
+                                                    <div class="col-auto"><input type="number" class="form-control form-control-sm text-center px-1 input-soal2" style="width: 75px;"></div>
                                                     <div class="col-auto">\(^2\) + </div>
-                                                    <div class="col-auto"><input type="number" class="form-control form-control-sm text-center px-1 input-soal2" style="width: 50px;"></div>
+                                                    <div class="col-auto"><input type="number" class="form-control form-control-sm text-center px-1 input-soal2" style="width: 75px;"></div>
                                                     <div class="col-auto">\(^2\)</div>
                                                 </div>
 
                                                 <div class="row align-items-center g-1 mb-3 ps-5 ms-3">
                                                     <div class="col-auto">=</div>
-                                                    <div class="col-auto"><input type="number" class="form-control form-control-sm text-center px-1 input-soal2" style="width: 60px;"></div>
+                                                    <div class="col-auto"><input type="number" class="form-control form-control-sm text-center px-1 input-soal2" style="width: 75px;"></div>
                                                     <div class="col-auto">+</div>
-                                                    <div class="col-auto"><input type="number" class="form-control form-control-sm text-center px-1 input-soal2" style="width: 60px;"></div>
+                                                    <div class="col-auto"><input type="number" class="form-control form-control-sm text-center px-1 input-soal2" style="width: 75px;"></div>
                                                     <div class="col-auto">=</div>
                                                     <div class="col-auto"><input type="number" class="form-control form-control-sm text-center px-1 fw-bold text-primary input-soal2" style="width: 75px;"></div>
                                                 </div>
@@ -1405,31 +1424,24 @@
         </div>
     </section>
 
-    <nav>
-        <ul class="pagination justify-content-center materi-pagination">
-            <li class="page-item">
-                <button class="page-link prev-btn">‹</button>
-            </li>
-            <li class="page-item active">
-                <button class="page-link page-btn" data-page="0">1</button>
-            </li>
-            <li class="page-item">
-                <button class="page-link page-btn" data-page="1">2</button>
-            </li>
-            <li class="page-item">
-                <button class="page-link page-btn" data-page="2">3</button>
-            </li>
-            <li class="page-item">
-                <button class="page-link page-btn" data-page="3">4</button>
-            </li>
-            <li class="page-item">
-                <button class="page-link page-btn" data-page="4">5</button>
-            </li>
-            <li class="page-item">
-                <button class="page-link next-btn">›</button>
-            </li>
-        </ul>
-    </nav>
+    <div class="d-flex justify-content-center align-items-center mt-5 mb-5 pt-4 border-top">
+        <nav>
+            <ul class="pagination justify-content-center mb-0 flex-wrap gap-2 materi-pagination">
+                <li class="page-item">
+                    <button class="page-link px-3 py-2 prev-btn rounded shadow-sm">Sebelumnya</button>
+                </li>
+                {{-- Looping 5 Halaman (0 sampai 4) --}}
+                @for ($i = 0; $i <= 4; $i++)
+                    <li class="page-item {{ $i == 0 ? 'active' : '' }}">
+                    <button class="page-link px-3 py-2 page-btn rounded shadow-sm" data-page="{{ $i }}">{{ $i + 1 }}</button>
+                    </li>
+                    @endfor
+                    <li class="page-item">
+                        <button class="page-link px-3 py-2 next-btn rounded shadow-sm">Berikutnya</button>
+                    </li>
+            </ul>
+        </nav>
+    </div>
 
 </div>
 @endsection

@@ -25,8 +25,11 @@ request()->is('siswa/aktivitas/*');
     <link href="https://fonts.googleapis.com/css2?family=PT+Sans:wght@400;700&family=Open+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('css/siswa.css') }}">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 
     @stack('head')
 </head>
@@ -60,9 +63,20 @@ request()->is('siswa/aktivitas/*');
                         </div>
                     </div>
                     <div class="dropdown">
-                        <button class="btn btn-light btn-sm rounded-circle d-flex align-items-center justify-content-center" style="width: 36px; height: 36px;" data-bs-toggle="dropdown">
-                            <i class="bi bi-person text-success fs-5"></i>
+                        <button class="btn btn-light rounded-circle p-0 border-0 shadow-sm d-flex align-items-center justify-content-center"
+                            style="width: 40px; height: 40px;"
+                            data-bs-toggle="dropdown"
+                            aria-expanded="false">
+                            @if(auth()->user()->avatar)
+                            <img src="{{ asset('images/avatars/' . auth()->user()->avatar) }}"
+                                alt="Avatar"
+                                class="rounded-circle"
+                                style="width: 40px; height: 40px; object-fit: cover;">
+                            @else
+                            <i class="bi bi-person-fill text-success fs-4"></i>
+                            @endif
                         </button>
+
                         <ul class="dropdown-menu dropdown-menu-end shadow border-0 mt-2">
                             <li>
                                 <a href="{{ route('siswa.profile') }}" class="dropdown-item" style="color: #212529 !important; --bs-dropdown-link-active-bg: #f8f9fa">
@@ -75,7 +89,7 @@ request()->is('siswa/aktivitas/*');
                             <li>
                                 <form method="POST" action="{{ route('logout') }}">
                                     @csrf
-                                    <button type="submit" style="--bs-dropdown-link-active-bg: #f8f9fa" class="dropdown-item text-danger btn-logout">
+                                    <button type="submit" class="dropdown-item text-danger btn-logout">
                                         <i class="bi bi-box-arrow-right me-2"></i> Logout
                                     </button>
                                 </form>
@@ -391,6 +405,85 @@ request()->is('siswa/aktivitas/*');
                 });
             });
         })();
+
+
+        document.addEventListener('DOMContentLoaded', function() {
+            cekKunciKuisAktifDariLayout();
+        });
+
+        window.addEventListener('pageshow', function() {
+            cekKunciKuisAktifDariLayout();
+        });
+
+        function cekKunciKuisAktifDariLayout() {
+            const rawLock = localStorage.getItem('active_quiz_lock');
+            if (!rawLock) return;
+
+            let lock = null;
+
+            try {
+                lock = JSON.parse(rawLock);
+            } catch (e) {
+                localStorage.removeItem('active_quiz_lock');
+                return;
+            }
+
+            if (!lock || !lock.quiz_url || !lock.aktivitas_id) {
+                localStorage.removeItem('active_quiz_lock');
+                return;
+            }
+
+            const currentUrl = window.location.href;
+
+            // Kalau sedang di halaman kuis, jangan ganggu.
+            if (currentUrl === lock.quiz_url) return;
+
+            // Kalau sedang membuka halaman kerjakan kuis lain, jangan paksa dulu.
+            if (currentUrl.includes('/siswa/aktivitas/') && currentUrl.includes('/kerjakan')) {
+                return;
+            }
+
+            catatPelanggaranBackBrowser(lock);
+
+            const pesan = 'Kamu masih sedang mengerjakan kuis. Selesaikan kuis terlebih dahulu sebelum kembali ke materi.';
+
+            if (typeof Swal !== 'undefined') {
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Kuis Masih Berlangsung',
+                    text: pesan,
+                    confirmButtonText: 'Kembali ke Kuis',
+                    confirmButtonColor: '#146b42',
+                    allowOutsideClick: false
+                }).then(() => {
+                    window.location.href = lock.quiz_url;
+                });
+            } else {
+                alert(pesan);
+                window.location.href = lock.quiz_url;
+            }
+        }
+
+        function catatPelanggaranBackBrowser(lock) {
+            const csrfMeta = document.querySelector('meta[name="csrf-token"]');
+
+            if (!csrfMeta || !lock.violation_url) return;
+
+            fetch(lock.violation_url, {
+                method: 'POST',
+                keepalive: true,
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': csrfMeta.content,
+                    'Accept': 'application/json'
+                },
+                body: JSON.stringify({
+                    aktivitas_id: lock.aktivitas_id,
+                    jenis: 'browser_back_to_materi',
+                    detail: 'Siswa kembali ke materi menggunakan tombol back browser saat kuis masih berlangsung.'
+                })
+            }).catch(function() {});
+        }
     </script>
 
     @stack('scripts')

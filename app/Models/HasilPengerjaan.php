@@ -8,18 +8,24 @@ class HasilPengerjaan extends Model
 {
     protected $table = 'hasil_pengerjaan';
 
-    // TAMBAHKAN user_id di sini
     protected $fillable = [
         'paket_soal_id',
-        'user_id',       
+        'user_id',
         'skor_akhir',
         'snapshot_jawaban',
         'waktu_mulai',
-        'waktu_selesai'
+        'waktu_selesai',
+
+        // Tambahan untuk anti-cheat
+        'pelanggaran_count',
+        'pelanggaran_logs',
+        'terindikasi_curang',
     ];
-    
+
     protected $casts = [
-        'snapshot_jawaban' => 'array', 
+        'snapshot_jawaban' => 'array',
+        'pelanggaran_logs' => 'array',
+        'terindikasi_curang' => 'boolean',
     ];
 
     public function paketSoal()
@@ -31,8 +37,7 @@ class HasilPengerjaan extends Model
     {
         return $this->hasMany(JawabanSiswa::class);
     }
-    
-    // OPSIONAL: Tambahkan relasi ke user jika nanti ada
+
     public function user()
     {
         return $this->belongsTo(User::class);

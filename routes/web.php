@@ -15,6 +15,7 @@ use App\Http\Controllers\Siswa\QuizController;
 use App\Http\Controllers\Siswa\ProgressController;
 use App\Http\Controllers\Siswa\ProfileController;
 use App\Http\Controllers\Siswa\RefleksiController;
+use App\Http\Controllers\Siswa\BadgeController;
 
 /* =====================
    CONTROLLER GURU
@@ -22,7 +23,7 @@ use App\Http\Controllers\Siswa\RefleksiController;
 use App\Http\Controllers\GuruController;
 use App\Http\Controllers\Guru\DataSoalController;
 use App\Http\Controllers\Guru\PaketSoalController;
-use App\Http\Controllers\Guru\AktivitasController;
+use App\Http\Controllers\Guru\KuisEvaluasiController;
 use App\Http\Controllers\Guru\DataNilaiController;
 use App\Http\Controllers\Guru\DataSiswaController;
 use App\Http\Controllers\Guru\DataKelasController;
@@ -35,8 +36,10 @@ use App\Http\Controllers\Guru\DataRefleksiController;
 ===================== */
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\KelasController;
-use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\Admin\AdminGuruController;
+use App\Http\Controllers\Admin\AdminSiswaController;
 use App\Http\Controllers\Admin\ProfileAdminController;
+
 
 
 /* =====================
@@ -69,17 +72,42 @@ Route::middleware(['auth', 'role:admin'])
       Route::get('/dashboard', function () {
          return view('admin.dashboard');
       })->name('dashboard');
+      /* ===== MANAJEMEN GURU ===== */
+      Route::get('/guru/data', [AdminGuruController::class, 'data'])->name('guru.data');
+      Route::post('/guru/{user}/reset-password', [AdminGuruController::class, 'resetPassword'])->name('guru.reset-password');
+      Route::resource('guru', AdminGuruController::class)->except(['show'])->names([
+         'index'   => 'guru.index',
+         'store'   => 'guru.store',
+         'edit'    => 'guru.edit',
+         'update'  => 'guru.update',
+         'destroy' => 'guru.destroy',
+      ]);
 
-      Route::resource('users', UserController::class)->except(['show']);
-      Route::post('/users/{user}/reset-password', [UserController::class, 'resetPassword'])->name('users.reset-password');
-      Route::get('/users/data', [UserController::class, 'data'])->name('users.data');
-      Route::delete('/users/{user}', [UserController::class, 'destroy'])->name('users.destroy');
+      /* ===== MANAJEMEN SISWA ===== */
+      Route::get('/siswa/data', [AdminSiswaController::class, 'data'])->name('siswa.data');
+      Route::post('/siswa/{user}/reset-password', [AdminSiswaController::class, 'resetPassword'])->name('siswa.reset-password');
+      Route::resource('siswa', AdminSiswaController::class)->except(['show'])->names([
+         'index'   => 'siswa.index',
+         'store'   => 'siswa.store',
+         'edit'    => 'siswa.edit',
+         'update'  => 'siswa.update',
+         'destroy' => 'siswa.destroy',
+      ]);
+
+      Route::post('/siswa/import', [AdminSiswaController::class, 'importExcel'])->name('siswa.import');
+
+      Route::get('/siswa/template', [AdminSiswaController::class, 'downloadTemplate'])->name('siswa.template');
 
       Route::resource('kelas', KelasController::class)->except(['show']);
       Route::get('/kelas/data', [KelasController::class, 'data'])->name('kelas.data');
       Route::get('/kelas/{kelas}/students', [KelasController::class, 'manageStudents'])->name('kelas.students');
       Route::post('/kelas/{kelas}/add-student', [KelasController::class, 'addStudent'])->name('kelas.add-student');
       Route::delete('/kelas/{kelas}/remove-student/{student}', [KelasController::class, 'removeStudent'])->name('admin.kelas.remove-student');
+
+      Route::get('/kelas/{kelas}/teachers', [KelasController::class, 'manageTeachers'])->name('kelas.teachers');
+      Route::post('/kelas/{kelas}/add-teacher', [KelasController::class, 'addTeacher'])->name('kelas.add-teacher');
+      Route::delete('/kelas/{kelas}/remove-teacher', [KelasController::class, 'removeTeacher'])->name('kelas.remove-teacher');
+
       Route::get('/kelas/{kelas}/detail', [KelasController::class, 'detail'])->name('kelas.detail');
       Route::post('/kelas/update-token-guru', [KelasController::class, 'updateTokenGuru'])->name('pengaturan.token.update');
       Route::post('/kelas/{kelas}/update-guru', [KelasController::class, 'updateGuru'])->name('kelas.update-guru');
@@ -118,6 +146,10 @@ Route::middleware(['auth', 'role:siswa'])
       /* ===== KUIS / AKTIVITAS ===== */
       Route::get('/aktivitas/{id}/kerjakan', [QuizController::class, 'show'])->name('kuis.show');
       Route::get('/api/aktivitas/{id}/soal', [QuizController::class, 'api'])->name('kuis.api');
+
+      Route::post('/aktivitas/{id}/start', [QuizController::class, 'start'])->name('kuis.start');
+      Route::post('/aktivitas/violation', [QuizController::class, 'violation'])->name('kuis.violation');
+
       Route::post('/aktivitas/submit', [QuizController::class, 'submit'])->name('kuis.submit');
       Route::get('/hasil/{id}', [QuizController::class, 'showResult'])->name('kuis.result');
       Route::get('/api/hasil/{id}', [QuizController::class, 'getResultDetail'])->name('kuis.result.detail');
@@ -134,6 +166,8 @@ Route::middleware(['auth', 'role:siswa'])
       Route::get('/profile', [ProfileController::class, 'index'])->name('profile');
       Route::post('/profile/avatar', [ProfileController::class, 'updateAvatar'])->name('profile.avatar');
       Route::put('/profile/update', [ProfileController::class, 'updateProfile'])->name('profile.update');
+      Route::post('/profile/select-avatar', [ProfileController::class, 'selectSystemAvatar'])->name('profile.select_avatar');
+
 
       /* ===== REFLEKSI ===== */
       Route::post('/refleksi/simpan', [RefleksiController::class, 'simpan'])->name('refleksi.simpan');
@@ -166,8 +200,15 @@ Route::middleware(['auth', 'role:guru'])
 
       Route::resource('paket_soal', PaketSoalController::class)->except(['show']);
 
-      /* ===== AKTIVITAS ===== */
-      Route::resource('aktivitas', AktivitasController::class)->except(['show']);
+      /* ===== MANAJEMEN KUIS & EVALUASI ===== */
+      Route::resource('kuis-evaluasi', KuisEvaluasiController::class)->except(['show'])->names([
+         'index'   => 'kuis_evaluasi.index',
+         'create'  => 'kuis_evaluasi.create',
+         'store'   => 'kuis_evaluasi.store',
+         'edit'    => 'kuis_evaluasi.edit',
+         'update'  => 'kuis_evaluasi.update',
+         'destroy' => 'kuis_evaluasi.destroy',
+      ]);
 
       /* ===== NILAI ===== */
       Route::get('/data_nilai', [DataNilaiController::class, 'index'])->name('data_nilai');
@@ -204,6 +245,4 @@ Route::middleware(['auth', 'role:guru'])
 
       /* ===== DATA REFLEKSI ===== */
       Route::get('/data_refleksi', [DataRefleksiController::class, 'index'])->name('data_refleksi');
-
-
    });

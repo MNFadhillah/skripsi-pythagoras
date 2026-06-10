@@ -20,7 +20,7 @@ class QuizController extends Controller
     public function show($aktivitasId)
     {
         $aktivitas = AktivitasBelajar::with('paket_soal')->findOrFail($aktivitasId);
-        
+
         $user = Auth::user();
 
         // CEK AKSES KELAS
@@ -31,11 +31,11 @@ class QuizController extends Controller
 
         // Cek apakah siswa sudah pernah menyelesaikan kuis ini
         $riwayatSelesai = HasilPengerjaan::where('user_id', Auth::id())
-                            ->where('paket_soal_id', $aktivitas->paket_soal_id)
-                            ->whereNotNull('waktu_selesai')
-                            ->orderBy('created_at', 'asc')
-                            ->get();
-                            
+            ->where('paket_soal_id', $aktivitas->paket_soal_id)
+            ->whereNotNull('waktu_selesai')
+            ->orderBy('created_at', 'asc')
+            ->get();
+
         $jumlahPercobaan = $riwayatSelesai->count();
         $nilaiPertama = $jumlahPercobaan > 0 ? $riwayatSelesai->first()->skor_akhir : null;
 
@@ -67,113 +67,214 @@ class QuizController extends Controller
     public function api($aktivitasId)
     {
         $aktivitas = AktivitasBelajar::with('paket_soal.butir_soal')->findOrFail($aktivitasId);
-        $user = Auth::user(); 
-        $now = Carbon::now();
+        $user = Auth::user();
 
         if ($user->kelas_id != $aktivitas->kelas_id) {
-            return response()->json(['error' => 'Anda tidak memiliki akses ke aktivitas ini.'], 403);
+            return response()->json([
+                'error' => 'Anda tidak memiliki akses ke aktivitas ini.'
+            ], 403);
         }
 
-        // 1. Validasi standar (status dan evaluasi)
         if (!$aktivitas->is_currently_active) {
-            $jenisText = ($aktivitas->kategori === 'evaluasi') ? 'Evaluasi' : 'Kuis';
+            $jenisText = $aktivitas->kategori === 'evaluasi' ? 'Evaluasi' : 'Kuis';
+
             return response()->json([
                 'error' => "Maaf, $jenisText ini belum dibuka oleh guru atau batas waktu pengerjaannya telah habis."
             ], 403);
         }
-        
+
         $paket = $aktivitas->paket_soal;
+
         if (!$paket) {
-            return response()->json(['error' => 'Paket soal tidak ditemukan'], 404);
+            return response()->json([
+                'error' => 'Paket soal tidak ditemukan'
+            ], 404);
         }
 
         if ($aktivitas->kategori === 'evaluasi') {
             $sudahSelesai = HasilPengerjaan::where('user_id', $user->id)
-                                ->where('paket_soal_id', $paket->id)
-                                ->whereNotNull('waktu_selesai')
-                                ->exists();
+                ->where('paket_soal_id', $paket->id)
+                ->whereNotNull('waktu_selesai')
+                ->exists();
 
             if ($sudahSelesai) {
-                return response()->json(['error' => 'Anda sudah mengerjakan Evaluasi Akhir ini. Evaluasi hanya dapat dikerjakan satu kali.'], 403);
+                return response()->json([
+                    'error' => 'Anda sudah mengerjakan Evaluasi Akhir ini. Evaluasi hanya dapat dikerjakan satu kali.'
+                ], 403);
             }
-        }
-
-        // --- LOGIKA BARU: PENANGANAN SESI TERBENGKALAI & ANTI-CHEAT ---
-        
-        $pengerjaanAktif = HasilPengerjaan::where('user_id', $user->id)
-                            ->where('paket_soal_id', $paket->id) 
-                            ->whereNull('waktu_selesai')
-                            ->first();
-
-        $sisaDetik = (int) $aktivitas->durasi_menit * 60; // Default sisa waktu
-
-        if ($pengerjaanAktif) {
-            // Hitung apakah waktu sebenarnya sudah habis sejak dia pertama kali klik "Mulai"
-            $waktuMulaiDb = Carbon::parse($pengerjaanAktif->waktu_mulai);
-            $batasWaktu = $waktuMulaiDb->copy()->addMinutes((int) $aktivitas->durasi_menit);
-
-            if ($now->greaterThanOrEqualTo($batasWaktu)) {
-                // JIKA WAKTU HABIS SAAT DITINGGALKAN: Auto Submit Paksa (Nilai 0)
-                $pengerjaanAktif->update([
-                    'waktu_selesai' => $batasWaktu,
-                    'skor_akhir' => 0
-                ]);
-                $pengerjaanAktif = null; // Reset variabel agar buat sesi baru (kecuali Evaluasi)
-
-                // Jika ini evaluasi, dia sudah menyia-nyiakan satu-satunya kesempatan.
-                if ($aktivitas->kategori === 'evaluasi') {
-                    return response()->json(['error' => 'Waktu pengerjaan Evaluasi Anda telah habis saat Anda meninggalkan halaman. Status otomatis diselesaikan dengan nilai 0.'], 403);
-                }
-            } else {
-                // JIKA WAKTU MASIH ADA: Lanjutkan, tapi potong sisa detiknya
-                $sisaDetik = $now->diffInSeconds($batasWaktu);
-            }
-        }
-
-        // Jika tidak ada sesi aktif (atau baru saja di-auto-close di atas), buat baru
-        if (!$pengerjaanAktif) {
-            HasilPengerjaan::create([
-                'user_id'       => $user->id,
-                'paket_soal_id' => $paket->id,
-                'waktu_mulai'   => $now,
-                'waktu_selesai' => null,
-                'skor_akhir'    => 0
-            ]);
-            $sisaDetik = $aktivitas->durasi_menit * 60;
         }
 
         return response()->json([
             'id_aktivitas' => $aktivitas->id,
-            'id_paket'     => $paket->id,
-            'judul'        => $aktivitas->judul,
+            'id_paket' => $paket->id,
+            'judul' => $aktivitas->judul,
             'durasi_menit' => $aktivitas->durasi_menit,
-            'sisa_detik'   => (int) $sisaDetik, // Kirim sisa waktu asli ke Javascript
-            'soal'         => $paket->butir_soal->map(function ($s) {
-                return [
-                    'id'      => $s->id,
-                    'text'    => is_array($s->pertanyaan) ? ($s->pertanyaan['text'] ?? '') : $s->pertanyaan,
-                    'image'   => is_array($s->pertanyaan) ? ($s->pertanyaan['image'] ?? null) : null,
-                    'options' => $s->opsi_jawaban,
-                ];
-            }),
+            'jumlah_soal' => $paket->butir_soal->count(),
         ]);
     }
-    /**
-     * Submit Jawaban
-     */
-    /**
-     * Submit Jawaban
-     */
 
+
+    public function start($aktivitasId)
+    {
+        $aktivitas = AktivitasBelajar::with('paket_soal.butir_soal')->findOrFail($aktivitasId);
+        $user = Auth::user();
+        $now = Carbon::now();
+
+        if ($user->kelas_id != $aktivitas->kelas_id) {
+            return response()->json([
+                'error' => 'Anda tidak memiliki akses ke aktivitas ini.'
+            ], 403);
+        }
+
+        if (!$aktivitas->is_currently_active) {
+            $jenisText = $aktivitas->kategori === 'evaluasi' ? 'Evaluasi' : 'Kuis';
+
+            return response()->json([
+                'error' => "Maaf, $jenisText ini belum dibuka oleh guru atau batas waktunya telah habis."
+            ], 403);
+        }
+
+        $paket = $aktivitas->paket_soal;
+
+        if (!$paket) {
+            return response()->json([
+                'error' => 'Paket soal tidak ditemukan.'
+            ], 404);
+        }
+
+        if ($aktivitas->kategori === 'evaluasi') {
+            $sudahSelesai = HasilPengerjaan::where('user_id', $user->id)
+                ->where('paket_soal_id', $paket->id)
+                ->whereNotNull('waktu_selesai')
+                ->exists();
+
+            if ($sudahSelesai) {
+                return response()->json([
+                    'error' => 'Evaluasi hanya dapat dikerjakan satu kali.'
+                ], 403);
+            }
+        }
+
+        $pengerjaanAktif = HasilPengerjaan::where('user_id', $user->id)
+            ->where('paket_soal_id', $paket->id)
+            ->whereNull('waktu_selesai')
+            ->latest()
+            ->first();
+
+        if ($pengerjaanAktif) {
+            $waktuMulai = Carbon::parse($pengerjaanAktif->waktu_mulai);
+            $batasWaktu = $waktuMulai->copy()->addMinutes((int) $aktivitas->durasi_menit);
+
+            if ($now->greaterThanOrEqualTo($batasWaktu)) {
+                $pengerjaanAktif->update([
+                    'waktu_selesai' => $batasWaktu,
+                    'skor_akhir' => 0,
+                    'terindikasi_curang' => true,
+                ]);
+
+                if ($aktivitas->kategori === 'evaluasi') {
+                    return response()->json([
+                        'error' => 'Waktu evaluasi Anda sudah habis. Evaluasi otomatis diselesaikan.'
+                    ], 403);
+                }
+
+                $pengerjaanAktif = null;
+            }
+        }
+
+        if (!$pengerjaanAktif) {
+            $pengerjaanAktif = HasilPengerjaan::create([
+                'user_id' => $user->id,
+                'paket_soal_id' => $paket->id,
+                'waktu_mulai' => $now,
+                'waktu_selesai' => null,
+                'skor_akhir' => 0,
+                'pelanggaran_count' => 0,
+                'pelanggaran_logs' => [],
+                'terindikasi_curang' => false,
+            ]);
+        }
+
+        $waktuMulai = Carbon::parse($pengerjaanAktif->waktu_mulai);
+        $batasWaktu = $waktuMulai->copy()->addMinutes((int) $aktivitas->durasi_menit);
+        $sisaDetik = max(0, $now->diffInSeconds($batasWaktu, false));
+
+        return response()->json([
+            'status' => 'ok',
+            'durasi_menit' => $aktivitas->durasi_menit,
+            'sisa_detik' => (int) $sisaDetik,
+            'soal' => $paket->butir_soal->map(function ($s) {
+                return [
+                    'id' => $s->id,
+                    'text' => is_array($s->pertanyaan) ? ($s->pertanyaan['text'] ?? '') : $s->pertanyaan,
+                    'image' => is_array($s->pertanyaan) ? ($s->pertanyaan['image'] ?? null) : null,
+                    'options' => $s->opsi_jawaban,
+                ];
+            })->values(),
+        ]);
+    }
+
+    public function violation(Request $request)
+    {
+        $request->validate([
+            'aktivitas_id' => 'required|exists:aktivitas_belajar,id',
+            'jenis' => 'required|string|max:100',
+            'detail' => 'nullable|string|max:255',
+        ]);
+
+        $user = Auth::user();
+        $aktivitas = AktivitasBelajar::findOrFail($request->aktivitas_id);
+
+        if ($user->kelas_id != $aktivitas->kelas_id) {
+            return response()->json([
+                'error' => 'Tidak memiliki akses.'
+            ], 403);
+        }
+
+        $hasil = HasilPengerjaan::where('user_id', $user->id)
+            ->where('paket_soal_id', $aktivitas->paket_soal_id)
+            ->whereNull('waktu_selesai')
+            ->latest()
+            ->first();
+
+        if (!$hasil) {
+            return response()->json([
+                'status' => 'no_active_session'
+            ]);
+        }
+
+        $logs = $hasil->pelanggaran_logs ?? [];
+
+        $logs[] = [
+            'jenis' => $request->jenis,
+            'detail' => $request->detail,
+            'waktu' => now()->toDateTimeString(),
+            'ip' => $request->ip(),
+            'user_agent' => substr($request->userAgent() ?? '', 0, 200),
+        ];
+
+        $hasil->pelanggaran_logs = $logs;
+        $hasil->pelanggaran_count = count($logs);
+
+        if (count($logs) >= 2 && $aktivitas->kategori === 'evaluasi') {
+            $hasil->terindikasi_curang = true;
+        }
+
+        $hasil->save();
+
+        return response()->json([
+            'status' => 'ok',
+            'pelanggaran_count' => $hasil->pelanggaran_count,
+            'terindikasi_curang' => $hasil->terindikasi_curang,
+        ]);
+    }
 
     public function submit(Request $request)
     {
         $request->validate([
-            'aktivitas_id'         => 'required|exists:aktivitas_belajar,id',
-            'jawaban'              => 'required|array',
-            'jawaban.*.soal_id'    => 'required|exists:butir_soal,id',
-            'waktu_mulai_aktual'   => 'required|date_format:Y-m-d H:i:s', 
-            'waktu_selesai_aktual' => 'required|date_format:Y-m-d H:i:s', 
+            'aktivitas_id' => 'required|exists:aktivitas_belajar,id',
+            'jawaban' => 'required|array',
+            'jawaban.*.soal_id' => 'required|exists:butir_soal,id',
         ]);
 
         $user = Auth::user();
@@ -181,150 +282,210 @@ class QuizController extends Controller
         $jawabanSiswa = $request->jawaban;
 
         $aktivitas = AktivitasBelajar::findOrFail($aktivitasId);
+
+        if ($user->kelas_id != $aktivitas->kelas_id) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Anda tidak memiliki akses ke aktivitas ini.'
+            ], 403);
+        }
+
         $paketId = $aktivitas->paket_soal_id;
         $totalSoalReal = ButirSoal::where('paket_soal_id', $paketId)->count();
 
-        // Ambil riwayat pengerjaan sebelumnya untuk menentukan remedial
         $riwayatSebelumnya = HasilPengerjaan::where('user_id', $user->id)
-                            ->where('paket_soal_id', $paketId)
-                            ->whereNotNull('waktu_selesai')
-                            ->orderBy('created_at', 'asc')
-                            ->get();
+            ->where('paket_soal_id', $paketId)
+            ->whereNotNull('waktu_selesai')
+            ->orderBy('created_at', 'asc')
+            ->get();
+
         $jumlahPercobaan = $riwayatSebelumnya->count();
         $nilaiPertama = $jumlahPercobaan > 0 ? $riwayatSebelumnya->first()->skor_akhir : null;
 
-        $waktuMulaiAktual = Carbon::parse($request->waktu_mulai_aktual);
-        $waktuSelesaiAktual = Carbon::parse($request->waktu_selesai_aktual);
-
-        // Cari pengerjaan aktif (belum selesai)
         $hasil = HasilPengerjaan::where('user_id', $user->id)
-                    ->where('paket_soal_id', $paketId)
-                    ->whereNull('waktu_selesai')
-                    ->latest()
-                    ->first();
+            ->where('paket_soal_id', $paketId)
+            ->whereNull('waktu_selesai')
+            ->latest()
+            ->first();
 
-        if ($hasil) {
-            $hasil->waktu_mulai = $waktuMulaiAktual; 
-            $hasil->waktu_selesai = $waktuSelesaiAktual;
-        } else {
-            $hasil = HasilPengerjaan::create([
-                'user_id'       => $user->id,
-                'paket_soal_id' => $paketId,
-                'waktu_mulai'   => $waktuMulaiAktual,
-                'waktu_selesai' => $waktuSelesaiAktual,
-                'skor_akhir'    => 0
+        if (!$hasil) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Sesi pengerjaan tidak ditemukan atau sudah selesai.'
+            ], 409);
+        }
+
+        $now = Carbon::now();
+        $waktuMulaiServer = Carbon::parse($hasil->waktu_mulai);
+        $batasWaktu = $waktuMulaiServer->copy()->addMinutes((int) $aktivitas->durasi_menit);
+
+        if ($now->greaterThan($batasWaktu->copy()->addSeconds(10))) {
+            $hasil->waktu_selesai = $batasWaktu;
+            $hasil->skor_akhir = 0;
+            $hasil->terindikasi_curang = true;
+            $hasil->save();
+
+            return response()->json([
+                'status' => 'timeout',
+                'hasil_id' => $hasil->id,
+                'skor' => 0,
+                'total_soal' => $totalSoalReal,
+                'jumlah_benar' => 0,
+                'detail' => [],
+                'is_passed' => false,
+                'remedial_url' => route('siswa.kuis.show', $aktivitas->id),
+                'materi_url' => $this->getMateriUrlByKategori($aktivitas->kategori),
+                'next_url' => $this->getMateriUrlByKategori($aktivitas->kategori),
+                'poin_diberikan' => false,
+                'poin_didapat' => 0,
+                'message' => 'Waktu pengerjaan sudah habis.'
             ]);
         }
 
+        $hasil->waktu_selesai = $now;
+
         $skor = 0;
-        $detailJawaban = []; 
+        $detailJawaban = [];
         $snapshotArray = [];
 
         foreach ($jawabanSiswa as $item) {
-            $soal = ButirSoal::find($item['soal_id']);
-            if (!$soal) continue;
+            $soal = ButirSoal::where('id', $item['soal_id'])
+                ->where('paket_soal_id', $paketId)
+                ->first();
+
+            if (!$soal) {
+                continue;
+            }
 
             $inputJawaban = $item['jawaban'] ?? null;
             $benar = ($inputJawaban == $soal->kunci_jawaban);
-            if ($benar) $skor++;
+
+            if ($benar) {
+                $skor++;
+            }
 
             JawabanSiswa::updateOrCreate(
-                ['hasil_pengerjaan_id' => $hasil->id, 'butir_soal_id' => $soal->id],
-                ['jawaban' => $inputJawaban, 'benar' => $benar]
+                [
+                    'hasil_pengerjaan_id' => $hasil->id,
+                    'butir_soal_id' => $soal->id
+                ],
+                [
+                    'jawaban' => $inputJawaban,
+                    'benar' => $benar
+                ]
             );
 
-            $textSoal = is_array($soal->pertanyaan) ? ($soal->pertanyaan['text'] ?? '') : $soal->pertanyaan;
-            $gambarSoal = is_array($soal->pertanyaan) ? ($soal->pertanyaan['image'] ?? null) : null;
+            $textSoal = is_array($soal->pertanyaan)
+                ? ($soal->pertanyaan['text'] ?? '')
+                : $soal->pertanyaan;
+
+            $gambarSoal = is_array($soal->pertanyaan)
+                ? ($soal->pertanyaan['image'] ?? null)
+                : null;
 
             $detailJawaban[] = [
-                'soal_id'    => $soal->id,
-                'pertanyaan' => $textSoal, 
-                'benar'      => $benar,
-                'jawaban'    => $inputJawaban,
-                'kunci'      => $soal->kunci_jawaban
+                'soal_id' => $soal->id,
+                'pertanyaan' => $textSoal,
+                'benar' => $benar,
+                'jawaban' => $inputJawaban,
+                'kunci' => $soal->kunci_jawaban
             ];
 
             $snapshotArray[] = [
-                'soal_id'       => $soal->id,
-                'pertanyaan'    => $textSoal,
-                'gambar'        => $gambarSoal,
-                'opsi_jawaban'  => $soal->opsi_jawaban, 
+                'soal_id' => $soal->id,
+                'pertanyaan' => $textSoal,
+                'gambar' => $gambarSoal,
+                'opsi_jawaban' => $soal->opsi_jawaban,
                 'kunci_jawaban' => $soal->kunci_jawaban,
                 'jawaban_siswa' => $inputJawaban,
-                'is_benar'      => $benar
+                'is_benar' => $benar
             ];
         }
-        $nilaiAkhir = ($totalSoalReal > 0) ? round(($skor / $totalSoalReal) * 100) : 0;
 
-        // Terapkan batasan remedial
+        $nilaiAkhir = ($totalSoalReal > 0)
+            ? round(($skor / $totalSoalReal) * 100)
+            : 0;
+
         $finalNilai = $nilaiAkhir;
+
         if ($jumlahPercobaan > 0 && $nilaiPertama < 70) {
             if ($finalNilai >= 70) {
                 $finalNilai = 70;
             }
         }
 
-        // 1. Tentukan apakah nilai saat ini lulus
         $isPassed = $finalNilai >= 70;
 
-        // 2. Cek apakah SEBELUMNYA sudah pernah lulus dari collection yang sudah di-query di atas.
-        // (Jauh lebih cepat daripada melakukan query database baru)
         $pernahLulus = $riwayatSebelumnya->contains(function ($riwayat) {
             return $riwayat->skor_akhir >= 70;
         });
 
-        // 3. BARU KITA SIMPAN hasil yang sekarang ke database
         $hasil->skor_akhir = $finalNilai;
-        $hasil->snapshot_jawaban = $snapshotArray; 
+        $hasil->snapshot_jawaban = $snapshotArray;
         $hasil->save();
 
-        // 4. Logika penambahan poin gamifikasi
         $poinDiberikan = false;
+
         if ($isPassed && !$pernahLulus) {
-            // TIPS PRO: Gunakan increment() agar lebih aman dari Race Condition
             User::where('id', $user->id)->increment('points', $aktivitas->poin_didapat);
             $poinDiberikan = true;
         }
 
         $remedialUrl = route('siswa.kuis.show', $aktivitas->id);
         $materiUrl = $this->getMateriUrlByKategori($aktivitas->kategori);
-        $nextUrl = $isPassed ? $this->getNextMateriUrl($aktivitas->kategori) : $remedialUrl;
+        $nextUrl = $isPassed
+            ? $this->getNextMateriUrl($aktivitas->kategori)
+            : $remedialUrl;
 
         return response()->json([
-            'status'       => 'ok',
-            'hasil_id'     => $hasil->id,
-            'skor'         => $finalNilai,
-            'total_soal'   => $totalSoalReal,
+            'status' => 'ok',
+            'hasil_id' => $hasil->id,
+            'skor' => $finalNilai,
+            'total_soal' => $totalSoalReal,
             'jumlah_benar' => $skor,
-            'detail'       => $detailJawaban,
-            'is_passed'    => $isPassed,
+            'detail' => $detailJawaban,
+            'is_passed' => $isPassed,
             'remedial_url' => $remedialUrl,
-            'materi_url'   => $materiUrl,
-            'next_url'     => $nextUrl,
+            'materi_url' => $materiUrl,
+            'next_url' => $nextUrl,
             'poin_diberikan' => $poinDiberikan,
-            'poin_didapat'   => $aktivitas->poin_didapat
+            'poin_didapat' => $aktivitas->poin_didapat,
+            'pelanggaran_count' => $hasil->pelanggaran_count ?? 0,
+            'terindikasi_curang' => $hasil->terindikasi_curang ?? false,
         ]);
     }
+
+
 
     private function getMateriUrlByKategori($kategori)
     {
         switch ($kategori) {
-            case 'konsep': return route('siswa.konsep.materi');
-            case 'tripel': return route('siswa.tripel.materi');
-            case 'istimewa': return route('siswa.istimewa.materi');
-            case 'penerapan': return route('siswa.penerapan.materi');
-            default: return route('siswa.menu.dashboard');
+            case 'konsep':
+                return route('siswa.konsep.materi');
+            case 'tripel':
+                return route('siswa.tripel.materi');
+            case 'istimewa':
+                return route('siswa.istimewa.materi');
+            case 'penerapan':
+                return route('siswa.penerapan.materi');
+            default:
+                return route('siswa.menu.dashboard');
         }
     }
 
     private function getNextMateriUrl($kategori)
     {
         switch ($kategori) {
-            case 'konsep': return route('siswa.tripel.materi');
-            case 'tripel': return route('siswa.istimewa.materi');
-            case 'istimewa': return route('siswa.penerapan.materi');
-            case 'penerapan': return route('siswa.menu.dashboard'); // atau evaluasi
-            default: return route('siswa.menu.dashboard');
+            case 'konsep':
+                return route('siswa.tripel.materi');
+            case 'tripel':
+                return route('siswa.istimewa.materi');
+            case 'istimewa':
+                return route('siswa.penerapan.materi');
+            case 'penerapan':
+                return route('siswa.menu.dashboard'); // atau evaluasi
+            default:
+                return route('siswa.menu.dashboard');
         }
     }
     /**
@@ -335,7 +496,7 @@ class QuizController extends Controller
         // Pastikan relasi 'jawabanSiswa.butirSoal' dan 'paketSoal' ada di model HasilPengerjaan
         $hasil = HasilPengerjaan::with(['jawabanSiswa.butirSoal', 'paketSoal'])
             ->findOrFail($hasilId);
-        
+
         return view('siswa.hasil_kuis', compact('hasil'));
     }
 
@@ -346,7 +507,7 @@ class QuizController extends Controller
     {
         $hasil = HasilPengerjaan::with(['jawabanSiswa.butirSoal'])
             ->findOrFail($hasilId);
-        
+
         $detail = [];
 
         // 🔥 CEK APAKAH ADA DATA SNAPSHOT
@@ -363,17 +524,16 @@ class QuizController extends Controller
                     'options'       => $snap['opsi_jawaban'] ?? []
                 ];
             }
-        } 
-        else {
+        } else {
             // JIKA TIDAK ADA SNAPSHOT (Fallback untuk data lama sebelum fitur ini dibuat):
             // Gunakan cara lama, ambil langsung dari tabel ButirSoal yang mungkin sudah berubah
             $detail = $hasil->jawabanSiswa->map(function ($jawaban) {
-                $text = is_array($jawaban->butirSoal->pertanyaan) 
-                    ? ($jawaban->butirSoal->pertanyaan['text'] ?? '') 
+                $text = is_array($jawaban->butirSoal->pertanyaan)
+                    ? ($jawaban->butirSoal->pertanyaan['text'] ?? '')
                     : $jawaban->butirSoal->pertanyaan;
 
-                $gambar = is_array($jawaban->butirSoal->pertanyaan) 
-                    ? ($jawaban->butirSoal->pertanyaan['image'] ?? null) 
+                $gambar = is_array($jawaban->butirSoal->pertanyaan)
+                    ? ($jawaban->butirSoal->pertanyaan['image'] ?? null)
                     : null;
 
                 return [
@@ -386,7 +546,7 @@ class QuizController extends Controller
                 ];
             })->toArray(); // Pastikan diubah jadi array agar format json respon-nya konsisten
         }
-        
+
         return response()->json([
             'skor'       => $hasil->skor_akhir,
             'total_soal' => count($detail), // Hitung dari panjang array detail

@@ -166,14 +166,14 @@
 
         {{-- Aktivitas Siswa --}}
         <div class="col-md-6 col-lg-4">
-            <a href="{{ route('guru.aktivitas.index') }}" class="card text-decoration-none shadow-sm border-0 h-100 hover-card">
+            <a href="{{ route('guru.kuis_evaluasi.index') }}" class="card text-decoration-none shadow-sm border-0 h-100 hover-card">
                 <div class="card-body d-flex align-items-center p-4">
                     <div class="rounded-3 p-3 me-3 d-flex align-items-center justify-content-center" style="background-color: #F3E5F5; width: 60px; height: 60px;">
                         <i class="bi bi-book fs-3" style="color: #9c27b0;"></i>
                     </div>
                     <div>
-                        <h5 class="fw-bold text-dark mb-0">Aktivitas Siswa</h5>
-                        <small class="text-muted">Log pembelajaran</small>
+                        <h5 class="fw-bold text-dark mb-0">Kelola Kuis & Evaluasi</h5>
+                        <small class="text-muted">Sesuaikan Kuis dan Evaluasi Siswa</small>
                     </div>
                 </div>
             </a>

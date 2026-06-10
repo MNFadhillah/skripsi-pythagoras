@@ -6,42 +6,62 @@
 <script>
     window.completedCheckpoints = JSON.parse('{!! json_encode($completedCheckpoints ?? []) !!}');
 </script>
-<script src="{{ asset('js/materi3.js') }}"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="{{ asset('js/materi3.js') }}"></script>
 @endpush
 
 @section('content')
 <div class="container">
-    <div class="row align-items-center mb-2">
-        <div class="col-lg-12">
-            <h3 class="text-center">Segitiga Istimewa</h3>
+    <div class="card shadow-sm border-1 mb-4">
+        <div class="card-body p-4">
+            <div class="row align-items-center">
+
+                {{-- KIRI: Progress Bar --}}
+                <div class="col-lg-3">
+                    <div class="d-flex flex-column">
+                        <small class="text-muted fw-bold mb-2">Progres Materi Anda</small>
+                        <div class="progress" style="height: 15px; border-radius: 10px;">
+                            @php $progressVal = $materiProgress ?? 0; @endphp
+                            {{-- Tambahkan ID materiProgressBar --}}
+                            <div id="materiProgressBar" class="progress-bar bg-success" role="progressbar" style="--w: {{ $progressVal }}%; width: var(--w);" aria-valuenow="{{ $progressVal }}" aria-valuemin="0" aria-valuemax="100"></div>
+                        </div>
+                        {{-- Tambahkan ID materiProgressText --}}
+                        <small id="materiProgressText" class="text-success fw-bold mt-1">{{ $progressVal }}% Selesai</small>
+                    </div>
+                </div>
+
+                {{-- TENGAH: Judul & Navigasi --}}
+                <div class="col-lg-6 text-center mt-3 mt-lg-0">
+                    <h4 class="fw-bold mb-3">Segitiga Istimewa</h4>
+                    <nav>
+                        <ul class="pagination justify-content-center mb-0 flex-wrap gap-2 materi-pagination">
+                            <li class="page-item">
+                                <button class="page-link px-3 py-2 prev-btn rounded shadow-sm">Sebelumnya</button>
+                            </li>
+                            {{-- Looping 4 Halaman (0 sampai 3) --}}
+                            @for ($i = 0; $i <= 3; $i++)
+                                <li class="page-item {{ $i == 0 ? 'active' : '' }}">
+                                <button class="page-link px-3 py-2 page-btn rounded shadow-sm" data-page="{{ $i }}">{{ $i + 1 }}</button>
+                                </li>
+                                @endfor
+                                <li class="page-item">
+                                    <button class="page-link px-3 py-2 next-btn rounded shadow-sm">Berikutnya</button>
+                                </li>
+                        </ul>
+                    </nav>
+                </div>
+
+                {{-- KANAN: Poin --}}
+                <div class="col-lg-3 text-lg-end text-center mt-3 mt-lg-0">
+                    <div class="d-inline-block badge bg-success text-white px-4 py-3 rounded-pill shadow-sm fs-6">
+                        <i class="bi bi-coin me-2 fs-5 align-middle"></i>
+                        <span id="poinDisplay" class="fw-bold align-middle">{{ auth()->user()->points }} Poin</span>
+                    </div>
+                </div>
+
+            </div>
         </div>
     </div>
-
-    <nav>
-        <ul class="pagination justify-content-center materi-pagination">
-            <li class="page-item">
-                <button class="page-link prev-btn">‹</button>
-            </li>
-
-            <li class="page-item active">
-                <button class="page-link page-btn" data-page="0">1</button>
-            </li>
-            <li class="page-item">
-                <button class="page-link page-btn" data-page="1">2</button>
-            </li>
-            <li class="page-item">
-                <button class="page-link page-btn" data-page="2">3</button>
-            </li>
-            <li class="page-item">
-                <button class="page-link page-btn" data-page="3">4</button>
-            </li>
-
-            <li class="page-item">
-                <button class="page-link next-btn">›</button>
-            </li>
-        </ul>
-    </nav>
 
     <section class="materi-page" data-page="0">
         <section class="mb-4">
@@ -117,8 +137,8 @@
                         <div class="col-md-12 text-center">
                             <p class="mb-2">Maka perbandingan yang memenuhi sisi segitiga istimewa 45°, 45°, dan 90°:</p>
 
-                            <div class="bg-light border rounded py-3 mx-auto" style="max-width: 500px;">
-                                <div class="fw-bold text-center">
+                            <div class="bg-light border rounded py-3 px-3 mx-auto overflow-x-auto" style="max-width: 100%;">
+                                <div class="fw-bold text-center" style="min-width: 550px;">
                                     $$
                                     \begin{matrix}
                                     \text{sisi di hadapan } 45^\circ & : & \text{sisi di hadapan } 45^\circ & : & \text{sisi miring} \\
@@ -325,7 +345,7 @@
                                         </div>
                                         <div class="card-body">
                                             <p class="mb-0 text-muted small">
-                                                Panjang Sisi Siku-siku AC adalah ... 
+                                                Panjang Sisi Siku-siku AC adalah ...
                                             </p>
                                         </div>
                                     </div>
@@ -343,19 +363,19 @@
                                                 <div class="mt-2 text-muted mb-3">
                                                     Berdasarkan perbandingan segitiga istimewa \(45^\circ, 45^\circ, \) dan \(90^\circ\), perbandingan sisi di depan sudut tersebut berturut-turut adalah:
                                                 </div>
-                                                <div class="d-flex justify-content-center align-items-center gap-2 mb-3">
+                                                <div class="d-flex flex-wrap justify-content-center align-items-center gap-2 mb-3">
                                                     <input type="number" id="c1i_rasio_45_1" class="form-control form-control-sm text-center border-secondary text-dark" style="width: 80px;" placeholder="...">
                                                     <span class="fw-bold text-dark">:</span>
                                                     <input type="number" id="c1i_rasio_45_2" class="form-control form-control-sm text-center border-secondary text-dark" style="width: 80px;" placeholder="...">
-                                                    <span class="fw-bold text-dark">: \(\sqrt{}\)</span>
+                                                    <span class="fw-bold text-dark text-nowrap">: \(\sqrt{}\)</span>
                                                     <input type="number" id="c1i_rasio_90" class="form-control form-control-sm text-center border-secondary text-dark" style="width: 80px;" placeholder="...">
                                                 </div>
 
                                                 <div class="text-muted mb-2">Sehingga perbandingan sisi AC dan AB dapat dituliskan:</div>
-                                                <div class="d-flex justify-content-center align-items-center gap-2 mb-2">
-                                                    <span class="fw-bold text-dark">AC : AB = </span>
+                                                <div class="d-flex flex-wrap justify-content-center align-items-center gap-2 mb-2">
+                                                    <span class="fw-bold text-dark text-nowrap">AC : AB = </span>
                                                     <input type="number" id="c1i_perbandingan_atas" class="form-control form-control-sm text-center border-secondary text-dark" style="width: 80px;" placeholder="...">
-                                                    <span class="fw-bold text-dark"> : \(\sqrt{}\)</span>
+                                                    <span class="fw-bold text-dark text-nowrap"> : \(\sqrt{}\)</span>
                                                     <input type="number" id="c1i_perbandingan_bawah" class="form-control form-control-sm text-center border-secondary text-dark" style="width: 80px;" placeholder="...">
                                                 </div>
                                             </div>
@@ -364,45 +384,45 @@
                                                 <span class="d-block fw-bold text-dark mb-2 border-bottom border-secondary pb-2">2. Substitusi Nilai dan Kali Silang</span>
                                                 <div class="mt-2 text-muted mb-3">Masukkan nilai hipotenusa (AB) yang diketahui ke dalam perbandingan:</div>
 
-                                                <div class="d-flex justify-content-center align-items-center gap-2 mb-3">
-                                                    <span class="fw-bold text-dark">AC : </span>
+                                                <div class="d-flex flex-wrap justify-content-center align-items-center gap-2 mb-3">
+                                                    <span class="fw-bold text-dark text-nowrap">AC : </span>
                                                     <input type="number" id="c1i_sub_ab_angka" class="form-control form-control-sm text-center border-secondary text-dark" style="width: 80px;" placeholder="...">
-                                                    <span class="fw-bold text-dark">\(\sqrt{2}\) = </span>
+                                                    <span class="fw-bold text-dark text-nowrap">\(\sqrt{2}\) = </span>
                                                     <input type="number" id="c1i_sub_rasio_ac" class="form-control form-control-sm text-center border-secondary text-dark" style="width: 80px;" placeholder="...">
-                                                    <span class="fw-bold text-dark"> : \(\sqrt{}\)</span>
+                                                    <span class="fw-bold text-dark text-nowrap"> : \(\sqrt{}\)</span>
                                                     <input type="number" id="c1i_sub_rasio_ab" class="form-control form-control-sm text-center border-secondary text-dark" style="width: 80px;" placeholder="...">
                                                 </div>
 
                                                 <div class="text-muted mb-2">Ubah bentuk perbandingan menjadi pecahan:</div>
-                                                <div class="d-flex justify-content-center align-items-center gap-3 mb-3">
+                                                <div class="d-flex flex-wrap justify-content-center align-items-center gap-3 mb-3">
                                                     <div class="d-flex flex-column text-center">
-                                                        <div class="border-bottom border-dark pb-1 px-2 fw-bold text-dark">AC</div>
-                                                        <div class="pt-1 d-flex align-items-center justify-content-center">
+                                                        <div class="border-bottom border-dark pb-1 px-2 fw-bold text-dark w-100">AC</div>
+                                                        <div class="pt-1 d-flex align-items-center justify-content-center gap-1">
                                                             <input type="number" id="c1i_pecahan_ab_angka" class="form-control form-control-sm text-center border-secondary text-dark" style="width: 80px;" placeholder="...">
-                                                            <span class="fw-bold text-dark ms-1">\(\sqrt{2}\)</span>
+                                                            <span class="fw-bold text-dark">\(\sqrt{2}\)</span>
                                                         </div>
                                                     </div>
                                                     <span class="fw-bold text-dark">=</span>
                                                     <div class="d-flex flex-column text-center">
-                                                        <div class="border-bottom border-dark pb-1">
-                                                            <input type="number" id="c1i_pecahan_rasio_ac" class="form-control form-control-sm text-center border-secondary text-dark" style="width: 80px;" placeholder="...">
+                                                        <div class="border-bottom border-dark pb-1 w-100">
+                                                            <input type="number" id="c1i_pecahan_rasio_ac" class="form-control form-control-sm text-center border-secondary text-dark mx-auto" style="width: 80px;" placeholder="...">
                                                         </div>
-                                                        <div class="pt-1 d-flex align-items-center justify-content-center">
+                                                        <div class="pt-1 d-flex align-items-center justify-content-center gap-1">
                                                             <span class="fw-bold text-dark">\(\sqrt{}\)</span>
-                                                            <input type="number" id="c1i_pecahan_rasio_ab" class="form-control form-control-sm text-center border-secondary text-dark ms-1" style="width: 80px;" placeholder="...">
+                                                            <input type="number" id="c1i_pecahan_rasio_ab" class="form-control form-control-sm text-center border-secondary text-dark" style="width: 80px;" placeholder="...">
                                                         </div>
                                                     </div>
                                                 </div>
 
                                                 <div class="text-muted mb-2">Selesaikan dengan perkalian silang:</div>
-                                                <div class="d-flex align-items-center justify-content-center gap-2 mb-2">
-                                                    <span class="fw-bold text-dark">AC &times; \(\sqrt{}\)</span>
+                                                <div class="d-flex flex-wrap align-items-center justify-content-center gap-2 mb-2">
+                                                    <span class="fw-bold text-dark text-nowrap">AC &times; \(\sqrt{}\)</span>
                                                     <input type="number" id="c1i_ks_rasio_ab" class="form-control form-control-sm text-center border-secondary text-dark" style="width: 80px;" placeholder="...">
                                                     <span class="fw-bold text-dark"> = </span>
                                                     <input type="number" id="c1i_ks_rasio_ac" class="form-control form-control-sm text-center border-secondary text-dark" style="width: 80px;" placeholder="...">
                                                     <span class="fw-bold text-dark"> &times; </span>
                                                     <input type="number" id="c1i_kali_silang_angka" class="form-control form-control-sm text-center border-secondary text-dark" style="width: 80px;" placeholder="...">
-                                                    <span class="fw-bold text-dark">\(\sqrt{2}\)</span>
+                                                    <span class="fw-bold text-dark text-nowrap">\(\sqrt{2}\)</span>
                                                 </div>
                                             </div>
 
@@ -410,22 +430,22 @@
                                                 <span class="d-block fw-bold text-dark mb-2 border-bottom border-secondary pb-2">3. Hitung Hasil Akhir</span>
                                                 <div class="mt-2 text-muted mb-3">Pindahkan ruas untuk mencari panjang AC:</div>
 
-                                                <div class="d-flex justify-content-center align-items-center gap-2 mb-3">
-                                                    <span class="fw-bold text-dark">AC = </span>
+                                                <div class="d-flex flex-wrap justify-content-center align-items-center gap-2 mb-3">
+                                                    <span class="fw-bold text-dark text-nowrap">AC = </span>
                                                     <div class="d-flex flex-column text-center">
-                                                        <div class="border-bottom border-dark pb-1 d-flex align-items-center justify-content-center px-2">
+                                                        <div class="border-bottom border-dark pb-1 d-flex align-items-center justify-content-center gap-1 px-2 w-100">
                                                             <input type="number" id="c1i_pindah_atas" class="form-control form-control-sm text-center border-secondary text-dark" style="width: 80px;" placeholder="...">
-                                                            <span class="ms-1 fw-bold text-dark">\(\sqrt{2}\)</span>
+                                                            <span class="fw-bold text-dark text-nowrap">\(\sqrt{2}\)</span>
                                                         </div>
-                                                        <div class="pt-1 d-flex align-items-center justify-content-center">
+                                                        <div class="pt-1 d-flex align-items-center justify-content-center gap-1">
                                                             <span class="fw-bold text-dark">\(\sqrt{}\)</span>
-                                                            <input type="number" id="c1i_pindah_bawah" class="form-control form-control-sm text-center border-secondary text-dark ms-1" style="width: 80px;" placeholder="...">
+                                                            <input type="number" id="c1i_pindah_bawah" class="form-control form-control-sm text-center border-secondary text-dark" style="width: 80px;" placeholder="...">
                                                         </div>
                                                     </div>
                                                 </div>
 
-                                                <div class="d-flex justify-content-center align-items-center gap-2">
-                                                    <span class="fw-bold text-dark">AC = </span>
+                                                <div class="d-flex flex-wrap justify-content-center align-items-center gap-2">
+                                                    <span class="fw-bold text-dark text-nowrap">AC = </span>
                                                     <input type="number" id="c1i_hasil_hitung" class="form-control form-control-sm text-center border-secondary text-dark" style="width: 80px;" placeholder="...">
                                                 </div>
                                             </div>
@@ -531,56 +551,57 @@
                                                 <div class="mt-2 text-muted mb-3">
                                                     Berdasarkan perbandingan segitiga istimewa \(45^\circ, 45^\circ, \) dan \(90^\circ\), perbandingan sisi di depan sudut tersebut berturut-turut adalah:
                                                 </div>
-                                                <div class="d-flex justify-content-center align-items-center gap-2 mb-3">
+                                                <div class="d-flex flex-wrap justify-content-center align-items-center gap-2 mb-3">
                                                     <input type="number" id="c2_45_rasio_45_1" class="form-control form-control-sm text-center border-secondary text-dark" style="width: 80px;" placeholder="...">
                                                     <span class="fw-bold text-dark">:</span>
                                                     <input type="number" id="c2_45_rasio_45_2" class="form-control form-control-sm text-center border-secondary text-dark" style="width: 80px;" placeholder="...">
-                                                    <span class="fw-bold text-dark">: \(\sqrt{}\)</span>
+                                                    <span class="fw-bold text-dark text-nowrap">: \(\sqrt{}\)</span>
                                                     <input type="number" id="c2_45_rasio_90" class="form-control form-control-sm text-center border-secondary text-dark" style="width: 80px;" placeholder="...">
                                                 </div>
                                                 <div class="text-muted mb-2">Sehingga perbandingan sisi AB dan AC dapat dituliskan:</div>
-                                                <div class="d-flex justify-content-center align-items-center gap-2 mb-2">
-                                                    <span class="fw-bold text-dark">AB : AC = \(\sqrt{}\)</span>
+                                                <div class="d-flex flex-wrap justify-content-center align-items-center gap-2 mb-2">
+                                                    <span class="fw-bold text-dark text-nowrap">AB : AC = \(\sqrt{}\)</span>
                                                     <input type="number" id="c2_45_perbandingan_atas" class="form-control form-control-sm text-center border-secondary text-dark" style="width: 80px;" placeholder="...">
                                                     <span class="fw-bold text-dark"> : </span>
                                                     <input type="number" id="c2_45_perbandingan_bawah" class="form-control form-control-sm text-center border-secondary text-dark" style="width: 80px;" placeholder="...">
                                                 </div>
                                             </div>
+
                                             <div class="p-3 mb-3 bg-white border border-secondary rounded-3 shadow-sm text-center small">
                                                 <span class="d-block fw-bold text-dark mb-2 border-bottom border-secondary pb-2">2. Substitusi Nilai dan Pindah Ruas</span>
                                                 <div class="mt-2 text-muted mb-3">Masukkan nilai sisi (AC) yang diketahui ke dalam perbandingan:</div>
-                                                <div class="d-flex justify-content-center align-items-center gap-2 mb-3">
-                                                    <span class="fw-bold text-dark">AB : </span>
+                                                <div class="d-flex flex-wrap justify-content-center align-items-center gap-2 mb-3">
+                                                    <span class="fw-bold text-dark text-nowrap">AB : </span>
                                                     <input type="number" id="c2_45_sub_ac" class="form-control form-control-sm text-center border-secondary text-dark" style="width: 80px;" placeholder="...">
-                                                    <span class="fw-bold text-dark"> = \(\sqrt{}\)</span>
+                                                    <span class="fw-bold text-dark text-nowrap"> = \(\sqrt{}\)</span>
                                                     <input type="number" id="c2_45_sub_rasio_ab" class="form-control form-control-sm text-center border-secondary text-dark" style="width: 80px;" placeholder="...">
                                                     <span class="fw-bold text-dark"> : </span>
                                                     <input type="number" id="c2_45_sub_rasio_ac" class="form-control form-control-sm text-center border-secondary text-dark" style="width: 80px;" placeholder="...">
                                                 </div>
                                                 <div class="text-muted mb-2">Ubah bentuk perbandingan menjadi pecahan:</div>
-                                                <div class="d-flex justify-content-center align-items-center gap-3 mb-3">
+                                                <div class="d-flex flex-wrap justify-content-center align-items-center gap-3 mb-3">
                                                     <div class="d-flex flex-column text-center">
-                                                        <div class="border-bottom border-dark pb-1 px-2 fw-bold text-dark">AB</div>
+                                                        <div class="border-bottom border-dark pb-1 px-2 fw-bold text-dark w-100">AB</div>
                                                         <div class="pt-1">
-                                                            <input type="number" id="c2_45_pecahan_ac" class="form-control form-control-sm text-center border-secondary text-dark" style="width: 80px;" placeholder="...">
+                                                            <input type="number" id="c2_45_pecahan_ac" class="form-control form-control-sm text-center border-secondary text-dark mx-auto" style="width: 80px;" placeholder="...">
                                                         </div>
                                                     </div>
                                                     <span class="fw-bold text-dark">=</span>
                                                     <div class="d-flex flex-column text-center">
-                                                        <div class="border-bottom border-dark pb-1 d-flex align-items-center justify-content-center">
+                                                        <div class="border-bottom border-dark pb-1 d-flex align-items-center justify-content-center gap-1 w-100">
                                                             <span class="fw-bold text-dark">\(\sqrt{}\)</span>
-                                                            <input type="number" id="c2_45_pecahan_rasio_ab" class="form-control form-control-sm text-center border-secondary text-dark ms-1" style="width: 80px;" placeholder="...">
+                                                            <input type="number" id="c2_45_pecahan_rasio_ab" class="form-control form-control-sm text-center border-secondary text-dark" style="width: 80px;" placeholder="...">
                                                         </div>
                                                         <div class="pt-1">
-                                                            <input type="number" id="c2_45_pecahan_rasio_ac" class="form-control form-control-sm text-center border-secondary text-dark" style="width: 80px;" placeholder="...">
+                                                            <input type="number" id="c2_45_pecahan_rasio_ac" class="form-control form-control-sm text-center border-secondary text-dark mx-auto" style="width: 80px;" placeholder="...">
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <div class="text-muted mb-2">Pindahkan ruas untuk mencari nilai sisi AB:</div>
-                                                <div class="d-flex justify-content-center align-items-center gap-2 mb-2">
-                                                    <span class="fw-bold text-dark">AB = </span>
+                                                <div class="d-flex flex-wrap justify-content-center align-items-center gap-2 mb-2">
+                                                    <span class="fw-bold text-dark text-nowrap">AB = </span>
                                                     <div class="d-flex flex-column text-center">
-                                                        <div class="border-bottom border-dark pb-1 px-2 d-flex align-items-center justify-content-center gap-1">
+                                                        <div class="border-bottom border-dark pb-1 px-2 d-flex align-items-center justify-content-center gap-1 w-100">
                                                             <span class="fw-bold text-dark">\(\sqrt{}\)</span>
                                                             <input type="number" id="c2_45_pindah_rasio_ab" class="form-control form-control-sm text-center border-secondary text-dark" style="width: 80px;" placeholder="...">
                                                             <span class="fw-bold text-dark">&times;</span>
@@ -592,36 +613,37 @@
                                                     </div>
                                                 </div>
                                             </div>
+
                                             <div class="p-3 mb-3 bg-white border border-secondary rounded-3 shadow-sm text-center small">
                                                 <span class="d-block fw-bold text-dark mb-2 border-bottom border-secondary pb-2">3. Rasionalkan Bentuk Akar (Jika Perlu)</span>
                                                 <div class="mt-2 text-muted mb-3">Kalikan pembilang dan penyebut dengan sekawannya:</div>
-                                                <div class="d-flex justify-content-center align-items-center gap-3">
-                                                    <span class="fw-bold text-dark">AB = </span>
+                                                <div class="d-flex flex-wrap justify-content-center align-items-center gap-3">
+                                                    <span class="fw-bold text-dark text-nowrap">AB = </span>
                                                     <div class="d-flex flex-column text-center">
-                                                        <div class="border-bottom border-dark pb-1 px-2">
-                                                            <input type="number" id="c2_45_ras_val_atas" class="form-control form-control-sm text-center border-secondary text-dark" style="width: 80px;" placeholder="...">
+                                                        <div class="border-bottom border-dark pb-1 px-2 w-100">
+                                                            <input type="number" id="c2_45_ras_val_atas" class="form-control form-control-sm text-center border-secondary text-dark mx-auto" style="width: 80px;" placeholder="...">
                                                         </div>
-                                                        <div class="pt-1 d-flex align-items-center justify-content-center">
+                                                        <div class="pt-1 d-flex align-items-center justify-content-center gap-1">
                                                             <span class="fw-bold text-dark">\(\sqrt{}\)</span>
-                                                            <input type="number" id="c2_45_ras_val_bawah" class="form-control form-control-sm text-center border-secondary text-dark ms-1" style="width: 80px;" placeholder="...">
+                                                            <input type="number" id="c2_45_ras_val_bawah" class="form-control form-control-sm text-center border-secondary text-dark" style="width: 80px;" placeholder="...">
                                                         </div>
                                                     </div>
                                                     <span class="fw-bold text-dark">&times;</span>
                                                     <div class="d-flex flex-column text-center">
-                                                        <div class="border-bottom border-dark pb-1 d-flex align-items-center justify-content-center">
+                                                        <div class="border-bottom border-dark pb-1 d-flex align-items-center justify-content-center gap-1 w-100">
                                                             <span class="fw-bold text-dark">\(\sqrt{}\)</span>
-                                                            <input type="number" id="c2_45_rasionalkan_atas" class="form-control form-control-sm text-center border-secondary text-dark ms-1" style="width: 80px;" placeholder="...">
+                                                            <input type="number" id="c2_45_rasionalkan_atas" class="form-control form-control-sm text-center border-secondary text-dark" style="width: 80px;" placeholder="...">
                                                         </div>
-                                                        <div class="pt-1 d-flex align-items-center justify-content-center">
+                                                        <div class="pt-1 d-flex align-items-center justify-content-center gap-1">
                                                             <span class="fw-bold text-dark">\(\sqrt{}\)</span>
-                                                            <input type="number" id="c2_45_rasionalkan_bawah" class="form-control form-control-sm text-center border-secondary text-dark ms-1" style="width: 80px;" placeholder="...">
+                                                            <input type="number" id="c2_45_rasionalkan_bawah" class="form-control form-control-sm text-center border-secondary text-dark" style="width: 80px;" placeholder="...">
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div class="d-flex justify-content-center align-items-center gap-2 mt-4">
-                                                    <span class="fw-bold text-dark">AB = </span>
+                                                <div class="d-flex flex-wrap justify-content-center align-items-center gap-2 mt-4">
+                                                    <span class="fw-bold text-dark text-nowrap">AB = </span>
                                                     <div class="d-flex flex-column text-center">
-                                                        <div class="border-bottom border-dark pb-1 px-2 d-flex align-items-center justify-content-center gap-1">
+                                                        <div class="border-bottom border-dark pb-1 px-2 d-flex align-items-center justify-content-center gap-1 w-100">
                                                             <input type="number" id="c2_45_hasil_pembilang_angka" class="form-control form-control-sm text-center border-secondary text-dark" style="width: 80px;" placeholder="...">
                                                             <span class="fw-bold text-dark">\(\sqrt{}\)</span>
                                                             <input type="number" id="c2_45_hasil_pembilang_akar" class="form-control form-control-sm text-center border-secondary text-dark" style="width: 80px;" placeholder="...">
@@ -632,7 +654,8 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="p-3 bg-white border border-secondary rounded-3 shadow-sm text-center small">
+
+                                            <div class="p-3 mb-3 bg-white border border-secondary rounded-3 shadow-sm text-center small">
                                                 <span class="d-block fw-bold text-dark mb-2 border-bottom border-secondary pb-2">4. Hasil Akhir</span>
                                                 <div class="alert alert-light border border-secondary d-flex flex-wrap justify-content-center align-items-center gap-2 mb-0 py-2">
                                                     <span class="text-dark">Jadi, panjang AB adalah</span>
@@ -644,6 +667,7 @@
                                                     </div>
                                                 </div>
                                             </div>
+
                                             <div class="mt-4 d-flex flex-column flex-xl-row justify-content-between align-items-center border-top pt-3">
                                                 <div id="c2_45_feedback" class="small fw-bold mb-3 mb-xl-0"></div>
                                                 <button class="btn btn-success px-4 fw-bold shadow-sm" onclick="cekContoh2_45()">
@@ -1073,10 +1097,10 @@
                                                 <div class="d-flex flex-column text-center">
                                                     <div class="border-bottom border-dark pb-1 d-flex align-items-center justify-content-center">
                                                         <span class="fw-bold text-dark">\(\sqrt{}\)</span>
-                                                        <input type="number" id="s1_pecahan_rasio_ab" class="form-control form-control-sm text-center border-secondary text-dark ms-1" style="width: 80px;" placeholder="...">
+                                                        <input type="number" id="s1_pecahan_rasio_ab_2" class="form-control form-control-sm text-center border-secondary text-dark ms-1" style="width: 80px;" placeholder="...">
                                                     </div>
                                                     <div class="pt-1">
-                                                        <input type="number" id="s1_pecahan_rasio_ac" class="form-control form-control-sm text-center border-secondary text-dark" style="width: 80px;" placeholder="...">
+                                                        <input type="number" id="s1_pecahan_rasio_ac_2" class="form-control form-control-sm text-center border-secondary text-dark" style="width: 80px;" placeholder="...">
                                                     </div>
                                                 </div>
                                             </div>
@@ -1259,10 +1283,10 @@
                                                 <span class="fw-bold text-dark">=</span>
                                                 <div class="d-flex flex-column text-center">
                                                     <div class="border-bottom border-dark pb-1">
-                                                        <input type="number" id="s2_pecahan_rasio_eg" class="form-control form-control-sm text-center border-secondary text-dark" style="width: 80px;" placeholder="...">
+                                                        <input type="number" id="s2_pecahan_rasio_eg_2" class="form-control form-control-sm text-center border-secondary text-dark" style="width: 80px;" placeholder="...">
                                                     </div>
                                                     <div class="pt-1">
-                                                        <input type="number" id="s2_pecahan_rasio_ef" class="form-control form-control-sm text-center border-secondary text-dark" style="width: 80px;" placeholder="...">
+                                                        <input type="number" id="s2_pecahan_rasio_ef_2" class="form-control form-control-sm text-center border-secondary text-dark" style="width: 80px;" placeholder="...">
                                                     </div>
                                                 </div>
                                             </div>
@@ -1437,286 +1461,67 @@
                 </div>
             </div>
 
-            <div class="col-md-12 mb-4">
+            <div class="col-md-12">
                 <div class="card shadow-sm">
                     <div class="card-header text-center bg-light">
                         <h4 class="mb-0">Refleksi Belajar</h4>
-                        <small class="text-muted">Jawablah jujur sesuai pemahaman dan imajinasimu hari ini!</small>
+                        <small class="text-muted">
+                            Tidak ada jawaban benar atau salah. Jawablah jujur sesuai dengan apa yang kamu rasakan dan pahami hari ini!
+                        </small>
                     </div>
 
+                    <div class="card-body">
+
+                        <div class="mb-4">
+                            <label class="fw-semibold">
+                                1. Setelah mempelajari segitiga istimewa, coba ceritakan dengan bahasamu sendiri: mengapa perbandingan sisi-sisinya (seperti sudut 30&deg;-60&deg;-90&deg; atau 45&deg;-45&deg;-90&deg;) selalu tetap meskipun ukuran segitiganya diperbesar atau diperkecil?
+                            </label>
+                            <textarea class="form-control mt-2" rows="4" id="ref_istimewa_1" placeholder="Tuliskan pemahamanmu di sini...."></textarea>
+                        </div>
+
+                        <div class="mb-4">
+                            <label class="fw-semibold">
+                                2. Apakah kamu bisa membayangkan contoh penerapan konsep segitiga istimewa ini di dunia nyata atau lingkungan sekitarmu? Ceritakan idemu!
+                            </label>
+                            <textarea class="form-control mt-2" rows="3" id="ref_istimewa_2" placeholder="Misalnya: untuk membuat atap rumah, desain tangga, dll..."></textarea>
+                        </div>
+
+                        <div class="text-center mt-4">
+                            <button class="btn btn-success px-4 fw-bold" onclick="simpanRefleksiIstimewa()">
+                                Simpan Refleksi
+                            </button>
+                        </div>
+
+                        <div class="text-center mt-4 pt-3 border-top">
+                            <p class="text-muted mb-0">Setelah menyimpan refleksi, silakan lanjut ke Kuis untuk menguji kemampuanmu!</p>
+                        </div>
+
+                    </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <nav>
-        <ul class="pagination justify-content-center materi-pagination">
-            <li class="page-item">
-                <button class="page-link prev-btn">‹</button>
-            </li>
-
-            <li class="page-item active">
-                <button class="page-link page-btn" data-page="0">1</button>
-            </li>
-            <li class="page-item">
-                <button class="page-link page-btn" data-page="1">2</button>
-            </li>
-            <li class="page-item">
-                <button class="page-link page-btn" data-page="2">3</button>
-            </li>
-            <li class="page-item">
-                <button class="page-link page-btn" data-page="3">4</button>
-            </li>
-
-            <li class="page-item">
-                <button class="page-link next-btn">›</button>
-            </li>
-        </ul>
-    </nav>
+    <div class="d-flex justify-content-center align-items-center mt-5 mb-5 pt-4 border-top">
+        <nav>
+            <ul class="pagination justify-content-center mb-0 flex-wrap gap-2 materi-pagination">
+                <li class="page-item">
+                    <button class="page-link px-3 py-2 prev-btn rounded shadow-sm">Sebelumnya</button>
+                </li>
+                {{-- Looping 4 Halaman (0 sampai 3) --}}
+                @for ($i = 0; $i <= 3; $i++)
+                    <li class="page-item {{ $i == 0 ? 'active' : '' }}">
+                    <button class="page-link px-3 py-2 page-btn rounded shadow-sm" data-page="{{ $i }}">{{ $i + 1 }}</button>
+                    </li>
+                    @endfor
+                    <li class="page-item">
+                        <button class="page-link px-3 py-2 next-btn rounded shadow-sm">Berikutnya</button>
+                    </li>
+            </ul>
+        </nav>
+    </div>
 </div>
 
-<script>
-    // Fungsi untuk mengecek latihan soal pilihan ganda
-    function cekLatihanIstimewa() {
-        // Kunci jawaban
-        const kunci = {
-            soal1: '6',
-            soal2: '5,5',
-            soal3: '8√3,16',
-            soal4: '18',
-            soal5: '4√3'
-        };
-
-        // Reset semua feedback
-        document.querySelectorAll('.feedback-soal').forEach(el => el.innerHTML = '');
-
-        // Periksa setiap soal
-        for (let i = 1; i <= 5; i++) {
-            let soalName = 'soal' + i;
-            let selected = document.querySelector('input[name="' + soalName + '"]:checked');
-            let feedbackDiv = document.querySelector('#soal' + i + ' .feedback-soal');
-            if (!selected) {
-                feedbackDiv.innerHTML = '<span class="text-warning">⚠️ Belum dijawab</span>';
-                continue;
-            }
-            let jawaban = selected.value;
-            if (jawaban === kunci[soalName]) {
-                feedbackDiv.innerHTML = '<span class="text-success">✔️ Benar</span>';
-                // Beri warna hijau pada card
-                document.querySelector('#soal' + i).classList.add('border-success');
-            } else {
-                feedbackDiv.innerHTML = '<span class="text-danger">❌ Salah. Coba lagi!</span>';
-                document.querySelector('#soal' + i).classList.add('border-danger');
-            }
-        }
-    }
-
-    // Fungsi simpan refleksi (hanya alert untuk demo)
-    function simpanRefleksiIstimewa() {
-        let jawaban1 = document.getElementById('ref_istimewa_1').value;
-        let jawaban2 = document.getElementById('ref_istimewa_2').value;
-        if (jawaban1.trim() === '' || jawaban2.trim() === '') {
-            alert('Harap isi kedua kolom refleksi.');
-        } else {
-            alert('Refleksi berhasil disimpan. Terima kasih!');
-        }
-    }
-
-    document.addEventListener('DOMContentLoaded', function() {
-
-        let attemptSoal1 = 0;
-        let attemptSoal2 = 0;
-        const maxAttempts = 3;
-
-        // semua kode soal kamu di sini
-
-    });
-
-    // Kunci Jawaban Soal 1
-    const jawabanSoal1 = {
-        's1_inp_ac': '10',
-        's1_final': '10'
-    };
-
-    // Kunci Jawaban Soal 2
-    const jawabanSoal2 = {
-        's2_r1_top': '1',
-        's2_r1_bot': '2',
-        's2_r2_top': '1',
-        's2_r2_bot': '2',
-        's2_r3_top': '1',
-        's2_r3_bot': '2',
-        's2_inp_ef': '25',
-        's2_r4_top': '1',
-        's2_r4_bot': '2',
-        's2_final': '12.5' // Validasi di bawah akan menangani penulisan koma (12,5)
-    };
-
-    // Fungsi bantuan untuk mengecek apakah ada input yang kosong
-    function cekAdaKosong(inputs) {
-        return inputs.some(input => input.value.trim() === "");
-    }
-
-    // Fungsi bantuan untuk memberi warna hijau (benar) atau merah (salah)
-    function setWarnaInput(input, isCorrect) {
-        // Hapus kelas warna sebelumnya
-        input.classList.remove("border-success", "text-success", "border-danger", "text-danger");
-
-        // Tambahkan kelas baru berdasarkan kebenaran jawaban
-        if (isCorrect) {
-            input.classList.add("border-success", "text-success");
-        } else {
-            input.classList.add("border-danger", "text-danger");
-        }
-    }
-
-    // Fungsi Validasi Soal 1
-    function cekSoal1() {
-        const inputElements = Object.keys(jawabanSoal1).map(id => document.getElementById(id));
-
-        // Cek jika belum diisi atau ada yang kosong
-        if (cekAdaKosong(inputElements)) {
-            Swal.fire({
-                title: 'Perhatian',
-                text: 'Harap lengkapi semua kotak jawaban terlebih dahulu.',
-                icon: 'warning',
-                confirmButtonColor: '#198754'
-            });
-            return;
-        }
-
-        attemptSoal1++;
-        let semuaBenar = true;
-
-        // Periksa setiap inputan
-        inputElements.forEach(input => {
-            let userVal = input.value.trim();
-            let isCorrect = userVal === jawabanSoal1[input.id];
-
-            setWarnaInput(input, isCorrect);
-            if (!isCorrect) semuaBenar = false;
-        });
-
-        // Hasil Evaluasi
-        if (semuaBenar) {
-            Swal.fire({
-                title: 'Tepat Sekali',
-                text: 'Seluruh tahapan penyelesaian Soal 1 sudah benar.',
-                icon: 'success',
-                confirmButtonColor: '#198754'
-            });
-            document.getElementById('s1_feedback').innerText = "Jawaban Benar";
-        } else {
-            if (attemptSoal1 >= maxAttempts) {
-                Swal.fire({
-                    title: 'Kesempatan Habis',
-                    text: 'Jawaban Anda masih ada yang kurang tepat. Ingin melihat jawaban yang benar?',
-                    icon: 'error',
-                    showCancelButton: true,
-                    confirmButtonText: 'Tampilkan Jawaban',
-                    cancelButtonText: 'Tutup',
-                    confirmButtonColor: '#198754',
-                    cancelButtonColor: '#6c757d'
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        // Tampilkan jawaban
-                        inputElements.forEach(input => {
-                            input.value = jawabanSoal1[input.id];
-                            setWarnaInput(input, true);
-                        });
-                        document.getElementById('s1_feedback').innerText = "Jawaban telah ditampilkan.";
-                    }
-                });
-            } else {
-                let sisa = maxAttempts - attemptSoal1;
-                Swal.fire({
-                    title: 'Kurang Tepat',
-                    text: `Masih ada kotak yang salah (warna merah). Sisa kesempatan menjawab: ${sisa} kali.`,
-                    icon: 'error',
-                    confirmButtonColor: '#dc3545'
-                });
-            }
-        }
-    }
-
-    // Fungsi Validasi Soal 2
-    function cekSoal2() {
-        const inputElements = Object.keys(jawabanSoal2).map(id => document.getElementById(id));
-
-        // Cek jika belum diisi atau ada yang kosong
-        if (cekAdaKosong(inputElements)) {
-            Swal.fire({
-                title: 'Perhatian',
-                text: 'Harap lengkapi semua kotak jawaban terlebih dahulu.',
-                icon: 'warning',
-                confirmButtonColor: '#198754'
-            });
-            return;
-        }
-
-        attemptSoal2++;
-        let semuaBenar = true;
-
-        // Periksa setiap inputan
-        inputElements.forEach(input => {
-            let userVal = input.value.trim();
-            let isCorrect = false;
-
-            // Khusus untuk s2_final, kita izinkan format titik (12.5) maupun koma (12,5)
-            if (input.id === 's2_final') {
-                userVal = userVal.replace(',', '.'); // ubah koma jadi titik agar seragam
-                isCorrect = userVal === jawabanSoal2[input.id];
-            } else {
-                isCorrect = userVal === jawabanSoal2[input.id];
-            }
-
-            setWarnaInput(input, isCorrect);
-            if (!isCorrect) semuaBenar = false;
-        });
-
-        // Hasil Evaluasi
-        if (semuaBenar) {
-            Swal.fire({
-                title: 'Tepat Sekali',
-                text: 'Seluruh tahapan penyelesaian Soal 2 sudah benar.',
-                icon: 'success',
-                confirmButtonColor: '#198754'
-            });
-            document.getElementById('s2_feedback').innerText = "Jawaban Benar";
-        } else {
-            if (attemptSoal2 >= maxAttempts) {
-                Swal.fire({
-                    title: 'Kesempatan Habis',
-                    text: 'Jawaban Anda masih ada yang kurang tepat. Ingin melihat jawaban yang benar?',
-                    icon: 'error',
-                    showCancelButton: true,
-                    confirmButtonText: 'Tampilkan Jawaban',
-                    cancelButtonText: 'Tutup',
-                    confirmButtonColor: '#198754',
-                    cancelButtonColor: '#6c757d'
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        // Tampilkan jawaban
-                        inputElements.forEach(input => {
-                            // Untuk final result, kembalikan format koma jika Anda mau, atau pakai titik bawaan
-                            input.value = (input.id === 's2_final') ? '12,5' : jawabanSoal2[input.id];
-                            setWarnaInput(input, true);
-                        });
-                        document.getElementById('s2_feedback').innerText = "Jawaban telah ditampilkan.";
-                    }
-                });
-            } else {
-                let sisa = maxAttempts - attemptSoal2;
-                Swal.fire({
-                    title: 'Kurang Tepat',
-                    text: `Masih ada kotak yang salah (warna merah). Sisa kesempatan menjawab: ${sisa} kali.`,
-                    icon: 'error',
-                    confirmButtonColor: '#dc3545'
-                });
-            }
-        }
-    }
-</script>
 
 <style>
     .soal-item {

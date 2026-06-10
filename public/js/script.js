@@ -211,133 +211,277 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 
-// Tambahkan parameter earnedPoints (berikan default 0)
-window.updateProgress = function (idMateri, idCheckpoint, earnedPoints = 0) {
-    console.log(`Mengirim progress ke server... Materi: ${idMateri}, Checkpoint: ${idCheckpoint}, Poin: ${earnedPoints}`);
+// =====================================================
+// OVERRIDE FUNGSI UPDATE PROGRESS (AUTO-UPDATE DOM GLOBAL)
+// =====================================================
+// Tambahkan parameter ke-4: isSilent (default false)
+window.updateProgress = async function (idMateri, idCheckpoint, earnedPoints = 0, isSilent = false) {
+    console.log(`Mengirim progress... Materi: ${idMateri}, Checkpoint: ${idCheckpoint}, Poin: ${earnedPoints}, Silent: ${isSilent}`);
 
-    // 1. Tentukan URL
-    const endpointUrl = '/siswa/progress/update';
-
-    // 2. Ambil elemen token CSRF dari HTML
-    const csrfTokenElement = document.querySelector('meta[name="csrf-token"]');
-
-    // Validasi apakah token ditemukan
-    if (!csrfTokenElement) {
-        console.error("Meta CSRF Token tidak ditemukan di tag <head> HTML!");
+    const kelasMeta = document.querySelector('meta[name="user-kelas-id"]');
+    if (kelasMeta && (!kelasMeta.getAttribute('content') || kelasMeta.getAttribute('content') === '')) {
+        Swal.fire({
+            icon: 'info',
+            title: 'Progres Tidak Tersimpan',
+            text: 'Anda belum bergabung ke kelas.',
+            confirmButtonColor: '#198754'
+        });
         return;
     }
 
-    // 3. Eksekusi pengiriman data ke server
-    fetch(endpointUrl, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            'Accept': 'application/json',
-            'X-CSRF-TOKEN': csrfTokenElement.getAttribute('content')
-        },
-        body: JSON.stringify({
-            materi_id: idMateri,
-            checkpoint_code: idCheckpoint,
-            points: earnedPoints // <-- Tambahkan baris ini untuk mengirim poin
-        })
-    })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error(`Gagal menghubungi server! Status: ${response.status}`);
+    const endpointUrl = '/siswa/progress/update';
+    const csrfTokenElement = document.querySelector('meta[name="csrf-token"]');
+
+    if (!csrfTokenElement) return;
+
+    try {
+        const response = await fetch(endpointUrl, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+                'X-CSRF-TOKEN': csrfTokenElement.getAttribute('content')
+            },
+            body: JSON.stringify({
+                materi_id: idMateri,
+                checkpoint_code: idCheckpoint,
+                points: earnedPoints
+            })
+        });
+
+        const data = await response.json();
+
+        if (data.success) {
+            console.log("Response Server:", data);
+
+            // --- A. MUNCULKAN TOAST HANYA JIKA TIDAK SILENT ---
+            if (!isSilent && data.is_new_record) {
+                const Toast = Swal.mixin({
+                    toast: true,
+                    position: 'top-end',
+                    showConfirmButton: false,
+                    timer: 2000,
+                    timerProgressBar: true
+                });
+
+                Toast.fire({
+                    icon: 'success',
+                    title: `+${earnedPoints} Poin Tersimpan!`
+                });
             }
-            return response.json();
-        })
-        .then(data => {
-            if (data.success) {
-                console.log("Progres berhasil disimpan! Total:", data.progress_percentage, "%");
-                // Tampilkan total poin terbaru dari server jika ada
-                if (data.total_points !== undefined) {
-                    console.log("Total Poin Saat Ini:", data.total_points);
-                }
-                if (data.badge_earned) {
-                    console.log("Hore! Kamu mendapatkan badge:", data.badge_data.name);
-                }
+
+            // --- B. UPDATE TEKS POIN & ANIMASI ---
+            const poinDisplay = document.getElementById('poinDisplay');
+            if (poinDisplay && data.total_points !== undefined) {
+                poinDisplay.innerText = `${data.total_points} Poin`;
+                // Tambahkan efek denyut sesaat agar interaktif
+                poinDisplay.parentElement.classList.add('animate__animated', 'animate__pulse');
+                setTimeout(() => {
+                    poinDisplay.parentElement.classList.remove('animate__animated', 'animate__pulse');
+                }, 1000);
             }
-        })
-        .catch(error => console.error("Terjadi kesalahan saat mengirim progres:", error));
+
+            // --- C. UPDATE PROGRESS BAR ---
+            const progressBar = document.getElementById('materiProgressBar');
+            const progressText = document.getElementById('materiProgressText');
+
+            // Gunakan materi_progress, jika kosong (undefined), pakai progress_percentage sebagai fallback
+            let persentase = data.materi_progress !== undefined ? data.materi_progress : data.progress_percentage;
+
+            if (progressBar && persentase !== undefined) {
+                progressBar.style.width = `${persentase}%`;
+                progressBar.style.setProperty('--w', `${persentase}%`);
+                progressBar.setAttribute('aria-valuenow', persentase);
+            }
+
+            if (progressText && persentase !== undefined) {
+                progressText.innerText = `${persentase}% Selesai`;
+            }
+
+            // --- D. SIMPAN BADGE TERTUNDA ---
+            if (data.badge_earned && data.badge_data) {
+                simpanBadgeTertunda(data.badge_data);
+                jadwalkanTampilkanBadgeTertunda(1200);
+            }
+        }
+    } catch (error) {
+        console.error("Terjadi kesalahan saat auto-update DOM:", error);
+    }
 };
+let badgeDisplayTimer = null;
+
+function ambilBadgeTertunda() {
+    try {
+        return JSON.parse(sessionStorage.getItem('pendingBadges')) || [];
+    } catch (e) {
+        return [];
+    }
+}
+
+function simpanDaftarBadgeTertunda(pendingBadges) {
+    sessionStorage.setItem('pendingBadges', JSON.stringify(pendingBadges));
+}
+
+function simpanBadgeTertunda(badgeData) {
+    if (!badgeData) return;
+
+    const pendingBadges = ambilBadgeTertunda();
+
+    const badgeSudahAda = pendingBadges.some(badge => badge.name === badgeData.name);
+
+    if (!badgeSudahAda) {
+        pendingBadges.push(badgeData);
+        simpanDaftarBadgeTertunda(pendingBadges);
+    }
+}
+
+function jadwalkanTampilkanBadgeTertunda(delay = 1000) {
+    if (badgeDisplayTimer) {
+        clearTimeout(badgeDisplayTimer);
+    }
+
+    badgeDisplayTimer = setTimeout(() => {
+        badgeDisplayTimer = null;
+        tampilkanBadgeTertunda();
+    }, delay);
+}
+
+function tampilkanBadgeTertunda() {
+    const pendingBadges = ambilBadgeTertunda();
+
+    if (pendingBadges.length === 0) {
+        return;
+    }
+
+    // Kalau masih ada popup latihan/refleksi/progress yang terbuka, tunggu dulu.
+    if (typeof Swal !== 'undefined' && Swal.isVisible()) {
+        jadwalkanTampilkanBadgeTertunda(800);
+        return;
+    }
+
+    const badge = pendingBadges.shift();
+    simpanDaftarBadgeTertunda(pendingBadges);
+
+    Swal.fire({
+        title: 'Badge Baru Terbuka!',
+        html: `
+            <div class="text-center">
+                <p class="mb-3">Selamat, kamu mendapatkan badge:</p>
+                <h5 class="fw-bold text-success">${badge.name}</h5>
+            </div>
+        `,
+        imageUrl: badge.image,
+        imageWidth: 100,
+        imageHeight: 100,
+        confirmButtonText: 'OK',
+        confirmButtonColor: '#198754',
+        allowOutsideClick: false
+    }).then(() => {
+        // Kalau ada lebih dari satu badge yang terbuka, tampilkan berikutnya setelah jeda.
+        jadwalkanTampilkanBadgeTertunda(600);
+    });
+}
+
+document.addEventListener('DOMContentLoaded', function () {
+    jadwalkanTampilkanBadgeTertunda(1500);
+});
+
 
 /* =====================================================
    FITUR MODE REVIEW & ULANGI LATIHAN (FINAL & AMAN)
 ===================================================== */
-window.setupReviewMode = function (checkpointCode, buttonSelector, showAnswerCallback, resetCallback) {
-    if (window.completedCheckpoints && window.completedCheckpoints.includes(checkpointCode)) {
+window.tampilkanLatihanSelesai = function (buttonSelectorOrElement, resetCallback) {
+    const btnCek = typeof buttonSelectorOrElement === 'string'
+        ? document.querySelector(buttonSelectorOrElement)
+        : buttonSelectorOrElement;
 
-        const btnCek = document.querySelector(buttonSelector);
-        if (!btnCek) return;
+    if (!btnCek) return;
 
-        // --- PENCEGAH DOBEL & HILANG ---
-        // Jika tombol sudah punya stempel, hentikan agar tidak tumpang tindih!
-        if (btnCek.getAttribute('data-review-setup') === 'true') return;
-        btnCek.setAttribute('data-review-setup', 'true');
+    const container = btnCek.parentElement;
+    if (!container) return;
 
-        // Eksekusi fungsi untuk menampilkan jawaban benar
-        if (typeof showAnswerCallback === 'function') {
-            showAnswerCallback();
-        }
+    // Ketika latihan sudah selesai lagi, mode ulangi dimatikan
+    btnCek.removeAttribute('data-latihan-ulang');
+    window.__modeLatihanUlangAktif = false;
 
-        // Sembunyikan tombol aslinya
-        btnCek.style.display = 'none';
-
-        const container = btnCek.parentElement;
-        const inputEl = container.querySelector('.form-control, .form-select');
-        if (inputEl) {
-            inputEl.style.maxWidth = '250px';
-            inputEl.style.borderTopRightRadius = '0.375rem';
-            inputEl.style.borderBottomRightRadius = '0.375rem';
-        }
-
-        // Buat UI Review Baru (Badge Selesai & Tombol Ulangi)
-        const reviewUI = document.createElement('div');
-        reviewUI.className = 'review-mode-ui mt-3 animate__animated animate__fadeIn';
-        reviewUI.innerHTML = `
-            <div class="d-flex flex-column align-items-center align-items-md-start">
-                <div class="alert alert-success border-success py-2 mb-0 shadow-sm" style="border-radius: 8px;">
-                    <i class="bi bi-check-circle-fill me-2"></i><strong class="small">Latihan Selesai!</strong>
-                </div>
-                <button class="btn btn-outline-success btn-sm fw-bold btn-ulangi mt-2 shadow-sm" type="button" style="border-radius: 8px;">
-                    <i class="bi bi-arrow-counterclockwise me-1"></i>Ulangi Latihan
-                </button>
-            </div>
-        `;
-
-        // Selalu letakkan tepat di BAWAH tombol (bukan menimpa atau menumpang di container lain)
-        btnCek.insertAdjacentElement('afterend', reviewUI);
-
-        // Aksi Tombol Ulangi
-        reviewUI.querySelector('.btn-ulangi').addEventListener('click', function (e) {
-            e.preventDefault();
-
-            Swal.fire({
-                title: 'Ulangi Latihan?',
-                text: 'Mengulang latihan tidak akan mengubah nilai progresmu. Lanjut?',
-                icon: 'question',
-                showCancelButton: true,
-                confirmButtonColor: '#198754',
-                cancelButtonColor: '#6c757d',
-                confirmButtonText: 'Ya, Ulangi!',
-                cancelButtonText: 'Batal'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    if (typeof resetCallback === 'function') resetCallback();
-
-                    if (inputEl) {
-                        inputEl.style.maxWidth = '';
-                        inputEl.style.borderTopRightRadius = '';
-                        inputEl.style.borderBottomRightRadius = '';
-                    }
-
-                    btnCek.style.display = 'inline-block';
-                    btnCek.disabled = false;
-                    btnCek.removeAttribute('data-review-setup');
-                    reviewUI.remove();
-                }
-            });
-        });
+    // Hindari UI dobel
+    const existingReviewUI = container.querySelector('.review-mode-ui');
+    if (existingReviewUI) {
+        existingReviewUI.remove();
     }
+
+    // Sembunyikan tombol asli dengan tegas
+    btnCek.disabled = true;
+    btnCek.classList.add('d-none');
+    btnCek.style.display = 'none';
+
+    const reviewUI = document.createElement('div');
+    reviewUI.className = 'review-mode-ui mt-3 animate__animated animate__fadeIn';
+    reviewUI.innerHTML = `
+        <div class="d-flex flex-column align-items-center">
+            <div class="alert alert-success border-success py-2 mb-2 shadow-sm" style="border-radius: 8px;">
+                <i class="bi bi-check-circle-fill me-2"></i>
+                <strong class="small">Latihan Selesai!</strong>
+            </div>
+
+            <button class="btn btn-outline-success btn-sm fw-bold btn-ulangi shadow-sm" type="button" style="border-radius: 8px;">
+                <i class="bi bi-arrow-counterclockwise me-1"></i>Ulangi Latihan
+            </button>
+        </div>
+    `;
+
+    btnCek.insertAdjacentElement('afterend', reviewUI);
+
+    reviewUI.querySelector('.btn-ulangi').addEventListener('click', function (e) {
+        e.preventDefault();
+
+        Swal.fire({
+            title: 'Ulangi Latihan?',
+            text: 'Mengulang latihan tidak akan menambah poin atau mengubah progresmu. Lanjut?',
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonColor: '#198754',
+            cancelButtonColor: '#6c757d',
+            confirmButtonText: 'Ya, Ulangi!',
+            cancelButtonText: 'Batal'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // Aktifkan mode latihan ulang
+                window.__modeLatihanUlangAktif = true;
+
+                btnCek.setAttribute('data-latihan-ulang', 'true');
+
+                if (typeof resetCallback === 'function') {
+                    resetCallback();
+                }
+
+                btnCek.disabled = false;
+                btnCek.classList.remove('d-none');
+                btnCek.style.display = 'inline-block';
+                btnCek.removeAttribute('data-review-setup');
+
+                reviewUI.remove();
+            }
+        });
+    });
+};
+
+
+
+window.setupReviewMode = function (checkpointCode, buttonSelector, showAnswerCallback, resetCallback) {
+    if (!window.completedCheckpoints || !window.completedCheckpoints.includes(checkpointCode)) {
+        return;
+    }
+
+    const btnCek = document.querySelector(buttonSelector);
+    if (!btnCek) return;
+
+    if (btnCek.getAttribute('data-review-setup') === 'true') return;
+    btnCek.setAttribute('data-review-setup', 'true');
+
+    if (typeof showAnswerCallback === 'function') {
+        showAnswerCallback();
+    }
+
+    window.tampilkanLatihanSelesai(btnCek, resetCallback);
 };

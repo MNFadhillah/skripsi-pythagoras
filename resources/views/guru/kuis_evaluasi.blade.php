@@ -1,26 +1,23 @@
 @extends('layouts.guru')
 
-@section('title', 'Aktivitas Belajar | PythaLearn')
+@section('title', 'Kelola Kuis & Evaluasi | PythaLearn')
 
 @section('content')
 <div class="container-fluid">
     {{-- Header --}}
     <div class="card border-0 shadow-sm mb-4">
         <div class="card-body d-flex justify-content-between align-items-center">
-            <h4 class="fw-bold mb-0">Aktivitas Belajar Siswa</h4>
+            <h4 class="fw-bold mb-0">Kelola Kuis & Evaluasi</h4>
 
-            {{-- SEMBUNYIKAN TOMBOL TAMBAH JIKA GURU BELUM PUNYA KELAS --}}
             @if($hasClass)
             <button type="button" class="btn btn-success" id="btnTambah" data-bs-toggle="modal" data-bs-target="#modalForm">
-                <i class="bi bi-plus-lg me-1"></i> Tambah Aktivitas
+                <i class="bi bi-plus-lg me-1"></i> Tambah Sesi
             </button>
             @endif
         </div>
     </div>
 
-    {{-- LOGIKA PEMBATASAN AKSES --}}
     @if(!$hasClass)
-    {{-- EMPTY STATE: GURU BELUM PUNYA KELAS --}}
     <div class="card shadow-sm border-0 bg-white rounded-3 mt-4">
         <div class="card-body text-center py-5">
             <div class="mb-4">
@@ -29,7 +26,7 @@
                 </div>
             </div>
             <h5 class="fw-bold text-dark">Akses Terbatas</h5>
-            <p class="text-muted mb-0">Anda belum ditugaskan untuk mengampu kelas manapun.<br>Fitur pembuatan aktivitas belajar akan terbuka setelah Administrator menautkan akun Anda dengan sebuah kelas.</p>
+            <p class="text-muted mb-0">Anda belum ditugaskan untuk mengampu kelas manapun.<br>Fitur pembuatan sesi kuis dan evaluasi akan terbuka setelah Administrator menautkan akun Anda dengan sebuah kelas.</p>
         </div>
     </div>
 
@@ -41,14 +38,14 @@
                 <table class="table table-bordered table-hover align-middle" id="tabelAktivitas">
                     <thead class="table-light">
                         <tr>
-                            <th width="5%" class="text-center">No</th>
-                            <th class="text-center">Judul Aktivitas</th>
-                            <th class="text-center">Kelas</th>
-                            <th class="text-center">Kategori</th>
+                            <th class="text-center">No</th>
+                            <th class="text-center">Nama Kuis / Evaluasi</th>
+                            <th class="text-center">Kategori Sub-Materi</th>
                             <th class="text-center">Tipe</th>
+                            <th class="text-center" width="8%">KKM</th>
                             <th class="text-center">Jadwal & Token</th>
-                            <th class="text-center">Status</th>
-                            <th width="15%" class="text-center">Aksi</th>
+                            <th class="text-center">Status Akses</th>
+                            <th class="text-center">Aksi</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -57,13 +54,7 @@
                             <td class="text-center">{{ $loop->iteration }}</td>
                             <td>
                                 <div class="fw-bold text-dark">{{ $item->judul }}</div>
-                                <div class="small text-muted">Paket Soal: {{ $item->paket_soal->judul ?? 'Paket Tidak Ditemukan' }}
-                                </div>
-                            </td>
-                            <td>
-                                <span class="badge bg-primary-subtle text-dark border">
-                                    {{ $item->kelas->nama_kelas ?? '-' }}
-                                </span>
+                                <div class="small text-muted">Paket Soal: {{ $item->paket_soal->judul ?? 'Paket Tidak Ditemukan' }}</div>
                             </td>
                             <td>
                                 <span class="badge bg-light text-dark border border-secondary">
@@ -71,14 +62,14 @@
                                 </span>
                             </td>
                             <td>
-                                @if($item->tipe == 'streak')
-                                <span class="badge bg-danger mb-1">Streak</span>
-                                @elseif($item->tipe == 'evaluasi')
+                                @if($item->tipe == 'evaluasi')
                                 <span class="badge bg-warning text-dark mb-1">Evaluasi</span>
                                 @else
                                 <span class="badge bg-info mb-1">Kuis</span>
                                 @endif
-                                <br>
+                            </td>
+                            <td class="text-center">
+                                <span class="fw-bold text-success">{{ $item->kkm ?? '70' }}</span>
                             </td>
                             <td>
                                 <div class="small">
@@ -101,7 +92,6 @@
                                 @if($isRealActive)
                                 <span class="badge bg-success rounded-pill px-3">AKTIF</span>
                                 @elseif($item->status == 1 && $isExpired)
-                                {{-- Jika toggle nyala tapi waktu habis, sebut Kadaluarsa --}}
                                 <span class="badge bg-danger rounded-pill px-3" title="Waktu Habis">KADALUARSA</span>
                                 @else
                                 <span class="badge bg-secondary rounded-pill px-3">TIDAK AKTIF</span>
@@ -122,19 +112,15 @@
             </div>
         </div>
     </div>
-
+    @endif
 </div>
 
+{{-- Modal Form --}}
 <div class="modal fade" id="modalForm" tabindex="-1" data-bs-backdrop="static">
     <div class="modal-dialog modal-dialog-centered modal-xl">
         <div class="modal-content border-0 shadow-lg rounded overflow-hidden">
-
             <div class="modal-header bg-success text-white px-4 py-3">
-                <div class="d-flex align-items-center gap-2">
-                    <div>
-                        <h5 class="modal-title fw-bold mb-0" id="modalTitle">Buat Aktivitas</h5>
-                    </div>
-                </div>
+                <h5 class="modal-title fw-bold mb-0" id="modalTitle">Buat Sesi Evaluasi / Kuis</h5>
                 <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
             </div>
 
@@ -145,59 +131,54 @@
 
                 <div class="modal-body p-0">
                     <div class="row g-0">
-
                         <div class="col-lg-7 p-4 border-end">
                             <h6 class="text-success fw-bold mb-3 d-flex align-items-center gap-2">
                                 <i class="bi bi-journal-text"></i> Informasi Utama
                             </h6>
 
                             <div class="mb-2">
-                                <label class="form-label fw-semibold small text-secondary">Judul Aktivitas <span class="text-danger">*</span></label>
-                                <input type="text" class="form-control bg-light border-0 py-2" name="judul" id="judul" required placeholder="Tambahkan Judul Aktivitas">
+                                <label class="form-label fw-semibold small text-secondary">Judul Sesi <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control bg-light border-0 py-2" name="judul" id="judul" required placeholder="Contoh: Kuis Pertemuan 1 - Konsep Pythagoras">
                             </div>
 
                             <div class="mb-2">
-                                <label class="form-label fw-semibold small text-secondary">
-                                    Kelas <span class="text-danger">*</span>
-                                </label>
+                                <label class="form-label fw-semibold small text-secondary">Kelas <span class="text-danger">*</span></label>
                                 <select class="form-select bg-light border-0 py-2" name="kelas_id" id="kelas_id" required>
                                     <option value="">-- Pilih Kelas --</option>
                                     @foreach($listKelas as $kelas)
-                                    <option value="{{ $kelas->id }}">
-                                        {{ $kelas->nama_kelas }}
-                                    </option>
+                                    <option value="{{ $kelas->id }}">{{ $kelas->nama_kelas }}</option>
                                     @endforeach
                                 </select>
                             </div>
 
                             <div class="mb-2">
-                                <label class="form-label fw-semibold small text-secondary">Kategori Materi <span class="text-danger">*</span></label>
+                                <label class="form-label fw-semibold small text-secondary">Posisi Penempatan Menu <span class="text-danger">*</span></label>
                                 <select class="form-select bg-light border-0 py-2" name="kategori" id="kategori" required>
-                                    <option value="">-- Pilih Posisi Menu --</option>
+                                    <option value="">-- Pilih Target Menu Siswa --</option>
                                     <option value="konsep">1. Menemukan Konsep Pythagoras</option>
                                     <option value="tripel">2. Tripel Pythagoras</option>
                                     <option value="istimewa">3. Segitiga Istimewa</option>
                                     <option value="penerapan">4. Penerapan Teorema</option>
                                     <option value="evaluasi">Evaluasi Akhir</option>
                                 </select>
-                                <div class="form-text small">Menentukan di menu mana aktivitas ini akan muncul pada sidebar siswa.</div>
+                                <div class="form-text small">Menentukan di sub-menu mana kuis/evaluasi ini akan muncul pada sidebar siswa.</div>
                             </div>
 
                             <div class="row g-3 mb-2">
-                                <div class="col-md-6">
-                                    <label class="form-label fw-semibold small text-secondary">Tipe Aktivitas</label>
-                                    <div class="input-group">
-                                        <select class="form-select bg-light border-start-0 py-2" name="tipe" id="tipe" required>
-                                            <option value="kuis">Kuis</option>
-                                            <option value="evaluasi">Evaluasi</option>
-                                        </select>
-                                    </div>
+                                <div class="col-md-4">
+                                    <label class="form-label fw-semibold small text-secondary">Tipe Evaluasi</label>
+                                    <select class="form-select bg-light border-0 py-2" name="tipe" id="tipe" required>
+                                        <option value="kuis">Kuis</option>
+                                        <option value="evaluasi">Evaluasi</option>
+                                    </select>
                                 </div>
-                                <div class="col-md-6">
-                                    <label class="form-label fw-semibold small text-secondary">Poin Hadiah</label>
-                                    <div class="input-group">
-                                        <input type="number" class="form-control bg-light border-0" name="poin_didapat" id="poin_didapat" value="100" required>
-                                    </div>
+                                <div class="col-md-4">
+                                    <label class="form-label fw-semibold small text-secondary">Poin Hadiah Gamifikasi</label>
+                                    <input type="number" class="form-control bg-light border-0 py-2" name="poin_didapat" id="poin_didapat" value="100" required>
+                                </div>
+                                <div class="col-md-4">
+                                    <label class="form-label fw-semibold small text-secondary">KKM <span class="text-danger">*</span></label>
+                                    <input type="number" class="form-control bg-light border-0 py-2" name="kkm" id="kkm" value="70" min="0" max="100" required placeholder="Contoh: 70">
                                 </div>
                             </div>
 
@@ -212,30 +193,30 @@
                             </div>
 
                             <div>
-                                <label class="form-label fw-semibold small text-secondary">Instruksi / Catatan</label>
-                                <textarea class="form-control bg-light border-0" name="instruksi" id="instruksi" rows="3" placeholder="Instruksi untuk siswa"></textarea>
+                                <label class="form-label fw-semibold small text-secondary">Instruksi Pengerjaan</label>
+                                <textarea class="form-control bg-light border-0" name="instruksi" id="instruksi" rows="3" placeholder="Tulis petunjuk pengerjaan untuk siswa..."></textarea>
                             </div>
                         </div>
 
                         <div class="col-lg-5 p-4 bg-light bg-opacity-25">
                             <h6 class="text-success fw-bold mb-3 d-flex align-items-center gap-2">
-                                <i class="bi bi-calendar-check"></i> Jadwal & Akses
+                                <i class="bi bi-calendar-check"></i> Aturan Kelola Akses
                             </h6>
 
                             <div class="mb-2">
-                                <label class="form-label fw-semibold small text-secondary">Waktu Mulai</label>
+                                <label class="form-label fw-semibold small text-secondary">Waktu Akses Dibuka</label>
                                 <input type="datetime-local" class="form-control bg-white border shadow-sm" name="waktu_mulai" id="waktu_mulai">
                             </div>
 
                             <div class="mb-2">
-                                <label class="form-label fw-semibold small text-secondary">Waktu Selesai</label>
+                                <label class="form-label fw-semibold small text-secondary">Waktu Akses Ditutup</label>
                                 <input type="datetime-local" class="form-control bg-white border shadow-sm" name="waktu_selesai" id="waktu_selesai">
                             </div>
 
                             <hr class="border-secondary opacity-25 my-4">
 
                             <div class="mb-2">
-                                <label class="form-label fw-semibold small text-secondary">Durasi (Menit)</label>
+                                <label class="form-label fw-semibold small text-secondary">Durasi Sesi</label>
                                 <div class="input-group shadow-sm">
                                     <input type="number" class="form-control border-end-0" name="durasi_menit" id="durasi_menit" value="60">
                                     <span class="input-group-text bg-white text-muted">Menit</span>
@@ -243,11 +224,11 @@
                             </div>
 
                             <div class="mb-2">
-                                <label class="form-label fw-semibold small text-secondary">Token</label>
-                                <input type="text" class="form-control bg-white text-uppercase shadow-sm fw-bold letter-spacing-2" name="token" id="token" placeholder="-----" maxlength="6" style="letter-spacing: 3px; text-align: center;">
+                                <label class="form-label fw-semibold small text-secondary">Token Ujian</label>
+                                <input type="text" class="form-control bg-white text-uppercase shadow-sm fw-bold" name="token" id="token" placeholder="-----" maxlength="6" style="letter-spacing: 3px; text-align: center;">
                             </div>
 
-                            <div class="card border-0 mb-2 shadow-sm bg-white">
+                            <div class="card border-0 mb-3 shadow-sm bg-white">
                                 <div class="card-body py-2 px-3 d-flex justify-content-between align-items-center">
                                     <label class="form-check-label small fw-bold text-dark" for="status">
                                         Buka Akses Sekarang?
@@ -257,42 +238,32 @@
                                     </div>
                                 </div>
                             </div>
+                            
                             <div class="mb-2">
-                                <button type="submit" class="btn btn-success rounded-3 px-5 shadow fw-bold">
-                                    <i class="bi bi-save me-1"></i> Simpan
+                                <button type="submit" class="btn btn-success rounded-3 px-5 shadow fw-bold w-100">
+                                    <i class="bi bi-save me-1"></i> Simpan Sesi
                                 </button>
                             </div>
-
                         </div>
                     </div>
                 </div>
             </form>
         </div>
     </div>
-    @endif
 </div>
 @endsection
 
 @push('styles')
 <style>
-    /* Styling tambahan agar input lebih cantik */
-    .form-control:focus,
-    .form-select:focus {
+    .form-control:focus, .form-select:focus {
         border-color: #198754;
         box-shadow: 0 0 0 0.25rem rgba(25, 135, 84, 0.1);
         background-color: #fff !important;
-        /* Jadi putih saat diketik */
     }
-
-    /* Style khusus untuk input token */
     #token::placeholder {
         letter-spacing: normal;
         font-weight: normal;
         font-size: 0.9rem;
-    }
-
-    .bg-light-subtle {
-        background-color: #f8f9fa !important;
     }
 </style>
 @endpush
@@ -300,49 +271,44 @@
 @push('scripts')
 <script>
     $(document).ready(function() {
-        // 1. Setup DataTable (Kode lama Anda)
+        // Init DataTable
         $('#tabelAktivitas').DataTable({
             language: {
                 search: "Cari:",
                 lengthMenu: "Lihat _MENU_",
-                info: "Total _TOTAL_ aktivitas"
+                info: "Total _TOTAL_ sesi"
             },
             responsive: true
         });
 
-        // === TAMBAHAN BARU: Cek apakah ada kiriman ID Kelas dari URL ===
+        // Trigger otomatis dari halaman lain jika ada parameter URL
         const urlParams = new URLSearchParams(window.location.search);
         const triggerKelasId = urlParams.get('trigger_kelas_id');
 
         if (triggerKelasId) {
-            // Reset form dulu
             $('#formAktivitas')[0].reset();
             $('#id').val('');
             $('#_method').val('POST');
-            $('#modalTitle').text('Buat Aktivitas Baru');
+            $('#modalTitle').text('Buat Sesi Baru');
             $('#status').prop('checked', true);
-
-            // Isi Kelas ID secara otomatis
-            $('#input_kelas_id').val(triggerKelasId);
-
-            // Buka Modal
+            $('#kelas_id').val(triggerKelasId);
             $('#modalForm').modal('show');
         }
 
-        // 2. Tombol Tambah
+        // Tombol Tambah Sesi
         $('#btnTambah').click(function() {
             $('#formAktivitas')[0].reset();
             $('#id').val('');
             $('#_method').val('POST');
-            $('#modalTitle').text('Buat Aktivitas Baru');
-            $('#status').prop('checked', true); // Default aktif
+            $('#modalTitle').text('Buat Sesi Baru');
+            $('#status').prop('checked', true);
             $('#modalForm').modal('show');
         });
 
-        // 3. Tombol Edit (Load Data)
+        // Tombol Edit Sesi
         $(document).on('click', '.btn-edit', function() {
             let id = $(this).data('id');
-            let url = `/guru/aktivitas/${id}/edit`;
+            let url = `/guru/kuis-evaluasi/${id}/edit`;
 
             Swal.fire({
                 title: 'Memuat...',
@@ -360,8 +326,8 @@
                     $('#tipe').val(d.tipe);
                     $('#poin_didapat').val(d.poin_didapat);
                     $('#paket_soal_id').val(d.paket_soal_id);
+                    $('#kkm').val(d.kkm ?? 75); // Sinkronisasi KKM
 
-                    // Format tanggal untuk input datetime-local (YYYY-MM-DDTHH:mm)
                     if (d.waktu_mulai) $('#waktu_mulai').val(d.waktu_mulai.replace(' ', 'T').slice(0, 16));
                     if (d.waktu_selesai) $('#waktu_selesai').val(d.waktu_selesai.replace(' ', 'T').slice(0, 16));
 
@@ -371,7 +337,7 @@
                     $('#status').prop('checked', d.is_currently_active === true);
 
                     $('#_method').val('PUT');
-                    $('#modalTitle').text('Edit Aktivitas');
+                    $('#modalTitle').text('Edit Sesi');
                     $('#modalForm').modal('show');
                 }
             }).fail(function() {
@@ -380,13 +346,12 @@
             });
         });
 
-        // 4. Submit Form
+        // Submit Form Sesi
         $('#formAktivitas').on('submit', function(e) {
             e.preventDefault();
             let id = $('#id').val();
-            let method = $('#_method').val(); // POST atau PUT
-            let url = (method === 'POST') ? '/guru/aktivitas' : `/guru/aktivitas/${id}`;
-
+            let method = $('#_method').val();
+            let url = (method === 'POST') ? '/guru/kuis-evaluasi' : `/guru/kuis-evaluasi/${id}`;
             let formData = $(this).serialize();
 
             Swal.fire({
@@ -396,7 +361,7 @@
 
             $.ajax({
                 url: url,
-                type: 'POST', // Browser form submit selalu POST
+                type: 'POST',
                 data: formData,
                 success: function(res) {
                     if (res.success) {
@@ -420,12 +385,12 @@
             });
         });
 
-        // 5. Hapus Data
+        // Hapus Sesi
         $(document).on('click', '.btn-hapus', function() {
             let id = $(this).data('id');
             Swal.fire({
-                title: 'Hapus Aktivitas?',
-                text: "Data ini akan dihapus secara permanen.",
+                title: 'Hapus Sesi?',
+                text: "Data evaluasi ini akan dihapus secara permanen.",
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#dc3545',
@@ -433,7 +398,7 @@
             }).then((result) => {
                 if (result.isConfirmed) {
                     $.ajax({
-                        url: `/guru/aktivitas/${id}`,
+                        url: `/guru/kuis-evaluasi/${id}`,
                         type: 'DELETE',
                         headers: {
                             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -449,30 +414,25 @@
             });
         });
 
-        // 6. Fitur Auto-Update Waktu saat Toggle "Buka Akses" ditekan
+        // Auto-Update Logika Waktu
         $('#status').change(function() {
             if ($(this).is(':checked')) {
                 let durasi = parseInt($('#durasi_menit').val()) || 60;
                 let now = new Date();
-
-                // Mengakali Timezone lokal laptop guru agar formatnya YYYY-MM-DDTHH:mm
                 now.setMinutes(now.getMinutes() - now.getTimezoneOffset());
                 $('#waktu_mulai').val(now.toISOString().slice(0, 16));
 
-                // Set waktu selesai berdasarkan durasi
                 let selesai = new Date(now.getTime() + durasi * 60000);
                 $('#waktu_selesai').val(selesai.toISOString().slice(0, 16));
             }
         });
 
-        // 7. Auto-Update Waktu Selesai jika Durasi Menit diketik ulang
         $('#durasi_menit').on('input', function() {
             let mulai = $('#waktu_mulai').val();
             if (mulai && $('#status').is(':checked')) {
                 let durasi = parseInt($(this).val()) || 0;
                 let start = new Date(mulai);
                 let selesai = new Date(start.getTime() + durasi * 60000);
-
                 selesai.setMinutes(selesai.getMinutes() - selesai.getTimezoneOffset());
                 $('#waktu_selesai').val(selesai.toISOString().slice(0, 16));
             }

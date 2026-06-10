@@ -14,16 +14,16 @@ use App\Models\Badge;
 
 class ProfileController extends Controller
 {
-    public function index()
+public function index()
     {
         /** @var \App\Models\User $user */  
         $user = Auth::user();
         $userId = $user->id;
 
-        // 1. Hitung Progres Keseluruhan (Sinkron 100% dengan ProgressController)
+        // 1. Hitung Progres Keseluruhan
         $totalProgress = $this->hitungTotalProgress($userId);
 
-        // 2. Hitung Rata-rata Skor Kuis (Sinkron dengan Halaman Nilai Siswa)
+        // 2. Hitung Rata-rata Skor Kuis
         $rataRataKuis = $this->hitungRataRataKuisRemedial($userId);
 
         // 3. Ambil Data Lencana (Badge)
@@ -31,11 +31,14 @@ class ProfileController extends Controller
         $lencanaSiswa = $user->badges()->pluck('badges.id')->toArray();
         $totalLencanaTerkumpul = count($lencanaSiswa);
 
-        // Hitung berapa kuis yang SUDAH dikerjakan minimal 1 kali
+        // 4. Hitung berapa kuis yang SUDAH dikerjakan
         $jumlahKuisDikerjakan = HasilPengerjaan::where('user_id', $userId)
                                 ->select('paket_soal_id')
                                 ->distinct()
                                 ->count();
+
+        // 5. AMBIL DAFTAR AVATAR BAWAAN SISTEM (BARIS INI YANG TERLEWATKAN)
+        $daftarAvatar = $this->getSystemAvatars();
 
         return view('siswa.profile', compact(
             'user', 
@@ -44,7 +47,8 @@ class ProfileController extends Controller
             'jumlahKuisDikerjakan', 
             'semuaLencana', 
             'lencanaSiswa', 
-            'totalLencanaTerkumpul'
+            'totalLencanaTerkumpul',
+            'daftarAvatar' 
         ));
     }
 
@@ -133,13 +137,72 @@ class ProfileController extends Controller
         return 0;
     }
 
-    /**
-     * Menyimpan/Update Foto Profil (Avatar) Siswa
-     */
+    private function getSystemAvatars()
+    {
+        return [
+            ['nama' => 'Avatar 1', 'file' => 'avatar1.png', 'harga' => 0],
+            ['nama' => 'Avatar 2', 'file' => 'avatar2.png', 'harga' => 0],
+            ['nama' => 'Avatar 3', 'file' => 'avatar3.png', 'harga' => 50], // Butuh 50 Poin
+            ['nama' => 'Avatar 4', 'file' => 'avatar4.png', 'harga' => 100], // Butuh 100 Poin
+            ['nama' => 'Avatar 5', 'file' => 'avatar5.png', 'harga' => 200], // Butuh 200 Poin
+            ['nama' => 'Avatar 6', 'file' => 'avatar6.png', 'harga' => 0], // Butuh 200 Poin
+            ['nama' => 'Avatar 7', 'file' => 'avatar7.png', 'harga' => 0],
+            ['nama' => 'Avatar 8', 'file' => 'avatar8.png', 'harga' => 50],
+            ['nama' => 'Avatar 9', 'file' => 'avatar9.png', 'harga' => 100], // Butuh 50 Poin
+            ['nama' => 'Avatar 10', 'file' => 'avatar10.png', 'harga' => 200], // Butuh 100 Poin
+        ];
+    }
+
+    public function selectSystemAvatar(Request $request)
+    {
+        // PERBAIKAN 1: Sintaks Validasi yang Benar
+        $request->validate([
+            'avatar_file' => 'required|string'
+        ]);
+
+        $user = User::find(Auth::id());
+        $avatars = $this->getSystemAvatars();
+        
+        $chosenAvatar = collect($avatars)->firstWhere('file', $request->avatar_file);
+
+        if (!$chosenAvatar) {
+            return response()->json(['success' => false, 'message' => 'Format avatar tidak dikenali.'], 422);
+        }
+
+        // VALIDASI SEBAGAI SYARAT THRESHOLD / MILESTONE
+        if ($user->points < $chosenAvatar['harga']) {
+            return response()->json([
+                'success' => false, 
+                'message' => 'Kamu harus mengumpulkan minimal ' . $chosenAvatar['harga'] . ' poin untuk membuka karakter ini!'
+            ], 400);
+        }
+
+        // PENGAMAN FILE: Hapus file lama jika merupakan hasil unggahan mandiri
+        $path = public_path('images/avatars');
+        if ($user->avatar && !str_starts_with($user->avatar, 'avatar') && file_exists($path . '/' . $user->avatar)) {
+            try {
+                unlink($path . '/' . $user->avatar);
+            } catch (\Exception $e) {
+                // Lewati jika file gagal dihapus secara fisik
+            }
+        }
+
+        // Simpan karakter ke kolom avatar pengguna
+        $user->avatar = $chosenAvatar['file'];
+        $user->save();
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Avatar berhasil digunakan!',
+            'avatar_url' => asset('images/avatars/' . $chosenAvatar['file']),
+            'new_points' => $user->points 
+        ]);
+    }
+
     public function updateAvatar(Request $request)
     {
         $request->validate([
-            'avatar' => 'required|image|mimes:jpeg,png,jpg|max:2048', // Maksimal 2MB
+            'avatar' => 'required|image|mimes:jpeg,png,jpg|max:2048',
         ]);
 
         $user = User::find(Auth::id());
@@ -148,15 +211,24 @@ class ProfileController extends Controller
             $file = $request->file('avatar');
             $filename = time() . '_' . $user->id . '.' . $file->getClientOriginalExtension();
             
-            // Simpan ke folder public/images/avatars
-            $file->move(public_path('images/avatars'), $filename);
-
-            // Hapus foto lama jika bukan foto default
-            if ($user->avatar && file_exists(public_path('images/avatars/' . $user->avatar))) {
-                unlink(public_path('images/avatars/' . $user->avatar));
+            $path = public_path('images/avatars');
+            
+            // Pengaman: Buat folder otomatis jika belum tersedia di direktori proyek
+            if (!file_exists($path)) {
+                mkdir($path, 0777, true);
             }
 
-            // Update database
+            $file->move($path, $filename);
+
+            // Hapus file lama jika merupakan hasil unggahan mandiri
+            if ($user->avatar && !str_starts_with($user->avatar, 'avatar') && file_exists($path . '/' . $user->avatar)) {
+                try {
+                    unlink($path . '/' . $user->avatar);
+                } catch (\Exception $e) {
+                    // Lewati jika file tidak ditemukan
+                }
+            }
+
             $user->avatar = $filename;
             $user->save();
 
@@ -167,7 +239,7 @@ class ProfileController extends Controller
             ]);
         }
 
-        return response()->json(['success' => false, 'message' => 'Gagal mengunggah gambar.']);
+        return response()->json(['success' => false, 'message' => 'Gagal mengunggah gambar.'], 400);
     }
 
     /**

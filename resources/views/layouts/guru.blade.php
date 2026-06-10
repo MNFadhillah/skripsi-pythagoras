@@ -310,9 +310,9 @@
                     <span class="nav-text">Data Soal</span>
                 </a>
 
-                <a href="{{ route('guru.aktivitas.index') }}" class="list-group-item list-group-item-action {{ request()->is('guru/aktivitas*') ? 'active' : '' }}" title="Aktivitas Siswa">
+                <a href="{{ route('guru.kuis_evaluasi.index') }}" class="list-group-item list-group-item-action {{ request()->is('guru/kuis-evaluasi*') ? 'active' : '' }}" title="Kuis dan Evaluasi">
                     <i class="bi bi-clipboard-data"></i>
-                    <span class="nav-text">Aktivitas Siswa</span>
+                    <span class="nav-text">Kelola Kuis & Evaluasi</span>
                 </a>
             </div>
         </div>

@@ -915,6 +915,8 @@ body {
     .accordion-collapse .list-group-item.active {
         padding-left: calc(3rem - 3px);
     }
+
+    
 }
 
 /* =========================================
@@ -1087,7 +1089,7 @@ input[type=number]::-webkit-outer-spin-button {
 @keyframes tegakMove {
     from {
         opacity: 0;
-        transform: translate(8px, -10px);
+        transform: translate(8px, -5px);
     }
 
     to {
@@ -1117,6 +1119,27 @@ input[type=number]::-webkit-outer-spin-button {
     to {
         opacity: 1;
         transform: translateX(8px);
+    }
+}
+
+/* Penyesuaian khusus untuk layar HP (Mobile) */
+@media (max-width: 768px) {
+    /* 1. Geser posisi awal penanda lebih ke kiri */
+    .text-tegak {
+        left: 2%; /* Sebelumnya 15%. Ubah jadi 0% jika masih kurang ke kiri */
+    }
+
+    /* 2. Sesuaikan arah tarikan animasi agar tetap stay di kiri */
+    @keyframes tegakMove {
+        from {
+            opacity: 0;
+            transform: translate(0px, -5px);
+        }
+        to {
+            opacity: 1;
+            /* Nilai minus (-10px) menahan dan menarik label lebih ke kiri saat muncul */
+            transform: translate(-10px, 4px); 
+        }
     }
 }
 

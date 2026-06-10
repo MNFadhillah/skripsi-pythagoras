@@ -134,40 +134,6 @@
     </div>
 </div>
 
-<div class="modal fade" id="kelolaGuruModal" tabindex="-1">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content border-0 shadow">
-            <div class="modal-header text-white" style="background-color: #379080;">
-                <h5 class="modal-title"><i class="bi bi-person-badge me-2"></i>Kelola Guru Pengampu</h5>
-                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
-            </div>
-            <form id="kelolaGuruForm">
-                @csrf
-                <input type="hidden" name="kelas_id" id="kg_kelasId">
-
-                <div class="modal-body">
-                    <div class="alert alert-light border small text-muted mb-4">
-                        Tentukan guru yang akan mengampu materi Teorema Pythagoras di kelas <strong id="kg_namaKelas" class="text-success"></strong>.
-                    </div>
-
-                    <div class="mb-3">
-                        <label class="form-label fw-bold">Pilih Guru</label>
-                        <select name="guru_id" id="kg_guru_id" class="form-select border-success">
-                            <option value="">-- Kosongkan (Belum Ada Guru) --</option>
-                            @foreach(\App\Models\User::where('role','guru')->get() as $guru)
-                            <option value="{{ $guru->id }}">{{ $guru->name }}</option>
-                            @endforeach
-                        </select>
-                    </div>
-                </div>
-                <div class="modal-footer border-0">
-
-                    <button type="submit" class="btn btn-success px-4">Simpan Perubahan</button>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
 @endsection
 
 @push('scripts')
@@ -432,78 +398,10 @@
             });
         });
 
-        // ==========================================
-        // FITUR KELOLA GURU (ASSIGN TEACHER)
-        // ==========================================
-
-        // 1. Saat tombol Kelola Guru diklik
-        $(document).on('click', '.kelola-guru', function() {
+        $(document).on('click', '.manage-guru', function() {
             var id = $(this).data('id');
-            var nama = $(this).data('nama');
-
-            // Tampilkan loading state jika perlu, lalu ambil data guru saat ini
-            $.get("{{ url('admin/kelas') }}/" + id + "/edit", function(data) {
-                $('#kg_kelasId').val(data.id);
-                $('#kg_namaKelas').text(data.nama_kelas);
-                $('#kg_guru_id').val(data.guru_id); // Set dropdown ke guru saat ini
-
-                // Ubah action URL form agar mengarah ke endpoint update guru
-                $('#kelolaGuruForm').attr('action', "{{ url('admin/kelas') }}/" + data.id + "/update-guru");
-                $('#kelolaGuruModal').modal('show');
-            }).fail(function() {
-                Swal.fire('Error', 'Gagal memuat data guru kelas ini.', 'error');
-            });
+            window.location.href = "{{ url('admin/kelas') }}/" + id + "/teachers";
         });
-        // 2. Submit Form Kelola Guru
-        $('#kelolaGuruForm').submit(function(e) {
-            e.preventDefault();
-            var form = $(this);
-            var url = form.attr('action');
-            var btnSubmit = form.find('button[type="submit"]');
-
-            btnSubmit.prop('disabled', true).text('Menyimpan...');
-
-            $.ajax({
-                url: url,
-                type: 'POST', // Method overriding dengan _method=PUT di dalam form
-                data: form.serialize(),
-                success: function(res) {
-                    Swal.fire({
-                        title: 'Berhasil',
-                        text: res.message,
-                        icon: 'success',
-                        confirmButtonColor: '#379080'
-                    }).then(() => {
-                        $('#kelolaGuruModal').modal('hide');
-                        $('#kelasTable').DataTable().ajax.reload(null, false); // Refresh tabel tanpa mereset pagination
-                    });
-                },
-                error: function(xhr) {
-                    var pesanError = 'Terjadi kesalahan yang tidak diketahui.';
-
-                    // Jika gagal karena validasi
-                    if (xhr.status === 422) {
-                        var errors = xhr.responseJSON.errors;
-                        pesanError = Object.values(errors)[0][0]; // Ambil pesan error pertama
-                    }
-                    // Jika gagal karena database (Exception 500)
-                    else if (xhr.responseJSON && xhr.responseJSON.message) {
-                        pesanError = xhr.responseJSON.message;
-                    }
-
-                    Swal.fire({
-                        title: 'Gagal Menyimpan!',
-                        text: pesanError,
-                        icon: 'error',
-                        confirmButtonColor: '#d33'
-                    });
-                },
-                complete: function() {
-                    btnSubmit.prop('disabled', false).text('Simpan Perubahan');
-                }
-            });
-        });
-
     });
 </script>
 @endpush

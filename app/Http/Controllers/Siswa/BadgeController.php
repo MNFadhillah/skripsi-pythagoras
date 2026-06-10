@@ -1,45 +1,61 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Siswa;
 
+use App\Http\Controllers\Controller;
 use App\Models\Badge;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class BadgeController extends Controller
 {
-    // Fungsi untuk menampilkan halaman Koleksi Lencana
-    public function index()
+    public static function getBadgePointThresholds(): array
     {
-        $user = Auth::user();
-        $allBadges = Badge::all();
-
-        // Ambil ID lencana yang sudah dimiliki user agar mudah dicek di View
-        $earnedBadgeIds = $user->badges->pluck('id')->toArray();
-
-        return view('badges.index', compact('allBadges', 'earnedBadgeIds'));
+        return [
+            1 => 50,
+            2 => 150,
+            3 => 250,
+            4 => 350,
+            5 => 500,
+        ];
     }
 
-    // Contoh fungsi yang bisa dipanggil setelah siswa selesai kuis/Ayo Berlatih
-    public function checkAndAwardBadge($user, $kuisTipe, $nilai)
+    public static function checkAndAwardBadgesByPoints($user): array
     {
-        // KKM > 70 sesuai aturan
-        if ($nilai > 70) {
-            $badgeId = null;
+        $currentPoints = $user->points ?? 0;
+        $thresholds = self::getBadgePointThresholds();
+        $newlyEarned = [];
 
-            // Logika sederhana: tentukan badge ID berdasarkan kuis
-            if ($kuisTipe == 'ayo_berlatih_1') {
-                $badgeId = 1; // Pastikan ID 1 adalah badge Tuntas Kuis 1 di database
-            } elseif ($kuisTipe == 'ayo_berlatih_2') {
-                $badgeId = 2;
-            } // ... dan seterusnya
+        $alreadyEarnedIds = $user->badges()->pluck('badges.id')->toArray();
 
-            if ($badgeId) {
-                // Cek agar tidak tersimpan ganda jika diulang
-                if (!$user->badges()->where('badge_id', $badgeId)->exists()) {
-                    $user->badges()->attach($badgeId);
+        foreach ($thresholds as $badgeId => $requiredPoints) {
+            if (in_array($badgeId, $alreadyEarnedIds)) {
+                continue;
+            }
+
+            if ($currentPoints >= $requiredPoints) {
+                $badge = Badge::find($badgeId);
+
+                if ($badge) {
+                    $user->badges()->syncWithoutDetaching([$badgeId]);
+
+                    $newlyEarned[] = [
+                        'name'  => $badge->name,
+                        'image' => asset('images/badges/' . $badge->image_path),
+                    ];
                 }
             }
         }
+
+        return $newlyEarned;
+    }
+
+    public function index()
+    {
+        $user = Auth::user();
+
+        $allBadges = Badge::all();
+        $earnedBadgeIds = $user->badges->pluck('id')->toArray();
+
+        return view('badges.index', compact('allBadges', 'earnedBadgeIds'));
     }
 }

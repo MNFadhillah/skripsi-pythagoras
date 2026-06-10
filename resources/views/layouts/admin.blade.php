@@ -259,11 +259,14 @@
                 <a href="{{ route('admin.dashboard') }}" class="list-group-item list-group-item-action {{ request()->routeIs('admin.dashboard') ? 'active' : '' }}">
                     <i class="bi bi-speedometer2"></i> <span class="nav-text">Dashboard Admin</span>
                 </a>
-                <a href="{{ route('admin.users.index') }}" class="list-group-item list-group-item-action {{ request()->routeIs('admin.users.*') ? 'active' : '' }}">
-                    <i class="bi bi-people"></i> <span class="nav-text">Manajemen User</span>
-                </a>
                 <a href="{{ route('admin.kelas.index') }}" class="list-group-item list-group-item-action {{ request()->routeIs('admin.kelas.*') ? 'active' : '' }}">
                     <i class="bi bi-house-door"></i> <span class="nav-text">Manajemen Kelas</span>
+                </a>
+                <a href="{{ route('admin.guru.index') }}" class="list-group-item list-group-item-action {{ request()->routeIs('admin.guru.*') ? 'active' : '' }}">
+                    <i class="bi bi-person-workspace me-2"></i> <span class="nav-text">Data Guru</span>
+                </a>
+                <a href="{{ route('admin.siswa.index') }}" class="list-group-item list-group-item-action {{ request()->routeIs('admin.siswa.*') ? 'active' : '' }}">
+                    <i class="bi bi-people-fill me-2"></i> <span class="nav-text">Data Siswa</span>
                 </a>
             </div>
         </div>

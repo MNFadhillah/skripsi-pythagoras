@@ -1,5 +1,6 @@
 <!doctype html>
 <html lang="id">
+
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
@@ -53,7 +54,7 @@
         .question-image {
             border-radius: 8px;
             overflow: hidden;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
         }
 
         .question-image img {
@@ -208,15 +209,18 @@
             .question-card {
                 min-height: 400px;
             }
+
             .panel-sidebar {
                 height: 400px;
                 position: relative;
                 top: 0;
                 margin-top: 20px;
             }
+
             .palette-grid {
                 grid-template-columns: repeat(4, 1fr);
             }
+
             .question-image img {
                 max-height: 200px;
             }
@@ -226,6 +230,7 @@
             .palette-grid {
                 grid-template-columns: repeat(3, 1fr);
             }
+
             .score-circle {
                 width: 100px;
                 height: 100px;
@@ -234,15 +239,28 @@
 
         /* Efek animasi pop-in untuk poin gamifikasi */
         @keyframes popIn {
-            0% { transform: scale(0); opacity: 0; }
-            80% { transform: scale(1.15); opacity: 1; }
-            100% { transform: scale(1); opacity: 1; }
+            0% {
+                transform: scale(0);
+                opacity: 0;
+            }
+
+            80% {
+                transform: scale(1.15);
+                opacity: 1;
+            }
+
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
         }
+
         .pop-in-animation {
             animation: popIn 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
         }
     </style>
 </head>
+
 <body
     data-aktivitas-id="{{ $aktivitas->id }}"
     data-status="{{ $statusAktivitas['status'] }}"
@@ -250,15 +268,15 @@
     data-waktu-selesai="{{ $statusAktivitas['waktu_selesai'] }}"
     data-next-materi-url="{{ $nextMateriUrl }}"
     data-back-materi-url="{{ $backMateriUrl }}"
-    data-is-evaluasi="{{ $isEvaluasi ? 'true' : 'false' }}" 
+    data-is-evaluasi="{{ $isEvaluasi ? 'true' : 'false' }}"
     class="py-4">
 
     <div class="container kuis-container">
-        
+
         <div class="kuis-title text-center mb-4">
             <h4>{{ $aktivitas->judul }}</h4>
             <p class="text-muted mb-0">
-                <i class="bi bi-clock me-1"></i> Durasi: <span id="durasiLabel">...</span> Menit | 
+                <i class="bi bi-clock me-1"></i> Durasi: <span id="durasiLabel">...</span> Menit |
                 <i class="bi bi-list-ol me-1"></i> Jumlah Soal: <span id="jumlahSoalLabelTitle">...</span> Butir |
                 <i class="bi bi-star me-1"></i> Nilai Maksimal: {{ $aktivitas->poin_didapat }}
             </p>
@@ -267,7 +285,7 @@
         <div id="instructionPage" class="card shadow-sm border-0">
             <div class="card-body">
                 <h5 class="text-center mb-4">Petunjuk Pengerjaan</h5>
-                
+
                 <ol class="mb-4 text-muted" style="line-height: 1.8;">
                     <li>Aktivitas ini terdiri dari <strong class="text-dark"><span id="jumlahSoalLabelList">...</span> butir soal</strong>.</li>
                     <li>Tekan tombol <span class="fw-bold text-success">MULAI</span> di bawah untuk masuk ke halaman kuis.</li>
@@ -276,11 +294,11 @@
                     <li>Kerjakan soal dengan teliti dan jujur.</li>
                     <li>Periksa kembali jawaban sebelum mengirimkan.</li>
                     <li>Jika waktu habis, jawaban yang sudah terisi akan <strong>tersimpan dan terkirim secara otomatis</strong>.</li>
-                    
+
                     @if($isEvaluasi)
-                        <div class="alert alert-warning mt-3">
-                            <i class="bi bi-exclamation-triangle"></i> Evaluasi hanya dapat dikerjakan <strong>satu kali</strong>. Pastikan Anda siap sebelum memulai.
-                        </div>
+                    <div class="alert alert-warning mt-3">
+                        <i class="bi bi-exclamation-triangle"></i> Evaluasi hanya dapat dikerjakan <strong>satu kali</strong>. Pastikan Anda siap sebelum memulai.
+                    </div>
                     @endif
                 </ol>
 
@@ -297,7 +315,7 @@
 
         <div id="quizPage" class="d-none mt-4">
             <div class="row g-3">
-                
+
                 <div class="col-lg-8 col-12">
                     <div class="card question-card h-100">
                         <div class="card-header question-header bg-white">
@@ -309,10 +327,10 @@
                                 </div>
                             </div>
                         </div>
-                        
+
                         <div class="card-body d-flex flex-column h-100">
                             <div class="flex-grow-1" id="questionArea"></div>
-                            
+
                             <div class="mt-auto pt-3 border-top">
                                 <div class="d-flex justify-content-between align-items-center">
                                     <div>
@@ -387,7 +405,7 @@
                         <h5 class="text-success mb-1">{{ $aktivitas->judul }}</h5>
                         <div id="statusBadgeContainer" class="mt-1"></div>
                     </div>
-                    
+
                     <div class="row g-2 mb-3">
                         <div class="col-4">
                             <div class="p-2 border rounded text-center bg-light">
@@ -408,7 +426,7 @@
                             </div>
                         </div>
                     </div>
-                    
+
                     <div class="mb-2">
                         <div class="d-flex justify-content-between align-items-center mb-1">
                             <h6 class="mb-0 small">Detail Pengerjaan</h6>
@@ -419,7 +437,7 @@
                 </div>
                 <div class="modal-footer py-2">
                     @if(!$isEvaluasi)
-                        <button id="reviewBtn" class="btn btn-outline-success btn-sm">Review Jawaban</button>
+                    <button id="reviewBtn" class="btn btn-outline-success btn-sm">Review Jawaban</button>
                     @endif
                     <div id="resultActionButtons" class="d-inline-block">
                         <!-- Tombol dinamis -->
@@ -435,16 +453,24 @@
         /* =============================
         SETUP VARIABEL GLOBAL
         ============================= */
-        const AKTIVITAS_ID = document.body.dataset.aktivitasId; 
+        const AKTIVITAS_ID = document.body.dataset.aktivitasId;
         const MATERI_SEKARANG = document.body.dataset.materiSekarang;
         const NEXT_MATERI_URL = document.body.dataset.nextMateriUrl || '/siswa/dashboard';
         const BACK_MATERI_URL = document.body.dataset.backMateriUrl || '/siswa/dashboard';
         const IS_EVALUASI = document.body.dataset.isEvaluasi === 'true';
+        const START_URL = "{{ route('siswa.kuis.start', $aktivitas->id) }}";
+        const VIOLATION_URL = "{{ route('siswa.kuis.violation') }}";
+        const QUIZ_DRAFT_KEY = `quiz_draft_${AKTIVITAS_ID}`;
+
+        let bolehKeluarHalaman = false;
+        let sedangSubmit = false;
+        let pelanggaranCount = 0;
+        const MAKS_PELANGGARAN = IS_EVALUASI ? 2 : 3;
 
         // --- VARIABEL DARI CONTROLLER UNTUK REMEDIAL ---
         const JUMLAH_PERCOBAAN = parseInt('{{ $jumlahPercobaan ?? 0 }}');
-        const NILAI_PERTAMA    = '{{ $nilaiPertama ?? "null" }}' === "null" ? null : parseInt('{{ $nilaiPertama }}');
-        const KKM              = parseInt('{{ $kkm ?? 70 }}');
+        const NILAI_PERTAMA = '{{ $nilaiPertama ?? "null" }}' === "null" ? null : parseInt('{{ $nilaiPertama }}');
+        const KKM = parseInt('{{ $kkm ?? 70 }}');
         // -----------------------------------------------
 
         // ELEMENT REFERENCES
@@ -456,100 +482,106 @@
         const finishBtn = document.getElementById('finishBtn');
         const flagBtn = document.getElementById('flagBtn');
         const resultModal = new bootstrap.Modal(document.getElementById('resultModal'));
-        const reviewBtn = document.getElementById('reviewBtn'); 
+        const reviewBtn = document.getElementById('reviewBtn');
 
         let questions = [];
         let answers = [];
         let flagged = [];
         let idx = 0;
-        let timeLeft = 0; 
+        let timeLeft = 0;
         let timerInterval = null;
         let quizStarted = false;
         let isReviewMode = false;
         let quizResult = null;
         let waktuMulaiClient = null;
 
-        
+
 
         /* =============================
         1. LOAD DATA DARI API (INIT)
         ============================= */
         fetch(`/siswa/api/aktivitas/${AKTIVITAS_ID}/soal`)
-        .then(async res => {
+            .then(async res => {
 
-            // ====== KHUSUS STATUS AKTIVITAS (403) ======
-            if (res.status === 403) {
-                const data = await res.json();
-                startBtn.disabled = true;
-                const jenis = IS_EVALUASI ? 'Evaluasi' : 'Kuis';
-                startBtn.innerHTML = jenis + ' Belum Tersedia';
-                startBtn.classList.remove('btn-success');
-                startBtn.classList.add('btn-secondary');
+                // ====== KHUSUS STATUS AKTIVITAS (403) ======
+                if (res.status === 403) {
+                    const data = await res.json();
+                    startBtn.disabled = true;
+                    const jenis = IS_EVALUASI ? 'Evaluasi' : 'Kuis';
+                    startBtn.innerHTML = jenis + ' Belum Tersedia';
+                    startBtn.classList.remove('btn-success');
+                    startBtn.classList.add('btn-secondary');
 
+                    Swal.fire({
+                        icon: 'info',
+                        title: jenis + ' Belum Tersedia',
+                        text: data.error || (IS_EVALUASI ? 'Evaluasi ini belum dibuka oleh guru.' : 'Kuis ini belum dibuka oleh guru.'),
+                        confirmButtonText: 'Mengerti'
+                    });
+                    return null;
+                }
+
+                // ====== ERROR TEKNIS ======
+                if (!res.ok) {
+                    throw new Error('Gagal memuat data');
+                }
+
+                return res.json();
+            })
+            .then(data => {
+                if (!data) return;
+
+                if (!data.jumlah_soal || data.jumlah_soal === 0) {
+                    Swal.fire({
+                        icon: 'warning',
+                        title: 'Soal Kosong',
+                        text: 'Paket soal belum memiliki butir soal.'
+                    });
+                    return;
+                }
+
+                const jumlahSoal = data.jumlah_soal;
+
+                const totalSoalTitle = document.getElementById('jumlahSoalLabelTitle');
+                const totalSoalList = document.getElementById('jumlahSoalLabelList');
+
+                if (totalSoalTitle) totalSoalTitle.textContent = jumlahSoal;
+                if (totalSoalList) totalSoalList.textContent = jumlahSoal;
+
+                // SETUP DURASI (Server-Side Validated)
+                if (data.sisa_detik) {
+                    timeLeft = data.sisa_detik; // Patuh pada sisa waktu dari database
+                } else if (data.durasi_menit) {
+                    timeLeft = data.durasi_menit * 60;
+                } else {
+                    timeLeft = 20 * 60;
+                }
+
+                const labelDurasi = document.getElementById('durasiLabel');
+                if (labelDurasi) labelDurasi.textContent = data.durasi_menit || 20;
+
+                // AKTIFKAN TOMBOL
+                startBtn.disabled = false;
+
+                if (adaKunciKuisAktifUntukAktivitasIni()) {
+                    startBtn.innerHTML = 'LANJUT MENGERJAKAN';
+                    startBtn.title = 'Lanjutkan kuis yang sedang berlangsung';
+                } else {
+                    startBtn.innerHTML = 'MULAI MENGERJAKAN';
+                    startBtn.title = 'Mulai mengerjakan kuis';
+                }
+
+                startBtn.classList.remove('btn-secondary');
+                startBtn.classList.add('btn-success');
+            })
+            .catch(err => {
+                console.error(err);
                 Swal.fire({
-                    icon: 'info',
-                    title: jenis + ' Belum Tersedia',
-                    text: data.error || (IS_EVALUASI ? 'Evaluasi ini belum dibuka oleh guru.' : 'Kuis ini belum dibuka oleh guru.'),
-                    confirmButtonText: 'Mengerti'
+                    icon: 'error',
+                    title: 'Terjadi Kesalahan',
+                    text: 'Gagal memuat data aktivitas. Silakan refresh halaman.'
                 });
-                return null;
-            }
-
-            // ====== ERROR TEKNIS ======
-            if (!res.ok) {
-                throw new Error('Gagal memuat data');
-            }
-
-            return res.json();
-        })
-        .then(data => {
-            if (!data) return; 
-
-            if (!data.soal || data.soal.length === 0) {
-                Swal.fire({
-                    icon: 'warning',
-                    title: 'Soal Kosong',
-                    text: 'Paket soal belum memiliki butir soal.'
-                });
-                return;
-            }
-
-            questions = data.soal;
-            answers = Array(questions.length).fill(null);
-            flagged = Array(questions.length).fill(false);
-
-            const totalSoalTitle = document.getElementById('jumlahSoalLabelTitle');
-            const totalSoalList = document.getElementById('jumlahSoalLabelList');
-            
-            if (totalSoalTitle) totalSoalTitle.textContent = questions.length;
-            if (totalSoalList) totalSoalList.textContent = questions.length;
-
-            // SETUP DURASI (Server-Side Validated)
-            if (data.sisa_detik) {
-                timeLeft = data.sisa_detik; // Patuh pada sisa waktu dari database
-            } else if (data.durasi_menit) {
-                timeLeft = data.durasi_menit * 60;
-            } else {
-                timeLeft = 20 * 60;
-            }
-
-            const labelDurasi = document.getElementById('durasiLabel');
-            if (labelDurasi) labelDurasi.textContent = data.durasi_menit || 20;
-
-            // AKTIFKAN TOMBOL
-            startBtn.disabled = false;
-            startBtn.innerHTML = 'MULAI MENGERJAKAN';
-            startBtn.classList.remove('btn-secondary');
-            startBtn.classList.add('btn-success');
-        })
-        .catch(err => {
-            console.error(err);
-            Swal.fire({
-                icon: 'error',
-                title: 'Terjadi Kesalahan',
-                text: 'Gagal memuat data aktivitas. Silakan refresh halaman.'
             });
-        });
 
 
         /* =============================
@@ -568,43 +600,232 @@
                 if (result.isConfirmed) location.reload();
             });
         }
+
         function kembaliKeMateri() {
+            if (!quizStarted) {
+                hapusKunciKuisAktif();
+            }
+            if (quizStarted && !isReviewMode) {
+                Swal.fire({
+                    title: 'Kuis Sedang Berlangsung',
+                    text: 'Anda tidak dapat kembali ke materi sebelum menyelesaikan kuis.',
+                    icon: 'warning',
+                    confirmButtonColor: '#146b42'
+                });
+
+                catatPelanggaran('manual_back_button', 'Siswa menekan tombol kembali saat kuis berlangsung.');
+                return;
+            }
+
             Swal.fire({
                 title: 'Kembali?',
-                text: 'Progres Anda tidak akan tersimpan.',
-                icon: 'warning',
+                text: 'Anda akan kembali ke materi.',
+                icon: 'question',
                 showCancelButton: true,
-                confirmButtonText: 'Ya, Keluar',
-                confirmButtonColor: '#dc3545'
+                confirmButtonText: 'Ya, Kembali',
+                confirmButtonColor: '#146b42'
             }).then((result) => {
-                if (result.isConfirmed) window.location.href = BACK_MATERI_URL;
+                if (result.isConfirmed) arahkanAman(BACK_MATERI_URL);
             });
         }
 
         function lanjutKeMateriBerikutnya() {
-            window.location.href = NEXT_MATERI_URL;
+            arahkanAman(NEXT_MATERI_URL);
         }
 
         function aturTampilanTombolReview() {
             const nextMateriBtn = document.getElementById('nextMateriBtn');
             const ulangiBtn = document.getElementById('ulangiBtn');
-            
+
             // Cek apakah sudah lulus (dari quizResult setelah submit)
             const isPassed = quizResult ? quizResult.is_passed : false;
-            
+
             if (isPassed) {
                 if (nextMateriBtn) {
                     nextMateriBtn.innerHTML = '<i class="bi bi-arrow-right"></i> Lanjut Materi';
-                    nextMateriBtn.onclick = () => { window.location.href = NEXT_MATERI_URL; };
+                    nextMateriBtn.onclick = () => {
+                        arahkanAman(NEXT_MATERI_URL);
+                    };
                 }
             } else {
                 if (nextMateriBtn) {
                     nextMateriBtn.innerHTML = '<i class="bi bi-book"></i> Kembali Pelajari Materi';
-                    nextMateriBtn.onclick = () => { window.location.href = BACK_MATERI_URL; };
+                    nextMateriBtn.onclick = () => {
+                        arahkanAman(BACK_MATERI_URL);
+                    };
                 }
             }
-            
+
             if (ulangiBtn) ulangiBtn.onclick = ulangiKuis;
+        }
+
+        function arahkanAman(url) {
+            bolehKeluarHalaman = true;
+            window.location.href = url;
+        }
+
+        function simpanKunciKuisAktif() {
+            localStorage.setItem('active_quiz_lock', JSON.stringify({
+                aktivitas_id: AKTIVITAS_ID,
+                quiz_url: window.location.href,
+                violation_url: VIOLATION_URL,
+                started_at: new Date().toISOString()
+            }));
+        }
+
+        function hapusKunciKuisAktif() {
+            localStorage.removeItem('active_quiz_lock');
+        }
+
+        function getKunciKuisAktif() {
+            const rawLock = localStorage.getItem('active_quiz_lock');
+
+            if (!rawLock) return null;
+
+            try {
+                return JSON.parse(rawLock);
+            } catch (e) {
+                localStorage.removeItem('active_quiz_lock');
+                return null;
+            }
+        }
+
+        function adaKunciKuisAktifUntukAktivitasIni() {
+            const lock = getKunciKuisAktif();
+
+            return lock && String(lock.aktivitas_id) === String(AKTIVITAS_ID);
+        }
+
+        function simpanDraftKuis() {
+            if (!quizStarted) return;
+
+            localStorage.setItem(QUIZ_DRAFT_KEY, JSON.stringify({
+                answers: answers,
+                flagged: flagged,
+                idx: idx,
+                updated_at: new Date().toISOString()
+            }));
+        }
+
+        function muatDraftKuis() {
+            const rawDraft = localStorage.getItem(QUIZ_DRAFT_KEY);
+
+            if (!rawDraft) return false;
+
+            try {
+                const draft = JSON.parse(rawDraft);
+
+                if (
+                    Array.isArray(draft.answers) &&
+                    Array.isArray(draft.flagged) &&
+                    draft.answers.length === questions.length &&
+                    draft.flagged.length === questions.length
+                ) {
+                    answers = draft.answers;
+                    flagged = draft.flagged;
+
+                    if (Number.isInteger(draft.idx) && draft.idx >= 0 && draft.idx < questions.length) {
+                        idx = draft.idx;
+                    } else {
+                        idx = 0;
+                    }
+
+                    return true;
+                }
+            } catch (e) {
+                localStorage.removeItem(QUIZ_DRAFT_KEY);
+            }
+
+            return false;
+        }
+
+        function hapusDraftKuis() {
+            localStorage.removeItem(QUIZ_DRAFT_KEY);
+        }
+
+        window.__kuisGuard = window.__kuisGuard || {
+            pengawasanTabAktif: false,
+            terakhirPelanggaranTab: 0
+        };
+
+        function aktifkanPengawasanTab() {
+            if (window.__kuisGuard.pengawasanTabAktif) {
+                return;
+            }
+
+            window.__kuisGuard.pengawasanTabAktif = true;
+
+            document.addEventListener('visibilitychange', function() {
+                if (!quizStarted || isReviewMode || sedangSubmit || bolehKeluarHalaman) {
+                    return;
+                }
+
+                if (document.hidden) {
+                    const sekarang = Date.now();
+
+                    if (sekarang - window.__kuisGuard.terakhirPelanggaranTab < 1500) {
+                        return;
+                    }
+
+                    window.__kuisGuard.terakhirPelanggaranTab = sekarang;
+
+                    tanganiPelanggaran(
+                        'tab_hidden',
+                        'Halaman kuis ditinggalkan atau siswa membuka tab/aplikasi lain.'
+                    );
+                }
+            });
+        }
+
+        function catatPelanggaran(jenis, detail = '') {
+            const csrfToken = document.querySelector('meta[name="csrf-token"]').content;
+
+            fetch(VIOLATION_URL, {
+                method: 'POST',
+                keepalive: true,
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': csrfToken,
+                    'Accept': 'application/json'
+                },
+                body: JSON.stringify({
+                    aktivitas_id: AKTIVITAS_ID,
+                    jenis: jenis,
+                    detail: detail
+                })
+            }).catch(err => console.warn('Gagal mencatat pelanggaran:', err));
+        }
+
+        function tanganiPelanggaran(jenis, detail) {
+            pelanggaranCount++;
+            catatPelanggaran(jenis, detail);
+
+            if (IS_EVALUASI && pelanggaranCount >= MAKS_PELANGGARAN) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Evaluasi Dikumpulkan Otomatis',
+                    text: 'Anda beberapa kali meninggalkan halaman evaluasi. Jawaban akan dikumpulkan otomatis.',
+                    confirmButtonColor: '#dc3545',
+                    allowOutsideClick: false,
+                    allowEscapeKey: false
+                }).then(() => {
+                    submitQuiz();
+                });
+
+                return;
+            }
+
+            Swal.fire({
+                icon: 'warning',
+                title: 'Peringatan Kejujuran',
+                html: `
+            Sistem mendeteksi Anda meninggalkan halaman kuis/evaluasi.<br>
+            Pelanggaran: <b>${pelanggaranCount}/${MAKS_PELANGGARAN}</b><br><br>
+            Tetap fokus pada halaman pengerjaan.
+        `,
+                confirmButtonColor: '#146b42',
+                allowOutsideClick: false
+            });
         }
 
 
@@ -614,21 +835,21 @@
         function masukModeReview() {
             isReviewMode = true;
             resultModal.hide();
-            
+
             finishBtn.classList.add('d-none');
             flagBtn.classList.add('d-none');
-            
+
             const sidebarTitle = document.querySelector('.panel-sidebar h6');
-            if(sidebarTitle) sidebarTitle.textContent = 'Review Jawaban';
-            
+            if (sidebarTitle) sidebarTitle.textContent = 'Review Jawaban';
+
             const actions = document.getElementById('reviewActions');
-            if(actions) actions.classList.remove('d-none');
-            
+            if (actions) actions.classList.remove('d-none');
+
             aturTampilanTombolReview();
             renderQuestion(idx);
         }
 
-        document.getElementById('resultModal').addEventListener('hidden.bs.modal', function () {
+        document.getElementById('resultModal').addEventListener('hidden.bs.modal', function() {
             if (!isReviewMode && !IS_EVALUASI) masukModeReview();
         });
 
@@ -667,16 +888,72 @@
         };
 
 
-        function jalankanKuis() {
-            instructionPage.classList.add('d-none');
-            quizPage.classList.remove('d-none');
+        async function jalankanKuis() {
+            if (quizStarted) return;
 
-            if (!quizStarted) {
+            try {
+                startBtn.disabled = true;
+                startBtn.innerHTML = 'Menyiapkan Kuis...';
+
+                const csrfToken = document.querySelector('meta[name="csrf-token"]').content;
+
+                const res = await fetch(START_URL, {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRF-TOKEN': csrfToken,
+                        'Accept': 'application/json'
+                    }
+                });
+
+                const data = await res.json();
+
+                if (!res.ok) {
+                    throw new Error(data.error || 'Gagal memulai kuis.');
+                }
+
+                questions = data.soal;
+                answers = Array(questions.length).fill(null);
+                flagged = Array(questions.length).fill(false);
+                timeLeft = data.sisa_detik;
+
+                const sedangMelanjutkan = adaKunciKuisAktifUntukAktivitasIni();
+
+                if (sedangMelanjutkan) {
+                    muatDraftKuis();
+                } else {
+                    hapusDraftKuis();
+                }
+
+                const totalSoalTitle = document.getElementById('jumlahSoalLabelTitle');
+                const totalSoalList = document.getElementById('jumlahSoalLabelList');
+
+                if (totalSoalTitle) totalSoalTitle.textContent = questions.length;
+                if (totalSoalList) totalSoalList.textContent = questions.length;
+
+                instructionPage.classList.add('d-none');
+                quizPage.classList.remove('d-none');
+
                 quizStarted = true;
                 waktuMulaiClient = new Date();
+
+                simpanKunciKuisAktif();
+
+                aktifkanPengawasanTab();
+
                 renderPalette();
-                renderQuestion(0);
+                renderQuestion(idx);
                 startTimer();
+
+            } catch (err) {
+                startBtn.disabled = false;
+                startBtn.innerHTML = 'MULAI MENGERJAKAN';
+
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Gagal Memulai',
+                    text: err.message,
+                    confirmButtonColor: '#dc3545'
+                });
             }
         }
 
@@ -686,12 +963,12 @@
         ============================= */
         document.getElementById('backBtn').onclick = kembaliKeMateri;
         const backReview = document.getElementById('backFromReviewBtn');
-        if(backReview) backReview.onclick = kembaliKeMateri;
+        if (backReview) backReview.onclick = kembaliKeMateri;
 
         const ulangiBtn = document.getElementById('ulangiBtn');
-        if(ulangiBtn) ulangiBtn.onclick = ulangiKuis;
+        if (ulangiBtn) ulangiBtn.onclick = ulangiKuis;
 
-        if(reviewBtn) reviewBtn.onclick = masukModeReview;
+        if (reviewBtn) reviewBtn.onclick = masukModeReview;
 
         if (IS_EVALUASI && flagBtn) {
             flagBtn.style.display = 'none';
@@ -707,11 +984,11 @@
 
             const q = questions[i];
             const area = document.getElementById('questionArea');
-            
+
             const hasImage = q.image && q.image.trim() !== '';
-            
+
             let contentHTML = '';
-            
+
             if (hasImage) {
                 contentHTML = `
                     <div class="row g-4">
@@ -738,9 +1015,9 @@
                     </div>
                 `;
             }
-            
+
             area.innerHTML = contentHTML;
-            
+
             if (!isReviewMode) {
                 document.querySelectorAll('.option-item').forEach(item => {
                     const key = item.dataset.key;
@@ -748,13 +1025,14 @@
                 });
             }
 
-            flagBtn.innerHTML = flagged[i] 
-                ? '<i class="bi bi-flag-fill"></i> Batal Tandai'
-                : '<i class="bi bi-flag"></i> Tandai';
-                
+            flagBtn.innerHTML = flagged[i] ?
+                '<i class="bi bi-flag-fill"></i> Batal Tandai' :
+                '<i class="bi bi-flag"></i> Tandai';
+
             prevBtn.disabled = i === 0;
             nextBtn.disabled = i === questions.length - 1;
 
+            simpanDraftKuis();
             updatePalette();
         }
 
@@ -776,7 +1054,7 @@
                             class="form-control"
                             value="${userAnswer}"
                             ${isReviewMode ? 'disabled' : ''}
-                            oninput="answers[idx] = this.value">
+                            oninput="answers[idx] = this.value; simpanDraftKuis(); updatePalette();">
                     </div>
                 `;
 
@@ -815,6 +1093,7 @@
         function selectOption(key) {
             if (!isReviewMode) {
                 answers[idx] = key;
+                simpanDraftKuis();
                 renderQuestion(idx);
                 updatePalette();
             }
@@ -831,12 +1110,12 @@
             questions.forEach((_, i) => {
                 const btn = document.createElement('button');
                 btn.type = 'button';
-                
+
                 let className = 'num-btn btn';
                 if (i === idx) className += ' current';
                 if (answers[i] !== null && answers[i] !== '') className += ' answered';
                 if (flagged[i]) className += ' flagged';
-                
+
                 if (isReviewMode && quizResult) {
                     const res = quizResult.detail[i];
                     if (res && res.benar) {
@@ -845,7 +1124,7 @@
                         className += ' bg-danger text-white border-danger';
                     }
                 }
-                
+
                 btn.className = className;
                 btn.textContent = i + 1;
                 btn.onclick = () => renderQuestion(i);
@@ -859,9 +1138,11 @@
 
         flagBtn.onclick = () => {
             flagged[idx] = !flagged[idx];
-            flagBtn.innerHTML = flagged[idx] 
-                ? '<i class="bi bi-flag-fill"></i> Batal Tandai'
-                : '<i class="bi bi-flag"></i> Tandai';
+            flagBtn.innerHTML = flagged[idx] ?
+                '<i class="bi bi-flag-fill"></i> Batal Tandai' :
+                '<i class="bi bi-flag"></i> Tandai';
+
+            simpanDraftKuis();
             updatePalette();
         };
 
@@ -875,7 +1156,7 @@
         function startTimer() {
             timerInterval = setInterval(() => {
                 timeLeft--;
-                
+
                 const m = String(Math.floor(timeLeft / 60)).padStart(2, '0');
                 const s = String(timeLeft % 60).padStart(2, '0');
                 document.getElementById('timeText').textContent = `${m}:${s}`;
@@ -901,7 +1182,7 @@
 
         finishBtn.onclick = async () => {
             const belum = answers.filter(a => a === null || a === '').length;
-            const ditandai = flagged.filter(f => f === true).length; 
+            const ditandai = flagged.filter(f => f === true).length;
             const jenisText = IS_EVALUASI ? 'Evaluasi' : 'Kuis'; // Penanda kata dinamis
 
             let config = {
@@ -932,6 +1213,9 @@
         SUBMIT KE SERVER 
         ============================= */
         function submitQuiz() {
+            sedangSubmit = true;
+            bolehKeluarHalaman = true;
+
             clearInterval(timerInterval);
 
             Swal.fire({
@@ -943,49 +1227,44 @@
 
             const csrfToken = document.querySelector('meta[name="csrf-token"]').content;
 
-            const formatDateTime = (date) => {
-                if (!date) return null;
-                const d = new Date(date);
-                d.setMinutes(d.getMinutes() - d.getTimezoneOffset());
-                return d.toISOString().slice(0, 19).replace('T', ' ');
-            };
-
             fetch('{{ route("siswa.kuis.submit") }}', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-CSRF-TOKEN': csrfToken,
-                    'Accept': 'application/json'
-                },
-                body: JSON.stringify({
-                    aktivitas_id: AKTIVITAS_ID,
-                    jawaban: questions.map((q, i) => ({
-                        soal_id: q.id,
-                        jawaban: answers[i]
-                    })),
-                    waktu_mulai_aktual: formatDateTime(waktuMulaiClient),
-                    waktu_selesai_aktual: formatDateTime(new Date()) 
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': csrfToken,
+                        'Accept': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        aktivitas_id: AKTIVITAS_ID,
+                        jawaban: questions.map((q, i) => ({
+                            soal_id: q.id,
+                            jawaban: answers[i]
+                        }))
+                    })
                 })
-            })
-            .then(res => {
-                if(!res.ok) throw new Error('Server Error');
-                return res.json();
-            })
-            .then(data => {
-                Swal.close();
-                showResult(data);
-            })
-            .catch((error) => {
-                console.error(error);
-                Swal.fire({
-                    title: 'Gagal Menyimpan',
-                    text: 'Terjadi kesalahan koneksi. Silakan coba kirim ulang.',
-                    icon: 'error',
-                    confirmButtonText: 'Coba Lagi'
-                }).then((res) => {
-                    if(res.isConfirmed) submitQuiz(); 
+                .then(res => {
+                    if (!res.ok) throw new Error('Server Error');
+                    return res.json();
+                })
+                .then(data => {
+                    Swal.close();
+                    showResult(data);
+                })
+                .catch((error) => {
+                    console.error(error);
+
+                    sedangSubmit = false;
+                    bolehKeluarHalaman = false;
+
+                    Swal.fire({
+                        title: 'Gagal Menyimpan',
+                        text: 'Terjadi kesalahan koneksi. Silakan coba kirim ulang.',
+                        icon: 'error',
+                        confirmButtonText: 'Coba Lagi'
+                    }).then((res) => {
+                        if (res.isConfirmed) submitQuiz();
+                    });
                 });
-            });
         }
 
 
@@ -993,8 +1272,11 @@
         TAMPILKAN HASIL
         ============================= */
         function showResult(result) {
+            hapusKunciKuisAktif();
+            hapusDraftKuis();
+
             quizResult = result;
-            
+
             document.getElementById('finalScore').textContent = result.skor;
             document.getElementById('totalSoal').textContent = result.total_soal;
             document.getElementById('benarCount').textContent = result.jumlah_benar;
@@ -1006,11 +1288,11 @@
             statusBadge.className = `badge ${result.is_passed ? 'bg-success' : 'bg-danger'} fs-6 px-3 py-2`;
             statusBadge.textContent = result.is_passed ? '✓ LULUS' : '✗ REMEDIAL (TIDAK LULUS)';
             statusContainer.appendChild(statusBadge);
-            
+
             // Tampilkan detail pengerjaan
             const detailsContainer = document.getElementById('resultDetails');
             detailsContainer.innerHTML = '';
-            
+
             if (IS_EVALUASI) {
                 detailsContainer.innerHTML = '<p class="text-center text-muted mt-3">Detail jawaban tidak ditampilkan untuk evaluasi.</p>';
             } else {
@@ -1028,17 +1310,19 @@
                     detailsContainer.appendChild(detailDiv);
                 });
             }
-            
+
             // Atur tombol aksi di modal footer
             const actionContainer = document.getElementById('resultActionButtons');
             actionContainer.innerHTML = '';
-            
+
             if (!IS_EVALUASI) {
                 if (result.is_passed) {
                     const nextBtn = document.createElement('button');
                     nextBtn.className = 'btn btn-success';
                     nextBtn.textContent = 'Selesai & Lanjut';
-                    nextBtn.onclick = () => { window.location.href = result.next_url; };
+                    nextBtn.onclick = () => {
+                        arahkanAman(result.next_url);
+                    };
                     actionContainer.appendChild(nextBtn);
                 } else {
                     const ulangiBtn = document.createElement('button');
@@ -1053,30 +1337,34 @@
                             confirmButtonText: 'Ya, Ulangi',
                             cancelButtonText: 'Batal'
                         }).then((res) => {
-                            if (res.isConfirmed) window.location.href = result.remedial_url;
+                            if (res.isConfirmed) arahkanAman(result.remedial_url);
                         });
                     };
                     actionContainer.appendChild(ulangiBtn);
-                    
+
                     const materiBtn = document.createElement('button');
                     materiBtn.className = 'btn btn-outline-secondary';
                     materiBtn.textContent = 'Kembali Pelajari Materi';
-                    materiBtn.onclick = () => { window.location.href = result.materi_url; };
+                    materiBtn.onclick = () => {
+                        arahkanAman(result.materi_url);
+                    };
                     actionContainer.appendChild(materiBtn);
                 }
             } else {
                 const selesaiBtn = document.createElement('button');
                 selesaiBtn.className = 'btn btn-success';
                 selesaiBtn.textContent = 'Selesai';
-                selesaiBtn.onclick = () => { window.location.href = '/siswa/dashboard'; };
+                selesaiBtn.onclick = () => {
+                    arahkanAman('/siswa/dashboard');
+                };
                 actionContainer.appendChild(selesaiBtn);
             }
-            
+
             resultModal.show();
             // --- LOGIKA MENAMPILKAN POIN GAMIFIKASI DI DALAM MODAL ---
             const pointPlaceholder = document.getElementById('gamificationPointPlaceholder');
             pointPlaceholder.innerHTML = ''; // Reset isi placeholder
-            
+
             if (result.poin_diberikan && result.poin_didapat > 0) {
                 // Beri jeda sedikit (300ms) agar modal terbuka dulu, baru poinnya "muncul"
                 setTimeout(() => {
@@ -1086,11 +1374,11 @@
                         </span>
                     `;
                 }, 300);
-            }   
+            }
         }
-
-        
     </script>
 
+
 </body>
+
 </html>

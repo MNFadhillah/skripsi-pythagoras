@@ -182,18 +182,28 @@
     <div class="row g-3 mb-3">
         <div class="col-lg-6">
             {{-- Profil Siswa --}}
-            <div class="card mb-3 h-100 shadow-sm border-0">
+            <div class="card mb-3 h-100 shadow-sm border-1 badge-card-hover" style="transition: transform 0.2s, box-shadow 0.2s;">
                 <div class="card-header bg-success bg-opacity-10 border-0 pt-3">
-                    <h5 class="mb-0 text-success"><i class="bi bi-person-circle me-2"></i>Profil Siswa</h5>
+                    <h5 class="mb-0 text-success">
+                        <i class="bi bi-person-circle me-2"></i>
+                        {{-- Stretched Link Diletakkan Di Sini --}}
+                        <a href="{{ route('siswa.profile') }}" class="text-success text-decoration-none stretched-link">Profil Siswa</a>
+                    </h5>
                 </div>
                 <div class="card-body">
                     <div class="d-flex align-items-center mb-3">
 
-                        {{-- Logika Avatar Siswa (JALUR SUDAH DIPERBAIKI) --}}
+                        {{-- Logika Avatar Siswa --}}
                         @if(auth()->user()->avatar)
-                        <img src="{{ asset('images/avatars/' . auth()->user()->avatar) }}" alt="Foto Siswa" class="rounded-circle me-3 shadow-sm bg-white" style="width: 80px; height: 80px; object-fit: cover; border: 2px solid #198754;">
+                        {{-- Cek apakah gambar dari unggahan lokal atau bawaan sistem --}}
+                        @php
+                        $avatarName = auth()->user()->avatar;
+                        // Jika avatar adalah sistem bawaan, pastikan asset merujuk dengan benar
+                        // Jika unggahan lokal, asset juga sudah merujuk ke folder yang sama
+                        @endphp
+                        <img src="{{ asset('images/avatars/' . $avatarName) }}" alt="Foto Siswa" class="rounded-circle me-3 shadow-sm bg-white" style="width: 80px; height: 80px; object-fit: cover; border: 2px solid #198754; position: relative; z-index: 2;">
                         @else
-                        <div class="rounded-circle bg-success bg-opacity-10 text-success d-flex align-items-center justify-content-center me-3" style="width: 80px; height: 80px;">
+                        <div class="rounded-circle bg-success bg-opacity-10 text-success d-flex align-items-center justify-content-center me-3" style="width: 80px; height: 80px; position: relative; z-index: 2;">
                             <i class="bi bi-person-fill fs-1"></i>
                         </div>
                         @endif
@@ -213,9 +223,9 @@
                             <div class="small text-muted mb-1">Kelas</div>
                             <div class="fw-medium">
                                 @if(auth()->user()->kelas)
-                                <span class="badge bg-success px-3 py-2">{{ auth()->user()->kelas->nama_kelas }}</span>
+                                <span class="badge bg-success px-3 py-2" style="position: relative; z-index: 2;">{{ auth()->user()->kelas->nama_kelas }}</span>
                                 @else
-                                <span class="badge bg-secondary px-3 py-2">Belum Masuk Kelas</span>
+                                <span class="badge bg-secondary px-3 py-2" style="position: relative; z-index: 2;">Belum Masuk Kelas</span>
                                 @endif
                             </div>
                         </div>
@@ -226,7 +236,7 @@
 
         <div class="col-lg-6">
             {{-- Profil Guru --}}
-            <div class="card mb-3 h-100 shadow-sm border-0">
+            <div class="card mb-3 h-100 shadow-sm border-1">
                 <div class="card-header bg-success bg-opacity-10 border-0 pt-3">
                     <h5 class="mb-0 text-success"><i class="bi bi-person-badge me-2"></i>Profil Guru</h5>
                 </div>
@@ -289,7 +299,7 @@
 
             <div class="modal-body p-4 pt-2 bg-success bg-opacity-10" style="min-height: 50vh">
                 <p class="text-muted text-center mb-4 ">
-                    Selesaikan materi dan kuis untuk mendapatkan semua lencana!
+                    Kumpulkan poin untuk membuka semua lencana!
                 </p>
                 <div class="row justify-content-center g-4 mt-5 pt-4">
 
@@ -297,31 +307,40 @@
                     @php
                     $isEarned = in_array($badge->id, $earnedBadgeIds);
 
-                    // --- LOGIKA DINAMIS TEKS TOOLTIP ---
-                    $teksTooltip = $badge->description;
+                    $badgePointThresholds = \App\Http\Controllers\Siswa\BadgeController::getBadgePointThresholds();
 
-                    // Jika BELUM didapat, ubah teks deskripsi menjadi kalimat petunjuk (Clue)
-                    if (!$isEarned) {
-                    $teksTooltip = str_replace('Berhasil menyelesaikan', 'Selesaikan', $teksTooltip);
-                    $teksTooltip = str_replace('Berhasil menuntaskan', 'Tuntaskan', $teksTooltip);
-                    $teksTooltip = str_replace('Berhasil lulus dari', 'Luluslah dari', $teksTooltip);
-                    $teksTooltip = str_replace('Luar Biasa! Telah menyelesaikan', 'Selesaikan', $teksTooltip);
+                    $requiredPoints = $badgePointThresholds[$badge->id] ?? null;
+                    $currentPoints = auth()->user()->points ?? 0;
+                    $remainingPoints = $requiredPoints ? max(0, $requiredPoints - $currentPoints) : 0;
+
+                    if ($requiredPoints) {
+                    if ($isEarned) {
+                    $teksTooltip = 'Lencana ini diperoleh karena kamu sudah mencapai ' . $requiredPoints . ' poin.';
+                    } else {
+                    $teksTooltip = 'Kumpulkan ' . $requiredPoints . ' poin untuk membuka lencana ini. Kurang ' . $remainingPoints . ' poin lagi.';
+                    }
+                    } else {
+                    $teksTooltip = $badge->description;
                     }
                     @endphp
 
                     <div class="col-4 col-sm-3 col-md-2 text-center badge-container">
 
-                        {{-- Gambar Lencana --}}
                         <img src="{{ asset('images/badges/' . $badge->image_path) }}"
                             alt="{{ $badge->name }}"
                             class="img-fluid badge-modal-img {{ $isEarned ? '' : 'locked-badge' }}">
 
-                        {{-- Nama Lencana --}}
-                        <div class="mt-2 fw-bold {{ $isEarned ? 'text-success' : 'text-muted' }}" style="font-size: 0.75rem; text-transform: uppercase;">
+                        <div class="mt-2 fw-bold {{ $isEarned ? 'text-success' : 'text-muted' }}"
+                            style="font-size: 0.75rem; text-transform: uppercase;">
                             {{ $badge->name }}
                         </div>
 
-                        {{-- KOTAK CLUE / TOOLTIP --}}
+                        @if($requiredPoints)
+                        <div class="small {{ $isEarned ? 'text-success' : 'text-muted' }}">
+                            {{ $requiredPoints }} Poin
+                        </div>
+                        @endif
+
                         <div class="custom-badge-tooltip shadow-sm">
                             {{ $teksTooltip }}
                         </div>

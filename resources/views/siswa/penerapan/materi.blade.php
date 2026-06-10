@@ -3,46 +3,66 @@
 @section('title', 'PythaLearn - Penerapan Teorema Pythagoras')
 
 @push('scripts')
-    <script>
-        window.completedCheckpoints = JSON.parse('{!! json_encode($completedCheckpoints ?? []) !!}');
-    </script>
+<script>
+    window.completedCheckpoints = JSON.parse('{!! json_encode($completedCheckpoints ?? []) !!}');
+</script>
 
-    <script src="{{ asset('js/materi4.js') }}"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="{{ asset('js/materi4.js') }}"></script>
 @endpush
 
 @section('content')
 <div class="container">
-    <!-- Judul Halaman -->
-    <div class="row align-items-center mb-2">
-        <div class="col-lg-12">
-            <h3 class="text-center">Penerapan Teorema Pythagoras</h3>
+    <div class="card shadow-sm border-1 mb-4">
+        <div class="card-body p-4">
+            <div class="row align-items-center">
+
+                {{-- KIRI: Progress Bar --}}
+                <div class="col-lg-3">
+                    <div class="d-flex flex-column">
+                        <small class="text-muted fw-bold mb-2">Progres Materi Anda</small>
+                        <div class="progress" style="height: 15px; border-radius: 10px;">
+                            @php $progressVal = $materiProgress ?? 0; @endphp
+                            {{-- Tambahkan ID materiProgressBar --}}
+                            <div id="materiProgressBar" class="progress-bar bg-success" role="progressbar" style="--w: {{ $progressVal }}%; width: var(--w);" aria-valuenow="{{ $progressVal }}" aria-valuemin="0" aria-valuemax="100"></div>
+                        </div>
+                        {{-- Tambahkan ID materiProgressText --}}
+                        <small id="materiProgressText" class="text-success fw-bold mt-1">{{ $progressVal }}% Selesai</small>
+                    </div>
+                </div>
+
+                {{-- TENGAH: Judul & Navigasi --}}
+                <div class="col-lg-6 text-center mt-3 mt-lg-0">
+                    <h4 class="fw-bold mb-3">Penerapan Teorema Pythagoras</h4>
+                    <nav>
+                        <ul class="pagination justify-content-center mb-0 flex-wrap gap-2 materi-pagination">
+                            <li class="page-item">
+                                <button class="page-link px-3 py-2 prev-btn rounded shadow-sm">Sebelumnya</button>
+                            </li>
+                            {{-- Looping 4 Halaman (0 sampai 3) --}}
+                            @for ($i = 0; $i <= 3; $i++)
+                                <li class="page-item {{ $i == 0 ? 'active' : '' }}">
+                                <button class="page-link px-3 py-2 page-btn rounded shadow-sm" data-page="{{ $i }}">{{ $i + 1 }}</button>
+                                </li>
+                                @endfor
+                                <li class="page-item">
+                                    <button class="page-link px-3 py-2 next-btn rounded shadow-sm">Berikutnya</button>
+                                </li>
+                        </ul>
+                    </nav>
+                </div>
+
+                {{-- KANAN: Poin --}}
+                <div class="col-lg-3 text-lg-end text-center mt-3 mt-lg-0">
+                    <div class="d-inline-block badge bg-success text-white px-4 py-3 rounded-pill shadow-sm fs-6">
+                        <i class="bi bi-coin me-2 fs-5 align-middle"></i>
+                        <span id="poinDisplay" class="fw-bold align-middle">{{ auth()->user()->points }} Poin</span>
+                    </div>
+                </div>
+
+            </div>
         </div>
     </div>
-
-    <!-- Pagination Navigasi Atas -->
-    <nav>
-        <ul class="pagination justify-content-center materi-pagination">
-            <li class="page-item">
-                <button class="page-link prev-btn">‹</button>
-            </li>
-            <li class="page-item active">
-                <button class="page-link page-btn" data-page="0">1</button>
-            </li>
-            <li class="page-item">
-                <button class="page-link page-btn" data-page="1">2</button>
-            </li>
-            <li class="page-item">
-                <button class="page-link page-btn" data-page="2">3</button>
-            </li>
-            <li class="page-item">
-                <button class="page-link page-btn" data-page="3">4</button>
-            </li>
-            <li class="page-item">
-                <button class="page-link next-btn">›</button>
-            </li>
-        </ul>
-    </nav>
 
     <!-- ================= HALAMAN 1 (PAGE 0) ================= -->
     <section class="materi-page" data-page="0">
@@ -62,133 +82,133 @@
 
         <!-- Tahukah Kamu? -->
         <section class="mb-4">
-    <div class="card shadow-sm border-1">
-        <div class="card-header text-center bg-light">
-            <h4>Tahukah Kamu?</h4>
-        </div>
-        
-        <div class="card-body bg-white">
-            <div class="mb-2">
-                <p class="text-justify">
-                    Masih ingatkah dengan cerita Ahmad yang melihat kemegahan Jembatan Barito saat menaiki kelotok? Saat itu, Ahmad penasaran bagaimana cara menghitung panjang kabel baja yang membentang miring menghubungkan tiang penyangga dan badan jembatan. <br>
-                    Nah, di materi sebelumnya kita sudah membuktikan bahwa Teorema Pythagoras berlaku pada segitiga siku-siku yang terbentuk di jembatan tersebut. Sekarang, saatnya kita membantu Ahmad menjawab rasa penasarannya dengan menerapkan rumus Teorema Pythagoras secara langsung untuk menghitung panjang kabel baja itu!
-                </p>
-            </div>
-
-            <hr class="border-secondary opacity-25 my-4">
-
-            <div class="row">
-                
-                <div class="col-lg-5 mb-4 mb-lg-0">
-                    <p class="fw-bold mb-2">Perhatikan gambar di bawah ini:</p>
-                    <div class="bg-white rounded-3 border shadow-sm p-2 mb-3 text-center">
-                        <img src="{{ asset('images/jembatan_barito_2.png') }}" class="img-fluid rounded" alt="Ilustrasi Jembatan Barito" style="width: 100%; max-height: 280px; object-fit: cover;">
-                    </div>
-                    <div class="bg-white rounded-3 border shadow-sm p-2 mb-3 text-center">
-                        <img src="{{ asset('images/segitiga_jembatan.png') }}" class="img-fluid rounded" alt="Ilustrasi Segitiga Jembatan" style="width: 100%; max-height: 280px; object-fit: cover;">
-                    </div>
+            <div class="card shadow-sm border-1">
+                <div class="card-header text-center bg-light">
+                    <h4>Tahukah Kamu?</h4>
                 </div>
 
-                <div class="col-lg-7">
-                    <div class="card border shadow-sm h-100">
-                        <div class="card-body p-4 bg-white rounded-3">
-                            <p class="text-justify mb-4">
-                                Misalkan Ahmad mendapatkan informasi bahwa tinggi tiang penyangga jembatan dari badan jalan adalah <strong>24 meter</strong>, dan panjang jalan dari tiang hingga titik ujung kabel baja adalah <strong>10 meter</strong>. Maka panjang kabel baja tersebut dapat diketahui dengan penyelesaian:
-                            </p>
-                            
-                            <div class="mb-4" id="box_step1">
-                                <label class="fw-bold small mb-2 text-dark">1. Berdasarkan gambar dan cerita, Bagian jembatan apa yang akan kita cari panjangnya adalah ....</label>
-                                <select id="ap_step1" class="form-select border-success">
-                                    <option value="" selected disabled>-- Pilih Sisi --</option>
-                                    <option value="tiang">Tinggi Tiang</option>
-                                    <option value="jalan">Panjang Jalan</option>
-                                    <option value="kabel">Panjang Kabel Baja</option>
-                                </select>
-                            </div>
+                <div class="card-body bg-white">
+                    <div class="mb-2">
+                        <p class="text-justify">
+                            Masih ingatkah dengan cerita Ahmad yang melihat kemegahan Jembatan Barito saat menaiki kelotok? Saat itu, Ahmad penasaran bagaimana cara menghitung panjang kabel baja yang membentang miring menghubungkan tiang penyangga dan badan jembatan. <br>
+                            Nah, di materi sebelumnya kita sudah membuktikan bahwa Teorema Pythagoras berlaku pada segitiga siku-siku yang terbentuk di jembatan tersebut. Sekarang, saatnya kita membantu Ahmad menjawab rasa penasarannya dengan menerapkan rumus Teorema Pythagoras secara langsung untuk menghitung panjang kabel baja itu!
+                        </p>
+                    </div>
 
-                            <div class="mb-4" id="box_step2">
-                                <label class="fw-bold small mb-2 text-dark">2.	Berdasarkan sisi yang kita cari, operator apa yang harus digunakan pada rumus Teorema Pythagoras adalah ....</label>
-                                <div class="row g-2">
-                                    <div class="col-6">
-                                        <button type="button" class="btn btn-outline-success w-100 btn-operator" data-val="tambah">Ditambah (+)</button>
+                    <hr class="border-secondary opacity-25 my-4">
+
+                    <div class="row">
+
+                        <div class="col-lg-5 mb-4 mb-lg-0">
+                            <p class="fw-bold mb-2">Perhatikan gambar di bawah ini:</p>
+                            <div class="bg-white rounded-3 border shadow-sm p-2 mb-3 text-center">
+                                <img src="{{ asset('images/jembatan_barito_2.png') }}" class="img-fluid rounded" alt="Ilustrasi Jembatan Barito" style="width: 100%; max-height: 280px; object-fit: cover;">
+                            </div>
+                            <div class="bg-white rounded-3 border shadow-sm p-2 mb-3 text-center">
+                                <img src="{{ asset('images/segitiga_jembatan.png') }}" class="img-fluid rounded" alt="Ilustrasi Segitiga Jembatan" style="width: 100%; max-height: 280px; object-fit: cover;">
+                            </div>
+                        </div>
+
+                        <div class="col-lg-7">
+                            <div class="card border shadow-sm h-100">
+                                <div class="card-body p-4 bg-white rounded-3">
+                                    <p class="text-justify mb-4">
+                                        Misalkan Ahmad mendapatkan informasi bahwa tinggi tiang penyangga jembatan dari badan jalan adalah <strong>24 meter</strong>, dan panjang jalan dari tiang hingga titik ujung kabel baja adalah <strong>10 meter</strong>. Maka panjang kabel baja tersebut dapat diketahui dengan penyelesaian:
+                                    </p>
+
+                                    <div class="mb-4" id="box_step1">
+                                        <label class="fw-bold small mb-2 text-dark">1. Berdasarkan gambar dan cerita, Bagian jembatan apa yang akan kita cari panjangnya adalah ....</label>
+                                        <select id="ap_step1" class="form-select border-success">
+                                            <option value="" selected disabled>-- Pilih Sisi --</option>
+                                            <option value="tiang">Tinggi Tiang</option>
+                                            <option value="jalan">Panjang Jalan</option>
+                                            <option value="kabel">Panjang Kabel Baja</option>
+                                        </select>
                                     </div>
-                                    <div class="col-6">
-                                        <button type="button" class="btn btn-outline-success w-100 btn-operator" data-val="kurang">Dikurang (-)</button>
+
+                                    <div class="mb-4" id="box_step2">
+                                        <label class="fw-bold small mb-2 text-dark">2. Berdasarkan sisi yang kita cari, operator apa yang harus digunakan pada rumus Teorema Pythagoras adalah ....</label>
+                                        <div class="row g-2">
+                                            <div class="col-6">
+                                                <button type="button" class="btn btn-outline-success w-100 btn-operator" data-val="tambah">Ditambah (+)</button>
+                                            </div>
+                                            <div class="col-6">
+                                                <button type="button" class="btn btn-outline-success w-100 btn-operator" data-val="kurang">Dikurang (-)</button>
+                                            </div>
+                                        </div>
+                                        <input type="hidden" id="ap_step2" value="">
                                     </div>
+
+                                    <div class="mb-4" id="box_step3">
+                                        <label class="fw-bold small mb-2 text-dark">3. Berdasarkan analisis di atas, rumus mana yang paling tepat digunakan adalah ....</label>
+                                        <div class="row g-2">
+                                            <div class="col-md-6">
+                                                <button type="button" class="btn btn-outline-success w-100 btn-rumus" data-val="benar">Kabel² = Tiang² + Jalan²</button>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <button type="button" class="btn btn-outline-success w-100 btn-rumus" data-val="salah1">Kabel² = Tiang² - Jalan²</button>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <button type="button" class="btn btn-outline-success w-100 btn-rumus" data-val="salah2">Tiang² = Kabel² - Jalan²</button>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <button type="button" class="btn btn-outline-success w-100 btn-rumus" data-val="salah3">Jalan² = Tiang² + Kabel²</button>
+                                            </div>
+                                        </div>
+                                        <input type="hidden" id="ap_step3" value="">
+                                    </div>
+
+                                    <div class="mb-4" id="box_step4">
+                                        <label class="fw-bold small mb-2 text-dark">4. Sekarang, mari hitung nilainya ke dalam rumus yang tepat!</label>
+                                        <div class="bg-light p-3 border border-success rounded">
+                                            <div class="d-flex align-items-center gap-2 mb-2 justify-content-center">
+                                                <span class="fw-medium" style="width: 60px;">Kabel² =</span>
+                                                <input type="number" id="ap_t1" class="form-control form-control-sm text-center border-success" style="width:60px;" placeholder="...">
+                                                <span class="fw-bold">² + </span>
+                                                <input type="number" id="ap_j1" class="form-control form-control-sm text-center border-success" style="width:60px;" placeholder="...">
+                                                <span class="fw-bold">²</span>
+                                            </div>
+
+                                            <div class="d-flex align-items-center gap-2 mb-2 justify-content-center">
+                                                <span class="fw-medium" style="width: 60px;">Kabel² =</span>
+                                                <input type="number" id="ap_t2" class="form-control form-control-sm text-center border-success" style="width:70px;" placeholder="...">
+                                                <span class="fw-bold"> + </span>
+                                                <input type="number" id="ap_j2" class="form-control form-control-sm text-center border-success" style="width:70px;" placeholder="...">
+                                            </div>
+
+                                            <div class="d-flex align-items-center gap-2 mb-3 justify-content-center">
+                                                <span class="fw-medium" style="width: 60px;">Kabel² =</span>
+                                                <input type="number" id="ap_jum" class="form-control form-control-sm text-center border-success" style="width:90px;" placeholder="...">
+                                            </div>
+
+                                            <div class="d-flex align-items-center gap-2 justify-content-center">
+                                                <span class="fw-bold text-dark">Kabel = &radic;</span>
+                                                <input type="number" id="ap_akar" class="form-control form-control-sm text-center fw-bold border-success" style="width:70px;" placeholder="...">
+                                                <span class="fw-bold mx-1">=</span>
+                                                <input type="number" id="ap_final" class="form-control form-control-sm text-center fw-bold text-success border-success bg-white shadow-sm" style="width:70px;" placeholder="...">
+                                                <span class="fw-bold text-dark">meter</span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="mt-4 pt-3 border-top d-flex justify-content-between align-items-center">
+                                        <div id="ap_feedback" class="small fw-bold"></div>
+                                        <button class="btn btn-success fw-bold px-4 shadow-sm" onclick="cekApersepsiLengkap()">Cek Jawaban</button>
+                                    </div>
+
                                 </div>
-                                <input type="hidden" id="ap_step2" value="">
                             </div>
-
-                            <div class="mb-4" id="box_step3">
-                                <label class="fw-bold small mb-2 text-dark">3.	Berdasarkan analisis di atas, rumus mana yang paling tepat digunakan adalah ....</label>
-                                <div class="row g-2">
-                                    <div class="col-md-6">
-                                        <button type="button" class="btn btn-outline-success w-100 btn-rumus" data-val="benar">Kabel² = Tiang² + Jalan²</button>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <button type="button" class="btn btn-outline-success w-100 btn-rumus" data-val="salah1">Kabel² = Tiang² - Jalan²</button>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <button type="button" class="btn btn-outline-success w-100 btn-rumus" data-val="salah2">Tiang² = Kabel² - Jalan²</button>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <button type="button" class="btn btn-outline-success w-100 btn-rumus" data-val="salah3">Jalan² = Tiang² + Kabel²</button>
-                                    </div>
-                                </div>
-                                <input type="hidden" id="ap_step3" value="">
-                            </div>
-
-                            <div class="mb-4" id="box_step4">
-                                <label class="fw-bold small mb-2 text-dark">4. Sekarang, mari hitung nilainya ke dalam rumus yang tepat!</label>
-                                <div class="bg-light p-3 border border-success rounded">
-                                    <div class="d-flex align-items-center gap-2 mb-2 justify-content-center">
-                                        <span class="fw-medium" style="width: 60px;">Kabel² =</span>
-                                        <input type="number" id="ap_t1" class="form-control form-control-sm text-center border-success" style="width:60px;" placeholder="...">
-                                        <span class="fw-bold">² + </span>
-                                        <input type="number" id="ap_j1" class="form-control form-control-sm text-center border-success" style="width:60px;" placeholder="...">
-                                        <span class="fw-bold">²</span>
-                                    </div>
-                                    
-                                    <div class="d-flex align-items-center gap-2 mb-2 justify-content-center">
-                                        <span class="fw-medium" style="width: 60px;">Kabel² =</span>
-                                        <input type="number" id="ap_t2" class="form-control form-control-sm text-center border-success" style="width:70px;" placeholder="...">
-                                        <span class="fw-bold"> + </span>
-                                        <input type="number" id="ap_j2" class="form-control form-control-sm text-center border-success" style="width:70px;" placeholder="...">
-                                    </div>
-
-                                    <div class="d-flex align-items-center gap-2 mb-3 justify-content-center">
-                                        <span class="fw-medium" style="width: 60px;">Kabel² =</span>
-                                        <input type="number" id="ap_jum" class="form-control form-control-sm text-center border-success" style="width:90px;" placeholder="...">
-                                    </div>
-
-                                    <div class="d-flex align-items-center gap-2 justify-content-center">
-                                        <span class="fw-bold text-dark">Kabel = &radic;</span>
-                                        <input type="number" id="ap_akar" class="form-control form-control-sm text-center fw-bold border-success" style="width:70px;" placeholder="...">
-                                        <span class="fw-bold mx-1">=</span>
-                                        <input type="number" id="ap_final" class="form-control form-control-sm text-center fw-bold text-success border-success bg-white shadow-sm" style="width:70px;" placeholder="...">
-                                        <span class="fw-bold text-dark">meter</span>
-                                    </div>
-                                </div>
-                            </div>
-                            
-                            <div class="mt-4 pt-3 border-top d-flex justify-content-between align-items-center">
-                                <div id="ap_feedback" class="small fw-bold"></div>
-                                <button class="btn btn-success fw-bold px-4 shadow-sm" onclick="cekApersepsiLengkap()">Cek Jawaban</button>
-                            </div>
-
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </div>
-</section>  
+        </section>
 
 
-</section>
+    </section>
 
     <!-- ================= HALAMAN 2 (PAGE 1) ================= -->
-     <section class="materi-page d-none" data-page="1">
+    <section class="materi-page d-none" data-page="1">
         <section class="mb-4">
             <div class="card shadow-sm">
                 <div class="card-header text-center bg-light">
@@ -263,7 +283,7 @@
                                     <h6 class="fw-bold mb-0 small text-dark"><i class="fas fa-calculator me-2"></i>Langkah Penyelesaian</h6>
                                 </div>
                                 <div class="card-body bg-light">
-                                    
+
                                     <!-- Langkah 1: Interaktif dengan Dropdown -->
                                     <div class="p-3 mb-3 bg-white border border-success rounded-3 shadow-sm text-center small">
                                         <span class="d-block fw-bold text-dark mb-2 border-bottom pb-2">1. Pilih Rumus Pythagoras</span>
@@ -280,7 +300,7 @@
                                     <!-- Langkah 2: Substitusi, Hasil Pangkat, dan Penjumlahan -->
                                     <div class="p-3 mb-3 bg-white border border-success rounded-3 shadow-sm text-center small">
                                         <span class="d-block fw-bold text-dark mb-2 border-bottom pb-2">2. Substitusi & Hitung Nilai AC²</span>
-                                        
+
                                         <!-- Tahap 2A: Masukkan nilai awal -->
                                         <div class="d-flex flex-wrap align-items-center justify-content-center gap-2 mt-3">
                                             <span class="fw-bold">AC² =</span>
@@ -325,7 +345,7 @@
                                             Cek Jawaban
                                         </button>
                                     </div>
-                                    
+
                                 </div>
                             </div>
                         </div>
@@ -354,7 +374,7 @@
                             <div class="bg-white rounded-3 shadow-sm border p-3 d-flex justify-content-center align-items-center mb-4 overflow-hidden">
                                 <img src="{{ asset('images/contoh_2_penerapan.jpg') }}" class="img-fluid" style="max-height: auto;" alt="Ilustrasi Jarak Ojek Online">
                             </div>
-                            
+
                             <!-- Bagian Diketahui -->
                             <div class="card border mb-3 shadow-sm">
                                 <div class="card-header border-bottom bg-light py-2">
@@ -383,7 +403,7 @@
                                     </div>
                                 </div>
                             </div>
-                            
+
                             <!-- Bagian Ditanya -->
                             <div class="card border shadow-sm">
                                 <div class="card-header border-bottom bg-light py-2">
@@ -401,7 +421,7 @@
                                         <span>) = ...?</span>
                                     </div>
                                 </div>
-                                
+
                             </div>
                         </div>
 
@@ -412,7 +432,7 @@
                                     <h6 class="fw-bold mb-0 small text-dark"><i class="fas fa-calculator me-2"></i>Langkah Penyelesaian</h6>
                                 </div>
                                 <div class="card-body bg-light">
-                                    
+
                                     <!-- Langkah 1: Interaktif dengan Dropdown -->
                                     <div class="p-3 mb-3 bg-white border border-success rounded-3 shadow-sm text-center small">
                                         <span class="d-block fw-bold text-dark mb-2 border-bottom pb-2">1. Pilih Rumus Pythagoras</span>
@@ -429,7 +449,7 @@
                                     <!-- Langkah 2: Substitusi, Hasil Pangkat, dan Penjumlahan -->
                                     <div class="p-3 mb-3 bg-white border border-success rounded-3 shadow-sm text-center small">
                                         <span class="d-block fw-bold text-dark mb-2 border-bottom pb-2">2. Substitusi & Hitung Nilai MO²</span>
-                                        
+
                                         <!-- Tahap 2A: Masukkan nilai awal (15 dan 20) -->
                                         <div class="d-flex flex-wrap align-items-center justify-content-center gap-2 mt-3">
                                             <span class="fw-bold">MO² =</span>
@@ -474,7 +494,7 @@
                                             Cek Jawaban
                                         </button>
                                     </div>
-                                    
+
                                 </div>
                             </div>
                         </div>
@@ -495,7 +515,7 @@
                         </div>
                     </div>
                     <div class="row mt-4">
-                        
+
                         <!-- Kolom Kiri: Soal, Diketahui, Ditanya -->
                         <div class="col-md-5 mb-4 mb-md-0">
                             <p class="small text-justify">
@@ -504,7 +524,7 @@
                             <div class="bg-white rounded-3 shadow-sm border p-3 d-flex justify-content-center align-items-center mb-4 overflow-hidden">
                                 <img src="{{ asset('images/contoh_3_penerapan.jpg') }}" class="img-fluid" style="max-height: auto;" alt="Ilustrasi Mercusuar">
                             </div>
-                            
+
                             <!-- Bagian Diketahui -->
                             <div class="card border mb-3 shadow-sm">
                                 <div class="card-header border-bottom bg-light py-2">
@@ -543,7 +563,7 @@
                                     </div>
                                 </div>
                             </div>
-                            
+
                             <!-- Bagian Ditanya -->
                             <div class="card border shadow-sm">
                                 <div class="card-header border-bottom bg-light py-2">
@@ -571,16 +591,16 @@
                                     <h6 class="fw-bold mb-0 small text-dark"><i class="fas fa-calculator me-2"></i>Langkah Penyelesaian</h6>
                                 </div>
                                 <div class="card-body bg-light">
-                                    
+
                                     <!-- Langkah 1: Hitung AC (Segitiga ACD) -->
                                     <div class="p-3 mb-3 bg-white border border-success rounded-3 shadow-sm text-center small">
                                         <span class="d-block fw-bold text-dark mb-2 border-bottom pb-2">1. Hitung jarak mercusuar ke perahu A (AC)</span>
                                         <div class="fst-italic text-muted mb-2">Fokus pada segitiga siku-siku ACD (siku di C).</div>
-                                        
+
                                         <div class="d-flex flex-wrap align-items-center justify-content-center gap-2 mt-2">
                                             <span class="fw-bold">AC² = DA² - DC²</span>
                                         </div>
-                                        
+
                                         <div class="d-flex flex-wrap align-items-center justify-content-center gap-2 mt-2">
                                             <span class="fw-bold">AC² =</span>
                                             <input type="number" id="c3_da" class="form-control form-control-sm text-center" style="width:60px;" placeholder="...">
@@ -609,11 +629,11 @@
                                     <div class="p-3 mb-3 bg-white border border-success rounded-3 shadow-sm text-center small">
                                         <span class="d-block fw-bold text-dark mb-2 border-bottom pb-2">2. Hitung jarak mercusuar ke perahu B (BC)</span>
                                         <div class="fst-italic text-muted mb-2">Fokus pada segitiga siku-siku BCD (siku di C).</div>
-                                        
+
                                         <div class="d-flex flex-wrap align-items-center justify-content-center gap-2 mt-2">
                                             <span class="fw-bold">BC² = DB² - DC²</span>
                                         </div>
-                                        
+
                                         <div class="d-flex flex-wrap align-items-center justify-content-center gap-2 mt-2">
                                             <span class="fw-bold">BC² =</span>
                                             <input type="number" id="c3_db" class="form-control form-control-sm text-center" style="width:60px;" placeholder="...">
@@ -662,7 +682,7 @@
                                             Cek Jawaban
                                         </button>
                                     </div>
-                                    
+
                                 </div>
                             </div>
                         </div>
@@ -704,7 +724,7 @@
                                     <img src="{{ asset('images/ilustrasi_soal1.jpg') }}" class="img-fluid p-2" style="max-height: auto;" alt="Soal 1">
                                 </div>
                                 <p class="small text-justify mb-4">Pak Rahman mengemudikan klotok. Ia menyeberang ke arah timur <strong>40 m</strong> dan terbawa arus ke arah selatan <strong>30 m</strong>. Tentukan jarak lurus dari titik awal ke titik akhir.</p>
-                                
+
                                 <div class="card border mb-3 shadow-sm">
                                     <div class="card-header border-bottom bg-light py-2">
                                         <h6 class="fw-bold mb-0 small text-success">Diketahui</h6>
@@ -732,7 +752,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                
+
                                 <div class="card border shadow-sm">
                                     <div class="card-header border-bottom bg-light py-2">
                                         <h6 class="fw-bold mb-0 small text-warning">Ditanya</h6>
@@ -831,7 +851,7 @@
                                     <img src="{{ '/images/ilustrasi_soal2.jpg' }}" class="img-fluid p-2" style="max-height: auto;" alt="Soal 2">
                                 </div>
                                 <p class="small text-justify mb-4">Seorang siswa melihat puncak menara dengan jarak 25 meter, dan jarak siswa tersebut dengan menara adalah 24 meter. Tentukan tinggi menara tersebut.</p>
-                                
+
                                 <div class="card border mb-3 shadow-sm">
                                     <div class="card-header border-bottom bg-light py-2">
                                         <h6 class="fw-bold mb-0 small text-success">Diketahui</h6>
@@ -859,7 +879,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                
+
                                 <div class="card border shadow-sm">
                                     <div class="card-header border-bottom bg-light py-2">
                                         <h6 class="fw-bold mb-0 small text-warning">Ditanya</h6>
@@ -958,7 +978,7 @@
                                     <img src="{{ asset('/images/ilustrasi_soal3.jpg') }}" class="img-fluid p-2" style="max-height: auto;" alt="Soal 3">
                                 </div>
                                 <p class="small text-justify mb-4">Sebuah drone diterbangkan dan memantau tenda A dengan jarak pandang lurus sejauh <strong>20 m</strong>, dan jarak tenda A terhadap titik yang tepat di bawah drone adalah sejauh <strong>16 m</strong>. Di arah yang sama, drone juga melihat tenda B dengan jarak pandang lurus <strong>15 m</strong>. Tentukan jarak mendatar dari titik tepat di bawah drone ke tenda B.</p>
-                                
+
                                 <div class="card border mb-3 shadow-sm">
                                     <div class="card-header border-bottom bg-light py-2">
                                         <h6 class="fw-bold mb-0 small text-success">Diketahui</h6>
@@ -996,7 +1016,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                
+
                                 <div class="card border shadow-sm">
                                     <div class="card-header border-bottom bg-light py-2">
                                         <h6 class="fw-bold mb-0 small text-warning">Ditanya</h6>
@@ -1023,7 +1043,7 @@
                                         <h6 class="fw-bold mb-0 small text-dark"><i class="fas fa-calculator me-2"></i>Langkah Penyelesaian</h6>
                                     </div>
                                     <div class="card-body bg-light">
-                                        
+
                                         <!-- Langkah 1: Hitung DC -->
                                         <div class="p-3 mb-3 bg-white border border-success rounded-3 shadow-sm text-center small">
                                             <span class="d-block fw-bold text-dark mb-2 border-bottom pb-2">1. Hitung tinggi drone (DC)</span>
@@ -1088,7 +1108,7 @@
                                                 <i class="fas fa-check-circle me-1"></i> Cek Jawaban
                                             </button>
                                         </div>
-                                        
+
                                     </div>
                                 </div>
                             </div>
@@ -1101,134 +1121,131 @@
 
     <!-- ================= HALAMAN 4 (PAGE 3) ================= -->
     <section class="materi-page d-none" data-page="3">
-    <div class="row justify-content-center">
-        <div class="col-md-12 mb-4">
-            <div class="card shadow-sm border-1">
-                <div class="card-header text-center bg-light">
-                    <h4>Rangkuman Materi</h4>
-                </div>
-                
-                <div class="card-body p-4 bg-white">
-                    <div class="d-flex align-items-start mb-3">
-                        <div class="bg-success text-white rounded-circle d-flex align-items-center justify-content-center flex-shrink-0 mt-1 fw-bold" style="width: 30px; height: 30px;">1</div>
-                        <div class="ms-3">
-                            <p class="text-muted mb-0" style="line-height: 1.6;">
-                                <strong>Teorema Pythagoras</strong>: Pada setiap segitiga siku-siku, kuadrat sisi miring (hipotenusa) selalu sama dengan jumlah kuadrat sisi siku-sikunya. Teorema ini hanya berlaku untuk bangun segitiga siku-siku.
-                            </p>
-                        </div>
+        <div class="row justify-content-center">
+            <div class="col-md-12 mb-4">
+                <div class="card shadow-sm border-1">
+                    <div class="card-header text-center bg-light">
+                        <h4>Rangkuman Materi</h4>
                     </div>
 
-                    <hr class="border-secondary opacity-10 my-3">
-
-                    <div class="d-flex align-items-start mb-3">
-                        <div class="bg-success text-white rounded-circle d-flex align-items-center justify-content-center flex-shrink-0 mt-1 fw-bold" style="width: 30px; height: 30px;">2</div>
-                        <div class="ms-3">
-                            <p class="text-muted mb-2" style="line-height: 1.6;">
-                                <strong>Penerapan dalam Kehidupan Sehari-hari</strong>: Teorema Pythagoras digunakan untuk memecahkan masalah kontekstual yang tidak dapat diukur secara langsung. Kegunaan utamanya antara lain:
-                            </p>
-                            <ul class="text-muted mb-0 ps-3" style="line-height: 1.6;">
-                                <li class="mb-1">Menghitung jarak terdekat atau jarak lurus antara dua titik/tempat.</li>
-                                <li class="mb-1">Menentukan tinggi bangunan, menara, atau pohon.</li>
-                                <li>Menghitung panjang kabel penahan, panjang lintasan miring, maupun tangga yang bersandar.</li>
-                            </ul>
+                    <div class="card-body p-4 bg-white">
+                        <div class="d-flex align-items-start mb-3">
+                            <div class="bg-success text-white rounded-circle d-flex align-items-center justify-content-center flex-shrink-0 mt-1 fw-bold" style="width: 30px; height: 30px;">1</div>
+                            <div class="ms-3">
+                                <p class="text-muted mb-0" style="line-height: 1.6;">
+                                    <strong>Teorema Pythagoras</strong>: Pada setiap segitiga siku-siku, kuadrat sisi miring (hipotenusa) selalu sama dengan jumlah kuadrat sisi siku-sikunya. Teorema ini hanya berlaku untuk bangun segitiga siku-siku.
+                                </p>
+                            </div>
                         </div>
-                    </div>
 
-                    <hr class="border-secondary opacity-10 my-3">
+                        <hr class="border-secondary opacity-10 my-3">
 
-                    <div class="d-flex align-items-start mb-3">
-                        <div class="bg-success text-white rounded-circle d-flex align-items-center justify-content-center flex-shrink-0 mt-1 fw-bold" style="width: 30px; height: 30px;">3</div>
-                        <div class="ms-3">
-                            <p class="text-muted mb-0" style="line-height: 1.6;">
-                                <strong>Langkah Penyelesaian Masalah Kontekstual</strong>: <br>
-                                1. Membaca dan memahami inti masalah.<br>
-                                2. Membuat sketsa gambar atau memodelkan masalah menjadi bentuk segitiga siku-siku.<br>
-                                3. Menentukan sisi-sisi yang diketahui dan sisi yang ditanyakan.<br>
-                                4. Menerapkan rumus Teorema Pythagoras untuk menyelesaikan perhitungan.<br>
-                                5. Menafsirkan hasil perhitungan kembali ke dalam konteks masalah awal.
-                            </p>
+                        <div class="d-flex align-items-start mb-3">
+                            <div class="bg-success text-white rounded-circle d-flex align-items-center justify-content-center flex-shrink-0 mt-1 fw-bold" style="width: 30px; height: 30px;">2</div>
+                            <div class="ms-3">
+                                <p class="text-muted mb-2" style="line-height: 1.6;">
+                                    <strong>Penerapan dalam Kehidupan Sehari-hari</strong>: Teorema Pythagoras digunakan untuk memecahkan masalah kontekstual yang tidak dapat diukur secara langsung. Kegunaan utamanya antara lain:
+                                </p>
+                                <ul class="text-muted mb-0 ps-3" style="line-height: 1.6;">
+                                    <li class="mb-1">Menghitung jarak terdekat atau jarak lurus antara dua titik/tempat.</li>
+                                    <li class="mb-1">Menentukan tinggi bangunan, menara, atau pohon.</li>
+                                    <li>Menghitung panjang kabel penahan, panjang lintasan miring, maupun tangga yang bersandar.</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <hr class="border-secondary opacity-10 my-3">
+
+                        <div class="d-flex align-items-start mb-3">
+                            <div class="bg-success text-white rounded-circle d-flex align-items-center justify-content-center flex-shrink-0 mt-1 fw-bold" style="width: 30px; height: 30px;">3</div>
+                            <div class="ms-3">
+                                <p class="text-muted mb-0" style="line-height: 1.6;">
+                                    <strong>Langkah Penyelesaian Masalah Kontekstual</strong>: <br>
+                                    1. Membaca dan memahami inti masalah.<br>
+                                    2. Membuat sketsa gambar atau memodelkan masalah menjadi bentuk segitiga siku-siku.<br>
+                                    3. Menentukan sisi-sisi yang diketahui dan sisi yang ditanyakan.<br>
+                                    4. Menerapkan rumus Teorema Pythagoras untuk menyelesaikan perhitungan.<br>
+                                    5. Menafsirkan hasil perhitungan kembali ke dalam konteks masalah awal.
+                                </p>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-        
-        <div class="col-md-12 mb-4">
-            <div class="card shadow-sm border-0">
-                <div class="card-header text-center bg-light">
-                    <h4 class="mb-0">Refleksi Akhir Pembelajaran</h4>
-                    <small class="text-muted">
-                        Jawablah berdasarkan pemahamanmu terkait penerapan Teorema Pythagoras. Ini langkah terakhirmu!
-                    </small>
-                </div>
 
-                <div class="card-body p-4 bg-white">
+            <div class="col-md-12 mb-4">
+                <div class="card shadow-sm border-0">
+                    <div class="card-header text-center bg-light">
+                        <h4 class="mb-0">Refleksi Akhir Pembelajaran</h4>
+                        <small class="text-muted">
+                            Jawablah berdasarkan pemahamanmu terkait penerapan Teorema Pythagoras. Ini langkah terakhirmu!
+                        </small>
+                    </div>
 
-                    <div class="mb-4">
-                        <label class="fw-semibold mb-2 text-dark">
-                            1. Setelah mempelajari berbagai contoh penerapan, apakah menurutmu pembuatan sketsa (gambar) segitiga siku-siku sangat penting sebelum mulai menghitung?
-                        </label>
+                    <div class="card-body p-4 bg-white">
 
-                        <div class="mb-2">
-                            <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="ref_penerapan_1" id="ref_penerapan_1_ya" value="sangat_penting">
-                                <label class="form-check-label" for="ref_penerapan_1_ya">Sangat Penting</label>
+                        <div class="mb-4">
+                            <label class="fw-semibold mb-2 text-dark">
+                                1. Setelah mempelajari berbagai contoh penerapan, apakah menurutmu pembuatan sketsa (gambar) segitiga siku-siku sangat penting sebelum mulai menghitung?
+                            </label>
+
+                            <div class="mb-2">
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="ref_penerapan_1" id="ref_penerapan_1_ya" value="sangat_penting">
+                                    <label class="form-check-label" for="ref_penerapan_1_ya">Sangat Penting</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="ref_penerapan_1" id="ref_penerapan_1_tidak" value="tidak_penting">
+                                    <label class="form-check-label" for="ref_penerapan_1_tidak">Tidak Terlalu Penting</label>
+                                </div>
                             </div>
-                            <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="ref_penerapan_1" id="ref_penerapan_1_tidak" value="tidak_penting">
-                                <label class="form-check-label" for="ref_penerapan_1_tidak">Tidak Terlalu Penting</label>
-                            </div>
+
+                            <textarea class="form-control shadow-sm" rows="3" id="ref_penerapan_1_text" placeholder="Jelaskan alasanmu di sini..."></textarea>
                         </div>
 
-                        <textarea class="form-control shadow-sm" rows="3" id="ref_penerapan_1_text" placeholder="Jelaskan alasanmu di sini..."></textarea>
-                    </div>
+                        <div class="mb-4">
+                            <label class="fw-semibold mb-2 text-dark">
+                                2. Coba perhatikan lingkungan di sekitarmu (rumah, sekolah, atau jalanan). Sebutkan satu masalah atau situasi nyata yang bisa kamu selesaikan menggunakan Teorema Pythagoras!
+                            </label>
+                            <textarea class="form-control shadow-sm" rows="3" id="ref_penerapan_2_text" placeholder="Tuliskan situasi yang kamu temukan..."></textarea>
+                        </div>
 
-                    <div class="mb-4">
-                        <label class="fw-semibold mb-2 text-dark">
-                            2. Coba perhatikan lingkungan di sekitarmu (rumah, sekolah, atau jalanan). Sebutkan satu masalah atau situasi nyata yang bisa kamu selesaikan menggunakan Teorema Pythagoras!
-                        </label>
-                        <textarea class="form-control shadow-sm" rows="3" id="ref_penerapan_2_text" placeholder="Tuliskan situasi yang kamu temukan..."></textarea>
-                    </div>
+                        <div class="text-center mt-4">
+                            <p class="text-muted small">Setelah menyimpan refleksi ini, bersiaplah untuk mengerjakan kuis guna menguji seluruh pemahamanmu tentang Teorema Pythagoras.</p>
+                        </div>
 
-                    <div class="text-center mt-4 border-top pt-4">
-                        <button class="btn btn-success fw-bold shadow-sm px-4" onclick="cekRefleksiPenerapan()">
-                            <i class="fas fa-save me-1"></i> Simpan Refleksi
-                        </button>
-                    </div>
+                        <div class="text-center mt-4 border-top pt-4">
+                            <button class="btn btn-success fw-bold shadow-sm px-4" onclick="cekRefleksiPenerapan()">
+                                <i class="fas fa-save me-1"></i> Simpan Refleksi
+                            </button>
+                        </div>
 
-                    <div class="text-center mt-4">
-                        <p class="text-muted small">Setelah menyimpan refleksi ini, bersiaplah untuk mengerjakan kuis guna menguji seluruh pemahamanmu tentang Teorema Pythagoras.</p>
-                    </div>
 
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-</section>
+    </section>
 
     <!-- Pagination Navigasi Bawah -->
-    <nav class="mt-4 mb-5">
-        <ul class="pagination justify-content-center materi-pagination">
-            <li class="page-item">
-                <button class="page-link prev-btn">‹</button>
-            </li>
-            <li class="page-item active">
-                <button class="page-link page-btn" data-page="0">1</button>
-            </li>
-            <li class="page-item">
-                <button class="page-link page-btn" data-page="1">2</button>
-            </li>
-            <li class="page-item">
-                <button class="page-link page-btn" data-page="2">3</button>
-            </li>
-            <li class="page-item">
-                <button class="page-link page-btn" data-page="3">4</button>
-            </li>
-            <li class="page-item">
-                <button class="page-link next-btn">›</button>
-            </li>
-        </ul>
-    </nav>
+    <div class="d-flex justify-content-center align-items-center mt-5 mb-5 pt-4 border-top">
+        <nav>
+            <ul class="pagination justify-content-center mb-0 flex-wrap gap-2 materi-pagination">
+                <li class="page-item">
+                    <button class="page-link px-3 py-2 prev-btn rounded shadow-sm">Sebelumnya</button>
+                </li>
+                {{-- Looping 4 Halaman (0 sampai 5) --}}
+                @for ($i = 0; $i <= 3; $i++)
+                    <li class="page-item {{ $i == 0 ? 'active' : '' }}">
+                    <button class="page-link px-3 py-2 page-btn rounded shadow-sm" data-page="{{ $i }}">{{ $i + 1 }}</button>
+                    </li>
+                    @endfor
+                    <li class="page-item">
+                        <button class="page-link px-3 py-2 next-btn rounded shadow-sm">Berikutnya</button>
+                    </li>
+            </ul>
+        </nav>
+    </div>
 </div>
 
 @endsection
