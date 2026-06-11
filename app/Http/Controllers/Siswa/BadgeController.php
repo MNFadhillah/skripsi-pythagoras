@@ -8,16 +8,16 @@ use Illuminate\Support\Facades\Auth;
 
 class BadgeController extends Controller
 {
-    public static function getBadgePointThresholds(): array
-    {
-        return [
-            1 => 50,
-            2 => 150,
-            3 => 250,
-            4 => 350,
-            5 => 500,
-        ];
-    }
+public static function getBadgePointThresholds(): array
+{
+    return [
+        1 => 100,
+        2 => 250,
+        3 => 450,
+        4 => 750,
+        5 => 1000,
+    ];
+}
 
     public static function checkAndAwardBadgesByPoints($user): array
     {
