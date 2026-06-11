@@ -1324,112 +1324,65 @@ function cekSoal2() {
         confirmButtonColor: '#dc3545'
     });
 }
-// ==========================================
-// HALAMAN 4: REFLEKSI (SEGITIGA ISTIMEWA)
-// ==========================================
-async function simpanRefleksiIstimewa() {
-    const input1 = document.getElementById('ref_istimewa_1');
-    const input2 = document.getElementById('ref_istimewa_2');
+/* =====================================================
+   REFLEKSI AKHIR (SEGITIGA ISTIMEWA - MATERI 3)
+===================================================== */
+function simpanRefleksiIstimewa() {
+    const form = document.getElementById('formRefleksiMateri3');
+    const formData = new FormData(form);
+    const btnSubmit = document.getElementById('btnSimpanRefleksiIstimewa');
+    const feedbackArea = document.getElementById('refleksi_feedback_istimewa');
 
-    if (!input1 || !input2) return;
-
-    const jawaban1 = input1.value.trim();
-    const jawaban2 = input2.value.trim();
-
-    if (jawaban1 === '' || jawaban2 === '') {
-        Swal.fire({
-            icon: 'warning',
-            title: 'Belum Lengkap',
-            text: 'Harap isi kedua kotak ceritamu terlebih dahulu ya.',
-            confirmButtonColor: '#ffc107'
-        });
+    if (!form.checkValidity()) {
+        form.reportValidity();
         return;
     }
 
-    const dataRefleksi = {
-        kode_materi: 'materi_3_segitiga_istimewa',
-        pemahaman_perbandingan: jawaban1,
-        ide_penerapan: jawaban2
-    };
+    btnSubmit.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Menyimpan...';
+    btnSubmit.disabled = true;
+    feedbackArea.innerHTML = '';
 
-    const btnSubmit = document.querySelector('button[onclick="simpanRefleksiIstimewa()"]');
-    const originalText = btnSubmit ? btnSubmit.innerText : 'Simpan Refleksi';
+    const targetUrl = form.getAttribute('action');
 
-    try {
-        const csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content');
-
-        if (btnSubmit) {
-            btnSubmit.innerText = "Menyimpan...";
-            btnSubmit.disabled = true;
+    fetch(targetUrl, {
+        method: 'POST',
+        body: formData,
+        headers: {
+            'X-Requested-With': 'XMLHttpRequest'
         }
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.status === 'success') {
+            feedbackArea.innerHTML = `<div class="alert alert-success py-2 small fw-bold mb-0">${data.message}</div>`;
+            btnSubmit.innerHTML = 'Tersimpan <i class="fas fa-check ms-1"></i>';
+            btnSubmit.classList.replace('btn-success', 'btn-secondary');
 
-        const response = await fetch('/siswa/refleksi/simpan', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'X-CSRF-TOKEN': csrfToken,
-                'Accept': 'application/json'
-            },
-            body: JSON.stringify(dataRefleksi)
-        });
-
-        const result = await response.json();
-
-        if (response.ok) {
-            simpanProgressMateri3('m3_cp6_refleksi', 10);
-            kunciFormRefleksiIstimewa();
-
-            Swal.fire({
-                icon: 'success',
-                title: '+10 Poin!',
-                text: 'Terima kasih atas refleksimu! Kamu sudah menyelesaikan seluruh materi Segitiga Istimewa.',
-                confirmButtonColor: '#198754'
-            });
-        } else {
-            Swal.fire({
-                icon: 'error',
-                title: 'Gagal',
-                text: result.message || 'Terjadi kesalahan sistem.',
-                confirmButtonColor: '#dc3545'
-            });
-
-            if (btnSubmit) {
-                btnSubmit.innerText = originalText;
-                btnSubmit.disabled = false;
+            // Simpan progres untuk Materi 3 (GANTI SESUAIKAN ID CHECKPOINT ANDA)
+            if (typeof simpanProgressMateri3 === 'function') {
+                simpanProgressMateri3('m3_cp_refleksi_istimewa', 10, false);
             }
-        }
-    } catch (error) {
-        console.error('Error:', error);
 
-        Swal.fire({
-            icon: 'error',
-            title: 'Koneksi Terputus',
-            text: 'Gagal terhubung ke server. Periksa jaringanmu.',
-            confirmButtonColor: '#dc3545'
-        });
-
-        if (btnSubmit) {
-            btnSubmit.innerText = originalText;
+            if (typeof swalLatihanMateri3 === 'function') {
+                swalLatihanMateri3('button[onclick="simpanRefleksiIstimewa()"]', {
+                    icon: 'success',
+                    title: '+10 Poin!',
+                    html: 'Refleksi Segitiga Istimewa kamu berhasil disimpan.<br><small class="text-muted">Siap untuk Kuis 3? Ayo uji pemahamanmu!</small>',
+                    confirmButtonColor: '#198754'
+                });
+            }
+        } else {
+            feedbackArea.innerHTML = `<div class="alert alert-danger py-2 small fw-bold mb-0">Gagal menyimpan data.</div>`;
+            btnSubmit.innerHTML = 'Coba Lagi';
             btnSubmit.disabled = false;
         }
-    }
-}
-
-// Fungsi Helper untuk mengunci input
-function kunciFormRefleksiIstimewa() {
-    ['ref_istimewa_1', 'ref_istimewa_2'].forEach(id => {
-        const el = document.getElementById(id);
-        if (el) {
-            el.disabled = true;
-            el.classList.add('is-valid');
-        }
+    })
+    .catch(error => {
+        console.error('Error Refleksi M3:', error);
+        feedbackArea.innerHTML = `<div class="alert alert-danger py-2 small fw-bold mb-0">Terjadi kesalahan koneksi.</div>`;
+        btnSubmit.innerHTML = 'Simpan Refleksi';
+        btnSubmit.disabled = false;
     });
-
-    const btn = document.querySelector('button[onclick="simpanRefleksiIstimewa()"]');
-    if (btn) {
-        btn.disabled = true;
-        btn.innerText = "Refleksi Tersimpan";
-    }
 }
 
 /* =====================================================
@@ -1694,14 +1647,35 @@ document.addEventListener('DOMContentLoaded', function () {
             },
             resetSoal2
         );
-    }
 
-    // Refleksi tidak memakai tombol Ulangi Latihan.
-    // Jika sudah selesai, cukup kunci form.
-    if (
-        Array.isArray(window.completedCheckpoints) &&
-        window.completedCheckpoints.includes('m3_cp6_refleksi')
-    ) {
-        kunciFormRefleksiIstimewa();
+        // ---------------------------------------------------------
+        // Latihan: Refleksi Belajar Materi 3 (Segitiga Istimewa)
+        // ---------------------------------------------------------
+        window.setupReviewMode(
+            'm3_cp_refleksi_istimewa', 
+            '#btnSimpanRefleksiIstimewa',
+            function showAnswer() {
+                const form = document.getElementById('formRefleksiMateri3');
+                if (form) {
+                    // Kunci semua textarea dan radio agar tidak bisa diedit lagi
+                    form.querySelectorAll('textarea, input').forEach(el => {
+                        el.disabled = true;
+                    });
+                }
+
+                const btnSubmit = document.getElementById('btnSimpanRefleksiIstimewa');
+                if (btnSubmit) {
+                    btnSubmit.innerHTML = 'Tersimpan <i class="fas fa-check ms-1"></i>';
+                    btnSubmit.classList.replace('btn-success', 'btn-secondary');
+                    btnSubmit.disabled = true;
+                }
+
+                const feedbackArea = document.getElementById('refleksi_feedback_istimewa');
+                if (feedbackArea) {
+                    feedbackArea.innerHTML = `<div class="alert alert-success py-2 small fw-bold mb-0"><i class="fas fa-info-circle me-1"></i> Refleksi ini sudah kamu kerjakan.</div>`;
+                }
+            },
+            null // <-- KUNCI: Set menjadi null agar tombol 'Ulangi Latihan' tidak muncul
+        );
     }
 });

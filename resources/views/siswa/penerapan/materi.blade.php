@@ -236,24 +236,24 @@
                                 </div>
                                 <div class="card-body small py-2">
                                     <div class="d-flex align-items-center mb-2">
-                                        <span style="width: 250px;">Jarak Budi ke tinggi layang-layang (AB) :</span>
-                                        <select id="c1_dik_ab" class="form-select form-select-sm text-center border-secondary mx-2" style="width: 120px;">
+                                        <span style="width: 300px;">Jarak Budi ke tinggi layang-layang atau panjang AB adalah</span>
+                                        <select id="c1_dik_ab" class="form-select form-select-sm text-center border-secondary mx-2" style="width: 92px;">
                                             <option value=""></option>
                                             <option value="40">40</option>
                                             <option value="30">30</option>
                                             <option value="50">50</option>
                                         </select>
-                                        <span>m</span>
+                                        <span>m.</span>
                                     </div>
                                     <div class="d-flex align-items-center">
-                                        <span style="width: 250px;">Tinggi layang-layang (BC) :</span>
-                                        <select id="c1_dik_bc" class="form-select form-select-sm text-center border-secondary mx-2" style="width: 120px;">
+                                        <span style="width: 300px;">Tinggi layang-layang atau panjang BC adalah</span>
+                                        <select id="c1_dik_bc" class="form-select form-select-sm text-center border-secondary mx-2" style="width: 92px;">
                                             <option value=""></option>
                                             <option value="40">40</option>
                                             <option value="30">30</option>
                                             <option value="50">50</option>
                                         </select>
-                                        <span>m</span>
+                                        <span>m.</span>
                                     </div>
                                 </div>
                             </div>
@@ -264,14 +264,14 @@
                                 </div>
                                 <div class="card-body py-2">
                                     <div class="d-flex align-items-center small ">
-                                        <span>Panjang benang (</span>
+                                        <span>Panjang benang atau panjang </span>
                                         <select id="c1_ditanya" class="form-select form-select-sm text-center border-warning fw-bold text-dark mx-2" style="width: 120px;">
                                             <option value=""></option>
                                             <option value="AB">AB</option>
                                             <option value="BC">BC</option>
                                             <option value="AC">AC</option>
                                         </select>
-                                        <span>) = ...?</span>
+                                        <span>adalah ....</span>
                                     </div>
                                 </div>
                             </div>
@@ -382,8 +382,8 @@
                                 </div>
                                 <div class="card-body small py-2">
                                     <div class="d-flex align-items-center mb-2">
-                                        <span style="width: 250px;">Jarak tempuh ke arah barat (NO) :</span>
-                                        <select id="c2_dik_mn" class="form-select form-select-sm text-center border-secondary mx-2" style="width:120px;">
+                                        <span style="width: 300px;">Jarak tempuh ke arah barat atau panjang MN adalah </span>
+                                        <select id="c2_dik_mn" class="form-select form-select-sm text-center border-secondary mx-2" style="width:92px;">
                                             <option value=""></option>
                                             <option value="15">15</option>
                                             <option value="20">20</option>
@@ -392,8 +392,8 @@
                                         <span>km</span>
                                     </div>
                                     <div class="d-flex align-items-center">
-                                        <span style="width: 250px;">Jarak tempuh ke arah utara (MN) :</span>
-                                        <select id="c2_dik_no" class="form-select form-select-sm text-center border-secondary mx-2" style="width:120px;">
+                                        <span style="width: 300px;">Jarak tempuh ke arah utara atau panjang NO adalah</span>
+                                        <select id="c2_dik_no" class="form-select form-select-sm text-center border-secondary mx-2" style="width:92px;">
                                             <option value=""></option>
                                             <option value="15">15</option>
                                             <option value="20">20</option>
@@ -411,14 +411,14 @@
                                 </div>
                                 <div class="card-body py-2">
                                     <div class="d-flex align-items-center small">
-                                        <span>Jarak lurus (</span>
+                                        <span>Jarak lurus </span>
                                         <select id="c2_ditanya" class="form-select form-select-sm text-center border-warning fw-bold text-dark mx-2" style="width:120px;">
                                             <option value=""></option>
                                             <option value="MN">MN</option>
                                             <option value="NO">NO</option>
                                             <option value="MO">MO</option>
                                         </select>
-                                        <span>) = ...?</span>
+                                        <span>adalah ....</span>
                                     </div>
                                 </div>
 
@@ -532,34 +532,34 @@
                                 </div>
                                 <div class="card-body small py-2">
                                     <div class="d-flex align-items-center mb-2">
-                                        <span style="width: 220px;">Tinggi mercusuar (DC) :</span>
-                                        <select id="c3_dik_dc" class="form-select form-select-sm text-center border-secondary mx-2" style="width:120px;">
+                                        <span style="width: 300px;">Tinggi mercusuar atau panjang CD adalah</span>
+                                        <select id="c3_dik_dc" class="form-select form-select-sm text-center border-secondary mx-2" style="width:92px;">
                                             <option value=""></option>
                                             <option value="15">15</option>
                                             <option value="17">17</option>
                                             <option value="25">25</option>
                                         </select>
-                                        <span>m</span>
+                                        <span>m.</span>
                                     </div>
                                     <div class="d-flex align-items-center mb-2">
-                                        <span style="width: 220px;">Jarak pandang ke A (DA) :</span>
-                                        <select id="c3_dik_da" class="form-select form-select-sm text-center border-secondary mx-2" style="width:120px;">
+                                        <span style="width: 300px;">Jarak pandang dari puncak mercusuar ke Perahu A atau panjang AD adalah </span>
+                                        <select id="c3_dik_da" class="form-select form-select-sm text-center border-secondary mx-2" style="width:92px;">
                                             <option value=""></option>
                                             <option value="15">15</option>
                                             <option value="17">17</option>
                                             <option value="25">25</option>
                                         </select>
-                                        <span>m</span>
+                                        <span>m.</span>
                                     </div>
                                     <div class="d-flex align-items-center">
-                                        <span style="width: 220px;">Jarak pandang ke B (DB) :</span>
-                                        <select id="c3_dik_db" class="form-select form-select-sm text-center border-secondary mx-2" style="width:120px;">
+                                        <span style="width: 300px;">Jarak pandang dari puncak mercusuar ke Perahu B atau panjang BD adalah</span>
+                                        <select id="c3_dik_db" class="form-select form-select-sm text-center border-secondary mx-2" style="width:92px;">
                                             <option value=""></option>
                                             <option value="15">15</option>
                                             <option value="17">17</option>
                                             <option value="25">25</option>
                                         </select>
-                                        <span>m</span>
+                                        <span>m.</span>
                                     </div>
                                 </div>
                             </div>
@@ -571,14 +571,14 @@
                                 </div>
                                 <div class="card-body py-2">
                                     <div class="d-flex align-items-center small ">
-                                        <span>Jarak antara perahu (</span>
+                                        <span>Jarak antara perahu atau panjang </span>
                                         <select id="c3_ditanya" class="form-select form-select-sm text-center border-warning fw-bold text-dark mx-2" style="width:120px;">
                                             <option value=""></option>
                                             <option value="AC">AC</option>
                                             <option value="BC">BC</option>
                                             <option value="AB">AB</option>
                                         </select>
-                                        <span>) = ...?</span>
+                                        <span> adalah ....</span>
                                     </div>
                                 </div>
                             </div>
@@ -731,24 +731,24 @@
                                     </div>
                                     <div class="card-body small py-2">
                                         <div class="d-flex align-items-center mb-2">
-                                            <span style="width: 140px;">Gerak timur (AB) :</span>
-                                            <select id="s1_dik_ab" class="form-select form-select-sm text-center border-secondary mx-2" style="width:120px;">
+                                            <span style="width: 300px;">Pergerakan klotok Pak Rahman ke arah timur atau panjang AB adalah</span>
+                                            <select id="s1_dik_ab" class="form-select form-select-sm text-center border-secondary mx-2" style="width: 92px;;">
                                                 <option value=""></option>
                                                 <option value="30">30</option>
                                                 <option value="40">40</option>
                                                 <option value="50">50</option>
                                             </select>
-                                            <span>m</span>
+                                            <span>m.</span>
                                         </div>
                                         <div class="d-flex align-items-center">
-                                            <span style="width: 140px;">Gerak selatan (BC) :</span>
-                                            <select id="s1_dik_bc" class="form-select form-select-sm text-center border-secondary mx-2" style="width:120px;">
+                                            <span style="width: 300px;">Pergerakan klotok Pak Rahman ke arah selatan atau panjang BC adalah </span>
+                                            <select id="s1_dik_bc" class="form-select form-select-sm text-center border-secondary mx-2" style="width: 92px;">
                                                 <option value=""></option>
                                                 <option value="30">30</option>
                                                 <option value="40">40</option>
                                                 <option value="50">50</option>
                                             </select>
-                                            <span>m</span>
+                                            <span>m.</span>
                                         </div>
                                     </div>
                                 </div>
@@ -759,14 +759,14 @@
                                     </div>
                                     <div class="card-body py-2">
                                         <div class="d-flex align-items-center small">
-                                            <span style="width: 140px;">Jarak lurus (</span>
+                                            <span style="width: 200px;">Jarak lurus atau panjang </span>
                                             <select id="s1_ditanya" class="form-select form-select-sm text-center border-warning fw-bold text-dark mx-2" style="width:120px;">
                                                 <option value=""></option>
                                                 <option value="AB">AB</option>
                                                 <option value="BC">BC</option>
                                                 <option value="AC">AC</option>
                                             </select>
-                                            <span>) = ...?</span>
+                                            <span>adalah ....</span>
                                         </div>
                                     </div>
                                 </div>
@@ -778,9 +778,10 @@
                                     <div class="card-header bg-light py-2 border-bottom">
                                         <h6 class="fw-bold mb-0 small text-dark"><i class="fas fa-calculator me-2"></i>Langkah Penyelesaian</h6>
                                     </div>
-                                    <div class="card-body bg-light">
+                                    <div class="card-body bg-light px-2 px-md-3">
+
                                         <div class="p-3 mb-3 bg-white border border-success rounded-3 shadow-sm text-center small">
-                                            <span class="d-block fw-bold text-dark mb-2 border-bottom pb-2">1. Pilih Rumus Pythagoras</span>
+                                            <span class="d-block fw-bold text-dark mb-3 border-bottom pb-2">1. Pilih Rumus Pythagoras</span>
                                             <div class="d-flex justify-content-center align-items-center gap-2 mt-2">
                                                 <select id="s1_rumus" class="form-select form-select-sm text-center fw-bold w-auto cursor-pointer">
                                                     <option value="">-- Pilih Rumus --</option>
@@ -792,35 +793,52 @@
                                         </div>
 
                                         <div class="p-3 mb-3 bg-white border border-success rounded-3 shadow-sm text-center small">
-                                            <span class="d-block fw-bold text-dark mb-2 border-bottom pb-2">2. Substitusi & Hitung Nilai AC²</span>
-                                            <div class="d-flex flex-wrap align-items-center justify-content-center gap-2 mt-3">
-                                                <span class="fw-bold">AC² =</span>
-                                                <input type="number" id="s1_ab" class="form-control form-control-sm text-center" style="width:70px;" placeholder="...">
-                                                <span class="fw-bold">² +</span>
-                                                <input type="number" id="s1_bc" class="form-control form-control-sm text-center" style="width:70px;" placeholder="...">
-                                                <span class="fw-bold">²</span>
+                                            <span class="d-block fw-bold text-dark mb-3 border-bottom pb-2">2. Substitusi & Hitung Nilai AC²</span>
+
+                                            <div class="d-flex flex-nowrap align-items-center justify-content-center gap-2 mb-2 w-100 overflow-x-auto pb-1">
+                                                <div class="text-end fw-bold text-dark flex-shrink-0 pe-1" style="width: 50px;">
+                                                    <span class="text-nowrap">AC² =</span>
+                                                </div>
+                                                <div class="input-group input-group-sm flex-shrink-0" style="width: 75px;">
+                                                    <input type="number" id="s1_ab" class="form-control text-center bg-white border-dark px-1" placeholder="...">
+                                                    <span class="input-group-text bg-white border-dark text-dark fw-bold px-1" style="font-size: 0.85em;">2</span>
+                                                </div>
+                                                <span class="text-dark fw-bold flex-shrink-0">+</span>
+                                                <div class="input-group input-group-sm flex-shrink-0" style="width: 75px;">
+                                                    <input type="number" id="s1_bc" class="form-control text-center bg-white border-dark px-1" placeholder="...">
+                                                    <span class="input-group-text bg-white border-dark text-dark fw-bold px-1" style="font-size: 0.85em;">2</span>
+                                                </div>
                                             </div>
-                                            <div class="d-flex flex-wrap align-items-center justify-content-center gap-2 mt-2">
-                                                <span class="fw-bold">AC² =</span>
-                                                <input type="number" id="s1_ab_kuadrat" class="form-control form-control-sm text-center" style="width:80px;" placeholder="...">
-                                                <span class="fw-bold">+</span>
-                                                <input type="number" id="s1_bc_kuadrat" class="form-control form-control-sm text-center" style="width:80px;" placeholder="...">
+
+                                            <div class="d-flex flex-nowrap align-items-center justify-content-center gap-2 mb-2 w-100 overflow-x-auto pb-1">
+                                                <div class="text-end fw-bold text-dark flex-shrink-0 pe-1" style="width: 50px;">
+                                                    <span class="text-nowrap">AC² =</span>
+                                                </div>
+                                                <input type="number" id="s1_ab_kuadrat" class="form-control form-control-sm text-center border-dark flex-shrink-0 px-1" style="width: 75px;" placeholder="...">
+                                                <span class="fw-bold text-dark flex-shrink-0">+</span>
+                                                <input type="number" id="s1_bc_kuadrat" class="form-control form-control-sm text-center border-dark flex-shrink-0 px-1" style="width: 75px;" placeholder="...">
                                             </div>
-                                            <div class="d-flex flex-wrap align-items-center justify-content-center gap-2 mt-2">
-                                                <span class="fw-bold">AC² =</span>
-                                                <input type="number" id="s1_ac2" class="form-control form-control-sm text-center fw-bold text-primary" style="width:100px;" placeholder="...">
+
+                                            <div class="d-flex flex-nowrap align-items-center justify-content-center gap-2 w-100 overflow-x-auto pb-1">
+                                                <div class="text-end fw-bold text-dark flex-shrink-0 pe-1" style="width: 50px;">
+                                                    <span class="text-nowrap">AC² =</span>
+                                                </div>
+                                                <input type="number" id="s1_ac2" class="form-control form-control-sm text-center fw-bold border-dark text-primary flex-shrink-0 px-1" style="width: 90px;" placeholder="...">
                                             </div>
                                         </div>
 
                                         <div class="p-3 mb-3 bg-white border border-success rounded-3 shadow-sm text-center small">
-                                            <span class="d-block fw-bold text-dark mb-2 border-bottom pb-2">3. Hitung Jarak Lurus (AC)</span>
-                                            <div class="d-flex align-items-center justify-content-center gap-2 mt-3">
-                                                <span class="fw-bold">AC =</span>
-                                                <span class="fs-5 fw-bold">√</span>
-                                                <input type="number" id="s1_akar_val" class="form-control form-control-sm text-center" style="width:80px;" placeholder="...">
-                                                <span class="fw-bold">=</span>
-                                                <input type="number" id="s1_ac" class="form-control form-control-sm text-center fw-bold text-success" style="width:80px;" placeholder="...">
-                                                <span class="fw-bold">m</span>
+                                            <span class="d-block fw-bold text-dark mb-3 border-bottom pb-2">3. Hitung Jarak Lurus (AC)</span>
+
+                                            <div class="d-flex flex-nowrap align-items-center justify-content-center gap-2 w-100 overflow-x-auto pb-1 mt-2">
+                                                <div class="text-end fw-bold text-dark flex-shrink-0 pe-1" style="width: 50px;">
+                                                    <span class="text-nowrap">AC =</span>
+                                                </div>
+                                                <span class="fw-bold text-dark flex-shrink-0">&radic;</span>
+                                                <input type="number" id="s1_akar_val" class="form-control form-control-sm text-center border-dark flex-shrink-0 px-1" style="width: 65px;" placeholder="...">
+                                                <span class="fw-bold text-dark flex-shrink-0">=</span>
+                                                <input type="number" id="s1_ac" class="form-control form-control-sm text-center border-dark fw-bold text-success flex-shrink-0 px-1" style="width: 65px;" placeholder="...">
+                                                <span class="fw-bold text-dark flex-shrink-0">m</span>
                                             </div>
                                         </div>
 
@@ -830,6 +848,7 @@
                                                 <i class="fas fa-check-circle me-1"></i> Cek Jawaban
                                             </button>
                                         </div>
+
                                     </div>
                                 </div>
                             </div>
@@ -858,8 +877,8 @@
                                     </div>
                                     <div class="card-body small py-2">
                                         <div class="d-flex align-items-center mb-2">
-                                            <span style="width: auto;">Jarak siswa dengan menara (AB) :</span>
-                                            <select id="s2_dik_ab" class="form-select form-select-sm text-center border-secondary mx-2" style="width:120px;">
+                                            <span style="width: 300px;">Jarak siswa ke menara atau panjang AB adalah </span>
+                                            <select id="s2_dik_ab" class="form-select form-select-sm text-center border-secondary mx-2" style="width:92px;">
                                                 <option value=""></option>
                                                 <option value="24">24</option>
                                                 <option value="25">25</option>
@@ -868,8 +887,8 @@
                                             <span>m</span>
                                         </div>
                                         <div class="d-flex align-items-center">
-                                            <span style="width: a;">Jarak pandang siswa ke menara (AC) :</span>
-                                            <select id="s2_dik_ac" class="form-select form-select-sm text-center border-secondary mx-2" style="width:120px;">
+                                            <span style="width: 300px;">Jarak pandang siswa ke puncak menara atau panjang AC adalah</span>
+                                            <select id="s2_dik_ac" class="form-select form-select-sm text-center border-secondary mx-2" style="width:92px;">
                                                 <option value=""></option>
                                                 <option value="24">24</option>
                                                 <option value="25">25</option>
@@ -886,14 +905,14 @@
                                     </div>
                                     <div class="card-body py-2">
                                         <div class="d-flex align-items-center small">
-                                            <span style="width: 140px;">Tinggi menara (</span>
-                                            <select id="s2_ditanya" class="form-select form-select-sm text-center border-warning fw-bold text-dark mx-2" style="width:120px;">
+                                            <span style="width: 200px;">Tinggi menara atau panjang </span>
+                                            <select id="s2_ditanya" class="form-select form-select-sm text-center border-warning fw-bold text-dark mx-2" style="width: 92px;">
                                                 <option value=""></option>
                                                 <option value="AB">AB</option>
                                                 <option value="BC">BC</option>
                                                 <option value="AC">AC</option>
                                             </select>
-                                            <span>) = ...?</span>
+                                            <span>adalah ....</span>
                                         </div>
                                     </div>
                                 </div>
@@ -905,9 +924,10 @@
                                     <div class="card-header bg-light py-2 border-bottom">
                                         <h6 class="fw-bold mb-0 small text-dark"><i class="fas fa-calculator me-2"></i>Langkah Penyelesaian</h6>
                                     </div>
-                                    <div class="card-body bg-light">
+                                    <div class="card-body bg-light px-2 px-md-3">
+
                                         <div class="p-3 mb-3 bg-white border border-success rounded-3 shadow-sm text-center small">
-                                            <span class="d-block fw-bold text-dark mb-2 border-bottom pb-2">1. Pilih Rumus Pythagoras</span>
+                                            <span class="d-block fw-bold text-dark mb-3 border-bottom pb-2">1. Pilih Rumus Pythagoras</span>
                                             <div class="d-flex justify-content-center align-items-center gap-2 mt-2">
                                                 <select id="s2_rumus" class="form-select form-select-sm text-center fw-bold w-auto cursor-pointer">
                                                     <option value="">-- Pilih Rumus --</option>
@@ -919,35 +939,52 @@
                                         </div>
 
                                         <div class="p-3 mb-3 bg-white border border-success rounded-3 shadow-sm text-center small">
-                                            <span class="d-block fw-bold text-dark mb-2 border-bottom pb-2">2. Substitusi & Hitung Nilai BC²</span>
-                                            <div class="d-flex flex-wrap align-items-center justify-content-center gap-2 mt-3">
-                                                <span class="fw-bold">BC² =</span>
-                                                <input type="number" id="s2_ac" class="form-control form-control-sm text-center" style="width:70px;" placeholder="...">
-                                                <span class="fw-bold">² -</span>
-                                                <input type="number" id="s2_ab" class="form-control form-control-sm text-center" style="width:70px;" placeholder="...">
-                                                <span class="fw-bold">²</span>
+                                            <span class="d-block fw-bold text-dark mb-3 border-bottom pb-2">2. Substitusi & Hitung Nilai BC²</span>
+
+                                            <div class="d-flex flex-nowrap align-items-center justify-content-center gap-2 mb-2 w-100 overflow-x-auto pb-1">
+                                                <div class="text-end fw-bold text-dark flex-shrink-0 pe-1" style="width: 50px;">
+                                                    <span class="text-nowrap">BC² =</span>
+                                                </div>
+                                                <div class="input-group input-group-sm flex-shrink-0" style="width: 75px;">
+                                                    <input type="number" id="s2_ac" class="form-control text-center bg-white border-dark px-1" placeholder="...">
+                                                    <span class="input-group-text bg-white border-dark text-dark fw-bold px-1" style="font-size: 0.85em;">2</span>
+                                                </div>
+                                                <span class="text-dark fw-bold flex-shrink-0">-</span>
+                                                <div class="input-group input-group-sm flex-shrink-0" style="width: 75px;">
+                                                    <input type="number" id="s2_ab" class="form-control text-center bg-white border-dark px-1" placeholder="...">
+                                                    <span class="input-group-text bg-white border-dark text-dark fw-bold px-1" style="font-size: 0.85em;">2</span>
+                                                </div>
                                             </div>
-                                            <div class="d-flex flex-wrap align-items-center justify-content-center gap-2 mt-2">
-                                                <span class="fw-bold">BC² =</span>
-                                                <input type="number" id="s2_ac_kuadrat" class="form-control form-control-sm text-center" style="width:80px;" placeholder="...">
-                                                <span class="fw-bold">-</span>
-                                                <input type="number" id="s2_ab_kuadrat" class="form-control form-control-sm text-center" style="width:80px;" placeholder="...">
+
+                                            <div class="d-flex flex-nowrap align-items-center justify-content-center gap-2 mb-2 w-100 overflow-x-auto pb-1">
+                                                <div class="text-end fw-bold text-dark flex-shrink-0 pe-1" style="width: 50px;">
+                                                    <span class="text-nowrap">BC² =</span>
+                                                </div>
+                                                <input type="number" id="s2_ac_kuadrat" class="form-control form-control-sm text-center border-dark flex-shrink-0 px-1" style="width: 75px;" placeholder="...">
+                                                <span class="fw-bold text-dark flex-shrink-0">-</span>
+                                                <input type="number" id="s2_ab_kuadrat" class="form-control form-control-sm text-center border-dark flex-shrink-0 px-1" style="width: 75px;" placeholder="...">
                                             </div>
-                                            <div class="d-flex flex-wrap align-items-center justify-content-center gap-2 mt-2">
-                                                <span class="fw-bold">BC² =</span>
-                                                <input type="number" id="s2_bc2" class="form-control form-control-sm text-center fw-bold text-primary" style="width:100px;" placeholder="...">
+
+                                            <div class="d-flex flex-nowrap align-items-center justify-content-center gap-2 w-100 overflow-x-auto pb-1">
+                                                <div class="text-end fw-bold text-dark flex-shrink-0 pe-1" style="width: 50px;">
+                                                    <span class="text-nowrap">BC² =</span>
+                                                </div>
+                                                <input type="number" id="s2_bc2" class="form-control form-control-sm text-center fw-bold border-dark text-primary flex-shrink-0 px-1" style="width: 90px;" placeholder="...">
                                             </div>
                                         </div>
 
                                         <div class="p-3 mb-3 bg-white border border-success rounded-3 shadow-sm text-center small">
-                                            <span class="d-block fw-bold text-dark mb-2 border-bottom pb-2">3. Hitung Tinggi Menara (BC)</span>
-                                            <div class="d-flex align-items-center justify-content-center gap-2 mt-3">
-                                                <span class="fw-bold">BC =</span>
-                                                <span class="fs-5 fw-bold">√</span>
-                                                <input type="number" id="s2_akar_val" class="form-control form-control-sm text-center" style="width:80px;" placeholder="...">
-                                                <span class="fw-bold">=</span>
-                                                <input type="number" id="s2_bc" class="form-control form-control-sm text-center fw-bold text-success" style="width:80px;" placeholder="...">
-                                                <span class="fw-bold">m</span>
+                                            <span class="d-block fw-bold text-dark mb-3 border-bottom pb-2">3. Hitung Tinggi Menara (BC)</span>
+
+                                            <div class="d-flex flex-nowrap align-items-center justify-content-center gap-2 w-100 overflow-x-auto pb-1 mt-2">
+                                                <div class="text-end fw-bold text-dark flex-shrink-0 pe-1" style="width: 50px;">
+                                                    <span class="text-nowrap">BC =</span>
+                                                </div>
+                                                <span class="fw-bold text-dark flex-shrink-0">&radic;</span>
+                                                <input type="number" id="s2_akar_val" class="form-control form-control-sm text-center border-dark flex-shrink-0 px-1" style="width: 65px;" placeholder="...">
+                                                <span class="fw-bold text-dark flex-shrink-0">=</span>
+                                                <input type="number" id="s2_bc" class="form-control form-control-sm text-center border-dark fw-bold text-success flex-shrink-0 px-1" style="width: 65px;" placeholder="...">
+                                                <span class="fw-bold text-dark flex-shrink-0">m</span>
                                             </div>
                                         </div>
 
@@ -957,6 +994,7 @@
                                                 <i class="fas fa-check-circle me-1"></i> Cek Jawaban
                                             </button>
                                         </div>
+
                                     </div>
                                 </div>
                             </div>
@@ -985,8 +1023,8 @@
                                     </div>
                                     <div class="card-body small py-2">
                                         <div class="d-flex align-items-center mb-2">
-                                            <span style="width: 150px;">Jarak pandang A (DA) :</span>
-                                            <select id="s3_dik_da" class="form-select form-select-sm text-center border-secondary mx-2" style="width:120px;">
+                                            <span style="width: 300px;">Jarak pandang dari drone ke tenda A atau panjang AD adalah </span>
+                                            <select id="s3_dik_da" class="form-select form-select-sm text-center border-secondary mx-2" style="width:92px;">
                                                 <option value=""></option>
                                                 <option value="15">15</option>
                                                 <option value="16">16</option>
@@ -995,8 +1033,8 @@
                                             <span>m</span>
                                         </div>
                                         <div class="d-flex align-items-center mb-2">
-                                            <span style="width: 150px;">Jarak mendatar A (AC) :</span>
-                                            <select id="s3_dik_ac" class="form-select form-select-sm text-center border-secondary mx-2" style="width:120px;">
+                                            <span style="width: 300px;">Jarak tenda A ke titik awal tinggi drone atau panjang AC adalah </span>
+                                            <select id="s3_dik_ac" class="form-select form-select-sm text-center border-secondary mx-2" style="width:92px;">
                                                 <option value=""></option>
                                                 <option value="15">15</option>
                                                 <option value="16">16</option>
@@ -1005,8 +1043,8 @@
                                             <span>m</span>
                                         </div>
                                         <div class="d-flex align-items-center">
-                                            <span style="width: 150px;">Jarak pandang B (DB) :</span>
-                                            <select id="s3_dik_db" class="form-select form-select-sm text-center border-secondary mx-2" style="width:120px;">
+                                            <span style="width: 300px;">Jarak pandang dari drone ke tenda B atau panjang BD adalah </span>
+                                            <select id="s3_dik_db" class="form-select form-select-sm text-center border-secondary mx-2" style="width:92px;">
                                                 <option value=""></option>
                                                 <option value="15">15</option>
                                                 <option value="16">16</option>
@@ -1023,14 +1061,14 @@
                                     </div>
                                     <div class="card-body py-2">
                                         <div class="d-flex align-items-center small">
-                                            <span>Jarak mendatar B (</span>
+                                            <span style="width: 200px;">Jarak tenda B ke titik awal tinggi drone atau panjang </span>
                                             <select id="s3_ditanya" class="form-select form-select-sm text-center border-warning fw-bold text-dark mx-2" style="width:120px;">
                                                 <option value=""></option>
                                                 <option value="DC">DC</option>
                                                 <option value="BC">BC</option>
                                                 <option value="AB">AB</option>
                                             </select>
-                                            <span>) = ...?</span>
+                                            <span>adalah ....</span>
                                         </div>
                                     </div>
                                 </div>

@@ -2415,119 +2415,72 @@ function cekContoh2() {
     }
 }
 
+function cekRefleksi() {
+    const form = document.getElementById('formRefleksi');
+    const formData = new FormData(form);
+    const btnSubmit = document.getElementById('btnSimpanRefleksi');
+    const feedbackArea = document.getElementById('refleksi_feedback');
 
-
-function handleEnter(e) {
-    if (e.key === "Enter") cekJawabanSegitigaSikuSiku();
-}
-// Jadikan fungsi ini 'async' agar bisa menggunakan 'await' saat memanggil Fetch API
-async function cekRefleksi() {
-    const ref1Ya = document.getElementById('ref1_ya').checked;
-    const ref1Tidak = document.getElementById('ref1_tidak').checked;
-    const ref1Text = document.getElementById('ref1_text').value.trim();
-    const ref2 = document.getElementById('ref2').value.trim();
-    const ref3 = document.getElementById('ref3').value.trim();
-
-    // 1. Validasi sederhana (hanya memastikan tidak kosong)
-    if (!ref1Ya && !ref1Tidak) {
-        Swal.fire({ icon: 'warning', title: 'Belum Lengkap', text: 'Pilih salah satu opsi pada pertanyaan nomor 1.', confirmButtonColor: '#ffc107' });
-        return;
-    }
-    if (ref1Text === '') {
-        Swal.fire({ icon: 'warning', title: 'Belum Lengkap', text: 'Tuliskan sedikit ceritamu di kotak alasan nomor 1 ya.', confirmButtonColor: '#ffc107' });
-        return;
-    }
-    if (ref2 === '') {
-        Swal.fire({ icon: 'warning', title: 'Belum Lengkap', text: 'Ceritakan pemahamanmu di pertanyaan nomor 2.', confirmButtonColor: '#ffc107' });
-        return;
-    }
-    if (ref3 === '') {
-        Swal.fire({ icon: 'warning', title: 'Belum Lengkap', text: 'Bagikan caramu menjelaskan ke teman di pertanyaan nomor 3.', confirmButtonColor: '#ffc107' });
+    // 1. Validasi: Pastikan semua textarea yang required sudah diisi
+    if (!form.checkValidity()) {
+        form.reportValidity(); // Memunculkan peringatan bawaan browser
         return;
     }
 
-    // 2. Siapkan data yang akan dikirim ke Controller (Format JSON)
-    const dataRefleksi = {
-        kode_materi: 'materi_1_konsep_pythagoras', // Sesuaikan dengan materi saat ini
-        kesulitan: ref1Ya ? 'ya' : 'tidak',
-        cerita_kesulitan: ref1Text,
-        kesimpulan: ref2,
-        cara_menjelaskan: ref3
-    };
+    // 2. Ubah status tombol untuk memberikan feedback visual ke siswa
+    btnSubmit.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Menyimpan...';
+    btnSubmit.disabled = true;
+    feedbackArea.innerHTML = '';
 
-    try {
-        // Ambil token CSRF wajib dari Laravel (pastikan ada tag <meta name="csrf-token" ...> di layout utamamu)
-        const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+    // 3. Ambil URL aman dari atribut action form HTML
+    const targetUrl = form.getAttribute('action');
 
-        // Ubah teks tombol saat sedang proses loading
-        const btnSubmit = document.querySelector('button[onclick="cekRefleksi()"]');
-        const originalText = btnSubmit.innerText;
-        btnSubmit.innerText = "Menyimpan...";
-        btnSubmit.disabled = true;
+    fetch(targetUrl, {
+        method: 'POST',
+        body: formData,
+        headers: {
+            'X-Requested-With': 'XMLHttpRequest'
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        if(data.status === 'success') {
+            // Berikan feedback text di bawah kotak
+            feedbackArea.innerHTML = `<div class="alert alert-success py-2 small fw-bold mb-0">${data.message}</div>`;
+            btnSubmit.innerHTML = 'Tersimpan <i class="fas fa-check ms-1"></i>';
+            btnSubmit.classList.replace('btn-success', 'btn-secondary');
+            
+            // Simpan progres ke database (bernilai 10 Poin sesuai MATERI1_AKTIVITAS)
+            if (typeof simpanProgressMateri1 === 'function') {
+                simpanProgressMateri1('m1_cp15_refleksi_akhir', 10);
+            }
 
-        // 3. Kirim data ke backend menggunakan Fetch API
-        const response = await fetch('/siswa/refleksi/simpan', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'X-CSRF-TOKEN': csrfToken,
-                'Accept': 'application/json'
-            },
-            body: JSON.stringify(dataRefleksi)
-        });
-
-        const result = await response.json();
-
-        // 4. Jika berhasil disimpan di Database
-        if (response.ok) {
-            simpanProgressMateri1('m1_cp15_refleksi_akhir', 10);
-
-            kunciFormRefleksi();
-
-            Swal.fire({
-                icon: 'success',
-                title: '+10 Poin!',
-                html: 'Refleksimu berhasil disimpan. Terima kasih sudah berbagi!<br><small class="text-muted">Kamu hebat!</small>',
-                confirmButtonColor: '#198754'
-            });
+            // MUNCULKAN SWEETALERT +10 POIN
+            if (typeof swalLatihanMateri1 === 'function') {
+                swalLatihanMateri1('#btnSimpanRefleksi', {
+                    icon: 'success',
+                    title: '+10 Poin!',
+                    html: 'Terima kasih sudah mengisi refleksi belajarmu dengan jujur!<br><small class="text-muted">Progres belajarmu telah berhasil tersimpan.</small>',
+                    confirmButtonColor: '#198754'
+                }).then(() => {
+                    // Opsional: Gulir sedikit ke bawah agar teks "lanjut ke Kuis 1" terlihat
+                    const nextText = document.querySelector('.materi-page[data-page="5"] .border-top p');
+                    if (nextText) nextText.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                });
+            }
 
         } else {
-            // Jika ada error dari validasi server
-            Swal.fire({ icon: 'error', title: 'Gagal Menyimpan', text: result.message || 'Terjadi kesalahan pada sistem.', confirmButtonColor: '#dc3545' });
-            btnSubmit.innerText = originalText;
+            feedbackArea.innerHTML = `<div class="alert alert-danger py-2 small fw-bold mb-0">Gagal menyimpan data.</div>`;
+            btnSubmit.innerHTML = 'Coba Lagi';
             btnSubmit.disabled = false;
         }
-
-    } catch (error) {
-        // Jika koneksi internet putus atau server mati
-        console.error('Error pengiriman refleksi:', error);
-        Swal.fire({ icon: 'error', title: 'Koneksi Terputus', text: 'Gagal terhubung ke server. Periksa jaringan internetmu dan coba lagi.', confirmButtonColor: '#dc3545' });
-
-        const btnSubmit = document.querySelector('button[onclick="cekRefleksi()"]');
-        if (btnSubmit) {
-            btnSubmit.innerText = "Simpan Refleksi";
-            btnSubmit.disabled = false;
-        }
-    }
-}
-
-// Memisahkan logika penguncian agar bisa dipanggil oleh cekRefleksi() dan setupReviewMode()
-function kunciFormRefleksi() {
-    ['ref1_ya', 'ref1_tidak', 'ref1_text', 'ref2', 'ref3'].forEach(id => {
-        const el = document.getElementById(id);
-        if (el) {
-            el.disabled = true;
-            // Tambahkan class is-valid agar kotak berubah hijau sebagai tanda berhasil disimpan
-            el.classList.add('is-valid');
-        }
+    })
+    .catch(error => {
+        console.error('Error Refleksi:', error);
+        feedbackArea.innerHTML = `<div class="alert alert-danger py-2 small fw-bold mb-0">Terjadi kesalahan koneksi ke server.</div>`;
+        btnSubmit.innerHTML = 'Simpan Refleksi';
+        btnSubmit.disabled = false;
     });
-
-    // Disable tombol simpan
-    const btn = document.querySelector('button[onclick="cekRefleksi()"]');
-    if (btn) {
-        btn.disabled = true;
-        btn.innerText = "Refleksi Tersimpan";
-    }
 }
 
 /* =====================================================
@@ -3211,6 +3164,31 @@ document.addEventListener('DOMContentLoaded', function () {
                 if (typeof resetSoal3 === 'function') resetSoal3();
             }
         );
+
+        window.setupReviewMode(
+            'm1_cp15_refleksi_akhir',
+            '#btnSimpanRefleksi',
+            function showAnswer() {
+                const form = document.getElementById('formRefleksi');
+                if (form) {
+                    form.querySelectorAll('input, textarea').forEach(el => {
+                        el.disabled = true;
+                    });
+                }
+
+                const btnSubmit = document.getElementById('btnSimpanRefleksi');
+                if (btnSubmit) {
+                    btnSubmit.innerHTML = 'Tersimpan <i class="fas fa-check ms-1"></i>';
+                    btnSubmit.classList.replace('btn-success', 'btn-secondary');
+                    btnSubmit.disabled = true;
+                }
+
+                const feedbackArea = document.getElementById('refleksi_feedback');
+                if (feedbackArea) {
+                    feedbackArea.innerHTML = `<div class="alert alert-success py-2 small fw-bold mb-0"><i class="fas fa-info-circle me-1"></i> Refleksi ini sudah kamu kerjakan.</div>`;
+                }
+            },
+            null // <-- KUNCI: Set menjadi null
+        );
     }
 });
-

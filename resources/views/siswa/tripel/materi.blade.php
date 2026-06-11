@@ -1307,63 +1307,81 @@
     <section class="materi-page d-none" data-page="4">
         <div class="row justify-content-center">
             <div class="col-md-12 mb-4">
-                <div class="card shadow-sm">
-                    <div class="card-header text-center">
-                        <h4 class="mb-0">Rangkuman Materi</h4>
+                <div class="card shadow-sm border-0">
+                    <div class="card-header text-center bg-success text-white">
+                        <h4 class="mb-0 fw-bold">Rangkuman Materi</h4>
                     </div>
 
                     <div class="card-body p-4 bg-white">
 
                         <div class="d-flex align-items-start mb-3">
-                            <div class="bg-success text-white rounded-circle d-flex align-items-center justify-content-center flex-shrink-0 mt-1" style="width: 30px; height: 30px;">1</div>
-                            <div class="ms-3">
-                                <p class="text-muted mb-0" style="line-height: 1.6;">
+                            <div class="bg-success text-white rounded-circle d-flex align-items-center justify-content-center flex-shrink-0 mt-1 fw-bold" style="width: 32px; height: 32px; font-size: 1rem;">1</div>
+                            <div class="ms-3 w-100">
+                                <p class="text-dark mb-0" style="line-height: 1.6;">
                                     <strong>Kebalikan Teorema Pythagoras:</strong> Jika kuadrat sisi terpanjang sebuah segitiga sama dengan jumlah kuadrat dua sisi lainnya, maka segitiga tersebut adalah segitiga siku-siku.
                                 </p>
-                                <ul class="text-muted mt-2 mb-0 ps-3" style="line-height: 1.6;">
-                                    <li>Jika <strong>a &lt; b &lt; c</strong> dan didapat <strong>c² = a² + b²</strong>, maka siku-siku di C.</li>
-                                    <li>Jika <strong>c &lt; b &lt; a</strong> dan didapat <strong>a² = b² + c²</strong>, maka siku-siku di A.</li>
-                                    <li>Jika <strong>a &lt; c &lt; b</strong> dan didapat <strong>b² = a² + c²</strong>, maka siku-siku di B.</li>
-                                </ul>
+                                <div class="p-3 bg-light rounded-3 border border-secondary shadow-sm text-dark mt-3 small">
+                                    <ul class="mb-0 ps-3" style="line-height: 1.6;">
+                                        <li class="mb-1">Jika <strong>a &lt; b &lt; c</strong> dan didapat <strong>c² = a² + b²</strong>, maka siku-siku di C.</li>
+                                        <li class="mb-1">Jika <strong>c &lt; b &lt; a</strong> dan didapat <strong>a² = b² + c²</strong>, maka siku-siku di A.</li>
+                                        <li>Jika <strong>a &lt; c &lt; b</strong> dan didapat <strong>b² = a² + c²</strong>, maka siku-siku di B.</li>
+                                    </ul>
+                                </div>
                             </div>
                         </div>
 
-                        <hr class="border-secondary opacity-10 my-3">
+                        <hr class="border-secondary my-4">
 
                         <div class="d-flex align-items-start mb-3">
-                            <div class="bg-success text-white rounded-circle d-flex align-items-center justify-content-center flex-shrink-0 mt-1" style="width: 30px; height: 30px;">2</div>
-                            <div class="ms-3">
-                                <p class="text-muted mb-2" style="line-height: 1.6;">
+                            <div class="bg-success text-white rounded-circle d-flex align-items-center justify-content-center flex-shrink-0 mt-1 fw-bold" style="width: 32px; height: 32px; font-size: 1rem;">2</div>
+                            <div class="ms-3 w-100">
+                                <p class="text-dark mb-3" style="line-height: 1.6;">
                                     <strong>Menentukan Jenis Segitiga:</strong> Jika <strong>c</strong> adalah sisi terpanjang, kita dapat menentukan jenis segitiganya dengan membandingkan nilai <strong>c²</strong> dan <strong>a² + b²</strong>:
                                 </p>
-                                <ul class="text-muted mb-0 ps-3" style="line-height: 1.6;">
-                                    <li class="mb-1">Jika <strong>c² = a² + b²</strong>, maka <strong>segitiga siku-siku</strong>.</li>
-                                    <li class="mb-1">Jika <strong>c² &lt; a² + b²</strong>, maka <strong>segitiga lancip</strong>.</li>
-                                    <li>Jika <strong>c² &gt; a² + b²</strong>, maka <strong>segitiga tumpul</strong>.</li>
-                                </ul>
+
+                                <div class="row g-3">
+                                    <div class="col-md-4">
+                                        <div class="p-3 bg-light rounded-3 border border-secondary shadow-sm text-center h-100 d-flex flex-column justify-content-center">
+                                            <span class="d-block fw-bold text-dark mb-1">Segitiga Siku-Siku</span>
+                                            <h5 class="fw-bold text-success mb-0">c² = a² + b²</h5>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="p-3 bg-light rounded-3 border border-secondary shadow-sm text-center h-100 d-flex flex-column justify-content-center">
+                                            <span class="d-block fw-bold text-dark mb-1">Segitiga Lancip</span>
+                                            <h5 class="fw-bold text-warning mb-0">c² &lt; a² + b²</h5>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="p-3 bg-light rounded-3 border border-secondary shadow-sm text-center h-100 d-flex flex-column justify-content-center">
+                                            <span class="d-block fw-bold text-dark mb-1">Segitiga Tumpul</span>
+                                            <h5 class="fw-bold text-danger mb-0">c² &gt; a² + b²</h5>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
 
-                        <hr class="border-secondary opacity-10 my-3">
+                        <hr class="border-secondary my-4">
 
                         <div class="d-flex align-items-start mb-3">
-                            <div class="bg-success text-white rounded-circle d-flex align-items-center justify-content-center flex-shrink-0 mt-1" style="width: 30px; height: 30px;">3</div>
-                            <div class="ms-3">
-                                <p class="text-muted mb-0" style="line-height: 1.6;">
+                            <div class="bg-success text-white rounded-circle d-flex align-items-center justify-content-center flex-shrink-0 mt-1 fw-bold" style="width: 32px; height: 32px; font-size: 1rem;">3</div>
+                            <div class="ms-3 w-100">
+                                <p class="text-dark mb-0" style="line-height: 1.6;">
                                     <strong>Sifat Kelipatan:</strong> Jika kita memiliki salah satu tripel Pythagoras (misalnya 3, 4, 5), maka kelipatannya juga membentuk tripel Pythagoras. <br>
-                                    <em>Contoh:</em> 6, 8, 10 (dikali 2) atau 9, 12, 15 (dikali 3).
+                                    <em class="text-muted">Contoh: 6, 8, 10 (dikali 2) atau 9, 12, 15 (dikali 3).</em>
                                 </p>
                             </div>
                         </div>
 
-                        <hr class="border-secondary opacity-10 my-3">
+                        <hr class="border-secondary my-4">
 
                         <div class="d-flex align-items-start mb-3">
-                            <div class="bg-success text-white rounded-circle d-flex align-items-center justify-content-center flex-shrink-0 mt-1" style="width: 30px; height: 30px;">4</div>
-                            <div class="ms-3">
-                                <p class="text-muted mb-0" style="line-height: 1.6;">
+                            <div class="bg-success text-white rounded-circle d-flex align-items-center justify-content-center flex-shrink-0 mt-1 fw-bold" style="width: 32px; height: 32px; font-size: 1rem;">4</div>
+                            <div class="ms-3 w-100">
+                                <p class="text-dark mb-0" style="line-height: 1.6;">
                                     <strong>Tripel Pythagoras:</strong> adalah kelompok tiga bilangan asli (bilangan bulat positif) a, b, dan c yang memenuhi ketentuan <strong>c² = a² + b²</strong>, di mana c adalah bilangan terbesar (sisi miring). <br>
-                                    <em>Contoh:</em> 3, 4, 5; 6, 8, 10; 9, 12, 15.
+                                    <em class="text-muted">Contoh: 3, 4, 5; 6, 8, 10; 5, 12, 13.</em>
                                 </p>
                             </div>
                         </div>
@@ -1373,47 +1391,55 @@
             </div>
 
             <div class="col-md-12 mb-4">
-                <div class="card shadow-sm">
-                    <div class="card-header text-center bg-light">
-                        <h4 class="mb-0">Refleksi Belajar</h4>
+                <div class="card shadow-sm border-0">
+                    <div class="card-header text-center bg-light border-bottom border-success border-3">
+                        <h4 class="mb-1 fw-bold text-dark">Refleksi Belajar</h4>
                         <small class="text-muted">
                             Tidak ada jawaban benar atau salah. Jawablah jujur sesuai pemahamanmu tentang Tripel Pythagoras hari ini!
                         </small>
                     </div>
 
                     <div class="card-body p-4">
+                        <form id="formRefleksiTripel" action="{{ url('/siswa/refleksi/simpan') }}" onsubmit="event.preventDefault(); simpanRefleksiTripel();">
+                            @csrf
+                            <input type="hidden" name="kode_materi" value="materi_tripel_pythagoras">
 
-                        <div class="mb-4">
-                            <label class="fw-semibold mb-2">
-                                1. Saat menentukan apakah tiga buah bilangan termasuk Tripel Pythagoras atau bukan, apakah kamu menemui kesulitan?
-                            </label>
+                            <div class="mb-4">
+                                <label class="fw-semibold text-dark mb-2">
+                                    1. Saat menentukan apakah tiga buah bilangan termasuk Tripel Pythagoras atau bukan, apakah kamu menemui kesulitan?
+                                </label>
 
-                            <div class="mb-2">
-                                <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" name="ref_tri_1" id="ref_tri_1_ya" value="ya">
-                                    <label class="form-check-label" for="ref_tri_1_ya">Ya, lumayan sulit</label>
+                                <div class="mb-2">
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input border-secondary cursor-pointer" type="radio" name="ref1_opsi" id="ref_tri_1_ya" value="ya" required>
+                                        <label class="form-check-label text-dark cursor-pointer" for="ref_tri_1_ya">Ya, lumayan sulit</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input border-secondary cursor-pointer" type="radio" name="ref1_opsi" id="ref_tri_1_tidak" value="tidak" required>
+                                        <label class="form-check-label text-dark cursor-pointer" for="ref_tri_1_tidak">Tidak, cukup mudah</label>
+                                    </div>
                                 </div>
-                                <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" name="ref_tri_1" id="ref_tri_1_tidak" value="tidak">
-                                    <label class="form-check-label" for="ref_tri_1_tidak">Tidak, cukup mudah</label>
-                                </div>
+
+                                <textarea name="ref1_text" id="ref_tri_1_text" class="form-control border-secondary shadow-sm" rows="3" placeholder="Ceritakan bagian mana yang paling sulit atau paling mudah menurutmu..." required></textarea>
                             </div>
 
-                            <textarea class="form-control" rows="3" id="ref_tri_1_text" placeholder="Ceritakan bagian mana yang paling sulit atau paling mudah menurutmu..."></textarea>
-                        </div>
+                            <div class="mb-4">
+                                <label class="fw-semibold text-dark mb-2">
+                                    2. Coba ceritakan dengan bahasamu sendiri, apa sih syarat utama agar 3 buah angka bisa disebut sebagai kelompok Tripel Pythagoras?
+                                </label>
+                                <textarea name="ref2" id="ref_tri_2_text" class="form-control border-secondary shadow-sm" rows="3" placeholder="Tuliskan pemahamanmu di sini..." required></textarea>
+                            </div>
 
-                        <div class="mb-4">
-                            <label class="fw-semibold mb-2">
-                                2. Coba ceritakan dengan bahasamu sendiri, apa sih syarat utama agar 3 buah angka bisa disebut sebagai kelompok Tripel Pythagoras?
-                            </label>
-                            <textarea class="form-control" rows="3" id="ref_tri_2_text" placeholder="Tuliskan pemahamanmu di sini..."></textarea>
-                        </div>
+                            <div id="refleksi_feedback_tripel" class="text-center w-100 mb-3"></div>
 
-                        <div class="text-center mt-4">
-                            <button class="btn btn-success fw-bold px-4" onclick="cekRefleksiTripel()">Simpan Refleksi</button>
-                        </div>
+                            <div class="text-center mt-4">
+                                <button type="submit" id="btnSimpanRefleksiTripel" class="btn btn-success fw-bold px-5 shadow-sm">
+                                    Simpan Refleksi
+                                </button>
+                            </div>
+                        </form>
 
-                        <div class="text-center mt-4 pt-3 border-top">
+                        <div class="text-center mt-4 pt-3 border-top border-secondary">
                             <p class="text-muted mb-0">Setelah menyimpan refleksi, silakan lanjut mengerjakan Kuis 2 - Tripel Pythagoras!</p>
                         </div>
 

@@ -1423,101 +1423,66 @@ function cekLatihanTripel() {
 /* =====================================================
    HALAMAN 5: REFLEKSI AKHIR (TRIPEL PYTHAGORAS)
 ===================================================== */
-async function cekRefleksiTripel() {
-    const isPilihanTerisi = document.querySelector('input[name="ref_tri_1"]:checked');
-    const refTri1Text = document.getElementById('ref_tri_1_text').value.trim();
-    const refTri2Text = document.getElementById('ref_tri_2_text').value.trim();
+function simpanRefleksiTripel() {
+    const form = document.getElementById('formRefleksiTripel');
+    const formData = new FormData(form);
+    const btnSubmit = document.getElementById('btnSimpanRefleksiTripel');
+    const feedbackArea = document.getElementById('refleksi_feedback_tripel');
 
-    // 1. Validasi
-    if (!isPilihanTerisi) {
-        Swal.fire({ icon: 'warning', title: 'Belum Lengkap', text: 'Pilih salah satu opsi pada pertanyaan nomor 1.', confirmButtonColor: '#ffc107' });
-        return;
-    }
-    if (refTri1Text === '') {
-        Swal.fire({ icon: 'warning', title: 'Belum Lengkap', text: 'Tolong ceritakan sedikit alasanmu di nomor 1 ya.', confirmButtonColor: '#ffc107' });
-        return;
-    }
-    if (refTri2Text === '') {
-        Swal.fire({ icon: 'warning', title: 'Belum Lengkap', text: 'Tolong tuliskan syarat Tripel Pythagoras di nomor 2.', confirmButtonColor: '#ffc107' });
+    // Validasi input HTML5
+    if (!form.checkValidity()) {
+        form.reportValidity();
         return;
     }
 
-    // 2. Siapkan data JSON (Perhatikan nama field-nya kita sesuaikan dengan Materi 2)
-    const dataRefleksi = {
-        kode_materi: 'materi_2_tripel_pythagoras',
-        kesulitan: isPilihanTerisi.value,
-        cerita_kesulitan: refTri1Text,
-        pemahaman_syarat: refTri2Text
-    };
+    // Loading state
+    btnSubmit.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Menyimpan...';
+    btnSubmit.disabled = true;
+    feedbackArea.innerHTML = '';
 
-    try {
-        const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+    const targetUrl = form.getAttribute('action');
 
-        // Animasi tombol loading
-        const btnSubmit = document.querySelector('button[onclick="cekRefleksiTripel()"]');
-        const originalText = btnSubmit.innerText;
-        btnSubmit.innerText = "Menyimpan...";
-        btnSubmit.disabled = true;
+    fetch(targetUrl, {
+        method: 'POST',
+        body: formData,
+        headers: {
+            'X-Requested-With': 'XMLHttpRequest'
+        }
+    })
+        .then(response => response.json())
+        .then(data => {
+            if (data.status === 'success') {
+                feedbackArea.innerHTML = `<div class="alert alert-success py-2 small fw-bold mb-0">${data.message}</div>`;
+                btnSubmit.innerHTML = 'Tersimpan <i class="fas fa-check ms-1"></i>';
+                btnSubmit.classList.replace('btn-success', 'btn-secondary');
 
-        // 3. Kirim via Fetch
-        const response = await fetch('/siswa/refleksi/simpan', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'X-CSRF-TOKEN': csrfToken,
-                'Accept': 'application/json'
-            },
-            body: JSON.stringify(dataRefleksi)
+                // Simpan progres ke database (10 poin)
+                if (typeof simpanProgressMateri2 === 'function') {
+                    simpanProgressMateri2('m2_cp9_refleksi_tripel', 10, false);
+                }
+
+                // Pop-up sukses
+                if (typeof swalLatihanMateri2 === 'function') {
+                    swalLatihanMateri2('button[onclick="simpanRefleksiTripel()"]', {
+                        icon: 'success',
+                        title: '+10 Poin!',
+                        html: 'Refleksi Tripel Pythagoras kamu berhasil disimpan.<br><small class="text-muted">Siap untuk Kuis 2? Ayo uji pemahamanmu!</small>',
+                        confirmButtonColor: '#198754'
+                    });
+                }
+            } else {
+                feedbackArea.innerHTML = `<div class="alert alert-danger py-2 small fw-bold mb-0">Gagal menyimpan data.</div>`;
+                btnSubmit.innerHTML = 'Coba Lagi';
+                btnSubmit.disabled = false;
+            }
+        })
+        .catch(error => {
+            console.error('Error Refleksi M2:', error);
+            feedbackArea.innerHTML = `<div class="alert alert-danger py-2 small fw-bold mb-0">Terjadi kesalahan koneksi.</div>`;
+            btnSubmit.innerHTML = 'Simpan Refleksi';
+            btnSubmit.disabled = false;
         });
-
-        const result = await response.json();
-
-        // 4. Jika sukses
-        if (response.ok) {
-            simpanProgressMateri2('m2_cp9_refleksi', 10);
-
-            kunciFormRefleksiTripel();
-
-            Swal.fire({
-                icon: 'success',
-                title: '+10 Poin!',
-                html: 'Refleksimu sudah tersimpan. Kamu Hebat!',
-                confirmButtonColor: '#198754'
-            });
-        } else {
-            Swal.fire({ icon: 'error', title: 'Gagal', text: result.message || 'Terjadi kesalahan sistem.', confirmButtonColor: '#dc3545' });
-            btnSubmit.innerText = originalText;
-            btnSubmit.disabled = false;
-        }
-
-    } catch (error) {
-        console.error('Error:', error);
-        Swal.fire({ icon: 'error', title: 'Koneksi Terputus', text: 'Gagal terhubung ke server. Coba lagi.', confirmButtonColor: '#dc3545' });
-        const btnSubmit = document.querySelector('button[onclick="cekRefleksiTripel()"]');
-        if (btnSubmit) {
-            btnSubmit.innerText = "Simpan Refleksi";
-            btnSubmit.disabled = false;
-        }
-    }
 }
-
-// Helper untuk mengunci form
-function kunciFormRefleksiTripel() {
-    ['ref_tri_1_ya', 'ref_tri_1_tidak', 'ref_tri_1_text', 'ref_tri_2_text'].forEach(id => {
-        const el = document.getElementById(id);
-        if (el) {
-            el.disabled = true;
-            el.classList.add('is-valid');
-        }
-    });
-
-    const btn = document.querySelector('button[onclick="cekRefleksiTripel()"]');
-    if (btn) {
-        btn.disabled = true;
-        btn.innerText = "Refleksi Tersimpan";
-    }
-}
-
 /* =====================================================
    AKTIFASI MODE REVIEW UNTUK MATERI 2 (FULL)
 ===================================================== */
@@ -1772,39 +1737,33 @@ document.addEventListener('DOMContentLoaded', function () {
                 });
             }
         );
-
-        // 9. Refleksi
+        // ---------------------------------------------------------
+        // 9. Latihan: Refleksi Belajar Materi 2 (Tripel Pythagoras)
+        // ---------------------------------------------------------
         window.setupReviewMode(
-            'm2_cp9_refleksi',
-            'button[onclick="cekRefleksiTripel()"]',
-            function () {
-                kunciFormRefleksiTripel();
-            },
-            function () {
-                ['ref_tri_1_ya', 'ref_tri_1_tidak'].forEach(id => {
-                    const el = document.getElementById(id);
-                    if (el) {
-                        el.disabled = false;
-                        el.checked = false;
-                        el.classList.remove('is-valid');
-                    }
-                });
-
-                ['ref_tri_1_text', 'ref_tri_2_text'].forEach(id => {
-                    const el = document.getElementById(id);
-                    if (el) {
-                        el.disabled = false;
-                        el.value = '';
-                        el.classList.remove('is-valid', 'is-invalid');
-                    }
-                });
-
-                const btn = document.querySelector('button[onclick="cekRefleksiTripel()"]');
-                if (btn) {
-                    btn.disabled = false;
-                    btn.innerText = "Simpan Refleksi";
+            'm2_cp9_refleksi_tripel',
+            '#btnSimpanRefleksiTripel',
+            function showAnswer() {
+                const form = document.getElementById('formRefleksiMateri2');
+                if (form) {
+                    form.querySelectorAll('textarea, input').forEach(el => {
+                        el.disabled = true;
+                    });
                 }
-            }
+
+                const btnSubmit = document.getElementById('btnSimpanRefleksiTripel');
+                if (btnSubmit) {
+                    btnSubmit.innerHTML = 'Tersimpan <i class="fas fa-check ms-1"></i>';
+                    btnSubmit.classList.replace('btn-success', 'btn-secondary');
+                    btnSubmit.disabled = true;
+                }
+
+                const feedbackArea = document.getElementById('refleksi_feedback_tripel');
+                if (feedbackArea) {
+                    feedbackArea.innerHTML = `<div class="alert alert-success py-2 small fw-bold mb-0"><i class="fas fa-info-circle me-1"></i> Refleksi ini sudah kamu kerjakan.</div>`;
+                }
+            },
+            null // <-- KUNCI: Set menjadi null
         );
     }
 });

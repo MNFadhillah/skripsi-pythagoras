@@ -1,0 +1,395 @@
+/* =========================================================
+   RESPONSIFITAS KHUSUS MATERI 1
+   File: public/css/responsifitas_materi1.css
+   Tujuan:
+   1. Merapikan penanda gambar jembatan di mobile
+   2. Mengecilkan tinggi GeoGebra di mobile
+   3. Membuat area canvas lebih stabil di HP
+========================================================= */
+
+
+/* =========================================================
+   1. GAMBAR JEMBATAN - PENANDA / LABEL
+========================================================= */
+
+.materi-page[data-page="0"] .interactive-image-container {
+    position: relative;
+}
+
+.materi-page[data-page="0"] .interactive-image-container img {
+    display: block;
+    width: 100%;
+}
+
+/* Label desktop tetap mengikuti desain lama, hanya dibuat lebih stabil */
+.materi-page[data-page="0"] .text-label {
+    line-height: 1.2;
+    max-width: max-content;
+}
+
+/* Supaya garis SVG tetap proporsional */
+.materi-page[data-page="0"] .highlight-svg {
+    width: 100%;
+    height: 100%;
+}
+
+.materi-page[data-page="0"] .highlight-line {
+    vector-effect: non-scaling-stroke;
+}
+
+/* =========================================================
+   2. GEOGEBRA HALAMAN AYO MENGAMATI
+   Desktop dikembalikan seperti awal.
+   CSS ini hanya membantu agar mobile tidak terlalu panjang.
+========================================================= */
+
+.materi1-geogebra-box {
+    overflow: hidden;
+}
+
+.materi1-geogebra-frame iframe {
+    width: 100%;
+    height: 100%;
+    border: 0;
+    display: block;
+}
+
+/* =========================================================
+   3. CANVAS AYO MENGGAMBAR
+========================================================= */
+
+.materi1-canvas-container {
+    width: 100%;
+    min-height: 400px;
+    overflow: hidden;
+    touch-action: none;
+    overscroll-behavior: contain;
+    user-select: none;
+    -webkit-user-select: none;
+}
+
+.materi1-canvas-container #triangleCanvas {
+    width: 100% !important;
+    height: 100% !important;
+    display: block;
+    touch-action: none;
+    user-select: none;
+    -webkit-user-select: none;
+}
+
+/* =========================================================
+   3A. PENAMAAN SISI SEGITIGA
+========================================================= */
+
+.materi1-penamaan-intro {
+    width: 100%;
+}
+
+.materi1-penamaan-image-box,
+.materi1-penamaan-rule-box {
+    min-height: 260px;
+}
+
+
+/* =========================================================
+   4. KHUSUS TABLET DAN HP
+========================================================= */
+
+@media (max-width: 767.98px) {
+
+    /* -------------------------------
+       A. Penanda gambar jembatan
+    -------------------------------- */
+
+    .materi-page[data-page="0"] .text-label {
+        font-size: 11px;
+        padding: 5px 8px !important;
+        border-radius: 5px !important;
+        white-space: nowrap;
+        box-shadow: 0 3px 8px rgba(0, 0, 0, 0.22);
+    }
+
+    /*
+      Di mobile animasi lama membuat label bergeser terlalu jauh.
+      Jadi khusus mobile, label langsung ditampilkan di posisi yang sudah kita rapikan.
+    */
+    .materi-page[data-page="0"] .overlay-text.active .text-label {
+        animation: none !important;
+        transform: none !important;
+        opacity: 1 !important;
+    }
+
+    .materi-page[data-page="0"] .text-tegak {
+        top: 34%;
+        left: 2%;
+    }
+
+    .materi-page[data-page="0"] .text-datar {
+        top: 71%;
+        left: 42%;
+    }
+
+    .materi-page[data-page="0"] .text-miring {
+        top: 31%;
+        left: 61%;
+    }
+
+    .materi-page[data-page="0"] .highlight-line {
+        stroke-width: 2.4;
+    }
+
+
+    /* -------------------------------
+   B. GeoGebra Ayo Mengamati
+   Khusus mobile saja
+-------------------------------- */
+
+    .materi1-geogebra-box {
+        padding: 0.5rem !important;
+    }
+
+    .materi1-geogebra-frame {
+        height: 280px !important;
+        min-height: 280px !important;
+        max-height: 280px !important;
+    }
+
+    /* -------------------------------
+       C. Canvas Ayo Menggambar
+    -------------------------------- */
+
+    .materi1-canvas-container {
+        width: 100%;
+        max-width: 340px;
+        height: min(82vw, 340px);
+        min-height: unset !important;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .materi1-canvas-container #triangleCanvas {
+        width: 100% !important;
+        height: 100% !important;
+    }
+
+    /*
+      Area card canvas dibuat lebih hemat ruang di HP,
+      tapi hanya untuk halaman menggambar, bukan semua card.
+    */
+    .materi-page[data-page="2"] .card-body.p-4 {
+        padding: 1rem !important;
+    }
+
+    .materi-page[data-page="2"] .alert h4 {
+        font-size: 1rem;
+    }
+
+    .materi-page[data-page="2"] .alert ol {
+        font-size: 0.9rem;
+    }
+
+    /* -------------------------------
+   D. Penamaan Sisi Segitiga
+-------------------------------- */
+
+    .materi1-penamaan-image-box,
+    .materi1-penamaan-rule-box {
+        min-height: unset;
+    }
+
+    .materi1-penamaan-rule-box ul {
+        padding-left: 1rem;
+    }
+
+    .materi1-penamaan-intro {
+        row-gap: 1rem;
+    }
+
+    /* -------------------------------
+   Contoh Soal 1 - Langkah Penyelesaian
+-------------------------------- */
+
+    .contoh1-solution-col {
+        width: 100%;
+    }
+
+    .contoh1-solution-card .card-body {
+        padding: 1rem;
+    }
+
+    .contoh1-formula-box {
+        padding: .85rem !important;
+    }
+
+    .contoh1-equation-row {
+        justify-content: center;
+        gap: .35rem;
+        flex-wrap: wrap;
+    }
+
+    .contoh1-equation-row>span {
+        font-size: .95rem;
+    }
+
+    .contoh1-power-input {
+        width: 68px;
+        flex: 0 0 68px;
+    }
+
+    .contoh1-small-input {
+        width: 62px;
+        max-width: 62px;
+        flex: 0 0 62px;
+    }
+
+    .contoh1-medium-input {
+        width: 78px;
+        max-width: 78px;
+        flex: 0 0 78px;
+    }
+
+    .contoh1-final-input {
+        width: 82px;
+        max-width: 82px;
+        flex: 0 0 82px;
+    }
+
+    .contoh1-action-row {
+        flex-direction: column;
+        align-items: stretch !important;
+        gap: .75rem;
+    }
+
+    .contoh1-action-row button {
+        width: 100%;
+    }
+
+    #c1_feedback {
+        text-align: center;
+    }
+}
+
+
+/* =========================================================
+   5. KHUSUS HP KECIL
+========================================================= */
+
+@media (max-width: 390px) {
+
+    .materi-page[data-page="0"] .text-label {
+        font-size: 10px;
+        padding: 4px 7px !important;
+    }
+
+    .materi-page[data-page="0"] .text-tegak {
+        top: 35%;
+        left: 1%;
+    }
+
+    .materi-page[data-page="0"] .text-datar {
+        top: 71%;
+        left: 39%;
+    }
+
+    .materi-page[data-page="0"] .text-miring {
+        top: 32%;
+        left: 58%;
+    }
+
+    .materi1-geogebra-frame {
+        height: 260px !important;
+        min-height: 260px !important;
+        max-height: 260px !important;
+    }
+
+    .materi1-canvas-container {
+        max-width: 310px;
+        height: min(82vw, 310px);
+    }
+
+    .contoh1-formula-box {
+        padding: .75rem !important;
+    }
+
+    .contoh1-equation-row {
+        gap: .3rem;
+    }
+
+    .contoh1-power-input {
+        width: 62px;
+        flex-basis: 62px;
+    }
+
+    .contoh1-small-input {
+        width: 56px;
+        max-width: 56px;
+        flex-basis: 56px;
+    }
+
+    .contoh1-medium-input {
+        width: 70px;
+        max-width: 70px;
+        flex-basis: 70px;
+    }
+
+    .contoh1-final-input {
+        width: 76px;
+        max-width: 76px;
+        flex-basis: 76px;
+    }
+
+    .contoh1-root-label,
+    .contoh1-unit-label {
+        font-size: .9rem;
+    }
+}
+
+/* =========================================================
+   CONTOH SOAL 1 - LANGKAH PENYELESAIAN
+   Supaya rumus Pythagoras rapi di HP dan tablet
+========================================================= */
+
+.contoh1-solution-card {
+    overflow: hidden;
+}
+
+.contoh1-formula-box {
+    max-width: 100%;
+    overflow: hidden;
+}
+
+.contoh1-equation-row {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: .5rem;
+    flex-wrap: nowrap;
+}
+
+.contoh1-power-input {
+    width: 80px;
+    flex: 0 0 80px;
+}
+
+.contoh1-small-input {
+    width: 70px;
+    max-width: 70px;
+    flex: 0 0 70px;
+}
+
+.contoh1-medium-input {
+    width: 90px;
+    max-width: 90px;
+    flex: 0 0 90px;
+}
+
+.contoh1-final-input {
+    width: 100px;
+    max-width: 100px;
+    flex: 0 0 100px;
+}
+
+.contoh1-root-label,
+.contoh1-unit-label {
+    white-space: nowrap;
+}
