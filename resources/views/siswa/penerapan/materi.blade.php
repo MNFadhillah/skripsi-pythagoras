@@ -1161,50 +1161,56 @@
     <section class="materi-page d-none" data-page="3">
         <div class="row justify-content-center">
             <div class="col-md-12 mb-4">
-                <div class="card shadow-sm border-1">
-                    <div class="card-header text-center bg-light">
-                        <h4>Rangkuman Materi</h4>
+                <div class="card shadow-sm border-0">
+                    <div class="card-header text-center bg-success text-white">
+                        <h4 class="mb-0 fw-bold">Rangkuman Materi</h4>
                     </div>
 
                     <div class="card-body p-4 bg-white">
                         <div class="d-flex align-items-start mb-3">
-                            <div class="bg-success text-white rounded-circle d-flex align-items-center justify-content-center flex-shrink-0 mt-1 fw-bold" style="width: 30px; height: 30px;">1</div>
+                            <div class="bg-success text-white rounded-circle d-flex align-items-center justify-content-center flex-shrink-0 mt-1 fw-bold" style="width: 32px; height: 32px; font-size: 1rem;">1</div>
                             <div class="ms-3">
-                                <p class="text-muted mb-0" style="line-height: 1.6;">
-                                    <strong>Teorema Pythagoras</strong>: Pada setiap segitiga siku-siku, kuadrat sisi miring (hipotenusa) selalu sama dengan jumlah kuadrat sisi siku-sikunya. Teorema ini hanya berlaku untuk bangun segitiga siku-siku.
+                                <p class="text-dark mb-0" style="line-height: 1.6;">
+                                    <strong>Teorema Pythagoras</strong>: Pada setiap segitiga siku-siku, kuadrat sisi miring (hipotenusa) selalu sama dengan jumlah kuadrat sisi siku-sikunya. Teorema ini hanya berlaku secara khusus untuk bangun segitiga siku-siku.
                                 </p>
                             </div>
                         </div>
 
-                        <hr class="border-secondary opacity-10 my-3">
+                        <hr class="border-secondary my-4">
 
                         <div class="d-flex align-items-start mb-3">
-                            <div class="bg-success text-white rounded-circle d-flex align-items-center justify-content-center flex-shrink-0 mt-1 fw-bold" style="width: 30px; height: 30px;">2</div>
-                            <div class="ms-3">
-                                <p class="text-muted mb-2" style="line-height: 1.6;">
-                                    <strong>Penerapan dalam Kehidupan Sehari-hari</strong>: Teorema Pythagoras digunakan untuk memecahkan masalah kontekstual yang tidak dapat diukur secara langsung. Kegunaan utamanya antara lain:
+                            <div class="bg-success text-white rounded-circle d-flex align-items-center justify-content-center flex-shrink-0 mt-1 fw-bold" style="width: 32px; height: 32px; font-size: 1rem;">2</div>
+                            <div class="ms-3 w-100">
+                                <p class="text-dark mb-2" style="line-height: 1.6;">
+                                    <strong>Penerapan dalam Kehidupan Sehari-hari</strong>: Teorema Pythagoras sangat berguna untuk memecahkan masalah kontekstual yang jaraknya tidak dapat diukur secara langsung. Kegunaan utamanya antara lain:
                                 </p>
-                                <ul class="text-muted mb-0 ps-3" style="line-height: 1.6;">
-                                    <li class="mb-1">Menghitung jarak terdekat atau jarak lurus antara dua titik/tempat.</li>
-                                    <li class="mb-1">Menentukan tinggi bangunan, menara, atau pohon.</li>
-                                    <li>Menghitung panjang kabel penahan, panjang lintasan miring, maupun tangga yang bersandar.</li>
-                                </ul>
+                                <div class="p-3 bg-light rounded-3 border border-secondary shadow-sm text-dark mt-2 small">
+                                    <ul class="mb-0 ps-3" style="line-height: 1.6;">
+                                        <li class="mb-1">Menghitung jarak terdekat atau jarak lurus antara dua titik/tempat.</li>
+                                        <li class="mb-1">Menentukan tinggi bangunan, menara, tebing, atau pohon.</li>
+                                        <li>Menghitung panjang lintasan miring, panjang kabel penahan tiang, maupun tangga yang bersandar.</li>
+                                    </ul>
+                                </div>
                             </div>
                         </div>
 
-                        <hr class="border-secondary opacity-10 my-3">
+                        <hr class="border-secondary my-4">
 
                         <div class="d-flex align-items-start mb-3">
-                            <div class="bg-success text-white rounded-circle d-flex align-items-center justify-content-center flex-shrink-0 mt-1 fw-bold" style="width: 30px; height: 30px;">3</div>
-                            <div class="ms-3">
-                                <p class="text-muted mb-0" style="line-height: 1.6;">
-                                    <strong>Langkah Penyelesaian Masalah Kontekstual</strong>: <br>
-                                    1. Membaca dan memahami inti masalah.<br>
-                                    2. Membuat sketsa gambar atau memodelkan masalah menjadi bentuk segitiga siku-siku.<br>
-                                    3. Menentukan sisi-sisi yang diketahui dan sisi yang ditanyakan.<br>
-                                    4. Menerapkan rumus Teorema Pythagoras untuk menyelesaikan perhitungan.<br>
-                                    5. Menafsirkan hasil perhitungan kembali ke dalam konteks masalah awal.
+                            <div class="bg-success text-white rounded-circle d-flex align-items-center justify-content-center flex-shrink-0 mt-1 fw-bold" style="width: 32px; height: 32px; font-size: 1rem;">3</div>
+                            <div class="ms-3 w-100">
+                                <p class="text-dark mb-2" style="line-height: 1.6;">
+                                    <strong>Langkah Penyelesaian Masalah Kontekstual</strong>:
                                 </p>
+                                <div class="p-3 bg-light rounded-3 border border-secondary shadow-sm text-dark mt-2 small">
+                                    <ol class="mb-0 ps-3" style="line-height: 1.6;">
+                                        <li class="mb-1">Membaca dan memahami inti masalah atau soal cerita.</li>
+                                        <li class="mb-1">Membuat <strong>sketsa gambar</strong> atau memodelkan masalah menjadi bentuk segitiga siku-siku.</li>
+                                        <li class="mb-1">Menentukan sisi-sisi yang diketahui ukurannya dan sisi yang ditanyakan.</li>
+                                        <li class="mb-1">Menerapkan <strong>Rumus Teorema Pythagoras</strong> untuk menyelesaikan perhitungan matematis.</li>
+                                        <li>Menafsirkan hasil perhitungan kembali ke dalam konteks masalah awal (memberikan kesimpulan).</li>
+                                    </ol>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -1213,55 +1219,58 @@
 
             <div class="col-md-12 mb-4">
                 <div class="card shadow-sm border-0">
-                    <div class="card-header text-center bg-light">
-                        <h4 class="mb-0">Refleksi Akhir Pembelajaran</h4>
+                    <div class="card-header text-center bg-light border-bottom border-success border-3">
+                        <h4 class="mb-1 fw-bold text-dark">Refleksi Akhir Pembelajaran</h4>
                         <small class="text-muted">
-                            Jawablah berdasarkan pemahamanmu terkait penerapan Teorema Pythagoras. Ini langkah terakhirmu!
+                            Jawablah berdasarkan pemahamanmu terkait penerapan Teorema Pythagoras. Ini adalah langkah terakhirmu!
                         </small>
                     </div>
 
                     <div class="card-body p-4 bg-white">
+                        <form id="formRefleksiMateri4" action="{{ url('/siswa/refleksi/simpan') }}" onsubmit="event.preventDefault(); simpanRefleksiPenerapan();">
+                            @csrf
+                            <input type="hidden" name="kode_materi" value="materi_penerapan_pythagoras">
 
-                        <div class="mb-4">
-                            <label class="fw-semibold mb-2 text-dark">
-                                1. Setelah mempelajari berbagai contoh penerapan, apakah menurutmu pembuatan sketsa (gambar) segitiga siku-siku sangat penting sebelum mulai menghitung?
-                            </label>
+                            <div class="mb-4">
+                                <label class="fw-semibold text-dark mb-2">
+                                    1. Setelah mempelajari berbagai contoh penerapan, apakah menurutmu pembuatan sketsa (gambar) segitiga siku-siku sangat penting sebelum mulai menghitung?
+                                </label>
 
-                            <div class="mb-2">
-                                <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" name="ref_penerapan_1" id="ref_penerapan_1_ya" value="sangat_penting">
-                                    <label class="form-check-label" for="ref_penerapan_1_ya">Sangat Penting</label>
+                                <div class="mb-2">
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input border-secondary cursor-pointer" type="radio" name="ref1_opsi" id="ref_penerapan_1_ya" value="sangat_penting" required>
+                                        <label class="form-check-label text-dark cursor-pointer" for="ref_penerapan_1_ya">Sangat Penting</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input border-secondary cursor-pointer" type="radio" name="ref1_opsi" id="ref_penerapan_1_tidak" value="tidak_penting" required>
+                                        <label class="form-check-label text-dark cursor-pointer" for="ref_penerapan_1_tidak">Tidak Terlalu Penting</label>
+                                    </div>
                                 </div>
-                                <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" name="ref_penerapan_1" id="ref_penerapan_1_tidak" value="tidak_penting">
-                                    <label class="form-check-label" for="ref_penerapan_1_tidak">Tidak Terlalu Penting</label>
-                                </div>
+
+                                <textarea name="ref1_text" id="ref_penerapan_1_text" class="form-control border-secondary shadow-sm" rows="3" placeholder="Jelaskan alasanmu di sini..." required></textarea>
                             </div>
 
-                            <textarea class="form-control shadow-sm" rows="3" id="ref_penerapan_1_text" placeholder="Jelaskan alasanmu di sini..."></textarea>
-                        </div>
+                            <div class="mb-4">
+                                <label class="fw-semibold text-dark mb-2">
+                                    2. Coba perhatikan lingkungan di sekitarmu (rumah, sekolah, atau jalanan). Sebutkan satu masalah atau situasi nyata yang bisa kamu selesaikan menggunakan Teorema Pythagoras!
+                                </label>
+                                <textarea name="ref2" id="ref_penerapan_2_text" class="form-control border-secondary shadow-sm" rows="3" placeholder="Tuliskan situasi yang kamu temukan..." required></textarea>
+                            </div>
 
-                        <div class="mb-4">
-                            <label class="fw-semibold mb-2 text-dark">
-                                2. Coba perhatikan lingkungan di sekitarmu (rumah, sekolah, atau jalanan). Sebutkan satu masalah atau situasi nyata yang bisa kamu selesaikan menggunakan Teorema Pythagoras!
-                            </label>
-                            <textarea class="form-control shadow-sm" rows="3" id="ref_penerapan_2_text" placeholder="Tuliskan situasi yang kamu temukan..."></textarea>
-                        </div>
+                            <div id="refleksi_feedback_penerapan" class="text-center w-100 mb-3"></div>
 
-                        <div class="text-center mt-4">
-                            <p class="text-muted small">Setelah menyimpan refleksi ini, bersiaplah untuk mengerjakan kuis guna menguji seluruh pemahamanmu tentang Teorema Pythagoras.</p>
-                        </div>
-
-                        <div class="text-center mt-4 border-top pt-4">
-                            <button class="btn btn-success fw-bold shadow-sm px-4" onclick="cekRefleksiPenerapan()">
-                                <i class="fas fa-save me-1"></i> Simpan Refleksi
-                            </button>
-                        </div>
-
+                            <div class="text-center mt-4">
+                                <p class="text-muted small mb-3">Setelah menyimpan refleksi ini, bersiaplah untuk mengerjakan kuis guna menguji seluruh pemahamanmu tentang Teorema Pythagoras.</p>
+                                <button type="submit" id="btnSimpanRefleksiPenerapan" class="btn btn-success fw-bold shadow-sm px-5">
+                                    <i class="fas fa-save me-1"></i> Simpan Refleksi
+                                </button>
+                            </div>
+                        </form>
 
                     </div>
                 </div>
             </div>
+
         </div>
     </section>
 

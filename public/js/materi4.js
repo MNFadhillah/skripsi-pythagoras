@@ -761,123 +761,70 @@ function showAnswerS3() {
         feedback.innerHTML = '<span class="text-primary fw-bold">Ini adalah jawaban yang benar.</span>';
     }
 }
+/* =====================================================
+   REFLEKSI AKHIR (PENERAPAN PYTHAGORAS - MATERI 4)
+===================================================== */
+function simpanRefleksiPenerapan() {
+    const form = document.getElementById('formRefleksiMateri4');
+    const formData = new FormData(form);
+    const btnSubmit = document.getElementById('btnSimpanRefleksiPenerapan');
+    const feedbackArea = document.getElementById('refleksi_feedback_penerapan');
 
-// ==========================================
-// 6. VALIDASI REFLEKSI & SIMPAN PROGRESS (Materi 4)
-// ==========================================
-async function cekRefleksiPenerapan() {
-    const r1 = document.querySelector('input[name="ref_penerapan_1"]:checked');
-    const r1_text = document.getElementById('ref_penerapan_1_text').value.trim();
-    const r2_text = document.getElementById('ref_penerapan_2_text').value.trim();
-
-    // 1. Validasi
-    if (!r1 || r1_text === "" || r2_text === "") {
-        Swal.fire({
-            icon: 'warning',
-            title: 'Kolom Kosong',
-            text: 'Tolong pilih dan isi semua tanggapan refleksi dengan pemikiranmu sendiri ya!',
-            confirmButtonColor: '#198754'
-        });
+    // Validasi HTML5 bawaan
+    if (!form.checkValidity()) {
+        form.reportValidity();
         return;
     }
 
-    // 2. Siapkan Payload JSON
-    const dataRefleksi = {
-        kode_materi: 'materi_4_penerapan_pythagoras',
-        status_sketsa: r1.value,
-        alasan_sketsa: r1_text,
-        contoh_nyata: r2_text
-    };
+    // Ubah tombol jadi loading
+    btnSubmit.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Menyimpan...';
+    btnSubmit.disabled = true;
+    feedbackArea.innerHTML = '';
 
-    try {
-        const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+    const targetUrl = form.getAttribute('action');
 
-        // Animasi tombol loading
-        const btnSubmit = document.querySelector('button[onclick="cekRefleksiPenerapan()"]');
-        const originalText = btnSubmit.innerHTML;
-        btnSubmit.innerText = "Menyimpan...";
-        btnSubmit.disabled = true;
+    fetch(targetUrl, {
+        method: 'POST',
+        body: formData,
+        headers: {
+            'X-Requested-With': 'XMLHttpRequest'
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.status === 'success') {
+            feedbackArea.innerHTML = `<div class="alert alert-success py-2 small fw-bold mb-0">${data.message}</div>`;
+            btnSubmit.innerHTML = 'Tersimpan <i class="fas fa-check ms-1"></i>';
+            btnSubmit.classList.replace('btn-success', 'btn-secondary');
 
-        // 3. Kirim ke Database
-        const response = await fetch('/siswa/refleksi/simpan', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'X-CSRF-TOKEN': csrfToken,
-                'Accept': 'application/json'
-            },
-            body: JSON.stringify(dataRefleksi)
-        });
+            // Simpan ke progres PythaLearn (10 Poin)
+            // PASTIKAN ID 'm4_cp_refleksi_akhir' ADA DI DATABASE ANDA
+            if (typeof simpanProgressMateri4 === 'function') {
+                simpanProgressMateri4('m4_cp_refleksi_akhir', 10, false);
+            }
 
-        const result = await response.json();
-
-        // 4. Jika Berhasil
-        if (response.ok) {
-
-            simpanProgressMateri4('m4_cp8_refleksi', 10);
-            kunciFormRefleksiPenerapan();
-            
-            Swal.fire({
-                icon: 'success',
-                title: '+10 Poin!',
-                text: 'Refleksi pemahamanmu berhasil disimpan. Selamat, kamu telah menuntaskan seluruh materi Bab Teorema Pythagoras!',
-                confirmButtonColor: '#198754',
-                confirmButtonText: '<i class="fas fa-flag-checkered me-2"></i> Selesai',
-                allowOutsideClick: false
-            }).then((resultAlert) => {
-                if (resultAlert.isConfirmed) {
-
-                    kunciFormRefleksiPenerapan();
-
-                    Swal.fire({
-                        title: 'Siap Menguji Diri?',
-                        text: 'Silakan persiapkan diri dengan baik sebelum beralih ke menu Evaluasi/Kuis Utama.',
-                        icon: 'info',
-                        confirmButtonColor: '#0d6efd'
-                    });
-                }
-            });
-
+            // Memanggil pop-up sukses SweetAlert
+            if (typeof swalLatihanMateri4 === 'function') { 
+                swalLatihanMateri4('button[onclick="simpanRefleksiPenerapan()"]', {
+                    icon: 'success',
+                    title: '+10 Poin!',
+                    html: 'Refleksi akhirmu berhasil disimpan.<br><small class="text-muted">Siap untuk Kuis 4? Ayo buktikan kemampuanmu!</small>',
+                    confirmButtonColor: '#198754'
+                });
+            }
         } else {
-            Swal.fire({ icon: 'error', title: 'Gagal', text: result.message || 'Terjadi kesalahan sistem.', confirmButtonColor: '#dc3545' });
-            btnSubmit.innerHTML = originalText;
+            feedbackArea.innerHTML = `<div class="alert alert-danger py-2 small fw-bold mb-0">Gagal menyimpan data.</div>`;
+            btnSubmit.innerHTML = 'Coba Lagi';
             btnSubmit.disabled = false;
         }
-
-    } catch (error) {
-        console.error('Error:', error);
-        Swal.fire({ icon: 'error', title: 'Koneksi Terputus', text: 'Gagal terhubung ke server. Periksa jaringanmu.', confirmButtonColor: '#dc3545' });
-
-        const btnSubmit = document.querySelector('button[onclick="cekRefleksiPenerapan()"]');
-        if (btnSubmit) {
-            btnSubmit.innerHTML = '<i class="fas fa-save me-1"></i> Simpan Refleksi';
-            btnSubmit.disabled = false;
-        }
-    }
-}
-
-// Fungsi Helper untuk mengunci input
-function kunciFormRefleksiPenerapan() {
-    ['ref_penerapan_1_ya', 'ref_penerapan_1_tidak'].forEach(id => {
-        const el = document.getElementById(id);
-        if (el) el.disabled = true;
+    })
+    .catch(error => {
+        console.error('Error Refleksi M4:', error);
+        feedbackArea.innerHTML = `<div class="alert alert-danger py-2 small fw-bold mb-0">Terjadi kesalahan koneksi server.</div>`;
+        btnSubmit.innerHTML = 'Simpan Refleksi';
+        btnSubmit.disabled = false;
     });
-
-    ['ref_penerapan_1_text', 'ref_penerapan_2_text'].forEach(id => {
-        const el = document.getElementById(id);
-        if (el) {
-            el.disabled = true;
-            el.classList.add('is-valid');
-        }
-    });
-
-    const btn = document.querySelector('button[onclick="cekRefleksiPenerapan()"]');
-    if (btn) {
-        btn.disabled = true;
-        btn.innerHTML = '<i class="fas fa-check-circle me-1"></i> Refleksi Tersimpan';
-    }
 }
-
 /* =====================================================
    AKTIFASI MODE REVIEW UNTUK MATERI 4 (FULL)
    Menampilkan ulang jawaban jika checkpoint sudah selesai
@@ -1090,12 +1037,34 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         );
 
-    }
+        // ---------------------------------------------------------
+        // Review Mode: Refleksi Belajar Materi 4 (Penerapan)
+        // ---------------------------------------------------------
+        window.setupReviewMode(
+            'm4_cp_refleksi_akhir', // <-- Sesuaikan dengan ID checkpoint yang benar di sistem Anda
+            '#btnSimpanRefleksiPenerapan',
+            function showAnswer() {
+                const form = document.getElementById('formRefleksiMateri4');
+                if (form) {
+                    form.querySelectorAll('textarea, input').forEach(el => {
+                        el.disabled = true;
+                    });
+                }
 
-    if (
-        Array.isArray(window.completedCheckpoints) &&
-        window.completedCheckpoints.includes('m4_cp8_refleksi')
-    ) {
-        kunciFormRefleksiPenerapan();
+                const btnSubmit = document.getElementById('btnSimpanRefleksiPenerapan');
+                if (btnSubmit) {
+                    btnSubmit.innerHTML = 'Tersimpan <i class="fas fa-check ms-1"></i>';
+                    btnSubmit.classList.replace('btn-success', 'btn-secondary');
+                    btnSubmit.disabled = true;
+                }
+
+                const feedbackArea = document.getElementById('refleksi_feedback_penerapan');
+                if (feedbackArea) {
+                    feedbackArea.innerHTML = `<div class="alert alert-success py-2 small fw-bold mb-0"><i class="fas fa-info-circle me-1"></i> Kamu sudah menyelesaikan refleksi akhir ini.</div>`;
+                }
+            },
+            null // <-- Kunci fungsi ini agar form refleksi TIDAK DIBERSIHKAN saat mengulang latihan materi.
+        );
+
     }
 });
