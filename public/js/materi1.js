@@ -109,15 +109,6 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
-    let cekSoal3 = document.getElementById('soal3_c2');
-    if (cekSoal3) {
-        cekSoal3.value = 225;
-        document.getElementById('soal3_a2').value = 81;
-        document.getElementById('soal3_b2').value = 144;
-        document.getElementById('soal3_c2_val').value = 225;
-        document.getElementById('soal3_a2_val').value = 81;
-        document.getElementById('soal3_b2_val').value = 144;
-    }
 });
 
 function simpanProgressMateri1(checkpointCode, points = 0, isSilent = true) {
@@ -261,32 +252,105 @@ function resetHighlight() {
     if (feedback) feedback.innerHTML = '';
 }
 
+let attemptSegitiga = 0;
 // Fungsi kuis di bawah ini sudah bagus, tidak perlu diubah
 function cekJawabanSegitigaSikuSiku() {
     const input = document.getElementById('inputJawaban');
     if (!input) return;
-    const feedback = document.getElementById('feedbackPesan');
+
     const jawaban = input.value;
     const penjelasanBox = document.getElementById('penjelasan-pythagoras');
+    const buttonSelector = 'button[onclick="cekJawabanSegitigaSikuSiku()"]';
 
-    feedback.className = 'fw-bold text-center mt-3';
+    // 1. Verifikasi jika pilihan masih kosong
     if (jawaban === '') {
-        feedback.classList.add('text-warning');
-        feedback.innerHTML = 'Silakan pilih jenis segitiga terlebih dahulu.';
-        if (penjelasanBox) penjelasanBox.classList.add('d-none');
-    } else if (jawaban === 'siku-siku') {
-        feedback.classList.add('text-success');
-        feedback.innerHTML = 'Tepat Sekali! Segitiga yang terbentuk adalah segitiga siku-siku.';
+        Swal.fire({
+            icon: 'warning',
+            title: 'Belum Memilih',
+            text: 'Silakan pilih jenis segitiga terlebih dahulu.',
+            confirmButtonColor: '#ffc107'
+        });
+        return;
+    }
+
+    attemptSegitiga++;
+
+    // 2. Jika Jawaban Benar
+    if (jawaban === 'siku-siku') {
+        setValidasiElTripel('inputJawaban', true);
+
+        // Simpan progress poin (10 Poin)
+        simpanProgressMateri1('m1_cp1_segitiga_jembatan', 10);
+
+        // Munculkan kotak penjelasan materi
         if (penjelasanBox) {
             penjelasanBox.classList.remove('d-none');
             setTimeout(() => penjelasanBox.scrollIntoView({ behavior: 'smooth', block: 'nearest' }), 300);
         }
-        simpanProgressMateri1('m1_cp1_segitiga_jembatan', 10);
+
+        swalLatihanMateri1(buttonSelector, {
+            icon: 'success',
+            title: '+10 Poin!',
+            html: 'Tepat Sekali! Segitiga yang terbentuk adalah segitiga siku-siku.<br><small class="text-muted">Pertahankan semangat belajarmu!</small>',
+            confirmButtonColor: '#198754'
+        }).then(() => {
+            selesaikanAktivitasMateri1(buttonSelector, resetSegitiga);
+        });
+
+        // 3. Jika Jawaban Salah & Kesempatan Mengulang Sudah Habis
+    } else if (attemptSegitiga >= MAX_ATTEMPT_LATIHAN) {
+        Swal.fire({
+            icon: 'info',
+            title: 'Kesempatan Habis',
+            text: 'Mari kita lihat jawaban yang tepat.',
+            confirmButtonText: 'Tampilkan Jawaban',
+            confirmButtonColor: '#0d6efd',
+            allowOutsideClick: false
+        }).then(() => {
+            // Isikan jawaban benar secara otomatis
+            input.value = 'siku-siku';
+            setValidasiElTripel('inputJawaban', true);
+            input.disabled = true;
+
+            // Tampilkan penjelasan materi
+            if (penjelasanBox) {
+                penjelasanBox.classList.remove('d-none');
+                setTimeout(() => penjelasanBox.scrollIntoView({ behavior: 'smooth', block: 'nearest' }), 300);
+            }
+
+            selesaikanKesempatanHabisMateri1(
+                'm1_cp1_segitiga_jembatan',
+                buttonSelector,
+                resetSegitiga
+            );
+        });
+
+        // 4. Jika Jawaban Salah & Masih Ada Kesempatan Mengulang
     } else {
-        feedback.classList.add('text-danger');
-        feedback.innerHTML = 'Kurang tepat. Coba perhatikan kembali setiap sudut yang ada pada segitiga.';
+        setValidasiElTripel('inputJawaban', false);
         if (penjelasanBox) penjelasanBox.classList.add('d-none');
+
+        swalLatihanMateri1(buttonSelector, {
+            icon: 'error',
+            title: 'Kurang Tepat',
+            text: `Coba perhatikan kembali setiap sudut yang ada pada segitiga. Sisa kesempatan: ${MAX_ATTEMPT_LATIHAN - attemptSegitiga}`,
+            confirmButtonColor: '#dc3545'
+        });
     }
+}
+
+// Tambahkan juga fungsi reset pendukung khusus untuk elemen segitiga ini
+function resetSegitiga() {
+    const input = document.getElementById('inputJawaban');
+    if (input) {
+        input.value = '';
+        input.disabled = false;
+        // Opsional: Hapus kelas validasi dari elemen jika setValidasiElTripel menambahkannya
+        input.classList.remove('is-valid', 'is-invalid');
+    }
+    attemptSegitiga = 0;
+    const penjelasanBox = document.getElementById('penjelasan-pythagoras');
+    if (penjelasanBox) penjelasanBox.classList.add('d-none');
 }
 
 const MATERI1_AKTIVITAS = {
@@ -367,6 +431,8 @@ const MATERI1_AKTIVITAS = {
     }
 };
 
+
+
 /* =====================================================
    2. MATERI 1: DRAG & DROP SISI
 ===================================================== */
@@ -386,9 +452,12 @@ function initDragAndDropPage1() {
         item.style.cursor = 'grab';
         item.ondragstart = (e) => {
             if (isGameLocked) { e.preventDefault(); return; }
-            e.dataTransfer.setData('text/plain', e.target.id);
-            e.dataTransfer.effectAllowed = 'move';
-            setTimeout(() => e.target.classList.add('hide-while-dragging'), 0);
+            const targetItem = e.target.closest('.drag-item');
+            if (targetItem) {
+                e.dataTransfer.setData('text/plain', targetItem.id);
+                e.dataTransfer.effectAllowed = 'move';
+                setTimeout(() => targetItem.classList.add('hide-while-dragging'), 0);
+            }
         };
         item.ondragend = (e) => {
             e.target.classList.remove('hide-while-dragging');
@@ -800,90 +869,35 @@ function initPageAkar() {
 }
 document.addEventListener('DOMContentLoaded', initPageAkar);
 
+function pilihRumusAnalisis(status, btn) {
+    // Cari baris kelompok tombol yang sama
+    const container = btn.closest('.row');
+    
+    // Reset semua tombol di kelompok tersebut ke kondisi semula
+    container.querySelectorAll('.btn-pilihan').forEach(b => {
+        b.classList.remove('is-selected', 'btn-dark', 'text-white');
+        b.classList.add('btn-outline-dark');
+        b.removeAttribute('data-status'); // Bersihkan status lama
+    });
+    
+    // Aktifkan tombol yang diklik oleh siswa
+    btn.classList.remove('btn-outline-dark');
+    btn.classList.add('is-selected', 'btn-dark', 'text-white');
+    btn.setAttribute('data-status', status); // Set status untuk dibaca js
+}
+
 /* =====================================================
    MATERI 1: AYO BERLATIH ANALISIS 1, 2, 3
 ===================================================== */
 const MAX_ATTEMPT_LATIHAN = 3;
-let attemptLatihan1 = 0, attemptLatihan2 = 0, attemptLatihan3 = 0;
-
-function setValidVisual(el) {
-    if (!el) return;
-    el.classList.remove('border-danger', 'text-danger', 'border-secondary', 'bg-light', 'text-muted', 'border-dark', 'text-dark', 'btn-dark', 'btn-outline-dark', 'bg-light-danger');
-    el.classList.add('border-success', 'text-success', 'is-valid');
-    if (el.classList.contains('btn-pilihan')) el.classList.add('btn-success', 'text-white');
-}
-
-function setInvalidVisual(el) {
-    if (!el) return;
-    el.classList.remove('border-success', 'text-success', 'border-secondary', 'bg-light', 'text-muted', 'border-dark', 'text-dark', 'btn-dark', 'btn-outline-dark', 'is-valid');
-    el.classList.add('border-danger', 'text-danger', 'is-invalid');
-    if (el.classList.contains('drop-zone')) el.classList.add('bg-light-danger');
-    if (el.classList.contains('btn-pilihan')) el.classList.add('btn-danger', 'text-white');
-}
-
-function setGreyVisual(el) {
-    if (!el) return;
-    el.classList.remove('border-danger', 'text-danger', 'border-success', 'text-success', 'border-dark', 'text-dark', 'bg-light-danger', 'is-invalid', 'is-valid');
-    el.classList.add('border-secondary', 'bg-light', 'text-muted');
-    if (el.tagName === 'INPUT' || el.tagName === 'SELECT') el.disabled = true;
-}
-
-function pilihRumusAnalisis(status, btn) {
-    const container = btn.closest('.row');
-    container.querySelectorAll('.btn-pilihan').forEach(b => {
-        b.classList.remove('btn-success', 'btn-danger', 'btn-dark', 'text-white', 'is-selected');
-        b.classList.add('btn-outline-dark');
-        b.dataset.status = 'salah';
-    });
-    btn.classList.remove('btn-outline-dark');
-    btn.classList.add('btn-dark', 'text-white', 'is-selected');
-    btn.dataset.status = status;
-}
-
-function resetLatihanAnalisis1() {
-    const tanya = document.getElementById('s1_tanya');
-    const diket1 = document.getElementById('s1_diketahui_1');
-    const diket2 = document.getElementById('s1_diketahui_2');
-    const feedback = document.getElementById('s1_feedback');
-
-    [tanya, diket1, diket2].forEach(el => {
-        if (el) {
-            el.value = '';
-            el.disabled = false;
-            el.classList.remove(
-                'is-valid', 'is-invalid',
-                'border-success', 'border-danger',
-                'text-success', 'text-danger',
-                'border-secondary', 'bg-light', 'text-muted'
-            );
-        }
-    });
-
-    const cardBody = tanya ? tanya.closest('.card-body') : null;
-    if (cardBody) {
-        cardBody.querySelectorAll('.btn-pilihan').forEach(btn => {
-            btn.disabled = false;
-            btn.dataset.status = 'salah';
-            btn.classList.remove(
-                'btn-success', 'btn-danger', 'btn-dark',
-                'text-white', 'is-selected',
-                'is-valid', 'is-invalid',
-                'border-success', 'border-danger'
-            );
-            btn.classList.add('btn-outline-dark');
-        });
-    }
-
-    if (feedback) feedback.innerText = '';
-
-    attemptLatihan1 = 0;
-}
+let attemptLatihan1 = 0;
 
 function cekLatihanAnalisis1() {
-    const tanya = document.getElementById('s1_tanya');
-    const diket1 = document.getElementById('s1_diketahui_1');
-    const diket2 = document.getElementById('s1_diketahui_2');
+    const tanya = document.getElementById('s1_tanya'),
+        diket1 = document.getElementById('s1_diketahui_1'),
+        diket2 = document.getElementById('s1_diketahui_2');
     if (!tanya) return;
+
     const btnGroups = document.getElementById('s1_tanya').closest('.card-body').querySelectorAll('.row.g-2, .row.g-3');
     const btnOp = btnGroups[0] ? btnGroups[0].querySelector('.is-selected') : null;
     const btnRumus = btnGroups[1] ? btnGroups[1].querySelector('.is-selected') : null;
@@ -895,95 +909,79 @@ function cekLatihanAnalisis1() {
 
     attemptLatihan1++;
     let benarSemua = true;
+
     if (tanya.value === 'miring') setValidVisual(tanya);
-    else {
-        setInvalidVisual(tanya);
-        benarSemua = false;
-    }
+    else { setInvalidVisual(tanya); benarSemua = false; }
 
     const valDiket = [diket1.value.trim().toUpperCase(), diket2.value.trim().toUpperCase()];
     if (valDiket.includes('AB') && valDiket.includes('BC')) {
-        setValidVisual(diket1);
-        setValidVisual(diket2);
+        setValidVisual(diket1); setValidVisual(diket2);
     } else {
-        if (!['AB', 'BC'].includes(valDiket[0])) setInvalidVisual(diket1);
-        else setValidVisual(diket1);
-        if (!['AB', 'BC'].includes(valDiket[1])) setInvalidVisual(diket2);
-        else setValidVisual(diket2);
+        if (!['AB', 'BC'].includes(valDiket[0])) setInvalidVisual(diket1); else setValidVisual(diket1);
+        if (!['AB', 'BC'].includes(valDiket[1])) setInvalidVisual(diket2); else setValidVisual(diket2);
         benarSemua = false;
     }
 
     if (btnOp.dataset.status === 'benar') setValidVisual(btnOp);
-    else {
-        setInvalidVisual(btnOp);
-        benarSemua = false;
-    }
+    else { setInvalidVisual(btnOp); benarSemua = false; }
+
     if (btnRumus.dataset.status === 'benar') setValidVisual(btnRumus);
-    else {
-        setInvalidVisual(btnRumus);
-        benarSemua = false;
-    }
+    else { setInvalidVisual(btnRumus); benarSemua = false; }
 
     if (benarSemua) {
-        document.getElementById('s1_feedback').innerText = "Tepat sekali!";
+        document.getElementById('s1_feedback').innerText = 'Tepat sekali!';
         simpanProgressMateri1('m1_cp12_latihan_1', 20);
+        swalLatihanMateri1('button[onclick="cekLatihanAnalisis1()"]', { icon: 'success', title: '+20 Poin!', html: 'Semua analisismu benar.<br><small class="text-muted">Keren! Kamu sangat teliti.</small>', confirmButtonColor: '#198754' })
+            .then(() => { selesaikanAktivitasMateri1('button[onclick="cekLatihanAnalisis1()"]', resetLatihanAnalisis1); });
 
-        swalLatihanMateri1('button[onclick="cekLatihanAnalisis1()"]', {
-            icon: 'success',
-            title: '+20 Poin!',
-            html: 'Semua analisismu benar.<br><small class="text-muted">Keren! Kamu sangat teliti.</small>',
-            confirmButtonColor: '#198754'
-        }).then(() => {
-            selesaikanAktivitasMateri1(
-                'button[onclick="cekLatihanAnalisis1()"]',
-                resetLatihanAnalisis1
-            );
-        });
     } else if (attemptLatihan1 >= MAX_ATTEMPT_LATIHAN) {
-        Swal.fire({ icon: 'info', title: 'Kesempatan Habis', text: 'Mari kita lihat jawaban yang tepat.', confirmButtonText: 'Tampilkan Jawaban', confirmButtonColor: '#0d6efd', allowOutsideClick: false }).then(() => {
-            if (tanya.value !== 'miring') {
-                setValidVisual(tanya);
-                tanya.value = 'miring';
-            }
-            if (!['AB', 'BC'].includes(diket1.value.trim().toUpperCase())) {
-                setValidVisual(diket1);
-                diket1.value = 'AB';
-            }
-            if (!['AB', 'BC'].includes(diket2.value.trim().toUpperCase())) {
-                setValidVisual(diket2);
-                diket2.value = 'BC';
-            }
-            if (btnOp && btnOp.dataset.status !== 'benar') {
-                setValidVisual(btnOp);
-                const correctBtn = btnGroups[0].querySelector('[onclick*="benar"]');
-                if (correctBtn) correctBtn.classList.replace('btn-outline-dark', 'btn-success');
-                correctBtn.classList.add('text-white');
-            }
-            if (btnRumus && btnRumus.dataset.status !== 'benar') {
-                setValidVisual(btnRumus);
-                const correctBtn = btnGroups[1].querySelector('[onclick*="benar"]');
-                if (correctBtn) correctBtn.classList.replace('btn-outline-dark', 'btn-success');
-                correctBtn.classList.add('text-white');
-            }
-            tanya.disabled = true;
-            diket1.disabled = true;
-            diket2.disabled = true;
-            btnGroups.forEach(row => row.querySelectorAll('button').forEach(b => b.disabled = true));
+        Swal.fire({ icon: 'info', title: 'Kesempatan Habis', text: 'Mari kita lihat jawaban yang tepat.', confirmButtonText: 'Tampilkan Jawaban', confirmButtonColor: '#0d6efd', allowOutsideClick: false })
+            .then(() => {
+                if (tanya.value !== 'miring') { setValidVisual(tanya); tanya.value = 'miring'; }
+                if (!['AB', 'BC'].includes(diket1.value.trim().toUpperCase())) { setValidVisual(diket1); diket1.value = 'AB'; }
+                if (!['AB', 'BC'].includes(diket2.value.trim().toUpperCase())) { setValidVisual(diket2); diket2.value = 'BC'; }
+                tanya.disabled = true; diket1.disabled = true; diket2.disabled = true;
+                btnGroups.forEach(row => row.querySelectorAll('button').forEach(b => b.disabled = true));
+                selesaikanKesempatanHabisMateri1('m1_cp12_latihan_1', 'button[onclick="cekLatihanAnalisis1()"]', resetLatihanAnalisis1);
+            });
 
-            selesaikanKesempatanHabisMateri1(
-                'm1_cp12_latihan_1',
-                'button[onclick="cekLatihanAnalisis1()"]',
-                resetLatihanAnalisis1
-            );
-        });
     } else {
-        swalLatihanMateri1('button[onclick="cekLatihanAnalisis1()"]', {
-            icon: 'error',
-            title: 'Kurang Tepat',
-            text: `Jawabanmu ada yang salah. Sisa kesempatan: ${MAX_ATTEMPT_LATIHAN - attemptLatihan1}`,
-            confirmButtonColor: '#dc3545'
-        });
+        swalLatihanMateri1('button[onclick="cekLatihanAnalisis1()"]', { icon: 'error', title: 'Kurang Tepat', text: `Jawabanmu ada yang salah. Sisa kesempatan: ${MAX_ATTEMPT_LATIHAN - attemptLatihan1}`, confirmButtonColor: '#dc3545' });
     }
+}
+
+/* fungsi bantu visual dipindahkan ke bawah */
+function setValidVisual(el) {
+    if (!el) return;
+    el.classList.remove(
+        'border-danger', 'text-danger', 'border-secondary',
+        'bg-light', 'text-muted', 'border-dark', 'text-dark',
+        'btn-dark', 'btn-outline-dark', 'bg-light-danger'
+    );
+    el.classList.add('border-success', 'text-success', 'is-valid');
+    if (el.classList.contains('btn-pilihan')) {
+        el.classList.add('btn-success', 'text-white');
+    }
+}
+
+function setInvalidVisual(el) {
+    if (!el) return;
+    el.classList.remove(
+        'border-success', 'text-success', 'border-secondary',
+        'bg-light', 'text-muted', 'border-dark', 'text-dark',
+        'btn-dark', 'btn-outline-dark', 'is-valid'
+    );
+    el.classList.add('border-danger', 'text-danger', 'is-invalid');
+    if (el.classList.contains('drop-zone')) {
+        el.classList.add('bg-light-danger');
+    }
+    if (el.classList.contains('btn-pilihan')) {
+        el.classList.add('btn-danger', 'text-white');
+    }
+}
+
+function resetLatihanAnalisis1() {
+    // dst.
 }
 
 function setupDragAndDrop(containerId, targetPrefix) {
@@ -996,12 +994,17 @@ function setupDragAndDrop(containerId, targetPrefix) {
         const newItem = item.cloneNode(true);
         item.parentNode.replaceChild(newItem, item);
         newItem.addEventListener('dragstart', function (e) {
-            e.dataTransfer.setData('text/plain', e.target.id);
-            e.dataTransfer.effectAllowed = 'move';
-            setTimeout(() => e.target.style.opacity = '0.5', 0);
+            const targetItem = e.target.closest('.draggable-item'); // AMAN
+            if (targetItem) {
+                e.dataTransfer.setData('text/plain', targetItem.id);
+                e.dataTransfer.effectAllowed = 'move';
+                setTimeout(() => targetItem.style.opacity = '0.5', 0);
+            }
         });
+
         newItem.addEventListener('dragend', function (e) {
-            e.target.style.opacity = '1';
+            const targetItem = e.target.closest('.draggable-item');
+            if (targetItem) targetItem.style.opacity = '1';
         });
     });
 
@@ -1057,6 +1060,7 @@ function initDragDropSoal3() {
     setupDragAndDrop('drag-items-container-s3', 's3_');
 }
 
+let attemptLatihan2 = 0
 function resetLatihanAnalisis2() {
     const idsInput = [
         's2_inp_mo_1',
@@ -1285,6 +1289,7 @@ function cekLatihanAnalisis2() {
     }
 }
 
+let attemptLatihan3 = 0;
 function resetSoal3() {
     const container = document.getElementById('soal3-container');
     const dragContainer = document.getElementById('drag-items-container-s3');
@@ -2442,45 +2447,45 @@ function cekRefleksi() {
             'X-Requested-With': 'XMLHttpRequest'
         }
     })
-    .then(response => response.json())
-    .then(data => {
-        if(data.status === 'success') {
-            // Berikan feedback text di bawah kotak
-            feedbackArea.innerHTML = `<div class="alert alert-success py-2 small fw-bold mb-0">${data.message}</div>`;
-            btnSubmit.innerHTML = 'Tersimpan <i class="fas fa-check ms-1"></i>';
-            btnSubmit.classList.replace('btn-success', 'btn-secondary');
-            
-            // Simpan progres ke database (bernilai 10 Poin sesuai MATERI1_AKTIVITAS)
-            if (typeof simpanProgressMateri1 === 'function') {
-                simpanProgressMateri1('m1_cp15_refleksi_akhir', 10);
-            }
+        .then(response => response.json())
+        .then(data => {
+            if (data.status === 'success') {
+                // Berikan feedback text di bawah kotak
+                feedbackArea.innerHTML = `<div class="alert alert-success py-2 small fw-bold mb-0">${data.message}</div>`;
+                btnSubmit.innerHTML = 'Tersimpan <i class="fas fa-check ms-1"></i>';
+                btnSubmit.classList.replace('btn-success', 'btn-secondary');
 
-            // MUNCULKAN SWEETALERT +10 POIN
-            if (typeof swalLatihanMateri1 === 'function') {
-                swalLatihanMateri1('#btnSimpanRefleksi', {
-                    icon: 'success',
-                    title: '+10 Poin!',
-                    html: 'Terima kasih sudah mengisi refleksi belajarmu dengan jujur!<br><small class="text-muted">Progres belajarmu telah berhasil tersimpan.</small>',
-                    confirmButtonColor: '#198754'
-                }).then(() => {
-                    // Opsional: Gulir sedikit ke bawah agar teks "lanjut ke Kuis 1" terlihat
-                    const nextText = document.querySelector('.materi-page[data-page="5"] .border-top p');
-                    if (nextText) nextText.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                });
-            }
+                // Simpan progres ke database (bernilai 10 Poin sesuai MATERI1_AKTIVITAS)
+                if (typeof simpanProgressMateri1 === 'function') {
+                    simpanProgressMateri1('m1_cp15_refleksi_akhir', 10);
+                }
 
-        } else {
-            feedbackArea.innerHTML = `<div class="alert alert-danger py-2 small fw-bold mb-0">Gagal menyimpan data.</div>`;
-            btnSubmit.innerHTML = 'Coba Lagi';
+                // MUNCULKAN SWEETALERT +10 POIN
+                if (typeof swalLatihanMateri1 === 'function') {
+                    swalLatihanMateri1('#btnSimpanRefleksi', {
+                        icon: 'success',
+                        title: '+10 Poin!',
+                        html: 'Terima kasih sudah mengisi refleksi belajarmu dengan jujur!<br><small class="text-muted">Progres belajarmu telah berhasil tersimpan.</small>',
+                        confirmButtonColor: '#198754'
+                    }).then(() => {
+                        // Opsional: Gulir sedikit ke bawah agar teks "lanjut ke Kuis 1" terlihat
+                        const nextText = document.querySelector('.materi-page[data-page="5"] .border-top p');
+                        if (nextText) nextText.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    });
+                }
+
+            } else {
+                feedbackArea.innerHTML = `<div class="alert alert-danger py-2 small fw-bold mb-0">Gagal menyimpan data.</div>`;
+                btnSubmit.innerHTML = 'Coba Lagi';
+                btnSubmit.disabled = false;
+            }
+        })
+        .catch(error => {
+            console.error('Error Refleksi:', error);
+            feedbackArea.innerHTML = `<div class="alert alert-danger py-2 small fw-bold mb-0">Terjadi kesalahan koneksi ke server.</div>`;
+            btnSubmit.innerHTML = 'Simpan Refleksi';
             btnSubmit.disabled = false;
-        }
-    })
-    .catch(error => {
-        console.error('Error Refleksi:', error);
-        feedbackArea.innerHTML = `<div class="alert alert-danger py-2 small fw-bold mb-0">Terjadi kesalahan koneksi ke server.</div>`;
-        btnSubmit.innerHTML = 'Simpan Refleksi';
-        btnSubmit.disabled = false;
-    });
+        });
 }
 
 /* =====================================================
@@ -3192,3 +3197,4 @@ document.addEventListener('DOMContentLoaded', function () {
         );
     }
 });
+

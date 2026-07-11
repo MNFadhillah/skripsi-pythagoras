@@ -132,16 +132,6 @@
                         style="cursor: pointer; z-index: 10;"></i>
                 </div>
 
-
-
-                {{-- Sisa kode (checkbox remember me, tombol, dll) biarkan sama... --}}
-                <div class="form-check mb-3">
-                    <input class="form-check-input" type="checkbox" name="remember" id="remember">
-                    <label class="form-check-label" for="remember">
-                        Ingat saya
-                    </label>
-                </div>
-
                 <div class="d-grid mb-3">
                     <button type="submit" class="btn btn-success py-2">
                         Masuk

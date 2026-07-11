@@ -61,8 +61,24 @@ class DataNilaiController extends Controller
                 'evaluasi' => '-',
             ];
 
-            if (isset($hasilPengerjaan[$user->id])) {
-                $riwayatPerPaket = $hasilPengerjaan[$user->id]->groupBy('paket_soal_id');
+            $riwayatUser = $hasilPengerjaan[$user->id] ?? collect();
+
+            $totalPelanggaran = $riwayatUser->sum(function ($item) {
+                return (int) ($item->pelanggaran_count ?? 0);
+            });
+
+            $jumlahTerindikasi = $riwayatUser->filter(function ($item) {
+                return (bool) $item->terindikasi_curang;
+            })->count();
+
+            $integritas = [
+                'terindikasi' => $jumlahTerindikasi > 0,
+                'total_pelanggaran' => $totalPelanggaran,
+                'jumlah_aktivitas_terindikasi' => $jumlahTerindikasi,
+            ];
+
+            if ($riwayatUser->count() > 0) {
+                $riwayatPerPaket = $riwayatUser->groupBy('paket_soal_id');
                 $kkm = 70;
 
                 foreach ($riwayatPerPaket as $paketId => $attempts) {
@@ -101,7 +117,8 @@ class DataNilaiController extends Controller
                 'email'   => $user->email,
                 'kelas'   => $user->kelas->nama_kelas ?? '-',
                 'nilai'   => $nilai,
-                'rata_rata' => $rataRata
+                'rata_rata' => $rataRata,
+                'integritas' => $integritas,
             ];
         });
 
@@ -190,6 +207,16 @@ class DataNilaiController extends Controller
             $jamMulai = $item->waktu_mulai ? Carbon::parse($item->waktu_mulai)->format('H:i:s') : '-';
             $jamSelesai = $item->waktu_selesai ? Carbon::parse($item->waktu_selesai)->format('H:i:s') : '-';
 
+            $logs = $item->pelanggaran_logs ?? [];
+
+            if (is_string($logs)) {
+                $logs = json_decode($logs, true) ?: [];
+            }
+
+            if (!is_array($logs)) {
+                $logs = [];
+            }
+
             $groupedData[$paketJudul][] = [
                 'tanggal' => $tanggalFix,
                 'jam_mulai' => $jamMulai,
@@ -197,7 +224,12 @@ class DataNilaiController extends Controller
                 'skor' => $item->skor_akhir,
                 'status_lulus' => $statusLulus,
                 'matrix' => $matrix,
-                'total_soal' => count($matrix)
+                'total_soal' => count($matrix),
+
+                // data pemantauan kejujuran
+                'pelanggaran_count' => (int) ($item->pelanggaran_count ?? 0),
+                'terindikasi_curang' => (bool) $item->terindikasi_curang,
+                'pelanggaran_logs' => $logs,
             ];
         }
 

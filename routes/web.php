@@ -5,6 +5,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\InformasiController;
 use App\Http\Controllers\PetunjukController;
+use App\Http\Controllers\BahanAjarController;
 
 /* =====================
    CONTROLLER SISWA
@@ -138,6 +139,10 @@ Route::middleware(['auth', 'role:siswa'])
 
       /* ===== MATERI ===== */
       Route::get('/pendahuluan/pengantar', [MateriController::class, 'pendahuluan'])->name('pendahuluan.pengantar');
+      Route::get('/pendahuluan/bahan-ajar', [BahanAjarController::class, 'siswa'])->name('pendahuluan.bahan_ajar');
+      Route::get('/bahan-ajar/download', [BahanAjarController::class, 'download'])->name('bahan_ajar.download');
+      Route::get('/bahan-ajar/preview', [BahanAjarController::class, 'preview'])->name('bahan_ajar.preview');
+
       Route::get('/konsep/materi', [MateriController::class, 'konsep'])->name('konsep.materi');
       Route::get('/tripel/materi', [MateriController::class, 'tripel'])->name('tripel.materi');
       Route::get('/istimewa/materi', [MateriController::class, 'istimewa'])->name('istimewa.materi');
@@ -183,6 +188,11 @@ Route::middleware(['auth', 'role:guru'])
 
       /* ===== DASHBOARD ===== */
       Route::get('/dashboard', [GuruController::class, 'dashboard'])->name('dashboard');
+
+      /* ===== BAHAN AJAR ===== */
+      Route::get('/bahan-ajar', [BahanAjarController::class, 'guru'])->name('bahan_ajar');
+      Route::get('/bahan-ajar/download', [BahanAjarController::class, 'download'])->name('bahan_ajar.download');
+      Route::get('/bahan-ajar/preview', [BahanAjarController::class, 'preview'])->name('bahan_ajar.preview');
 
       /* ===== DATA SOAL ===== */
       Route::get('/data_soal', [DataSoalController::class, 'data_soal'])->name('data_soal');
@@ -241,7 +251,7 @@ Route::middleware(['auth', 'role:guru'])
       /* PROFILE GURU */
       Route::get('/profil', [ProfileGuruController::class, 'index'])->name('profil');
       Route::post('/profil/update', [ProfileGuruController::class, 'update'])->name('profil.update');
-      Route::post('/profil/avatar', [ProfileController::class, 'uploadAvatar'])->name('profil.avatar');
+      Route::post('/profil/avatar', [ProfileGuruController::class, 'uploadAvatar'])->name('profil.avatar');
 
       /* ===== DATA REFLEKSI ===== */
       Route::get('/data_refleksi', [DataRefleksiController::class, 'index'])->name('data_refleksi');

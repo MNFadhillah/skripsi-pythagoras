@@ -26,15 +26,21 @@
             </thead>
             <tbody>
                 <tr>
-                    @foreach($rekapNilai as $item)
+                    @foreach(['kuis_1', 'kuis_2', 'kuis_3', 'kuis_4', 'evaluasi'] as $key)
+                    @php
+                    $item = $rekapNilai[$key] ?? null;
+                    $nilai = $item['nilai'] ?? '-';
+                    @endphp
+
                     <td>
-                        @if($item['nilai'] !== '-')
-                        <span class="fw-bold">{{ $item['nilai'] }}</span>
+                        @if($nilai !== '-')
+                        <span class="fw-bold">{{ $nilai }}</span>
                         @else
                         <span class="text-muted">-</span>
                         @endif
                     </td>
                     @endforeach
+
                     <td class="fw-bold text-success" style="font-size: 1.1rem;">{{ $rataRata }}</td>
                 </tr>
             </tbody>
@@ -50,22 +56,27 @@
     @php
     $kkm = 70;
     $kategoriList = [
-    ['id' => 'kuis-1', 'tag' => 'Kuis 1', 'keyword' => 'kuis 1'],
-    ['id' => 'kuis-2', 'tag' => 'Kuis 2', 'keyword' => 'kuis 2'],
-    ['id' => 'kuis-3', 'tag' => 'Kuis 3', 'keyword' => 'kuis 3'],
-    ['id' => 'kuis-4', 'tag' => 'Kuis 4', 'keyword' => 'kuis 4'],
-    ['id' => 'evaluasi', 'tag' => 'Evaluasi', 'keyword' => 'evaluasi'],
+    ['key' => 'kuis_1', 'id' => 'kuis-1', 'tag' => 'Kuis 1'],
+    ['key' => 'kuis_2', 'id' => 'kuis-2', 'tag' => 'Kuis 2'],
+    ['key' => 'kuis_3', 'id' => 'kuis-3', 'tag' => 'Kuis 3'],
+    ['key' => 'kuis_4', 'id' => 'kuis-4', 'tag' => 'Kuis 4'],
+    ['key' => 'evaluasi', 'id' => 'evaluasi', 'tag' => 'Evaluasi'],
     ];
     @endphp
 
     <div class="accordion shadow-sm mb-5" id="accordionKategori">
         @foreach($kategoriList as $kat)
         @php
-        // Cari data yang sesuai dengan keyword kategori ini
-        $items = $riwayat->filter(function($row) use ($kat) {
-        return str_contains(strtolower($row->paketSoal->judul ?? ''), $kat['keyword'])
+        $paketIds = $rekapNilai[$kat['key']]['paket_ids'] ?? [];
+
+        $items = $riwayat->filter(function($row) use ($paketIds) {
+        return in_array((int) $row->paket_soal_id, array_map('intval', $paketIds))
         && $row->waktu_selesai != null;
-        });
+        })
+        ->sortBy(function($row) {
+        return $row->waktu_mulai ?? $row->created_at;
+        })
+        ->values();
         @endphp
 
         <div class="accordion-item border-0 mb-2 shadow-sm rounded-3 overflow-hidden">
@@ -83,7 +94,7 @@
                         <table class="table table-hover mb-0 bg-white">
                             <thead class="small text-muted bg-light">
                                 <tr>
-                                    <th class="ps-4">No</th>
+                                    <th class="ps-4">Percobaan</th>
                                     <th>Tanggal & Waktu</th>
                                     <th>Nilai</th>
                                     <th class="pe-4 text-center">Status</th>
@@ -97,7 +108,7 @@
                                 $isLulus = $row->skor_akhir >= $kkm;
                                 @endphp
                                 <tr>
-                                    <td class="ps-4">{{ $loop->iteration }}</td>
+                                    <td class="ps-4">Percobaan ke-{{ $loop->iteration }}</td>
                                     <td>
                                         <div class="fw-bold">{{ $row->created_at->format('d M Y') }}</div>
                                         <small class="text-muted">{{ $mulai->format('H:i') }} - {{ $selesai->format('H:i') }}</small>

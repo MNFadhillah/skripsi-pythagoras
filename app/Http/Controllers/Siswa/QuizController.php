@@ -245,6 +245,10 @@ class QuizController extends Controller
 
         $logs = $hasil->pelanggaran_logs ?? [];
 
+        if (!is_array($logs)) {
+            $logs = [];
+        }
+
         $logs[] = [
             'jenis' => $request->jenis,
             'detail' => $request->detail,
@@ -253,10 +257,12 @@ class QuizController extends Controller
             'user_agent' => substr($request->userAgent() ?? '', 0, 200),
         ];
 
+        $batasPelanggaran = 3;
+
         $hasil->pelanggaran_logs = $logs;
         $hasil->pelanggaran_count = count($logs);
 
-        if (count($logs) >= 2 && $aktivitas->kategori === 'evaluasi') {
+        if ($hasil->pelanggaran_count >= $batasPelanggaran) {
             $hasil->terindikasi_curang = true;
         }
 
@@ -265,7 +271,9 @@ class QuizController extends Controller
         return response()->json([
             'status' => 'ok',
             'pelanggaran_count' => $hasil->pelanggaran_count,
+            'batas_pelanggaran' => $batasPelanggaran,
             'terindikasi_curang' => $hasil->terindikasi_curang,
+            'lapor_guru' => $hasil->terindikasi_curang,
         ]);
     }
 
@@ -493,9 +501,12 @@ class QuizController extends Controller
      */
     public function showResult($hasilId)
     {
-        // Pastikan relasi 'jawabanSiswa.butirSoal' dan 'paketSoal' ada di model HasilPengerjaan
         $hasil = HasilPengerjaan::with(['jawabanSiswa.butirSoal', 'paketSoal'])
             ->findOrFail($hasilId);
+
+        if ($hasil->user_id !== Auth::id()) {
+            abort(403, 'Anda tidak berhak melihat hasil ini.');
+        }
 
         return view('siswa.hasil_kuis', compact('hasil'));
     }
@@ -507,6 +518,10 @@ class QuizController extends Controller
     {
         $hasil = HasilPengerjaan::with(['jawabanSiswa.butirSoal'])
             ->findOrFail($hasilId);
+
+        if ($hasil->user_id !== Auth::id()) {
+            abort(403, 'Anda tidak berhak mengakses detail hasil ini.');
+        }
 
         $detail = [];
 

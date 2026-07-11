@@ -160,17 +160,44 @@
             </div>
         </div>
 
-        {{-- Kartu Lencana (Ubah jadi col-md-4) --}}
+        {{-- Kartu Lencana --}}
         <div class="col-md-4">
             <div class="card border-success border-2 h-100 position-relative badge-card-hover">
                 <div class="card-body d-flex justify-content-between align-items-center">
+
+                    {{-- Bagian Teks (Kiri) --}}
                     <div>
                         <h5 class="text-muted mb-1 fs-6">Perolehan Lencana</h5>
-                        <h2 class="mb-0 text-success">{{ $earnedBadgesCount }}/{{ $totalBadgesCount }}</h2>
-                        <p class="small text-muted mt-2 mb-0 text-truncate" style="max-width: 200px;">
-                            <strong class="text-success">"{{ $lastBadgeName }}"</strong>
+                        <div class="d-flex align-items-baseline">
+                            <h2 class="mb-0 text-success fw-bold">{{ $earnedBadgesCount }}</h2>
+                            <span class="fs-5 text-muted ms-1">/ {{ $totalBadgesCount }}</span>
+                        </div>
+                        <p class="small text-muted mt-2 mb-0 text-truncate" style="max-width: 140px;">
+                            @if($earnedBadgesCount > 0)
+                            <strong class="text-success" title="{{ $lastBadgeName }}">"{{ $lastBadgeName }}"</strong>
+                            @else
+                            Belum ada lencana
+                            @endif
                         </p>
                     </div>
+
+                    {{-- Bagian Visual Lencana (Kanan) --}}
+                    <div class="text-center ms-2">
+                        @if($earnedBadgesCount > 0 && !empty($lastBadgeImagePath))
+                        {{-- Menampilkan gambar lencana terakhir --}}
+                        <img src="{{ asset('images/badges/' . $lastBadgeImagePath) }}"
+                            alt="{{ $lastBadgeName }}"
+                            class="img-fluid badge-dashboard-img"
+                            style="width: 65px; height: 65px; object-fit: contain; filter: drop-shadow(0 4px 6px rgba(25, 135, 84, 0.4));">
+                        @else
+                        {{-- Ikon placeholder jika belum ada lencana --}}
+                        <div class="rounded-circle bg-light border border-2 d-flex align-items-center justify-content-center"
+                            style="width: 60px; height: 60px; border-style: dashed !important;">
+                            <i class="bi bi-shield-lock text-secondary fs-3"></i>
+                        </div>
+                        @endif
+                    </div>
+
                 </div>
                 <a href="#" class="stretched-link" data-bs-toggle="modal" data-bs-target="#modalLencana"></a>
             </div>

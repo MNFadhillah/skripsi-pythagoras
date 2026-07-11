@@ -167,6 +167,10 @@ request()->is('siswa/aktivitas/*');
                                 <a href="{{ route('siswa.pendahuluan.pengantar') }}" class="list-group-item list-group-item-action {{ request()->is('siswa/pendahuluan/pengantar') ? 'active' : '' }}">
                                     <span class="menu-text">Pengantar Bab</span>
                                 </a>
+                                <a href="{{ route('siswa.pendahuluan.bahan_ajar') }}"
+                                    class="list-group-item list-group-item-action {{ request()->is('siswa/pendahuluan/bahan-ajar') ? 'active' : '' }}">
+                                    <span class="menu-text">Bahan Ajar</span>
+                                </a>
                             </div>
                         </div>
                     </div>

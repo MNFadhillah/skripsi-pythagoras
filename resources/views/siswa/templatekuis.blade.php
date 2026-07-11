@@ -292,6 +292,11 @@
                     <li>Waktu pengerjaan akan <strong>dihitung mundur otomatis</strong> begitu Anda menekan tombol mulai.</li>
                     <li>Pastikan perangkat terhubung dengan <strong>koneksi internet yang stabil</strong>.</li>
                     <li>Kerjakan soal dengan teliti dan jujur.</li>
+                    <li>
+                        Sistem akan mencatat aktivitas jika Anda meninggalkan halaman pengerjaan.
+                        Jika terdeteksi sebanyak <strong>3 kali</strong>, pengerjaan akan ditandai
+                        sebagai <strong>terindikasi tidak jujur</strong> dan dapat dilihat oleh guru.
+                    </li>
                     <li>Periksa kembali jawaban sebelum mengirimkan.</li>
                     <li>Jika waktu habis, jawaban yang sudah terisi akan <strong>tersimpan dan terkirim secara otomatis</strong>.</li>
 
@@ -455,8 +460,9 @@
         ============================= */
         const AKTIVITAS_ID = document.body.dataset.aktivitasId;
         const MATERI_SEKARANG = document.body.dataset.materiSekarang;
-        const NEXT_MATERI_URL = document.body.dataset.nextMateriUrl || '/siswa/dashboard';
-        const BACK_MATERI_URL = document.body.dataset.backMateriUrl || '/siswa/dashboard';
+        const DASHBOARD_URL = "{{ route('siswa.menu.dashboard') }}";
+        const NEXT_MATERI_URL = document.body.dataset.nextMateriUrl || DASHBOARD_URL;
+        const BACK_MATERI_URL = document.body.dataset.backMateriUrl || DASHBOARD_URL;
         const IS_EVALUASI = document.body.dataset.isEvaluasi === 'true';
         const START_URL = "{{ route('siswa.kuis.start', $aktivitas->id) }}";
         const VIOLATION_URL = "{{ route('siswa.kuis.violation') }}";
@@ -465,7 +471,8 @@
         let bolehKeluarHalaman = false;
         let sedangSubmit = false;
         let pelanggaranCount = 0;
-        const MAKS_PELANGGARAN = IS_EVALUASI ? 2 : 3;
+        const MAKS_PELANGGARAN = 3;
+        let notifikasiIndikasiSudahMuncul = false;
 
         // --- VARIABEL DARI CONTROLLER UNTUK REMEDIAL ---
         const JUMLAH_PERCOBAAN = parseInt('{{ $jumlahPercobaan ?? 0 }}');
@@ -777,40 +784,74 @@
             });
         }
 
-        function catatPelanggaran(jenis, detail = '') {
+        async function catatPelanggaran(jenis, detail = '') {
             const csrfToken = document.querySelector('meta[name="csrf-token"]').content;
 
-            fetch(VIOLATION_URL, {
-                method: 'POST',
-                keepalive: true,
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-CSRF-TOKEN': csrfToken,
-                    'Accept': 'application/json'
-                },
-                body: JSON.stringify({
-                    aktivitas_id: AKTIVITAS_ID,
-                    jenis: jenis,
-                    detail: detail
-                })
-            }).catch(err => console.warn('Gagal mencatat pelanggaran:', err));
+            try {
+                const res = await fetch(VIOLATION_URL, {
+                    method: 'POST',
+                    keepalive: true,
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': csrfToken,
+                        'Accept': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        aktivitas_id: AKTIVITAS_ID,
+                        jenis: jenis,
+                        detail: detail
+                    })
+                });
+
+                return await res.json();
+            } catch (err) {
+                console.warn('Gagal mencatat pelanggaran:', err);
+
+                return {
+                    status: 'error',
+                    pelanggaran_count: pelanggaranCount + 1,
+                    batas_pelanggaran: MAKS_PELANGGARAN,
+                    terindikasi_curang: false
+                };
+            }
         }
 
-        function tanganiPelanggaran(jenis, detail) {
-            pelanggaranCount++;
-            catatPelanggaran(jenis, detail);
+        async function tanganiPelanggaran(jenis, detail) {
+            if (sedangSubmit || bolehKeluarHalaman || isReviewMode || !quizStarted) {
+                return;
+            }
 
-            if (IS_EVALUASI && pelanggaranCount >= MAKS_PELANGGARAN) {
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Evaluasi Dikumpulkan Otomatis',
-                    text: 'Anda beberapa kali meninggalkan halaman evaluasi. Jawaban akan dikumpulkan otomatis.',
-                    confirmButtonColor: '#dc3545',
-                    allowOutsideClick: false,
-                    allowEscapeKey: false
-                }).then(() => {
-                    submitQuiz();
-                });
+            const data = await catatPelanggaran(jenis, detail);
+
+            if (data.status === 'no_active_session') {
+                return;
+            }
+
+            pelanggaranCount = data.pelanggaran_count ?? (pelanggaranCount + 1);
+
+            const batasPelanggaran = data.batas_pelanggaran ?? MAKS_PELANGGARAN;
+            const tampilCount = Math.min(pelanggaranCount, batasPelanggaran);
+            const jenisText = IS_EVALUASI ? 'evaluasi' : 'kuis';
+
+            if (pelanggaranCount >= batasPelanggaran) {
+                if (!notifikasiIndikasiSudahMuncul) {
+                    notifikasiIndikasiSudahMuncul = true;
+
+                    Swal.fire({
+                        icon: 'warning',
+                        title: 'Terindikasi Tidak Jujur',
+                        html: `
+                    Sistem mendeteksi Anda meninggalkan halaman ${jenisText} sebanyak 
+                    <b>${tampilCount}/${batasPelanggaran}</b> kali.<br><br>
+                    Data ini telah disimpan dan dapat dilihat oleh guru.
+                    Anda masih dapat melanjutkan pengerjaan.
+                `,
+                        confirmButtonText: 'Saya Mengerti',
+                        confirmButtonColor: '#dc3545',
+                        allowOutsideClick: false,
+                        allowEscapeKey: false
+                    });
+                }
 
                 return;
             }
@@ -819,8 +860,8 @@
                 icon: 'warning',
                 title: 'Peringatan Kejujuran',
                 html: `
-            Sistem mendeteksi Anda meninggalkan halaman kuis/evaluasi.<br>
-            Pelanggaran: <b>${pelanggaranCount}/${MAKS_PELANGGARAN}</b><br><br>
+            Sistem mendeteksi Anda meninggalkan halaman ${jenisText}.<br>
+            Pelanggaran: <b>${tampilCount}/${batasPelanggaran}</b><br><br>
             Tetap fokus pada halaman pengerjaan.
         `,
                 confirmButtonColor: '#146b42',
@@ -862,7 +903,7 @@
             if (JUMLAH_PERCOBAAN > 0) {
                 let pesanAlert = '';
                 if (NILAI_PERTAMA >= KKM) {
-                    pesanAlert = `Kamu sudah pernah mengerjakan kuis ini dengan nilai <b>${NILAI_PERTAMA}</b> (Lulus).<br><br>Kamu boleh mengerjakan lagi untuk latihan (Pengayaan), namun <b>nilai resmi yang tercatat di rapor akan tetap ${NILAI_PERTAMA}</b>. Lanjutkan?`;
+                    pesanAlert = `Kamu sudah pernah mengerjakan kuis ini dengan nilai <b>${NILAI_PERTAMA}</b> (Lulus).<br><br>Kamu boleh mengerjakan lagi untuk latihan (Pengayaan), namun <b>nilai resmi akan tetap tercatat ${NILAI_PERTAMA}</b>. Lanjutkan?`;
                 } else {
                     pesanAlert = `Kamu sedang melakukan <b>Remedial</b> (Nilai awal: ${NILAI_PERTAMA}).<br><br>Jika kali ini kamu mendapat nilai di atas KKM (${KKM}), maka nilai resmimu akan dibatasi maksimal sebesar <b>${KKM}</b>. Lanjutkan?`;
                 }
@@ -1355,7 +1396,7 @@
                 selesaiBtn.className = 'btn btn-success';
                 selesaiBtn.textContent = 'Selesai';
                 selesaiBtn.onclick = () => {
-                    arahkanAman('/siswa/dashboard');
+                    arahkanAman(DASHBOARD_URL);
                 };
                 actionContainer.appendChild(selesaiBtn);
             }

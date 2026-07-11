@@ -259,6 +259,7 @@
                 <a href="{{ route('admin.dashboard') }}" class="list-group-item list-group-item-action {{ request()->routeIs('admin.dashboard') ? 'active' : '' }}">
                     <i class="bi bi-speedometer2"></i> <span class="nav-text">Dashboard Admin</span>
                 </a>
+                
                 <a href="{{ route('admin.kelas.index') }}" class="list-group-item list-group-item-action {{ request()->routeIs('admin.kelas.*') ? 'active' : '' }}">
                     <i class="bi bi-house-door"></i> <span class="nav-text">Manajemen Kelas</span>
                 </a>

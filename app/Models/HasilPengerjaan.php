@@ -23,9 +23,11 @@ class HasilPengerjaan extends Model
     ];
 
     protected $casts = [
-        'snapshot_jawaban' => 'array',
         'pelanggaran_logs' => 'array',
+        'snapshot_jawaban' => 'array',
         'terindikasi_curang' => 'boolean',
+        'waktu_mulai' => 'datetime',
+        'waktu_selesai' => 'datetime',
     ];
 
     public function paketSoal()

@@ -275,6 +275,12 @@
                     <span class="nav-text">Dashboard Guru</span>
                 </a>
 
+                <a href="{{ route('guru.bahan_ajar') }}" class="list-group-item list-group-item-action {{ request()->is('guru/bahan-ajar') ? 'active' : '' }}"
+                    title="Bahan Ajar">
+                    <i class="bi bi-file-earmark-pdf"></i>
+                    <span class="nav-text">Bahan Ajar</span>
+                </a>
+
                 <a href="{{ url('/guru/data_siswa') }}" class="list-group-item list-group-item-action {{ request()->is('guru/data_siswa') ? 'active' : '' }}" title="Data Siswa">
                     <i class="bi bi-people"></i>
                     <span class="nav-text">Data Siswa</span>

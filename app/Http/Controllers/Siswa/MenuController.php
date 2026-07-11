@@ -47,18 +47,13 @@ class MenuController extends Controller
         // ========================================================
         // --- BAGIAN 3: SINKRONISASI PROGRESS MUTLAK 100% ---
         // ========================================================
-        // Kita panggil fungsi getDetail() dari ProgressController
-        // Agar angka di Dashboard SAMA PERSIS dengan di Profil dan Modal!
         $progressCtrl = new ProgressController();
 
         try {
-
             $response = $progressCtrl->getDetail();
-
             $detailProgres = $response->getData();
 
             $totalProgressKeseluruhan = $detailProgres->total_progress ?? 0;
-
             $progMateri1 = $detailProgres->materi->m1->persen ?? 0;
 
             $progKuis1 = $detailProgres->kuis->k1->persen ?? 0;
@@ -68,40 +63,35 @@ class MenuController extends Controller
 
             $progEval = $detailProgres->kuis->eval->persen ?? 0;
         } catch (\Exception $e) {
-
-            // Fallback jika progress gagal diambil
             $totalProgressKeseluruhan = 0;
-
             $progMateri1 = 0;
-
             $progKuis1 = 0;
             $progKuis2 = 0;
             $progKuis3 = 0;
             $progKuis4 = 0;
-
             $progEval = 0;
         }
 
         // --- LENCANA / BADGES BERDASARKAN POIN ---
-
         BadgeController::checkAndAwardBadgesByPoints($user);
 
         $user->refresh();
         $user->load('badges');
 
         $allBadges = Badge::orderBy('id', 'asc')->get();
-
         $totalBadgesCount = $allBadges->count();
-
         $earnedBadgeIds = $user->badges->pluck('id')->toArray();
-
         $earnedBadgesCount = count($earnedBadgeIds);
 
         $latestBadge = $user->badges()
             ->orderByDesc('badge_user.created_at')
             ->first();
 
+        // Mengisi nama lencana terakhir
         $lastBadgeName = $latestBadge ? $latestBadge->name : 'Belum ada lencana';
+
+        // DI SINI PERUBAHANNYA: Mengambil nama file gambar dari database, bukan lagi null
+        $lastBadgeImagePath = $latestBadge ? $latestBadge->image_path : null;
 
         $userPoints = $user->points ?? 0;
 
@@ -114,6 +104,7 @@ class MenuController extends Controller
             'totalBadgesCount',
             'earnedBadgesCount',
             'lastBadgeName',
+            'lastBadgeImagePath', // Sekarang variabel ini sudah membawa string nama file gambar
             'allBadges',
             'earnedBadgeIds',
             'progKuis1',
@@ -128,20 +119,16 @@ class MenuController extends Controller
     public function leaderboard()
     {
         $user = Auth::user();
-
         // Jika siswa belum masuk kelas, leaderboard dikosongkan
         if (!$user->kelas_id) {
             $leaderboardSorted = collect();
             $kelasAktif = 'Belum Masuk Kelas';
-
             return view('siswa.menu.leaderboard', compact(
                 'leaderboardSorted',
                 'kelasAktif'
             ));
         }
-
         $kelasAktif = $user->kelas ? $user->kelas->nama_kelas : 'Kelas Tidak Diketahui';
-
         // Ambil hanya siswa yang berada di kelas yang sama dengan siswa login
         $semuaSiswa = User::where('role', 'siswa')
             ->where('kelas_id', $user->kelas_id)
@@ -172,48 +159,76 @@ class MenuController extends Controller
 
     public function nilai_siswa()
     {
-        $userId = Auth::id(); // Ambil ID user yang sedang login
+        $userId = Auth::id();
 
-        // 1. Ambil Riwayat
+        // Ambil semua riwayat pengerjaan siswa
         $riwayat = HasilPengerjaan::with('paketSoal')
             ->where('user_id', $userId)
             ->orderBy('created_at', 'desc')
             ->get();
 
-        // 2. Logika Rangkuman (Nilai Tertinggi per Paket)
-        $semuaPaket = PaketSoal::all()->sortBy(function ($paket) {
-            if (str_contains(strtolower($paket->nama_paket ?? $paket->judul), 'kuis 1')) return 1;
-            if (str_contains(strtolower($paket->nama_paket ?? $paket->judul), 'kuis 2')) return 2;
-            if (str_contains(strtolower($paket->nama_paket ?? $paket->judul), 'kuis 3')) return 3;
-            if (str_contains(strtolower($paket->nama_paket ?? $paket->judul), 'kuis 4')) return 4;
-            if (str_contains(strtolower($paket->nama_paket ?? $paket->judul), 'evaluasi')) return 5;
-            return 99; // selain itu di paling bawah
-        });
+        // Daftar kategori tetap untuk halaman nilai
+        $kategoriPaket = [
+            'kuis_1' => [
+                'label' => 'Kuis 1',
+                'keyword' => 'kuis 1',
+            ],
+            'kuis_2' => [
+                'label' => 'Kuis 2',
+                'keyword' => 'kuis 2',
+            ],
+            'kuis_3' => [
+                'label' => 'Kuis 3',
+                'keyword' => 'kuis 3',
+            ],
+            'kuis_4' => [
+                'label' => 'Kuis 4',
+                'keyword' => 'kuis 4',
+            ],
+            'evaluasi' => [
+                'label' => 'Evaluasi',
+                'keyword' => 'evaluasi',
+            ],
+        ];
+
+        $semuaPaket = PaketSoal::all();
 
         $rekapNilai = [];
         $totalSkor = 0;
         $jumlahPaketDiambil = 0;
+        $kkm = 70;
 
-        foreach ($semuaPaket as $paket) {
-            // Ambil SEMUA riwayat pengerjaan user untuk paket ini, urutkan dari yang PERTAMA (paling lama)
-            $riwayatPaket = HasilPengerjaan::where('paket_soal_id', $paket->id)
-                ->where('user_id', $userId)
-                ->whereNotNull('waktu_selesai')
-                ->orderBy('created_at', 'asc') // Urutan waktu sangat penting!
-                ->get();
+        foreach ($kategoriPaket as $key => $kategori) {
+            // Cari paket soal berdasarkan keyword judul
+            $paketIds = $semuaPaket
+                ->filter(function ($paket) use ($kategori) {
+                    $judul = strtolower($paket->nama_paket ?? $paket->judul ?? '');
+
+                    return str_contains($judul, $kategori['keyword']);
+                })
+                ->pluck('id')
+                ->values()
+                ->toArray();
+
+            // Ambil riwayat pengerjaan siswa untuk kategori ini
+            $riwayatPaket = $riwayat
+                ->filter(function ($item) use ($paketIds) {
+                    return in_array((int) $item->paket_soal_id, array_map('intval', $paketIds))
+                        && !is_null($item->waktu_selesai);
+                })
+                ->sortBy('created_at')
+                ->values();
 
             $finalScore = null;
 
             if ($riwayatPaket->count() > 0) {
-                $kkm = 70; // Tentukan nilai KKM Anda
-
-                // Ambil skor percobaan PERTAMA KALI
                 $skorPertama = $riwayatPaket->first()->skor_akhir;
 
                 if ($skorPertama >= $kkm) {
                     $finalScore = $skorPertama;
                 } else {
                     $skorTertinggi = $riwayatPaket->max('skor_akhir');
+
                     if ($skorTertinggi >= $kkm) {
                         $finalScore = $kkm;
                     } else {
@@ -222,9 +237,11 @@ class MenuController extends Controller
                 }
             }
 
-            $rekapNilai[] = [
-                'nama_paket' => $paket->nama_paket ?? $paket->judul,
-                'nilai' => $finalScore !== null ? $finalScore : '-'
+            $rekapNilai[$key] = [
+                'label' => $kategori['label'],
+                'keyword' => $kategori['keyword'],
+                'paket_ids' => $paketIds,
+                'nilai' => $finalScore !== null ? $finalScore : '-',
             ];
 
             if ($finalScore !== null) {
@@ -233,8 +250,9 @@ class MenuController extends Controller
             }
         }
 
-        // Hitung Rata-rata
-        $rataRata = $jumlahPaketDiambil > 0 ? round($totalSkor / $jumlahPaketDiambil, 2) : 0;
+        $rataRata = $jumlahPaketDiambil > 0
+            ? round($totalSkor / $jumlahPaketDiambil, 2)
+            : 0;
 
         return view('siswa.menu.nilai_siswa', compact('riwayat', 'rekapNilai', 'rataRata'));
     }

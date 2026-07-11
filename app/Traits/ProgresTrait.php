@@ -12,7 +12,7 @@ trait ProgresTrait
     /**
      * Helper untuk menghitung total progres keseluruhan (materi + kuis)
      */
-    public function hitungTotalProgress($userId)
+    public function hitungTotalProgress(int $userId)
     {
         $totalCheckpoint = $this->getConfigCheckpoint();
 
