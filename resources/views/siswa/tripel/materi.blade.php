@@ -16,22 +16,33 @@
     <div class="card shadow-sm border-1 mb-4">
         <div class="card-body p-4">
             <div class="row align-items-center">
-
                 {{-- KIRI: Progress Bar --}}
-                <div class="col-lg-3">
+                <div class="col-lg-2">
                     <div class="d-flex flex-column">
                         <small class="text-muted fw-bold mb-2">Progres Materi Anda</small>
                         <div class="progress" style="height: 15px; border-radius: 10px;">
                             @php $progressVal = $materiProgress ?? 0; @endphp
-                            {{-- Tambahkan ID materiProgressBar --}}
-                            <div id="materiProgressBar" class="progress-bar bg-success" role="progressbar" style="--w: {{ $progressVal }}%; width: var(--w);" aria-valuenow="{{ $progressVal }}" aria-valuemin="0" aria-valuemax="100"></div>
+
+                            {{-- TAMBAHKAN ID materiProgressBar DI SINI --}}
+                            <div id="materiProgressBar"
+                                class="progress-bar bg-success"
+                                role="progressbar"
+                                style="--w: {{ $progressVal }}%; width: var(--w);"
+                                aria-valuenow="{{ $progressVal }}"
+                                aria-valuemin="0"
+                                aria-valuemax="100">
+                            </div>
                         </div>
-                        {{-- Tambahkan ID materiProgressText --}}
-                        <small id="materiProgressText" class="text-success fw-bold mt-1">{{ $progressVal }}% Selesai</small>
+
+                        {{-- TAMBAHKAN ID materiProgressText DI SINI --}}
+                        <small id="materiProgressText" class="text-success fw-bold mt-1">
+                            {{ $progressVal }}% Selesai
+                        </small>
                     </div>
                 </div>
+
                 {{-- TENGAH: Judul & Navigasi --}}
-                <div class="col-lg-6 text-center mt-3 mt-lg-0">
+                <div class="col-lg-7 text-center mt-3 mt-lg-0">
                     <h4 class="fw-bold mb-3">Tripel Pythagoras</h4>
                     <nav>
                         <ul class="pagination justify-content-center mb-0 flex-wrap gap-2 materi-pagination">
@@ -39,7 +50,7 @@
                                 <button class="page-link px-3 py-2 prev-btn rounded shadow-sm">Sebelumnya</button>
                             </li>
                             {{-- Looping 6 Halaman (0 sampai 5) --}}
-                            @for ($i = 0; $i <= 4; $i++)
+                            @for ($i = 0; $i <= 5; $i++)
                                 <li class="page-item {{ $i == 0 ? 'active' : '' }}">
                                 <button class="page-link px-3 py-2 page-btn rounded shadow-sm" data-page="{{ $i }}">{{ $i + 1 }}</button>
                                 </li>
@@ -64,6 +75,7 @@
         </div>
     </div>
 
+    <!-- Halaman 1 -->
     <section class="materi-page" data-page="0">
         <section class="mb-4">
             <div class="card shadow-sm">
@@ -71,14 +83,24 @@
                     <h4>Tujuan Pembelajaran</h4>
                 </div>
                 <div class="card-body">
-                    <ol>
-                        <li>Peserta didik mampu menghitung hipotenusa dan sisi segitiga siku-siku lainnya dengan teorema Pythagoras</li>
-                        <li>Peserta didik mampu menemukan tripel Pythagoras</li>
+                    <ol class="mb-0">
+                        <li class="mb-3">
+                            <strong>Peserta didik mampu menghitung hipotenusa dan sisi segitiga siku-siku lainnya dengan teorema Pythagoras</strong>
+                            <br>
+                            <small class="text-secondary">Pada bagian ini, kamu akan mempelajari dan menghitung panjang sisi miring (hipotenusa) maupun sisi tegak segitiga siku-siku menggunakan rumus teorema Pythagoras.</small>
+                        </li>
+                        <li class="mb-3">
+                            <strong>Peserta didik mampu menemukan tripel Pythagoras</strong>
+                            <br>
+                            <small class="text-secondary">Pada bagian ini, kamu akan menentukan kelompok tiga bilangan bulat yang memenuhi hubungan teorema Pythagoras.</small>
+                        </li>
                     </ol>
                 </div>
             </div>
         </section>
+    </section>
 
+    <section class="materi-page d-none" data-page="1">
         <section class="mb-4">
             <div class="card shadow-sm">
                 <div class="card-header bg-light">
@@ -251,7 +273,7 @@
         </section>
     </section>
 
-    <section class="materi-page d-none" data-page="1">
+    <section class="materi-page d-none" data-page="2">
         <div class="row mb-4">
             <div class="col-md-12 mb-4">
                 <div class="card shadow-sm">
@@ -685,7 +707,7 @@
         </div>
     </section>
 
-    <section class="materi-page d-none" data-page="2">
+    <section class="materi-page d-none" data-page="3">
         <div class="row">
             <div class="col-12 mb-4">
 
@@ -1011,7 +1033,7 @@
         </div>
     </section>
 
-    <section class="materi-page d-none" data-page="3">
+    <section class="materi-page d-none" data-page="4">
         <div class="row justify-content-center">
 
             <div class="col-md-12">
@@ -1304,7 +1326,7 @@
         </div>
     </section>
 
-    <section class="materi-page d-none" data-page="4">
+    <section class="materi-page d-none" data-page="5">
         <div class="row justify-content-center">
             <div class="col-md-12 mb-4">
                 <div class="card shadow-sm border-0">
@@ -1456,8 +1478,8 @@
                 <li class="page-item">
                     <button class="page-link px-3 py-2 prev-btn rounded shadow-sm">Sebelumnya</button>
                 </li>
-                {{-- Looping 5 Halaman (0 sampai 4) --}}
-                @for ($i = 0; $i <= 4; $i++)
+                {{-- Looping 6 Halaman (0 sampai 5) --}}
+                @for ($i = 0; $i <= 5; $i++)
                     <li class="page-item {{ $i == 0 ? 'active' : '' }}">
                     <button class="page-link px-3 py-2 page-btn rounded shadow-sm" data-page="{{ $i }}">{{ $i + 1 }}</button>
                     </li>

@@ -209,7 +209,7 @@
                                 </h1>
 
                                 <p class="lead text-white hero-description">
-                                    Web ini dirancang untuk meningkatkan pemahaman konsep Teorema Pythagoras melalui penerapan metode drill and practice yang dipadukan dengan gamifikasi, sehingga mendorong keterlibatan aktif siswa dan memperkuat pemahaman konsep.
+                                    Web ini dirancang untuk meningkatkan pemahaman konsep Teorema Pythagoras melalui penerapan Model <i>Drills and Practice</i> yang dipadukan dengan gamifikasi, sehingga mendorong keterlibatan aktif siswa dan memperkuat pemahaman konsep.
                                 </p>
 
                                 <div class="hero-action">

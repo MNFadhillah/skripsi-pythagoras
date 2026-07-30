@@ -69,7 +69,7 @@
                                 Media pembelajaran ini dibuat untuk memenuhi persyaratan dalam menyelesaikan studi di program Strata-1 Pendidikan Komputer dengan judul:
                             </p>
                             <h1 class="text-center mb-4"><strong>
-                                    Penerapan Gamifikasi pada Web Pembelajaran Interaktif Teorema Pythagoras dengan Metode <i>Drill and Practice</i>
+                                    Penerapan Gamifikasi pada Web Pembelajaran Interaktif Teorema Pythagoras dengan Model <i>Drills</i>
                                 </strong></h1>
                             <div class="row align-items-center">
                                 <div class="col-md-9">

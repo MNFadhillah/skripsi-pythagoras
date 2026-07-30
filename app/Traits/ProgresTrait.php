@@ -59,8 +59,8 @@ trait ProgresTrait
         return [
             'materi_1_konsep_pythagoras'    => 15,
             'materi_2_tripel_pythagoras'    => 9,
-            'materi_3_segitiga_istimewa'    => 6,
-            'materi_4_penerapan_pythagoras' => 8,
+            'materi_3_segitiga_istimewa'    => 7,
+            'materi_4_penerapan_pythagoras' => 7,
         ];
     }
 

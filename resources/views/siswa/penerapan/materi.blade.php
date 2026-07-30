@@ -39,8 +39,8 @@
                             <li class="page-item">
                                 <button class="page-link px-3 py-2 prev-btn rounded shadow-sm">Sebelumnya</button>
                             </li>
-                            {{-- Looping 4 Halaman (0 sampai 3) --}}
-                            @for ($i = 0; $i <= 3; $i++)
+                            {{-- Looping 5 Halaman (0 sampai 4) --}}
+                            @for ($i = 0; $i <= 4; $i++)
                                 <li class="page-item {{ $i == 0 ? 'active' : '' }}">
                                 <button class="page-link px-3 py-2 page-btn rounded shadow-sm" data-page="{{ $i }}">{{ $i + 1 }}</button>
                                 </li>
@@ -73,12 +73,19 @@
                     <h4>Tujuan Pembelajaran</h4>
                 </div>
                 <div class="card-body">
-                    <ol>
-                        <li>Peserta didik mampu menyelesaikan permasalahan dalam kehidupan sehari-hari terkait penerapan teorema Pythagoras.</li>
+                    <ol class="mb-0">
+                        <li class="mb-3">
+                            <strong>Peserta didik mampu menyelesaikan permasalahan dalam kehidupan sehari-hari terkait penerapan teorema Pythagoras.</strong>
+                            <br>
+                            <small class="text-secondary">Pada bagian ini, kamu akan menganalisis dan memecahkan berbagai permasalahan nyata dalam kehidupan sehari-hari (seperti menentukan tinggi bangunan, panjang tangga, atau jarak antartempat) dengan menerapkan konsep teorema Pythagoras.</small>
+                        </li>
                     </ol>
                 </div>
             </div>
         </section>
+    </section>
+
+    <section class="materi-page" data-page="1">
 
         <!-- Tahukah Kamu? -->
         <section class="mb-4">
@@ -207,8 +214,8 @@
 
     </section>
 
-    <!-- ================= HALAMAN 2 (PAGE 1) ================= -->
-    <section class="materi-page d-none" data-page="1">
+    <!-- ================= HALAMAN 2 (PAGE 2) ================= -->
+    <section class="materi-page d-none" data-page="2">
         <section class="mb-4">
             <div class="card shadow-sm">
                 <div class="card-header text-center bg-light">
@@ -692,8 +699,8 @@
         </section>
     </section>
 
-    <!-- ================= HALAMAN 3 (PAGE 2) ================= -->
-    <section class="materi-page d-none" data-page="2">
+    <!-- ================= HALAMAN 4 (PAGE 3) ================= -->
+    <section class="materi-page d-none" data-page="3">
         <div class="card shadow-sm mb-4 border-1">
             <div class="card-header text-center bg-light">
                 <h4>Ayo Berlatih</h4>
@@ -1157,8 +1164,8 @@
         </div>
     </section>
 
-    <!-- ================= HALAMAN 4 (PAGE 3) ================= -->
-    <section class="materi-page d-none" data-page="3">
+    <!-- ================= HALAMAN 5 (PAGE 4) ================= -->
+    <section class="materi-page d-none" data-page="4">
         <div class="row justify-content-center">
             <div class="col-md-12 mb-4">
                 <div class="card shadow-sm border-0">
@@ -1281,8 +1288,8 @@
                 <li class="page-item">
                     <button class="page-link px-3 py-2 prev-btn rounded shadow-sm">Sebelumnya</button>
                 </li>
-                {{-- Looping 4 Halaman (0 sampai 5) --}}
-                @for ($i = 0; $i <= 3; $i++)
+                {{-- Looping 5 Halaman (0 sampai 4) --}}
+                @for ($i = 0; $i <= 4; $i++)
                     <li class="page-item {{ $i == 0 ? 'active' : '' }}">
                     <button class="page-link px-3 py-2 page-btn rounded shadow-sm" data-page="{{ $i }}">{{ $i + 1 }}</button>
                     </li>

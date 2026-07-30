@@ -22,7 +22,7 @@
         <div class="card-body p-4">
             <div class="row align-items-center">
                 {{-- KIRI: Progress Bar --}}
-                <div class="col-lg-3">
+                <div class="col-lg-2">
                     <div class="d-flex flex-column">
                         <small class="text-muted fw-bold mb-2">Progres Materi Anda</small>
                         <div class="progress" style="height: 15px; border-radius: 10px;">
@@ -47,15 +47,15 @@
                 </div>
 
                 {{-- TENGAH: Judul & Navigasi --}}
-                <div class="col-lg-6 text-center mt-3 mt-lg-0">
+                <div class="col-lg-7 text-center mt-3 mt-lg-0">
                     <h4 class="fw-bold mb-3">Menemukan Konsep Pythagoras</h4>
                     <nav>
                         <ul class="pagination justify-content-center mb-0 flex-wrap gap-2 materi-pagination">
                             <li class="page-item">
                                 <button class="page-link px-3 py-2 prev-btn rounded shadow-sm">Sebelumnya</button>
                             </li>
-                            {{-- Looping 6 Halaman (0 sampai 5) --}}
-                            @for ($i = 0; $i <= 5; $i++)
+                            {{-- Looping 7 Halaman (0 sampai 6) --}}
+                            @for ($i = 0; $i <= 6; $i++)
                                 <li class="page-item {{ $i == 0 ? 'active' : '' }}">
                                 <button class="page-link px-3 py-2 page-btn rounded shadow-sm" data-page="{{ $i }}">{{ $i + 1 }}</button>
                                 </li>
@@ -82,9 +82,7 @@
 
     <!-- HALAMAN 1 -->
     <section class="materi-page" data-page="0">
-
         <div class="container-fluid p-0">
-
             <div class="row mb-4">
                 <div class="col-12">
                     <div class="card">
@@ -92,15 +90,35 @@
                             <h4>Tujuan Pembelajaran</h4>
                         </div>
                         <div class="card-body">
-                            <ol class="mb-0">
-                                <li>Peserta didik mampu menentukan panjang sisi segitiga menggunakan teorema Pythagoras.</li>
-                                <li>Peserta didik mampu menganalisis beberapa informasi untuk membuktikan kebenaran teorema Pythagoras.</li>
-                                <li>Peserta didik mampu membuat pembuktian berupa skema atau prosedur terhadap rumus teorema Pythagoras.</li>
+                            <p class="text-dark">Setelah menyelesaikan pembelajaran pada media ini, peserta didik diharapkan mencapai tujuan berikut:</p>
+                            <ol class="mb-0 ps-3">
+                                <li class="mb-3">
+                                    <strong>Peserta didik mampu menentukan panjang sisi segitiga menggunakan teorema Pythagoras.</strong>
+                                    <br>
+                                    <small>Pada bagian ini, kamu akan menghitung panjang salah satu sisi segitiga siku-siku apabila panjang dua sisi lainnya sudah diketahui.</small>
+                                </li>
+                                <li class="mb-3">
+                                    <strong>Peserta didik mampu menganalisis beberapa informasi untuk membuktikan kebenaran teorema Pythagoras.</strong>
+                                    <br>
+                                    <small>Pada bagian ini, kamu akan mengamati dan menganalisis hubungan luas persegi pada sisi-sisi segitiga siku-siku melalui visualisasi interaktif.</small>
+                                </li>
+                                <li class="mb-3">
+                                    <strong>Peserta didik mampu membuat pembuktian berupa skema atau prosedur terhadap rumus teorema Pythagoras.</strong>
+                                    <br>
+                                    <small>Pada bagian ini, kamu akan belajar menyusun skema atau langkah-langkah prosedur matematis dalam membuktikan dan menerapkan rumus teorema Pythagoras.</small>
+                                </li>
                             </ol>
                         </div>
                     </div>
                 </div>
             </div>
+        </div>
+    </section>
+
+    <!-- HALAMAN 2 -->
+    <section class="materi-page" data-page="1">
+
+        <div class="container-fluid p-0">
 
             <div class="row mb-4">
                 <div class="col-12">
@@ -358,12 +376,7 @@
             </div>
         </div>
 
-    </section>
-
-    <!-- ================= HALAMAN 2 ================= -->
-    <section class="materi-page d-none" data-page="1">
-
-        <section class="mb-4">
+        <section class="mb-4 mt-4">
             <div class="card">
                 <div class="card-header text-center">
                     <h4>Ayo Mengingat Kembali</h4>
@@ -684,6 +697,7 @@
                 </div>
             </div>
         </section>
+
     </section>
 
     <!-- ================= HALAMAN 3 ================= -->
@@ -1247,6 +1261,12 @@
                     </div>
                 </div>
             </div>
+        </div>
+    </section>
+
+    <!-- ================= HALAMAN 4 ================= -->
+    <section class="materi-page d-none" data-page="3">
+        <div class="row">
 
             <div class="col-md-12">
                 <div class="card shadow-sm">
@@ -1529,12 +1549,6 @@
                     </div>
                 </div>
             </div>
-        </div>
-    </section>
-
-    <!-- ================= HALAMAN 4 ================= -->
-    <section class="materi-page d-none" data-page="3">
-        <div class="row">
             <!-- ================================= -->
             <!-- DALIL PYTHAGORAS -->
             <!-- ================================= -->
@@ -1658,6 +1672,12 @@
                     </div>
                 </div>
             </div>
+        </div>
+    </section>
+
+    <!-- ================= HALAMAN 5 ================= -->
+    <section class="materi-page d-none" data-page="4">
+        <div class="row">
 
             <!-- ================================= -->
             <!-- CONTOH SOAL 1 -->
@@ -2005,8 +2025,8 @@
         </div>
     </section>
 
-    <!-- Halaman 5 -->
-    <section class="materi-page d-none" data-page="4">
+    <!-- Halaman 6 -->
+    <section class="materi-page d-none" data-page="5">
         <div class="row justify-content-center">
             <!-- ================================= -->
             <!-- AYO BERLATIH -->
@@ -2463,8 +2483,8 @@
         </div>
     </section>
 
-    <!-- Halaman 6 -->
-    <section class="materi-page d-none" data-page="5">
+    <!-- Halaman 7 -->
+    <section class="materi-page d-none" data-page="6">
         <div class="row">
             <div class="col-md-12 mb-4">
                 <div class="card shadow-sm border-0">
@@ -2592,20 +2612,19 @@
             </div>
         </div>
     </section>
-
 </div>
 
 
 
 <!-- Pagination -->
-<div class="d-flex justify-content-center align-items-center mt-5 mb-5 pt-4 border-top">
+<div class="d-flex justify-content-center align-items-center mt-5 pt-4 border-top">
     <nav>
         <ul class="pagination justify-content-center mb-0 flex-wrap gap-2 materi-pagination">
             <li class="page-item">
                 <button class="page-link px-3 py-2 prev-btn rounded shadow-sm">Sebelumnya</button>
             </li>
-            {{-- Looping 6 Halaman (0 sampai 5) --}}
-            @for ($i = 0; $i <= 5; $i++)
+            {{-- Looping 7 Halaman (0 sampai 6) --}}
+            @for ($i = 0; $i <= 6; $i++)
                 <li class="page-item {{ $i == 0 ? 'active' : '' }}">
                 <button class="page-link px-3 py-2 page-btn-bottom rounded shadow-sm" data-page="{{ $i }}">{{ $i + 1 }}</button>
                 </li>

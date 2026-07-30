@@ -38,8 +38,8 @@
                             <li class="page-item">
                                 <button class="page-link px-3 py-2 prev-btn rounded shadow-sm">Sebelumnya</button>
                             </li>
-                            {{-- Looping 4 Halaman (0 sampai 3) --}}
-                            @for ($i = 0; $i <= 3; $i++)
+                            {{-- Looping 5 Halaman (0 sampai 4) --}}
+                            @for ($i = 0; $i <= 4; $i++)
                                 <li class="page-item {{ $i == 0 ? 'active' : '' }}">
                                 <button class="page-link px-3 py-2 page-btn rounded shadow-sm" data-page="{{ $i }}">{{ $i + 1 }}</button>
                                 </li>
@@ -64,19 +64,26 @@
     </div>
 
     <section class="materi-page" data-page="0">
+        <!-- Tujuan Pembelajaran -->
         <section class="mb-4">
             <div class="card shadow-sm">
                 <div class="card-header text-center">
                     <h4>Tujuan Pembelajaran</h4>
                 </div>
                 <div class="card-body">
-                    <ol>
-                        <li>Peserta didik mampu membandingkan sisi pada segitiga siku-siku istimewa</li>
+                    <ol class="mb-0">
+                        <li class="mb-3">
+                            <strong>Peserta didik mampu membandingkan sisi pada segitiga siku-siku istimewa</strong>
+                            <br>
+                            <small class="text-secondary">Pada bagian ini, kamu akan menganalisis dan menentukan perbandingan panjang sisi-sisi pada segitiga siku-siku khusus (sudut 45°-45°-90° dan 30°-60°-90°) untuk menghitung panjang sisi yang belum diketahui tanpa harus mengalikan kuadrat secara manual.</small>
+                        </li>
                     </ol>
                 </div>
             </div>
         </section>
+    </section>
 
+    <section class="materi-page" data-page="1">
         <section class="mb-4">
             <div class="card shadow-sm">
                 <div class="card-header text-center">
@@ -705,9 +712,9 @@
         </section>
     </section>
 
-    <!-- Halaman 2 -->
+    <!-- Halaman 3 -->
 
-    <section class="materi-page d-none" data-page="1">
+    <section class="materi-page d-none" data-page="2">
         <section class="mb-4">
             <div class="card shadow-sm">
                 <div class="card-header bg-light">
@@ -987,7 +994,7 @@
         </section>
     </section>
 
-    <section class="materi-page d-none" data-page="2">
+    <section class="materi-page d-none" data-page="3">
         <div class="card shadow-sm mb-4 border-1">
             <div class="card-header text-center bg-light">
                 <h4>Ayo Berlatih</h4>
@@ -1390,7 +1397,7 @@
         </div>
     </section>
 
-    <section class="materi-page d-none" data-page="3">
+    <section class="materi-page d-none" data-page="4">
         <div class="row justify-content-center">
             <div class="col-md-12 mb-4">
                 <div class="card shadow-sm border-0">
@@ -1528,8 +1535,8 @@
                 <li class="page-item">
                     <button class="page-link px-3 py-2 prev-btn rounded shadow-sm">Sebelumnya</button>
                 </li>
-                {{-- Looping 4 Halaman (0 sampai 3) --}}
-                @for ($i = 0; $i <= 3; $i++)
+                {{-- Looping 5 Halaman (0 sampai 4) --}}
+                @for ($i = 0; $i <= 4; $i++)
                     <li class="page-item {{ $i == 0 ? 'active' : '' }}">
                     <button class="page-link px-3 py-2 page-btn rounded shadow-sm" data-page="{{ $i }}">{{ $i + 1 }}</button>
                     </li>
